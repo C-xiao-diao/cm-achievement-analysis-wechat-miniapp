@@ -3,6 +3,17 @@
   padding-top: 60rpx;
 }
 
+#getUserInfoBtn {
+  width:100% !important;
+  height:100% !important;
+  opacity: 0 !important;
+  background: #fff !important;
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  z-index:1000 !important;
+}
+
 .title {
   font-size: 36rpx;
   padding: 30rpx 0 50rpx;

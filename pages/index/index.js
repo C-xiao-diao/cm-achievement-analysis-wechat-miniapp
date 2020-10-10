@@ -2,9 +2,11 @@ const app = getApp()
 
 Page({
   data: {
+    //授权按钮
+    isShowUserInfoBtn: true,
+    hasUserInfo: false,
     userInfo: {},
     userId: '',
-    hasUserInfo: false,
     province: ['湖南省'],
     provinceArray: [{id: 0,name: '湖南省'}],
     provinceIndex: 0,
@@ -151,5 +153,44 @@ Page({
     if(value !== null && value !== undefined){
       this.setData({ticketNumber: value});
     }
+  },
+  //登录接口
+  userInfoHandler: function(e){
+    console.log(e,'gggggggggggggggggggggggggggggggggg',app)
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true,
+      isShowUserInfoBtn: false
+    })
+    this.updateUserInfoTosServer(e.detail.userInfo)
+  },
+  updateUserInfoTosServer: function(userInfo){
+    let Url = app.globalData.domain + '/auth/wechat/editUser';
+    var that = this;
+    wx.request({
+      url: Url,
+      header: {'uid': app.globalData.userId},
+      method: "POST",
+      data: {
+        openid: app.globalData.openId,
+        unionid: app.globalData.unionid,
+        nickname: userInfo.nickName,
+        sex: userInfo.gender,
+        province: userInfo.province,
+        city: userInfo.city,
+        country: userInfo.country,
+        headimgurl: userInfo.avatarUrl,
+        userId: app.globalData.userId
+      },
+      success:res=>{
+        console.log(res,'fffffffffffffffffffffffffffff')
+        var resData = res.data;
+        if(resData.code == 200 || resData.code == 103){
+          wx.showToast({
+            title: '授权成功',
+          })
+        }
+      }
+    })
   }
 })

@@ -4,7 +4,8 @@ App({
     userInfo: null,
     domain: 'https://cminor.dookbook.info',
     userId: '',
-    openId: ''
+    openId: '',
+    unionid: "",
   },
   onLaunch: function () {
     // 展示本地存储能力
@@ -24,8 +25,10 @@ App({
             success:res=>{
               var resData = res.data;
               if(resData.code == 200){
+                console.log(resData, 'ddddddddddddddddddddddddddddddddd')
                 that.globalData.userId = resData.data.id;
                 that.globalData.openId = resData.data.openid;
+                that.globalData.unionid = resData.data.unionid;
                 // that.getUserInfo();
               }
             }

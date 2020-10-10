@@ -70,3 +70,6 @@
 
 
 </view>
+
+<button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo" style="width:100% !important;height:100%;z-index: 100"
+bindgetuserinfo="userInfoHandler"> Click me </button>
