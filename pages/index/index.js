@@ -29,6 +29,18 @@ Page({
   onLoad(){
     
   },
+  onShow: function () {
+    //注意，主页 onLoad可能提前于 小程序 onLaunch 执行完， 
+    // 用户id 在onLaunch 的login里获取，所以 首页加载数据，要么 写在 onShow里，要么写在onLoad的 callback回调里
+    let _this = this;
+    wx.getSetting({
+      success: function (res) {
+        if (res.authSetting['scope.userInfo']) {
+          _this.setData({ isShowUserInfoBtn: false });
+        }
+      }
+    })
+  },
   closeUl(){
     this.setData({ 
       'schoolArray': [],
@@ -136,6 +148,10 @@ Page({
           wx.navigateTo({
             url: '/pages/result/result?subject='+ this.data.subject[this.data.subjectIndex] + '&role=' + role
           });
+        } else if(resData.code === 106){
+          wx.showToast({
+            title: resData.msg || '准考证号不存在',
+          })
         }
       }
     })
@@ -156,7 +172,7 @@ Page({
   },
   //登录接口
   userInfoHandler: function(e){
-    console.log(e,'gggggggggggggggggggggggggggggggggg',app)
+    app.globalData.userInfo = e.detail.userInfo;
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true,
@@ -183,7 +199,6 @@ Page({
         userId: app.globalData.userId
       },
       success:res=>{
-        console.log(res,'fffffffffffffffffffffffffffff')
         var resData = res.data;
         if(resData.code == 200 || resData.code == 103){
           wx.showToast({
