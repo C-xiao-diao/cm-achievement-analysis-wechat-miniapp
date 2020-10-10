@@ -1,0 +1,108 @@
+/**result.wxss**/
+.h1 .bold {
+  font-size: 60rpx;
+  font-weight: bold;
+}
+
+.h2 {
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  padding: 30rpx 0;
+}
+
+.error-scale .section {
+  display: flex;
+  margin-bottom: 30rpx;
+}
+
+.section > text {
+  display: block;
+  width: 115rpx;
+  height: 60rpx;
+  font-size: 32rpx;
+  line-height: 60rpx;
+}
+
+.error-scale .progress-box {
+  width: 540rpx;
+  height: 56rpx;
+  border: 2rpx solid #ccc;
+}
+
+.error-scale .progress-bar {
+  width: 460rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  background-color: #ccc;
+  text-align: center;
+  font-size: 32rpx;
+}
+
+.all-right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 30rpx;
+}
+
+.all-right text {
+  display: block;
+  width: 140rpx;
+  height: 56rpx;
+  font-size: 32rpx;
+  line-height: 56rpx;
+  border: 2rpx solid #ccc;
+  text-align: center;
+  margin: 0 14rpx 20rpx;
+}
+
+.table {
+  border:1px solid #dadada;
+  border-right: 0;
+  border-bottom: 0;
+  width: 88%;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+}
+
+.tr{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th,.td {
+  padding: 6px 0;
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+  text-align: center;
+  width:100%
+}
+
+.th {
+  font-weight: 400;
+  background-color: #dadada
+}
+.tr .td {
+  color: #666;
+}
+
+.td image {
+  width: 40rpx;
+  height: 40rpx;
+  
+}
+
+.td image.up {
+  transform: rotate(180deg);
+}
+
+.charts {
+  width: 600rpx;
+  height: 400rpx;
+  margin-bottom: 100rpx;
+}
