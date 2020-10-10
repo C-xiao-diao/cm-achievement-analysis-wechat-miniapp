@@ -67,5 +67,6 @@
   <view class="btn">
     <button form-type="submit" bind:tap="analyzeInfo">月考成绩分析</button>
   </view>
-  
+
+
 </view>
