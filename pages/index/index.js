@@ -124,7 +124,7 @@ Page({
         weChatUserId: app.globalData.userId,
         userType: role === 0 ? 1 : 2,
         schoolId: that.data.schoolId,
-        class_: that.data.class,
+        class_: role === 0 ? that.data.class : "C1802",                   //TODO 家长状态下class 随便写一个，后期删掉
         subject: Number(that.data.subjectId)+1,
         ticketNumber: ticketNumber
       },
