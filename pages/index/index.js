@@ -20,6 +20,9 @@ Page({
     subjectIndex: 0,
     subjectId: 0,
     subjectArray: [{id:1,name:'语文'},{id:2,name:'数学'},{id:3,name:'英语'},{id:4,name:'生物'},{id:5,name:'物理'},{id:6,name:'地理'},{id:7,name:'政治'},{id:8,name:'历史'},{id:9,name:'全科'}],
+    //角色
+    role: 0,            // 0老师   1 家长
+    ticketNumber: "",
   },
   onLoad(){
     
@@ -99,9 +102,17 @@ Page({
     });
   },
   analyzeInfo(){//月考分析提交
-    if(!this.data.school || !this.data.class){
-      wx.showToast({title: '请填写完整的信息', icon: 'none', duration: 2000 });
-      return;
+    const { role,ticketNumber } = this.data;
+    if(role === 0){
+      if(!this.data.school || !this.data.class){
+        wx.showToast({title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        return;
+      }
+    } else{
+      if(!ticketNumber){
+        wx.showToast({title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        return;
+      }
     }
     let Url = app.globalData.domain + '/auth/userRole/addUserRole';
     var that = this;
@@ -111,19 +122,35 @@ Page({
       method: "POST",
       data: {
         weChatUserId: app.globalData.userId,
-        userType: 1,
+        userType: role === 0 ? 1 : 2,
         schoolId: that.data.schoolId,
-        class_: that.data.class,
-        subject: Number(that.data.subjectId)+1
+        class_: role === 0 ? that.data.class : "C1802",                   //TODO 家长状态下class 随便写一个，后期删掉
+        subject: Number(that.data.subjectId)+1,
+        ticketNumber: ticketNumber
       },
       success:res=>{
         var resData = res.data;
         if(resData.code == 200 || resData.code == 103){
           wx.navigateTo({
-            url: '/pages/result/result?subject='+ this.data.subject[this.data.subjectIndex] + '&class=' + this.data.class
+            url: '/pages/result/result?subject='+ this.data.subject[this.data.subjectIndex] + 
+              '&class=' + this.data.class +'&role=' + role
           });
         }
       }
     })
+  },
+  //切换角色
+  changeRole: function(e){
+    let role = e.currentTarget.dataset.role;
+    if(role !== null && role !== undefined){
+      this.setData({role});
+    }
+  },
+  //准考证
+  getAdmissionTicket: function(e){
+    let value = e.detail.value;
+    if(value !== null && value !== undefined){
+      this.setData({ticketNumber: value});
+    }
   }
 })

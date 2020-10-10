@@ -2,12 +2,12 @@
 <view class="container" bindtap="closeUl">
   <text class="title">— 请选择您的身份 —</text>
   <view class="identity">
-    <view class="active">
+    <view data-role="{{0}}" class="{{role === 0 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/teacher.svg" alt=""></image>
       <image class="right" src="/imgs/right.svg"></image>
       <text>老师</text>
     </view>
-    <view>
+    <view  data-role="{{1}}" class="{{role === 1 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/parent.svg" alt=""></image>
       <image class="right" src="/imgs/right.svg"></image>
       <text>家长</text>
@@ -40,7 +40,7 @@
       </view>
     </view>
 
-    <view class="class">
+    <view wx:if="{{role === 0}}" class="class">
       <text>班级</text>
       <input class="weui-input" bind:input="getClassArray" value="{{class}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{classArray.length!=0}}">
@@ -48,7 +48,7 @@
       </view>
     </view>
 
-    <view class="course">
+    <view wx:if="{{role === 0}}" class="course">
       <text>科目</text>
       <picker bindchange="bindPickerSubject" value="{{subjectIndex}}" range="{{subject}}">
         <view class="picker">
@@ -56,6 +56,12 @@
         </view>
       </picker>
     </view>
+
+    <view wx:if="{{role === 1}}" class="admissionTicket">
+      <text>准考证</text>
+      <input class="weui-input" bind:input="getAdmissionTicket" value="{{ticketNumber}}" placeholder="请填写准考证号" placeholder-style="color:#aaa; font-size:30rpx;" />
+    </view>
+
   </view>
 
   <view class="btn">
