@@ -8,7 +8,7 @@
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
       <view class="progress-box">
-        <view class="progress-bar" style="width: {{item.percentage*100+'%'}}">{{item.percentage*100}}%</view>
+        <view class="progress-bar" style="width: {{item.percentage}}">{{item.percentage}}</view>
       </view>
     </view>
   </view>
@@ -52,7 +52,7 @@
       <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">{{item.totalScoreRanking + '（--）'}}</view>
       <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}} （<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
       <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}} （<image class="down" src="/imgs/arrow_down.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
-      <view class="td">{{item.objectiveQuestionsCorrectRate*100}}%</view>
+      <view class="td">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
 

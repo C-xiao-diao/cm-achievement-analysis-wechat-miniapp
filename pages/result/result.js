@@ -38,6 +38,12 @@ Page({
           var d = resData.data;
           var y = d.yearMonth.substr(0,4);
           var m = d.yearMonth.substr(4,5);
+          for(var i = 0; i < d.list.length; i++){
+            d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate*100) +'%';
+          }
+          for(var i = 0; i < d.wrongQuestions.length; i++){
+            d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
+          }
           that.setData({
             scoreArray: d.list,
             allRight: d.allRight,
