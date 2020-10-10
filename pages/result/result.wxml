@@ -1,7 +1,7 @@
 <!--result.wxml-->
 <view class="container">
   <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
-  <text class="h2">（{{subject=='全科'? class : (class + '班   ' +subject)}}）</text>
+  <text class="h2">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
 
   <text class="title" wx:if="{{subject!='全科'}}">— 错题统计 —</text>
   <view class="error-scale" wx:if="{{subject!='全科'}}">
@@ -20,22 +20,37 @@
   </view>
 
   <text class="title">— 成绩排名 —</text>
-  <view class="table">
+  <view class="table" wx:if="{{subject == '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
-      <view class="th">{{subject=='全科'? '总分' : subject+'成绩'}}</view>
-      <view class="th">{{subject=='全科'? '全科排名' : '单科排名'}}</view>
+      <view class="th">总分</view>
       <view class="th">学校排名</view>
       <view class="th">较上次</view>
     </view>
     <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td">{{item.studentName}}</view>
       <view class="td">{{item.totalScore}}</view>
-      <view class="td">{{item.ranking}}</view>
-      <view class="td">{{item.totalScoreRanking}}</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">--</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}}</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{Math.abs(item.totalScoreFloatingRanking)}}</view>
+      <view class="td" wx:if="{{item.schoolRanking == 0}}">--</view>
+      <view class="td" wx:if="{{item.schoolRanking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.schoolRanking}}</view>
+      <view class="td" wx:if="{{item.schoolRanking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.schoolRanking}}</view>
+    </view>
+  </view>
+  <view class="table" wx:if="{{subject != '全科'}}">
+    <view class="tr">
+      <view class="th">姓名</view>
+      <view class="th">{{subject+'成绩'}}</view>
+      <view class="th">单科学校排名</view>
+      <view class="th">总分学校排名</view>
+    </view>
+    <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
+      <view class="td">{{item.studentName}}</view>
+      <view class="td">{{item.totalScore}}</view>
+      <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking + '（--）'}}</view>
+      <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}} （<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}）</view>
+      <view class="td" wx:if="{{item.ranking < 0}}">{{item.schoolRanking}} （<image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}）</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">{{item.totalScoreRanking + '（--）'}}</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}} （<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}} （<image class="down" src="/imgs/arrow_down.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
     </view>
   </view>
 
