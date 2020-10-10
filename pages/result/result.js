@@ -3,40 +3,13 @@ import * as echarts from './../../components/ec-canvas/echarts'
 
 var rankData = [],monthData = [],chartLine = null;
 var legendData = [];
-var seriesData = [
-  {
-    name: '邮件营销',
-    type: 'line',
-    data: [120, 132, 101, 134, 90, 230, 210]
-  },
-  {
-      name: '联盟广告',
-      type: 'line',
-      data: [220, 182, 191, 234, 290, 330, 310]
-  },
-  {
-      name: '视频广告',
-      type: 'line',
-      data: [150, 232, 201, 154, 190, 330, 410]
-  },
-  {
-      name: '直接访问',
-      type: 'line',
-      data: [320, 332, 301, 334, 390, 330, 320]
-  },
-  {
-      name: '搜索引擎',
-      type: 'line',
-      data: [820, 932, 901, 934, 1290, 1330, 1320]
-  }
-]
+var seriesData = []
 
 Page({
   data: {
     userId: '',
     subject: '',
     role: '老师',
-    class: '',
     yearMonth: '',
     studentName: '',
     ticketNumber: '',
@@ -73,26 +46,63 @@ Page({
           var d = resData.data;
           var y = d.yearMonth.substr(0,4);
           var m = d.yearMonth.substr(4,5);
-          for(var i = 0; i < d.list.length; i++){
-            d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate*100) +'%';
+          if(that.data.role==0){//老师
+            if(that.data.subject!='全科'){//单科
+              for(var i = 0; i < d.list.length; i++){
+                d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate*100) +'%';
+              }
+              for(var i = 0; i < d.wrongQuestions.length; i++){
+                d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
+              }
+              that.setData({
+                scoreArray: d.list,
+                allRight: d.allRight,
+                wrongQuestions: d.wrongQuestions,
+                class: d.class_,
+                yearMonth: (y + '-' + m),
+                studentName: d.list[0].studentName,
+                ticketNumber: d.list[0].ticketNumber
+              })
+            }else{//全科
+              that.setData({
+                scoreArray: d.list,
+                class: d.class_,
+                yearMonth: (y + '-' + m),
+                studentName: d.list[0].studentName,
+                ticketNumber: d.list[0].ticketNumber
+              })
+            }
+            this.getChartData();
+          }else {//家长
+            for(var i = 0; i < d.listResult.length; i++){
+              d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange*100) +'%';
+            }
+            that.setData({
+              class: d.class_,
+              yearMonth: (y + '-' + m),
+              studentName: d.studentName,
+              listResult: d.listResult
+            })
+            this.getStudentData();
           }
-          for(var i = 0; i < d.wrongQuestions.length; i++){
-            d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
-          }
-          that.setData({
-            scoreArray: d.list,
-            allRight: d.allRight,
-            wrongQuestions: d.wrongQuestions,
-            class: d.class_,
-            yearMonth: (y + '-' + m),
-            studentName: d.list[0].studentName,
-            ticketNumber: d.list[0].ticketNumber,
-            listResult: d.listResult
-          })
-          this.getChartData();
         }
       }
     })
+  },
+  getStudentData(){
+    var list = this.data.listResult,legendData=[];
+    for(var i = 0; i < list.length; i++){
+      var arr = [];
+      legendData.push(list[i].subject);
+      arr.push(parseInt(list[i].scoreRange));
+      seriesData.push({
+        name: list[i].subject,
+        type: 'line',
+        stack: '排名',
+        data: arr
+      })
+    }
+    this.initChart();
   },
   getChartData(){
     var str = '';
@@ -167,7 +177,7 @@ Page({
     return option;
   },
   getLinesOption(){
-    option = {
+    var option = {
       tooltip: {
           trigger: 'axis'
       },
@@ -180,18 +190,14 @@ Page({
           bottom: '3%',
           containLabel: true
       },
-      toolbox: {
-          feature: {
-              saveAsImage: {}
-          }
-      },
       xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: monthData
+          data: ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月']
       },
       yAxis: {
-          type: 'value'
+          type: 'value',
+          inverse: true
       },
       series: seriesData
     };

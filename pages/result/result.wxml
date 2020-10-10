@@ -21,6 +21,7 @@
   </view>
 
   <text class="title" wx:if="{{role==0}}">— 成绩排名 —</text>
+  <!-- 班主任 -->
   <view class="table" wx:if="{{role==0 && subject == '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
@@ -37,6 +38,7 @@
       <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}</view>
     </view>
   </view>
+  <!-- 单科老师 -->
   <view class="table" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
@@ -68,15 +70,15 @@
     <view class="tr" wx:for="{{listResult}}" wx:key="id">
       <view class="td">{{item.subject}}</view>
       <view class="td">{{item.socre}}</view>
-      <view class="td">前{{item.scoreRange}}%</view>
-      <view class="td" wx:if="{{item.schoolRanking == 0}}">--</view>
-      <view class="td" wx:if="{{item.schoolRanking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.schoolRanking}}</view>
-      <view class="td" wx:if="{{item.schoolRanking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.schoolRanking}}</view>
+      <view class="td">前{{item.scoreRange}}</view>
+      <view class="td" wx:if="{{item.ranking == 0}}">--</view>
+      <view class="td" wx:if="{{item.ranking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+      <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}</view>
     </view>
     <view class="tr">
       <view class="th">总分</view>
       <view class="th">成绩</view>
-      <view class="th">分数区间<text class="br"></text>（年级）</view>
+      <view class="th">分数区间</view>
       <view class="th">较上次</view>
     </view>
   </view>

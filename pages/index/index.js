@@ -132,8 +132,7 @@ Page({
         var resData = res.data;
         if(resData.code == 200 || resData.code == 103){
           wx.navigateTo({
-            url: '/pages/result/result?subject='+ this.data.subject[this.data.subjectIndex] + 
-              '&class=' + this.data.class +'&role=' + role
+            url: '/pages/result/result?subject='+ this.data.subject[this.data.subjectIndex] + '&role=' + role
           });
         }
       }
