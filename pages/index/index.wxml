@@ -14,7 +14,7 @@
     </view>
   </view>
 
-  <text class="title">— 请选择省份和城市 —</text>
+  <!-- <text class="title">— 请选择省份和城市 —</text>
   <view class="selector">
     <picker bindchange="bindPickerProvince" value="{{provinceIndex}}" range="{{province}}">
       <text class="triangle"></text>
@@ -28,9 +28,9 @@
         {{city[cityIndex]}}
       </view>
     </picker>
-  </view>
+  </view> -->
 
-  <text class="title">— 请选择填写学校、班级、科目 —</text>
+  <text class="title">— 请填写信息 —</text>
   <view class="fillIn">
     <view class="school">
       <text>学校</text>

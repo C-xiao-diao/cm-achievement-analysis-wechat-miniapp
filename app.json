@@ -7,7 +7,7 @@
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "月考成绩查询",
+    "navigationBarTitleText": "月考成绩分析",
     "navigationBarTextStyle":"black"
   },
   "style": "v2",
