@@ -49,7 +49,7 @@
     </view>
     <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td">{{item.studentName}}</view>
-      <view class="td">{{item.totalScore}}</view>
+      <view class="td" style="color: {{item.totalScore < pass? 'red': '#666'}}">{{item.totalScore}}</view>
       <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}}(--)</view>
       <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}})</view>
       <view class="td" wx:if="{{item.ranking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}})</view>
@@ -74,12 +74,6 @@
       <view class="td" wx:if="{{item.ranking == 0}}">--</view>
       <view class="td" wx:if="{{item.ranking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
       <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}</view>
-    </view>
-    <view class="tr">
-      <view class="th">总分</view>
-      <view class="th">成绩</view>
-      <view class="th">分数区间</view>
-      <view class="th">较上次</view>
     </view>
   </view>
 

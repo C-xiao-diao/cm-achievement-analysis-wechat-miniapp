@@ -17,6 +17,7 @@ Page({
     allRight: [],
     wrongQuestions: [],
     listResult: [],
+    pass: 0,
     ec: {
       lazyLoad: true
     }
@@ -54,12 +55,15 @@ Page({
               for(var i = 0; i < d.wrongQuestions.length; i++){
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
               }
+
+              console.log((d.fullMarks*0.6),999)
               that.setData({
                 scoreArray: d.list,
                 allRight: d.allRight,
                 wrongQuestions: d.wrongQuestions,
                 class: d.class_,
                 yearMonth: (y + '-' + m),
+                pass: (d.fullMarks*0.6),
                 studentName: d.list[0].studentName,
                 ticketNumber: d.list[0].ticketNumber
               })

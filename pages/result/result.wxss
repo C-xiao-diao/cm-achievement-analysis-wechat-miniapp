@@ -93,6 +93,10 @@
   color: #666;
 }
 
+.tr:last-child .td {
+  background-color: #dadada;
+}
+
 .td image {
   width: 40rpx;
   height: 40rpx;
