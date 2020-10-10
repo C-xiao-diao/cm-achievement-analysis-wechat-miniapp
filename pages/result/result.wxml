@@ -1,10 +1,11 @@
 <!--result.wxml-->
 <view class="container">
   <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
-  <text class="h2">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
+  <text class="h2" wx:if="{{role==0}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
+  <text class="h2" wx:if="{{role==1}}">（{{class + ' - ' + studentName}}）</text>
 
-  <text class="title" wx:if="{{subject!='全科'}}">— 错题统计 —</text>
-  <view class="error-scale" wx:if="{{subject!='全科'}}">
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
+  <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
       <view class="progress-box">
@@ -13,14 +14,14 @@
     </view>
   </view>
 
-  <text class="title" wx:if="{{subject!='全科'}}">— 全对题统计 —</text>
-  <view class="all-right" wx:if="{{subject!='全科'}}">
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全对题统计 —</text>
+  <view class="all-right" wx:if="{{role==0 && subject!='全科'}}">
     <text wx:if="{{allRight.length==0}}">无</text>
     <text wx:for="{{allRight}}" wx:key="id">{{item}}</text>
   </view>
 
-  <text class="title">— 成绩排名 —</text>
-  <view class="table" wx:if="{{subject == '全科'}}">
+  <text class="title" wx:if="{{role==0}}">— 成绩排名 —</text>
+  <view class="table" wx:if="{{role==0 && subject == '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th">总分</view>
@@ -30,12 +31,13 @@
     <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td">{{item.studentName}}</view>
       <view class="td">{{item.totalScore}}</view>
-      <view class="td" wx:if="{{item.schoolRanking == 0}}">--</view>
-      <view class="td" wx:if="{{item.schoolRanking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.schoolRanking}}</view>
-      <view class="td" wx:if="{{item.schoolRanking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.schoolRanking}}</view>
+      <view class="td">{{item.schoolRanking}}</view>
+      <view class="td" wx:if="{{item.ranking == 0}}">--</view>
+      <view class="td" wx:if="{{item.ranking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+      <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}</view>
     </view>
   </view>
-  <view class="table" wx:if="{{subject != '全科'}}">
+  <view class="table" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th">{{subject+'成绩'}}</view>
@@ -55,9 +57,32 @@
       <view class="td">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
+  <!-- 家长 -->
+  <view class="table" wx:if="{{role==1}}">
+    <view class="tr">
+      <view class="th">科目</view>
+      <view class="th">成绩</view>
+      <view class="th">分数区间<text class="br"></text>（年级）</view>
+      <view class="th">较上次</view>
+    </view>
+    <view class="tr" wx:for="{{listResult}}" wx:key="id">
+      <view class="td">{{item.subject}}</view>
+      <view class="td">{{item.socre}}</view>
+      <view class="td">前{{item.scoreRange}}%</view>
+      <view class="td" wx:if="{{item.schoolRanking == 0}}">--</view>
+      <view class="td" wx:if="{{item.schoolRanking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.schoolRanking}}</view>
+      <view class="td" wx:if="{{item.schoolRanking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{item.schoolRanking}}</view>
+    </view>
+    <view class="tr">
+      <view class="th">总分</view>
+      <view class="th">成绩</view>
+      <view class="th">分数区间<text class="br"></text>（年级）</view>
+      <view class="th">较上次</view>
+    </view>
+  </view>
 
-  <text class="title">— 学校排名走势 —</text>
-  <text class="h2">（{{studentName}}）</text>
+  <text class="title" wx:if="{{role==0}}">— 学校排名走势 —</text>
+  <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text>
   <view class="charts">
     <ec-canvas id="mychart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
   </view>

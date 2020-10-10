@@ -2,11 +2,40 @@ const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
 
 var rankData = [],monthData = [],chartLine = null;
+var legendData = [];
+var seriesData = [
+  {
+    name: '邮件营销',
+    type: 'line',
+    data: [120, 132, 101, 134, 90, 230, 210]
+  },
+  {
+      name: '联盟广告',
+      type: 'line',
+      data: [220, 182, 191, 234, 290, 330, 310]
+  },
+  {
+      name: '视频广告',
+      type: 'line',
+      data: [150, 232, 201, 154, 190, 330, 410]
+  },
+  {
+      name: '直接访问',
+      type: 'line',
+      data: [320, 332, 301, 334, 390, 330, 320]
+  },
+  {
+      name: '搜索引擎',
+      type: 'line',
+      data: [820, 932, 901, 934, 1290, 1330, 1320]
+  }
+]
 
 Page({
   data: {
     userId: '',
     subject: '',
+    role: '老师',
     class: '',
     yearMonth: '',
     studentName: '',
@@ -14,6 +43,7 @@ Page({
     scoreArray: [],
     allRight: [],
     wrongQuestions: [],
+    listResult: [],
     ec: {
       lazyLoad: true
     }
@@ -22,7 +52,12 @@ Page({
     this.initPage(option);
   },
   initPage(option){//页面初始
-    this.setData({'subject': option.subject});
+    if(option.subject){
+      this.setData({
+        'subject': option.subject,
+        'role': option.role
+      });
+    }
     this.getSubjectData();
   },
   getSubjectData(){//获取成绩分析数据
@@ -52,6 +87,7 @@ Page({
             yearMonth: (y + '-' + m),
             studentName: d.list[0].studentName,
             ticketNumber: d.list[0].ticketNumber,
+            listResult: d.listResult
           })
           this.getChartData();
         }
@@ -89,6 +125,7 @@ Page({
     })
   },
   initChart(){
+    var that = this;
     if(!this.chart){
       this.chart = this.selectComponent('#mychart');  
     }
@@ -97,7 +134,12 @@ Page({
         width: width,
         height: height,
       });
-      chartLine.setOption(this.getLineOption()); 
+      if(that.data.role==0){
+        chartLine.setOption(this.getLineOption()); 
+      }else {
+        chartLine.setOption(this.getLinesOption()); 
+      }
+      
       return chartLine;
     });
   },
@@ -121,6 +163,37 @@ Page({
           data: rankData,
           type: 'line'
       }]
+    };
+    return option;
+  },
+  getLinesOption(){
+    option = {
+      tooltip: {
+          trigger: 'axis'
+      },
+      legend: {
+          data: legendData
+      },
+      grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+      },
+      toolbox: {
+          feature: {
+              saveAsImage: {}
+          }
+      },
+      xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: monthData
+      },
+      yAxis: {
+          type: 'value'
+      },
+      series: seriesData
     };
     return option;
   }
