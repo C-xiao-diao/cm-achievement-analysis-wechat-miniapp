@@ -8,7 +8,7 @@
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
       <view class="progress-box">
-        <view class="progress-bar" style="width: {{parseInt(item.percentage)*100+'%'}}">{{parseInt(item.percentage)*100}}%</view>
+        <view class="progress-bar" style="width: {{item.percentage*100+'%'}}">{{item.percentage*100}}%</view>
       </view>
     </view>
   </view>
