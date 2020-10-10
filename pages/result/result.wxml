@@ -39,9 +39,9 @@
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th">{{subject+'成绩'}}</view>
-      <view class="th">单科学校排名</view>
-      <view class="th">总分学校排名</view>
-      <view class="th">客观题正确率</view>
+      <view class="th">单科<text class="br"></text>学校排名</view>
+      <view class="th">总分<text class="br"></text>学校排名</view>
+      <view class="th">客观题<text class="br"></text>正确率</view>
     </view>
     <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td">{{item.studentName}}</view>

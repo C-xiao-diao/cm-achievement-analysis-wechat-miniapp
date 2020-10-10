@@ -84,8 +84,10 @@
 }
 
 .th {
+  display: inline-block;
   font-weight: 400;
-  background-color: #dadada
+  background-color: #dadada;
+  vertical-align: middle;
 }
 .tr .td {
   color: #666;
@@ -94,7 +96,10 @@
 .td image {
   width: 40rpx;
   height: 40rpx;
-  
+}
+
+.br {
+  display: block;
 }
 
 .td image.up {
