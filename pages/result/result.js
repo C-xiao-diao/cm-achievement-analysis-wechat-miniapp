@@ -93,14 +93,24 @@ Page({
             this.getStudentData();
           }
         } else if(resData.code == 107){
-          wx.showToast({
-            title: '暂无数据' || resData.msg,
-            icon: "none",
-            duration: 2000,
-            complete: res2 =>{
-              setTimeout(() => {wx.navigateBack({  delta: 0,})}, 2000)
+          wx.showModal({
+            title: '提示',
+            content:  resData.msg || '暂无数据',
+            success (res) {
+              if (res.confirm) {
+                wx.navigateBack({  delta: 0,})
+              } else if (res.cancel) {
+                wx.navigateBack({  delta: 0,})
+              }
             }
           })
+          // wx.showToast({
+          //   title: '暂无数据' || resData.msg,
+          //   icon: "none",
+          //   complete: res2 =>{
+          //     setTimeout(() => {wx.navigateBack({  delta: 0,})}, 1000)
+          //   }
+          // })
         }
       },
       complete: res=>{
