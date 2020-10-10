@@ -17,7 +17,8 @@ Page({
     classArray: [],
     class: '',
     subject: ['语文','数学','英语','生物','物理','地理','政治','历史','全科'],
-    subjectIndex: 1,
+    subjectIndex: 0,
+    subjectId: 0,
     subjectArray: [{id:1,name:'语文'},{id:2,name:'数学'},{id:3,name:'英语'},{id:4,name:'生物'},{id:5,name:'物理'},{id:6,name:'地理'},{id:7,name:'政治'},{id:8,name:'历史'},{id:9,name:'全科'}],
   },
   onLoad(){
@@ -36,7 +37,10 @@ Page({
     this.setData({cityIndex: e.detail.value})
   },
   bindPickerSubject(e){//选择科目
-    this.setData({subjectIndex: e.detail.value})
+    this.setData({
+      subjectIndex: e.detail.value,
+      subjectId: e.detail.value
+    })
   },
   getSchoolArray(e){//获取学校列表
     var reg = /.*[\u4e00-\u9fa5]+.*$/;
@@ -110,7 +114,7 @@ Page({
         userType: 1,
         schoolId: that.data.schoolId,
         class_: that.data.class,
-        subject: that.data.subjectIndex
+        subject: Number(that.data.subjectId)+1
       },
       success:res=>{
         var resData = res.data;

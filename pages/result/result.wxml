@@ -46,12 +46,12 @@
     <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td">{{item.studentName}}</view>
       <view class="td">{{item.totalScore}}</view>
-      <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}} （--）</view>
-      <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}} （<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}）</view>
-      <view class="td" wx:if="{{item.ranking < 0}}">{{item.schoolRanking}} （<image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}}）</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">{{item.totalScoreRanking + '（--）'}}</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}} （<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
-      <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}} （<image class="down" src="/imgs/arrow_down.svg"></image>{{item.totalScoreFloatingRanking}}）</view>
+      <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}}(--)</view>
+      <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}})</view>
+      <view class="td" wx:if="{{item.ranking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{item.ranking}})</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">{{item.totalScoreRanking}}(--)</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}})</view>
+      <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{item.totalScoreFloatingRanking}})</view>
       <view class="td">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
