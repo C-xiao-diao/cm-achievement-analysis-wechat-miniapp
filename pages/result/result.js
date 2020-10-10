@@ -23,6 +23,9 @@ Page({
     }
   },
   onLoad(option){
+    wx.showLoading({
+      title: '加载中...',
+    })
     this.initPage(option);
   },
   initPage(option){//页面初始
@@ -89,7 +92,19 @@ Page({
             })
             this.getStudentData();
           }
+        } else if(resData.code == 107){
+          wx.showToast({
+            title: '暂无数据' || resData.msg,
+            icon: "none",
+            duration: 2000,
+            complete: res2 =>{
+              setTimeout(() => {wx.navigateBack({  delta: 0,})}, 2000)
+            }
+          })
         }
+      },
+      complete: res=>{
+        wx.hideLoading();
       }
     })
   },
