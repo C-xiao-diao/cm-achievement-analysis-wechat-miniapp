@@ -21,7 +21,7 @@
 
 .section > text {
   display: block;
-  width: 115rpx;
+  width: 130rpx;
   height: 60rpx;
   font-size: 32rpx;
   line-height: 60rpx;
@@ -64,8 +64,8 @@
   border:1px solid #dadada;
   border-right: 0;
   border-bottom: 0;
-  width: 88%;
-  font-size: 32rpx;
+  width: 90%;
+  font-size: 28rpx;
   margin-bottom: 30rpx;
 }
 
