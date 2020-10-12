@@ -18,10 +18,10 @@ Page({
     schoolId: '',
     classArray: [],
     class: '',
-    subject: ['语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史', '全科'],
+    subject: ['语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史','化学','体育','全科'],
     subjectIndex: 0,
     subjectId: 0,
-    subjectArray: [{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 9, name: '全科' }],
+    subjectArray: [{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }, { id: 9, name: '全科' }],
     //角色
     role: 0,            // 0老师   1 家长
     ticketNumber: "",
@@ -71,9 +71,11 @@ Page({
     this.setData({ cityIndex: e.detail.value })
   },
   bindPickerSubject(e) {//选择科目
+    var str = this.data.subject[e.detail.value];
+    var obj = this.data.subjectArray.find(x => x.name == str);
     this.setData({
       subjectIndex: e.detail.value,
-      subjectId: e.detail.value
+      subjectId: obj.id
     })
   },
   getSchoolArray(e) {//获取学校列表
@@ -167,7 +169,7 @@ Page({
         userType: role === 0 ? 1 : 2,
         schoolId: that.data.schoolId,
         class_: that.data.class,
-        subject: Number(that.data.subjectId) + 1,
+        subject: that.data.subjectId,
         ticketNumber: ticketNumber
       },
       success: res => {
