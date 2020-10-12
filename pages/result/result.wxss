@@ -93,6 +93,15 @@
   color: #666;
 }
 
+
+#subject-th{
+  width:40%;
+}
+
+.subject-td{
+  width:40%;
+}
+
 .tr:last-child .td {
   background-color: #dadada;
 }
