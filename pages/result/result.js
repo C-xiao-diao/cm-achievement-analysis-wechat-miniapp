@@ -2,7 +2,7 @@ const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
 import _ from "lodash";
 
-var rankData = [],monthData = [],chartLine = null;
+var rankData = [],monthData = [],chartLine = null,compareChart=null;
 var monthArr = ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月'];
 var legendData = [];
 var seriesData = [];
@@ -188,6 +188,7 @@ Page({
       });
       if(that.data.role==0){
         chartLine.setOption(this.getLineOption()); 
+
       }else {
         chartLine.setOption(this.getLinesOption()); 
       }
@@ -195,8 +196,64 @@ Page({
       return chartLine;
     });
   },
-  
-  getLineOption(){
+  getBarOption(){//老师端 - 各班对比图
+    var option = {
+      backgroundColor:'#fff',
+      color: ['#edafda', '#93b7e3'],
+      tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+              type: 'shadow'
+          }
+      },
+      legend: {
+          data: ['优秀率 ', '及格率']
+      },
+      toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+          feature: {
+              mark: {show: true},
+              dataView: {show: true, readOnly: false},
+              magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+              restore: {show: true},
+              saveAsImage: {show: true}
+          }
+      },
+      xAxis: [
+          {
+              type: 'value'
+          }
+      ],
+      yAxis: [
+          {
+              data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805','C1806', 'C1807', 'C1808', 'C1809', 'C1810']
+          }
+      ],
+      series: [
+          {
+              name: '优秀率 ',
+              type: 'bar',
+              barGap: 0,
+              label: {
+                  show:true
+              },
+              data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+          },
+          {
+              name: '及格率',
+              type: 'bar',
+              label: {
+                  show:true
+              },
+              data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+          }
+      ]
+    };
+  },
+  getLineOption(){//老师端 - 排名趋势图
     var option = {
       xAxis: {
         type: 'category',
@@ -219,7 +276,7 @@ Page({
     };
     return option;
   },
-  getLinesOption(){
+  getLinesOption(){//家长端 - 排名趋势图
     var option = {
       tooltip: {
           trigger: 'axis'

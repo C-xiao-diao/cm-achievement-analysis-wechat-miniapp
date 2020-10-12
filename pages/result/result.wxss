@@ -14,6 +14,45 @@
   padding: 30rpx 0;
 }
 
+.r3 , .r2 {
+  display: flex;
+}
+
+.r2 {
+  margin-bottom: 60rpx;
+}
+
+.total > view {
+  text-align: center;
+  flex: 1;
+  height: 75rpx;
+  line-height: 75rpx;
+  border: 2rpx solid #eee;
+  color: #666;
+  font-size: 32rpx;
+}
+
+.r3 > view {
+  width: 200rpx;
+}
+
+.r2 > view {
+  width: 300rpx;
+  margin-top: 30rpx;
+}
+
+.total > view > text {
+  font-size: 40rpx;
+  color: red;
+}
+
+.compareChart {
+  width: 90%;
+  height: 675rpx;
+  background: #eee;
+  margin-bottom: 60rpx;
+}
+
 .error-scale .section {
   display: flex;
   margin-bottom: 30rpx;
