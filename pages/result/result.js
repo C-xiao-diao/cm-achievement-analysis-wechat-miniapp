@@ -1,5 +1,6 @@
 const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
+import _ from "lodash";
 
 var rankData = [],monthData = [],chartLine = null;
 var monthArr = ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月'];
@@ -194,6 +195,7 @@ Page({
       return chartLine;
     });
   },
+  
   getLineOption(){
     var option = {
       xAxis: {

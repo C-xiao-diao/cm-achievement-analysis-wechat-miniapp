@@ -20,7 +20,7 @@ Page({
     class: '',
     subject: ['语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史','化学','体育','全科'],
     subjectIndex: 0,
-    subjectId: 0,
+    subjectId: 1,
     subjectArray: [{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }, { id: 9, name: '全科' }],
     //角色
     role: 0,            // 0老师   1 家长
