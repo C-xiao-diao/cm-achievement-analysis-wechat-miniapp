@@ -1,5 +1,6 @@
 const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
+import _ from "lodash";
 
 var rankData = [],monthData = [],chartLine = null;
 var legendData = [];
@@ -181,6 +182,7 @@ Page({
       return chartLine;
     });
   },
+  
   getLineOption(){
     var option = {
       xAxis: {
