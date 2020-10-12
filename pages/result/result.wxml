@@ -70,7 +70,7 @@
     <view class="tr" wx:for="{{listResult}}" wx:key="id">
       <view class="td">{{item.subject}}</view>
       <view class="td">{{item.socre}}</view>
-      <view class="td">前{{item.scoreRange}}</view>
+      <view class="td">前{{item.scoreRange}}%</view>
       <view class="td" wx:if="{{item.ranking == 0}}">--</view>
       <view class="td" wx:if="{{item.ranking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
       <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{-item.ranking}}</view>

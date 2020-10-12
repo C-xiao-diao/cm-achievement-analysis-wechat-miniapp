@@ -175,7 +175,8 @@ Page({
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
           wx.navigateTo({
-            url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role
+            url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
+            + '&subjectId=' + that.data.subjectId
           });
         } else if (resData.code === 106) {
           wx.showToast({

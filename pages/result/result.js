@@ -2,8 +2,9 @@ const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
 
 var rankData = [],monthData = [],chartLine = null;
+var monthArr = ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月'];
 var legendData = [];
-var seriesData = []
+var seriesData = [];
 
 Page({
   data: {
@@ -32,7 +33,9 @@ Page({
     if(option.subject){
       this.setData({
         'subject': option.subject,
-        'role': option.role
+        'subjectId': option.subjectId,
+        'role': option.role,
+        'schoolId': option.schoolId
       });
     }
     this.getSubjectData();
@@ -51,7 +54,7 @@ Page({
           var y = d.yearMonth.substr(0,4);
           var m = d.yearMonth.substr(4,5);
           if(that.data.role==0){//老师
-            if(that.data.subject!='全科'){//单科
+            if(that.data.subject!='全科'){//单科老师
               for(var i = 0; i < d.list.length; i++){
                 d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate*100) +'%';
               }
@@ -69,7 +72,7 @@ Page({
                 studentName: d.list[0].studentName,
                 ticketNumber: d.list[0].ticketNumber
               })
-            }else{//全科
+            }else{//班主任
               that.setData({
                 scoreArray: d.list,
                 class: d.class_,
@@ -78,10 +81,10 @@ Page({
                 ticketNumber: d.list[0].ticketNumber
               })
             }
-            this.getChartData();
+            this.getChartData(d.list[0].studentName, d.class_);
           }else {//家长
             for(var i = 0; i < d.listResult.length; i++){
-              d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange*100) +'%';
+              d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange*100);
             }
             that.setData({
               class: d.class_,
@@ -89,7 +92,7 @@ Page({
               studentName: d.studentName,
               listResult: d.listResult
             })
-            this.getStudentData();
+            this.getStudentData(d.listResult);//家长端查询学生排名趋势
           }
         } else if(resData.code == 107){
           wx.showModal({
@@ -103,13 +106,6 @@ Page({
               }
             }
           })
-          // wx.showToast({
-          //   title: '暂无数据' || resData.msg,
-          //   icon: "none",
-          //   complete: res2 =>{
-          //     setTimeout(() => {wx.navigateBack({  delta: 0,})}, 1000)
-          //   }
-          // })
         }
       },
       complete: res=>{
@@ -117,37 +113,54 @@ Page({
       }
     })
   },
-  getStudentData(){
-    var list = this.data.listResult,legendData=[];
+  getStudentData(list){ //查询学生排名趋势
+    var legendData=[],
+        seriesData = [],
+        str = this.data.yearMonth, 
+        month = str.substr(str.length-2)+'月',
+        index = 0;
+    monthArr.map((i, f)=>{
+      if(i == month){ index = f;}
+    });
     for(var i = 0; i < list.length; i++){
-      var arr = [];
       legendData.push(list[i].subject);
-      arr.push(parseInt(list[i].scoreRange));
       seriesData.push({
         name: list[i].subject,
         type: 'line',
         stack: '排名',
-        data: arr
+        data: []
       })
+    }
+    for(var i = 0; i < list.length; i++){
+      for(var j = 0; j < list.length; j++){
+        seriesData[i].data[index] = list[i].scoreRange;
+      }
     }
     this.initChart();
   },
-  getChartData(){
+  getChartData(Name, Class){//
     var str = '';
-    if(this.data.subject == '全科'){
-      str = '/auth/monthlyExamResults/overallRankingTrend';
-    }else {
-      str = '/auth/monthlyExamResults/singleRankingTrend';
+    var params = {
+      'studentName': Name,
+      'schoolId': this.data.schoolId,
+      'class_': Class
+    };
+    if(this.data.role == 0){//老师
+      if(this.data.subject == '全科'){
+        str = '/auth/monthlyExamResults/overallRankingTrend';
+      }else {
+        str = '/auth/monthlyExamResults/singleRankingTrend';
+        params.subject = this.data.subjectId;
+      }
+    }else {//家长
+      str = '/auth/monthlyExamResults/personalPerformanceAnalysis';
     }
+    
     var Url = app.globalData.domain + str;
-    var that = this;
     wx.request({
       url: Url,
       header: {'uid': app.globalData.userId},
-      data: {
-        'studentName': that.data.studentName,
-        'ticketNumber': that.data.ticketNumber
-      },
+      data: params,
       success:res=>{
         var resData = res.data;
         if(resData.code == 200){
@@ -221,7 +234,7 @@ Page({
       xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月']
+          data: monthArr
       },
       yAxis: {
           type: 'value',

@@ -21,14 +21,14 @@
 
 .section > text {
   display: block;
-  width: 130rpx;
+  width: 180rpx;
   height: 60rpx;
   font-size: 32rpx;
   line-height: 60rpx;
 }
 
 .error-scale .progress-box {
-  width: 540rpx;
+  width: 480rpx;
   height: 56rpx;
   border: 2rpx solid #ccc;
 }
