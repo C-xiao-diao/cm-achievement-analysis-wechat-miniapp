@@ -150,7 +150,7 @@ Page({
     //将选择存入本地缓存
     let dataSource = {
       schoolId: this.data.schoolId, class_: this.data.class,school: this.data.school,
-      subject: Number(this.data.subjectId) + 1, ticketNumber: ticketNumber
+      subject: this.data.subjectId, ticketNumber: ticketNumber
     }
     try {
       wx.setStorageSync('lastDataSource', JSON.stringify(dataSource))
