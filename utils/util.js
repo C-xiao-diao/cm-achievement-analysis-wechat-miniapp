@@ -1,3 +1,5 @@
+import webConfig from "./../configs/config"
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
