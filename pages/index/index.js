@@ -31,14 +31,13 @@ Page({
     try {
       var info = wx.getStorageSync('lastDataSource');
       let infoObj = JSON.parse(info);
-      console.log(infoObj, 'ggggggggggggggggggggggggggg')
       if (info) {
         this.setData({
           class: infoObj.class_,
           schoolId: infoObj.schoolId,
           school: infoObj.school,
-          // subjectId: infoObj.subject,
-          subjectIndex: infoObj.subject -1,
+          subjectId: infoObj.subjectId,
+          subjectIndex: infoObj.subjectIndex,
           ticketNumber: infoObj.ticketNumber
         })
       }
@@ -150,7 +149,7 @@ Page({
     //将选择存入本地缓存
     let dataSource = {
       schoolId: this.data.schoolId, class_: this.data.class,school: this.data.school,
-      subject: this.data.subjectId, ticketNumber: ticketNumber
+      subjectId: this.data.subjectId,subjectIndex: this.data.subjectIndex, ticketNumber: ticketNumber
     }
     try {
       wx.setStorageSync('lastDataSource', JSON.stringify(dataSource))
@@ -166,7 +165,7 @@ Page({
       method: "POST",
       data: {
         weChatUserId: app.globalData.userId,
-        userType: role === 0 ? 1 : 2,
+        userType: role === 1 ? 2 : 1,
         schoolId: that.data.schoolId,
         class_: that.data.class,
         subject: that.data.subjectId,

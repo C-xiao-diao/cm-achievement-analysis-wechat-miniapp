@@ -59,7 +59,6 @@ Page({
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
               }
 
-              console.log((d.fullMarks*0.6),999)
               that.setData({
                 scoreArray: d.list,
                 allRight: d.allRight,

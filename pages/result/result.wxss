@@ -93,22 +93,22 @@
   color: #666;
 }
 
+.w64 {
+  width: 64%;
+}
 
-#subject-th{
+.w40 {
   width:40%;
 }
 
-.subject-td{
-  width:40%;
-}
-
-.tr:last-child .td {
+.parantsTable .tr:last-child .td {
   background-color: #dadada;
 }
 
 .td image {
-  width: 40rpx;
-  height: 40rpx;
+  width: 35rpx;
+  height: 35rpx;
+  vertical-align: middle;
 }
 
 .br {
