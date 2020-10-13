@@ -343,6 +343,7 @@ Page({
       whichChart = echarts.init(canvas, null, {
         width: width,
         height: height,
+        devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
       });
       this.setOption(whichChart, dom);
     });
