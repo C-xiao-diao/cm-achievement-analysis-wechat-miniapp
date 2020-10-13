@@ -449,7 +449,7 @@ Page({
               type: 'pie',
               radius: '55%',
               center: ['50%', '60%'],
-              data: secondPieDataSeries,
+              data: postion === 0 ? secondPieDataSeries : bottomPieDataSeries,
               // data: [
               //     {value: 1, name: '0-10'},
               //     {value: 2, name: '10-20'},
