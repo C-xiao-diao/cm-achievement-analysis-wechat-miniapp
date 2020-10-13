@@ -1,4 +1,6 @@
 import webConfig from "./../configs/config"
+import "./fix"
+import _ from "lodash";
 
 const formatTime = date => {
   const year = date.getFullYear()
