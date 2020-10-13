@@ -365,12 +365,16 @@ Page({
     console.log(tab, "ooooo", this.data[tab]);
     if(tab=='currentTab1'){//分数段柱状图
       if(this.data[tab]==0){
-        this.setOption()
+        this.initChart('secondComponent', '#secondBarChart', trendChart);  
       } else {
-
+        this.initChart('secondComponent', '#secondPieChart', trendChart);  
       }
     } else{
-      
+      if(this.data[tab]==0){
+        this.initChart('bottomComponent', '#bottomBarChart', trendChart);  
+      } else {
+        this.initChart('bottomComponent', '#bottomPieChart', trendChart);  
+      }
     }
     console.log(tab, this.data[tab])
   },
