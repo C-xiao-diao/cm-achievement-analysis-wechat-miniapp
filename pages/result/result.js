@@ -72,7 +72,6 @@ Page({
   },
   //获取成绩分析页面数据
   getSubjectData(){
-    console.log(this.data,'ffffffffffffffffffffffffff')
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
@@ -114,7 +113,6 @@ Page({
                   bottomPieDataSeries.push(obj)
                 }
               }
-              // console.log(bottomBarDataSeries, )
               // --------------  end  ---------------
               that.setData({
                 topDataSeriesByExcellent,
@@ -340,7 +338,6 @@ Page({
     if(!this[chartComponent]){
       this[chartComponent] = this.selectComponent(dom);  
     }
-    console.log(this[chartComponent],9999)
     this[chartComponent].init((canvas, width, height) => {
       whichChart = echarts.init(canvas, null, {
         width: width,
@@ -359,7 +356,6 @@ Page({
             [tab]: e.target.dataset.current
         })
     }
-    console.log(tab, "ooooo", this.data[tab]);
     if(tab=='currentTab1'){//分数段柱状图
       if(this.data[tab]==0){
         this.initChart('secondComponent', '#secondBarChart', trendChart);  
@@ -373,12 +369,10 @@ Page({
         this.initChart('bottomComponent', '#bottomPieChart', trendChart);  
       }
     }
-    console.log(tab, this.data[tab])
   },
   //老师端 - 各班对比图option
   getTopChartOption(){
     const { topDataSeriesByExcellent, topDataSeriesByPassing, } = this.data;
-    console.log(topDataSeriesByExcellent,"][[[[", topDataSeriesByPassing)
     var option = {
       color: ['#edafda', '#93b7e3'],
       tooltip: {
