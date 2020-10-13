@@ -230,7 +230,7 @@
 
 .bottomChart{
   clear: both;
-  height: 750rpx;
+  height: 550rpx;
 }
 
 .trendChart {

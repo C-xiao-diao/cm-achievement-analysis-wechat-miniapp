@@ -47,6 +47,7 @@ Page({
     },
     bottomPieDataSeries: [],
     bottomBarDataSeries: [],
+    bottomBarYAxis: [],
   },
   onLoad(option){
     wx.showLoading({
@@ -102,20 +103,25 @@ Page({
                 topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
               }
               //作文分数段统计
-              let bottomDataSeries = [];
+              let bottomBarDataSeries = [],bottomPieDataSeries = [],bottomBarYAxis = [];
               if(this.data.subject && this.data.subject === "语文"){
                 for(var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++){
                   let obj = {};
                   obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
                   obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
-                  bottomDataSeries.push(obj)
+                  bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
+                  bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
+                  bottomPieDataSeries.push(obj)
                 }
               }
+              // console.log(bottomBarDataSeries, )
               // --------------  end  ---------------
               that.setData({
-                bottomDataSeries,
                 topDataSeriesByExcellent,
                 topDataSeriesByPassing,
+                bottomPieDataSeries,
+                bottomBarYAxis,
+                bottomBarDataSeries,
                 scoreArray: d.list,
                 allRight: d.allRight,
                 wrongQuestions: d.wrongQuestions,
@@ -150,6 +156,7 @@ Page({
           //初始化图表
           that.initTopChart();
           this.initSecondChart();
+          this.initBottomChart();
           // ------- end --------
         } else if(resData.code == 107){
           wx.showModal({
@@ -179,6 +186,7 @@ Page({
         var resData = res.data;
         if(resData.code == 200){
           let secondPieDataSeries = [];
+          let secondBarDataSeries = [];
           let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
           for(var i = 0; i < scoreSegmentStatistics.length; i++){
             let obj = {};
@@ -408,7 +416,7 @@ Page({
   },
   //老师端 - 分数段统计饼图option
   getPieOption(){
-    const { secondPieDataSeries } = this.data;
+    const { secondPieDataSeries,bottomPieDataSeries } = this.data;
     var option = {
       title: {
           left: 'center'
@@ -451,6 +459,8 @@ Page({
   },
   //老师端 - 分数段统计柱状图option
   getBarOption(){
+    const { bottomBarYAxis, bottomBarDataSeries} = this.data;
+
     var option = {
       color: ['#516b91'],
       grid:{
@@ -466,7 +476,8 @@ Page({
       yAxis: [
           {   
               name:'分数区间段',
-              data: ['0-10', '10-20', '20-30', '30-40', '40-50','50-60', '60-70', '70-80', '80-90', '90-100']
+              // data: ['0-10', '10-20', '20-30', '30-40', '40-50','50-60', '60-70', '70-80', '80-90', '90-100']
+              data: bottomBarYAxis,
           }
       ],
       series: [
@@ -477,7 +488,8 @@ Page({
               label: {
                   show:true
               },
-              data: [1, 2, 3, 5, 6, 5, 7, 8, 12, 20]
+              // data: [1, 2, 3, 5, 6, 5, 7, 8, 12, 20]
+              data: bottomBarDataSeries
           }
       ]};
       return option;
