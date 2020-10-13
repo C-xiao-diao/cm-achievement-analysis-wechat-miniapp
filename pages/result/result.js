@@ -37,6 +37,7 @@ Page({
       lazyLoad: true
     },
     secondPieDataSeries: [],        //分数段统计饼图数据
+    secondBarYAxis: [],
     secondBarDataSeries: [],        //分数段统计饼图数据
     ecThree: {
       lazyLoad: true
@@ -185,14 +186,15 @@ Page({
       success:res=>{
         var resData = res.data;
         if(resData.code == 200){
-          let secondPieDataSeries = [];
-          let secondBarDataSeries = [];
+          let secondPieDataSeries = [], secondBarYAxis = [],secondBarDataSeries = [];
           let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
           for(var i = 0; i < scoreSegmentStatistics.length; i++){
             let obj = {};
             obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
             obj.name = _.get(scoreSegmentStatistics, `${i}.score`);
-            secondPieDataSeries.push(obj)
+            secondPieDataSeries.push(obj);
+            secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
+            secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
           this.setData({secondPieDataSeries});
         }
@@ -299,12 +301,12 @@ Page({
   //初始化第二项分数段统计（柱图/饼图 切换）
   initSecondChart: function(){
     this.secondComponent = this.selectComponent('#secondChart');  
-    this.initChart('secondComponent', '#secondChart', secondChart);
+    this.initChart('secondComponent', '#secondBarChart', secondChart);
   },
   //初始化底部柱状图
   initBottomChart: function(){
     this.bottomComponent = this.selectComponent('#bottomChart');
-    this.initChart('bottomComponent', '#bottomChart', bottomChart);  
+    this.initChart('bottomComponent', '#bottomBarChart', bottomChart);  
   },
   //初始化趋势图
   initTrendChart: function(){
@@ -318,12 +320,18 @@ Page({
       case '#topChart':
         option = this.getTopChartOption(); 
         break;
-      case '#secondChart':
-        option = this.getPieOption(); 
+      case '#secondBarChart':
+        option = this.getBarOption(0); 
         break;
-      case '#bottomChart':
-        option = this.getBarOption();
+      case  '#secondPieChart':
+        option = this.getPieOption(0); 
         break;
+      case '#bottomBarChart':
+        option = this.getBarOption(1);
+        break;
+      case '#bottomPieChart':
+        option = this.getPieOption(1);
+        break;  
       case '#trendChart':
         option = this.getTrendChartOption();
         break;
@@ -354,6 +362,7 @@ Page({
             [tab]: e.target.dataset.current
         })
     }
+    console.log(tab, "ooooo", this.data[tab]);
     if(tab=='currentTab1' && this.data[tab]==0){//分数段饼状图
       
     }
@@ -415,7 +424,7 @@ Page({
     return option;
   },
   //老师端 - 分数段统计饼图option
-  getPieOption(){
+  getPieOption(postion){
     const { secondPieDataSeries,bottomPieDataSeries } = this.data;
     var option = {
       title: {
@@ -458,8 +467,8 @@ Page({
     return option;
   },
   //老师端 - 分数段统计柱状图option
-  getBarOption(){
-    const { bottomBarYAxis, bottomBarDataSeries} = this.data;
+  getBarOption(postion){
+    const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries} = this.data;
 
     var option = {
       color: ['#516b91'],

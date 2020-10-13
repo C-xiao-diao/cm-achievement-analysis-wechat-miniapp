@@ -26,8 +26,8 @@
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
   <view class="chartWrap">
     <view class="tab">
-      <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">饼状图</text>
-      <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">柱状图</text>
+      <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">柱状图</text>
+      <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">饼状图</text>
     </view>
     <view class="secondChart">
       <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecond }}"></ec-canvas>
@@ -123,8 +123,8 @@
   <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text>
   <view class="chartWrap">
     <view class="tab">
-      <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">饼状图</text>
-      <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">柱状图</text>
+      <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>
+      <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">饼状图</text>
     </view>
     <view class="bottomChart">
       <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
