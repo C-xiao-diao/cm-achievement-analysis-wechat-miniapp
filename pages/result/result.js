@@ -294,6 +294,9 @@ Page({
       legend: {
           data: ['优秀率 ', '及格率']
       },
+      grid:{
+        left: "20%"
+      },
       xAxis: [
           {
               type: 'value'
@@ -371,6 +374,10 @@ Page({
   getBarOption(){
     var option = {
       color: ['#516b91'],
+      grid:{
+        left: "15%",
+        right:"15%"
+      },
       xAxis: [
           {
               type: 'value',
