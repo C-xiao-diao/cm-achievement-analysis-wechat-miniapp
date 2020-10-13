@@ -81,6 +81,7 @@
 
 .topChart, .secondChart, .bottomChart {
   width: 90%;
+  margin: 0 auto;
   margin-bottom: 60rpx;
 }
 

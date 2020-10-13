@@ -283,7 +283,6 @@ Page({
   //老师端 - 各班对比图option
   getTopChartOption(){
     var option = {
-      backgroundColor:'#fff',
       color: ['#edafda', '#93b7e3'],
       tooltip: {
           trigger: 'axis',
