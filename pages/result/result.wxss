@@ -220,7 +220,7 @@
 }
 
 .topChart {
-  height: 650rpx;
+  height: 900rpx;
 }
 
 .secondChart, .bottomChart {
