@@ -53,7 +53,9 @@ Page({
     },
     bottomPieDataSeries: [],
     bottomBarDataSeries: [],
-    bottomBarYAxis: []
+    bottomBarYAxis: [],
+    studentScoreList1: [],
+    studentScoreList2: []
   },
   onLoad(option){
     wx.showLoading({
@@ -108,7 +110,7 @@ Page({
                 topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
               }
               //作文分数段统计
-              let bottomBarDataSeries = [],bottomPieDataSeries = [],bottomBarYAxis = [];
+              let bottomBarDataSeries = [],bottomPieDataSeries = [],bottomBarYAxis = [],studentScoreList2=[];
               if(this.data.subject && this.data.subject === "语文"){
                 for(var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++){
                   let obj = {};
@@ -116,6 +118,7 @@ Page({
                   obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
                   bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
                   bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
+                  studentScoreList2.push(_.get(d, `scoreSegmentStatisticsEssay.${i}`));
                   bottomPieDataSeries.push(obj)
                 }
               }
@@ -125,6 +128,7 @@ Page({
               d.passingRate = Math.ceil(d.passingRate * 100);
               // --------------  end  ---------------
               that.setData({
+                studentScoreList2,
                 topDataSeriesByExcellent,
                 topDataSeriesByPassing,
                 bottomPieDataSeries,
@@ -193,17 +197,18 @@ Page({
       success:res=>{
         var resData = res.data;
         if(resData.code == 200){
-          let secondPieDataSeries = [], secondBarYAxis = [],secondBarDataSeries = [];
+          let secondPieDataSeries = [], secondBarYAxis = [],secondBarDataSeries = [], studentScoreList1 = [];
           let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
           for(var i = 0; i < scoreSegmentStatistics.length; i++){
             let obj = {};
+            studentScoreList1.push(scoreSegmentStatistics[i]);
             obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
             obj.name = _.get(scoreSegmentStatistics, `${i}.score`);
             secondPieDataSeries.push(obj);
             secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
-          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries});
+          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries,studentScoreList1});
         }
       }
     })  
@@ -445,6 +450,7 @@ Page({
   },
   //老师端 - 分数段统计饼图option
   getPieOption(postion){
+    var that = this;
     const { secondPieDataSeries,bottomPieDataSeries } = this.data;
     var option = {
       title: {
@@ -453,7 +459,15 @@ Page({
       color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
       tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b} : {c} ({d}%)'
+          position: ['15%', '15%'],
+          textStyle: {
+            'width': '80%',
+            'height': '300px'
+          },
+          formatter: function(params){
+            var res = that.getFormatter(params, 'pie' , postion);
+            return res;
+          }
       },
       series: [
           {
@@ -462,18 +476,6 @@ Page({
               radius: '55%',
               center: ['50%', '60%'],
               data: postion === 0 ? secondPieDataSeries : bottomPieDataSeries,
-              // data: [
-              //     {value: 1, name: '0-10'},
-              //     {value: 2, name: '10-20'},
-              //     {value: 3, name: '20-30'},
-              //     {value: 4, name: '30-40'},
-              //     {value: 5, name: '40-50'},
-              //     {value: 6, name: '50-60'},
-              //     {value: 7, name: '60-70'},
-              //     {value: 8, name: '70-80'},
-              //     {value: 9, name: '80-90'},
-              //     {value: 20, name: '90-100'}
-              // ],
               emphasis: {
                   itemStyle: {
                       shadowBlur: 10,
@@ -488,7 +490,7 @@ Page({
   //老师端 - 分数段统计柱状图option
   getBarOption(postion){
     const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries} = this.data;
-
+    var that = this;
     var option = {
       color: ['#516b91'],
       grid:{
@@ -500,6 +502,12 @@ Page({
         axisPointer: {            // 坐标轴指示器，坐标轴触发有效
             type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
             triggerOn: 'click'
+        },
+        position: ['15%', '15%'],
+        extraCssText: 'width: 300px;height:80px;',
+        formatter: function(params){
+          var res = that.getFormatter(params, 'bar', postion);
+          return res;
         }
       },
       xAxis: [
@@ -561,6 +569,30 @@ Page({
     };
     return option;
   },
+  //分数段对比图 提示框数据组装
+  getFormatter(params, type, postion){
+    var interval;
+    if(type=='pie'){
+      interval = params.data.name;
+    }else{
+      interval = params[0].axisValue;
+    }
+    var data,res='',list=[];
+    if(postion === 0){
+      data = this.data.studentScoreList1;
+    }else{
+      data = this.data.studentScoreList2;
+    }
+    for (var i = 0; i < data.length; i++) {
+      if(data[i].score==interval){
+        list = data[i].list.list;
+      }
+    }
+    for (var i = 0; i < list.length; i++) {
+      res += list[i].studentName + '：' + list[i].score + '分' + '\n';
+    }
+    return res;
+  }
   // getLinesOption(){//家长端 - 排名趋势图
   //   var option = {
   //     tooltip: {
