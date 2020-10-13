@@ -12,7 +12,7 @@ Page({
   data: {
     userId: '',
     subject: '',
-    role: '老师',
+    role: 0,
     yearMonth: '',
     studentName: '',
     ticketNumber: '',
@@ -281,7 +281,9 @@ Page({
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
-    this.initBottomChart();
+    if(this.data.role==0 && this.data.subject=='语文'){
+      this.initBottomChart();
+    }
     //初始化趋势图
     this.initTrendChart();
   },
