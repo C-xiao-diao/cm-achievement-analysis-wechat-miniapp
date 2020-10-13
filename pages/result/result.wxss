@@ -208,12 +208,6 @@
   height: auto;
 }
 
-.charts {
-  width: 600rpx;
-  height: 400rpx;
-  margin-bottom: 100rpx;
-}
-
 .topChart, .secondChart, .bottomChart {
   width: 100%;
   margin-bottom: 60rpx;
@@ -223,20 +217,9 @@
   height: 900rpx;
 }
 
-.secondChart {
+.secondChart, .bottomChart {
   clear: both;
   height: 550rpx;
-}
-
-.bottomChart{
-  clear: both;
-  height: 550rpx;
-}
-
-.trendChart {
-  width: 100%;
-  height: 300rpx;
-  background: #666;
 }
 /* 图表样式end */
 
@@ -279,5 +262,10 @@
   border-radius: 50%;
   background: red;
   color: #fff;
+}
+
+.trendChart {
+  width: 440rpx;
+  height: 300rpx;
 }
 /* 趋势图弹窗样式end */

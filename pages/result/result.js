@@ -125,20 +125,15 @@ Page({
                 wrongQuestions: d.wrongQuestions,
                 class: d.class_,
                 yearMonth: (y + '-' + m),
-                pass: (d.fullMarks*0.6),
-                studentName: d.list[0].studentName,
-                ticketNumber: d.list[0].ticketNumber
+                pass: (d.fullMarks*0.6)
               })
             }else{//班主任页面数据
               that.setData({
                 scoreArray: d.list,
                 class: d.class_,
-                yearMonth: (y + '-' + m),
-                studentName: d.list[0].studentName,
-                ticketNumber: d.list[0].ticketNumber
+                yearMonth: (y + '-' + m)
               })
             }
-            // this.getTrendData(d.list[0].studentName, d.class_);
           }else {//家长端页面数据
             for(var i = 0; i < d.listResult.length; i++){
               d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange*100);
@@ -198,7 +193,7 @@ Page({
       }
     })  
   },
-  //单科成绩列表下，点击学生名字
+  //单科成绩列表下，点击学生名字显示排名趋势图
   getStudentInfo(e){
     var name = e.currentTarget.dataset.name;
     this.getTrendData(name);
@@ -235,6 +230,7 @@ Page({
   //获取学生成绩排名趋势图数据
   getTrendData(Name){
     var str = '',that = this;
+    this.setData({'studentName': Name})
     var params = {
       'studentName': Name,
       'schoolId': this.data.schoolId,
@@ -263,28 +259,30 @@ Page({
           rankData = [];monthData=[];
           for(var i = 0 ; i < list.length; i++){
             rankData.push(list[i].ranking);
-            monthData.push(list[i].month +'月')
+            monthData.push(list[i].month)
           }
-          that.initTrendChart();
-          that.setData({
-            showTrendChart: true
-          })
+          that.setData({showTrendChart: true});
+          that.initTrendChart();//打开趋势图
         }
       }
     })
+  },
+  //关闭趋势图弹窗
+  closePopup(){
+    this.setData({showTrendChart: false})
   },
   /**
    * 初始化所有需要初始化得图表
    */
   initAllCharts: function(){
     //初始化顶部柱图（各班对比）
-    // this.initTopChart()
+    this.initTopChart()
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
     this.initBottomChart();
     //初始化趋势图
-    
+    this.initTrendChart();
   },
 
   //初始化顶部柱图（各班对比）
@@ -305,7 +303,21 @@ Page({
   //初始化趋势图
   initTrendChart: function(){
     this.trendComponent = this.selectComponent('#trendChart');
-    this.initChart('trendComponent', '#trendChart', trendChart);  
+    this.initChart('trendComponent', '#trendChart', trendChart); 
+    
+  },
+  //图表初始化方法
+  initChart(chartComponent, dom, whichChart){
+    if(!this[chartComponent]){
+      this[chartComponent] = this.selectComponent(dom);  
+    }
+    this[chartComponent].init((canvas, width, height) => {
+      whichChart = echarts.init(canvas, null, {
+        width: width,
+        height: height,
+      });
+      this.setOption(whichChart, dom);
+    });
   },
   //图表设置
   setOption:function(whichChart,dom){
@@ -330,21 +342,10 @@ Page({
         option = this.getTrendChartOption();
         break;
     }
+    
     whichChart.setOption(option); 
+    console.log(whichChart,999999)
     return whichChart;
-  },
-  //图表初始化方法
-  initChart(chartComponent, dom, whichChart){
-    if(!this[chartComponent]){
-      this[chartComponent] = this.selectComponent(dom);  
-    }
-    this[chartComponent].init((canvas, width, height) => {
-      whichChart = echarts.init(canvas, null, {
-        width: width,
-        height: height,
-      });
-      this.setOption(whichChart, dom);
-    });
   },
   //切换 柱状图/饼状图
   swichNav: function( e ) {
@@ -358,15 +359,15 @@ Page({
     }
     if(tab=='currentTab1'){//分数段柱状图
       if(this.data[tab]==0){
-        this.initChart('secondComponent', '#secondBarChart', trendChart);  
+        this.initChart('secondComponent', '#secondBarChart', secondChart);  
       } else {
-        this.initChart('secondComponent', '#secondPieChart', trendChart);  
+        this.initChart('secondComponent', '#secondPieChart', secondChart);  
       }
     } else{
       if(this.data[tab]==0){
-        this.initChart('bottomComponent', '#bottomBarChart', trendChart);  
+        this.initChart('bottomComponent', '#bottomBarChart', bottomChart);  
       } else {
-        this.initChart('bottomComponent', '#bottomPieChart', trendChart);  
+        this.initChart('bottomComponent', '#bottomPieChart', bottomChart);  
       }
     }
   },
@@ -507,6 +508,9 @@ Page({
   //老师端 - 学生排名趋势图option
   getTrendChartOption(){
     var option = {
+      grid:{
+        left: "20%"
+      },
       xAxis: {
         type: 'category',
         data: monthData,

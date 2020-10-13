@@ -110,19 +110,18 @@
   </view>
 
   <!-- 走势图弹窗 -->
-  <view class="popup" style="top: {{popupTop+'px'}};" wx:if="{{showTrendChart}}">
-    <text class="popup-close">×</text>
+  <view class="popup" style="display:{{showTrendChart? 'block': 'none'}}; top: {{popupTop+'px'}};">
+    <text class="popup-close" bindtap="closePopup">×</text>
     <text class="popup-title">学校排名走势</text>
-    <text class="popup-subtitle">（小明）</text>
+    <text class="popup-subtitle">（{{studentName}}）</text>
     <view class="trendChart">
       <ec-canvas id="trendChart" canvas-id="trendChart" ec="{{ ecThree }}"></ec-canvas>
     </view>
   </view>
 
   <!-- 作文分数段统计 -->
-  <text class="title" wx:if="{{role==0}}">— 作文分数段统计 —</text>
-  <!-- <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text> -->
-  <view class="chartWrap">
+  <text class="title" wx:if="{{role==0 && subject=='语文'}}">— 作文分数段统计 —</text>
+  <view class="chartWrap"  wx:if="{{role==0 && subject=='语文'}}">
     <view class="tab">
       <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>
       <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">饼状图</text>
