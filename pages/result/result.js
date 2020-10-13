@@ -1,5 +1,6 @@
 const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
+import "./../../utils/fix";
 import _ from "lodash";
 
 var trendChart = null,topChart=null,secondChart=null,bottomChart=null;
@@ -56,7 +57,7 @@ Page({
     this.initPage(option);
   },
   onReady(){
-    this.initAllCharts();
+    // this.initAllCharts();
   },
   //页面初始
   initPage(option){
@@ -306,19 +307,6 @@ Page({
     this.initChart('trendComponent', '#trendChart', trendChart); 
     
   },
-  //图表初始化方法
-  initChart(chartComponent, dom, whichChart){
-    if(!this[chartComponent]){
-      this[chartComponent] = this.selectComponent(dom);  
-    }
-    this[chartComponent].init((canvas, width, height) => {
-      whichChart = echarts.init(canvas, null, {
-        width: width,
-        height: height,
-      });
-      this.setOption(whichChart, dom);
-    });
-  },
   //图表设置
   setOption:function(whichChart,dom){
     var option;
@@ -346,6 +334,20 @@ Page({
     whichChart.setOption(option); 
     console.log(whichChart,999999)
     return whichChart;
+  },
+  //图表初始化方法
+  initChart(chartComponent, dom, whichChart){
+    if(!this[chartComponent]){
+      this[chartComponent] = this.selectComponent(dom);  
+    }
+    this[chartComponent].init((canvas, width, height) => {
+      whichChart = echarts.init(canvas, null, {
+        width: width,
+        height: height,
+        devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
+      });
+      this.setOption(whichChart, dom);
+    });
   },
   //切换 柱状图/饼状图
   swichNav: function( e ) {
