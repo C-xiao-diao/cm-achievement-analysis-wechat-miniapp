@@ -121,7 +121,7 @@
 
   <!-- 作文分数段统计 -->
   <text class="title" wx:if="{{role==0}}">— 作文分数段统计 —</text>
-  <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text>
+  <!-- <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text> -->
   <view class="chartWrap">
     <view class="tab">
       <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>
