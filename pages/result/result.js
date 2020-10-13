@@ -196,7 +196,7 @@ Page({
             secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
-          this.setData({secondPieDataSeries});
+          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries});
         }
       }
     })  
@@ -363,7 +363,13 @@ Page({
         })
     }
     console.log(tab, "ooooo", this.data[tab]);
-    if(tab=='currentTab1' && this.data[tab]==0){//分数段饼状图
+    if(tab=='currentTab1'){//分数段柱状图
+      if(this.data[tab]==0){
+        this.setOption()
+      } else {
+
+      }
+    } else{
       
     }
     console.log(tab, this.data[tab])
@@ -473,7 +479,7 @@ Page({
     var option = {
       color: ['#516b91'],
       grid:{
-        left: "15%",
+        left: "18%",
         right:"15%"
       },
       xAxis: [
@@ -486,7 +492,7 @@ Page({
           {   
               name:'分数区间段',
               // data: ['0-10', '10-20', '20-30', '30-40', '40-50','50-60', '60-70', '70-80', '80-90', '90-100']
-              data: bottomBarYAxis,
+              data: postion === 0 ? secondBarYAxis : bottomBarYAxis,
           }
       ],
       series: [
@@ -498,7 +504,7 @@ Page({
                   show:true
               },
               // data: [1, 2, 3, 5, 6, 5, 7, 8, 12, 20]
-              data: bottomBarDataSeries
+              data: postion === 0 ? secondBarDataSeries : bottomBarDataSeries
           }
       ]};
       return option;
