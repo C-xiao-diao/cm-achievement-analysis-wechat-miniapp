@@ -67,7 +67,7 @@
     </view>
   </view>
   <!-- 单科老师 -->
-  <view class="table" wx:if="{{role==0 && subject != '全科'}}">
+  <view class="table single" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th w64">姓名</view>
       <view class="th w40">{{subject+'成绩'}}</view>

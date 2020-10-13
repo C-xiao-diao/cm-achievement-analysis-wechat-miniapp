@@ -1,4 +1,6 @@
 /**result.wxss**/
+
+/* 页面标题样式 */
 .h1 .bold {
   font-size: 60rpx;
   font-weight: bold;
@@ -14,6 +16,10 @@
   padding: 30rpx 0;
 }
 
+/* 页面标题样式end */
+
+
+/* 总体情况 */
 .r3 , .r2 {
   display: flex;
 }
@@ -45,12 +51,10 @@
   font-size: 40rpx;
   color: red;
 }
+/* 总体情况end */
 
-.chartWrap {
-  width: 100%;
-  height: auto;
-}
 
+/* tab切换样式 */
 .tab {
   float: right;
   width: 300rpx;
@@ -79,20 +83,9 @@
   border-left: 0;
 }
 
-.topChart, .secondChart, .bottomChart {
-  width: 100%;
-  margin-bottom: 60rpx;
-}
+/* tab切换样式end */
 
-.topChart {
-  height: 650rpx;
-}
-
-.secondChart, .bottomChart {
-  clear: both;
-  height: 550rpx;
-}
-
+/* 错题统计样式 */
 .error-scale .section {
   display: flex;
   margin-bottom: 30rpx;
@@ -120,7 +113,9 @@
   text-align: center;
   font-size: 32rpx;
 }
+/* 错题统计样式end */
 
+/* 全对题统计样式 */
 .all-right {
   display: flex;
   flex-wrap: wrap;
@@ -139,6 +134,9 @@
   margin: 0 14rpx 20rpx;
 }
 
+/* 全对题统计样式end */
+
+/* 表格样式 */
 .table {
   border:1px solid #dadada;
   border-right: 0;
@@ -198,8 +196,31 @@
   transform: rotate(180deg);
 }
 
+/* 表格样式end */
+
+/* 图表样式 */
+.chartWrap {
+  width: 100%;
+  height: auto;
+}
+
 .charts {
   width: 600rpx;
   height: 400rpx;
   margin-bottom: 100rpx;
 }
+
+.topChart, .secondChart, .bottomChart {
+  width: 100%;
+  margin-bottom: 60rpx;
+}
+
+.topChart {
+  height: 650rpx;
+}
+
+.secondChart, .bottomChart {
+  clear: both;
+  height: 550rpx;
+}
+/* 图表样式end */
