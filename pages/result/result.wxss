@@ -242,7 +242,42 @@
 
 /* 趋势图弹窗样式 */
 .popup {
+  width: 440rpx;
+  background: #fff;
   border: 2rpx solid #eee;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
   position: fixed;
+  left: 62px;
   z-index: 100;
 }
+
+.popup-title, .popup-subtitle {
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 40rpx;
+}
+
+.popup-subtitle {
+  font-size: 36rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.popup-close {
+  position: absolute;
+  top: -15rpx;
+  right: -15rpx;
+  display: block;
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 48rpx;
+  font-size: 40rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: red;
+  color: #fff;
+}
+/* 趋势图弹窗样式end */

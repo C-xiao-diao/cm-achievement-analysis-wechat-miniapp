@@ -110,9 +110,10 @@
   </view>
 
   <!-- 走势图弹窗 -->
-  <view class="popup" style="top: {{popupTop}}; left: {{popupLeft}}" wx:if="{{showTrendChart}}">
-    <text class="popip-title">学校排名走势</text>
-    <text class="popip-subtitle">（小明）</text>
+  <view class="popup" style="top: {{popupTop+'px'}};" wx:if="{{showTrendChart}}">
+    <text class="popup-close">×</text>
+    <text class="popup-title">学校排名走势</text>
+    <text class="popup-subtitle">（小明）</text>
     <view class="trendChart">
       <ec-canvas id="trendChart" canvas-id="trendChart" ec="{{ ecThree }}"></ec-canvas>
     </view>
