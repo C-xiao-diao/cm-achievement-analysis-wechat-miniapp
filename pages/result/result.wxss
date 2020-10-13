@@ -223,9 +223,14 @@
   height: 900rpx;
 }
 
-.secondChart, .bottomChart {
+.secondChart {
   clear: both;
   height: 550rpx;
+}
+
+.bottomChart{
+  clear: both;
+  height: 750rpx;
 }
 
 .trendChart {

@@ -32,17 +32,21 @@ Page({
     },
     topDataSeriesByExcellent: [],    //顶部图表优秀率数据
     topDataSeriesByPassing: [],    //顶部图表及格率数据
-    //顶部图表（各班对比）
+    //分数段统计
     ecSecond: {
       lazyLoad: true
     },
+    secondPieDataSeries: [],        //分数段统计饼图数据
+    secondBarDataSeries: [],        //分数段统计饼图数据
     ecThree: {
       lazyLoad: true
     },
+    //作文分数段统计
     ecBottom: {
       lazyLoad: true
     },
-  
+    bottomPieDataSeries: [],
+    bottomBarDataSeries: [],
   },
   onLoad(option){
     wx.showLoading({
@@ -67,6 +71,7 @@ Page({
   },
   //获取成绩分析页面数据
   getSubjectData(){
+    console.log(this.data,'ffffffffffffffffffffffffff')
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
@@ -91,12 +96,24 @@ Page({
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
               }
               let topDataSeriesByExcellent =[],  topDataSeriesByPassing= [];
+              //顶部各班对比数据
               for(var i = 0; i < d.listClassResult.length; i++){
-                topDataSeriesByExcellent.push(_.round(d.listClassResult[i].excellentRate, 3));
-                topDataSeriesByPassing.push(_.round(d.listClassResult[i].passingRate, 3));
+                topDataSeriesByExcellent.unshift(_.round(d.listClassResult[i].excellentRate, 3));
+                topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
               }
-
+              //作文分数段统计
+              let bottomDataSeries = [];
+              if(this.data.subject && this.data.subject === "语文"){
+                for(var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++){
+                  let obj = {};
+                  obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
+                  obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
+                  bottomDataSeries.push(obj)
+                }
+              }
+              // --------------  end  ---------------
               that.setData({
+                bottomDataSeries,
                 topDataSeriesByExcellent,
                 topDataSeriesByPassing,
                 scoreArray: d.list,
@@ -130,7 +147,10 @@ Page({
             })
             //this.getStudentData(d.listResult);//家长端查询学生排名趋势
           }
+          //初始化图表
           that.initTopChart();
+          this.initSecondChart();
+          // ------- end --------
         } else if(resData.code == 107){
           wx.showModal({
             title: '提示',
@@ -149,6 +169,27 @@ Page({
         wx.hideLoading();
       }
     })
+    //获取单科分段人数统计
+    let Url2 = app.globalData.domain + '/auth/monthlyExamResults/scoreSegmentStatistics';
+    wx.request({
+      url: Url2,
+      header: {'uid': app.globalData.userId},
+      data: {'weChatUserId': app.globalData.userId},
+      success:res=>{
+        var resData = res.data;
+        if(resData.code == 200){
+          let secondPieDataSeries = [];
+          let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
+          for(var i = 0; i < scoreSegmentStatistics.length; i++){
+            let obj = {};
+            obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
+            obj.name = _.get(scoreSegmentStatistics, `${i}.score`);
+            secondPieDataSeries.push(obj)
+          }
+          this.setData({secondPieDataSeries});
+        }
+      }
+    })  
   },
   //单科成绩列表下，点击学生名字
   getStudentInfo(e){
@@ -367,6 +408,7 @@ Page({
   },
   //老师端 - 分数段统计饼图option
   getPieOption(){
+    const { secondPieDataSeries } = this.data;
     var option = {
       title: {
           left: 'center'
@@ -383,18 +425,19 @@ Page({
               type: 'pie',
               radius: '55%',
               center: ['50%', '60%'],
-              data: [
-                  {value: 1, name: '0-10'},
-                  {value: 2, name: '10-20'},
-                  {value: 3, name: '20-30'},
-                  {value: 4, name: '30-40'},
-                  {value: 5, name: '40-50'},
-                  {value: 6, name: '50-60'},
-                  {value: 7, name: '60-70'},
-                  {value: 8, name: '70-80'},
-                  {value: 9, name: '80-90'},
-                  {value: 20, name: '90-100'}
-              ],
+              data: secondPieDataSeries,
+              // data: [
+              //     {value: 1, name: '0-10'},
+              //     {value: 2, name: '10-20'},
+              //     {value: 3, name: '20-30'},
+              //     {value: 4, name: '30-40'},
+              //     {value: 5, name: '40-50'},
+              //     {value: 6, name: '50-60'},
+              //     {value: 7, name: '60-70'},
+              //     {value: 8, name: '70-80'},
+              //     {value: 9, name: '80-90'},
+              //     {value: 20, name: '90-100'}
+              // ],
               emphasis: {
                   itemStyle: {
                       shadowBlur: 10,
