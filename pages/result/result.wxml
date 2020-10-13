@@ -4,6 +4,7 @@
   <text class="h2" wx:if="{{role==0}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
   <text class="h2" wx:if="{{role==1}}">（{{class + ' - ' + studentName}}）</text>
 
+  <!-- 总体情况 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 总体情况 —</text>
   <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
     <view>最高分<text>120</text></view>
@@ -15,11 +16,13 @@
     <view>及格率<text>50%</text></view>
   </view>
 
+  <!-- 各班对比 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
   <view class="topChart">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
 
+  <!-- 分数段统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
   <view class="chartWrap">
     <view class="tab">
@@ -31,7 +34,7 @@
     </view>
   </view>
   
-
+  <!-- 错题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
   <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
@@ -42,6 +45,7 @@
     </view>
   </view>
 
+  <!-- 全对题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全对题统计 —</text>
   <view class="all-right" wx:if="{{role==0 && subject!='全科'}}">
     <text wx:if="{{allRight.length==0}}">无</text>
@@ -67,7 +71,7 @@
     </view>
   </view>
   <!-- 单科老师 -->
-  <view class="table single" wx:if="{{role==0 && subject != '全科'}}">
+  <view class="table" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th w64">姓名</view>
       <view class="th w40">{{subject+'成绩'}}</view>
@@ -75,8 +79,8 @@
       <view class="th">总分<text class="br"></text>学校排名</view>
       <view class="th">客观题<text class="br"></text>正确率</view>
     </view>
-    <view class="tr" wx:for="{{scoreArray}}" wx:key="id">
-      <view class="td w64">{{item.studentName}}</view>
+    <view class="tr single" wx:for="{{scoreArray}}" wx:key="id">
+      <view class="td w64" bindtap="getStudentInfo" data-name="{{item.studentName}}">{{item.studentName}}</view>
       <view class="td w40" style="color: {{item.totalScore < pass? 'red': '#666'}}">{{item.totalScore}}</view>
       <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}}(--)</view>
       <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}})</view>
@@ -105,6 +109,16 @@
     </view>
   </view>
 
+  <!-- 走势图弹窗 -->
+  <view class="popup" style="top: {{popupTop}}; left: {{popupLeft}}" wx:if="{{showTrendChart}}">
+    <text class="popip-title">学校排名走势</text>
+    <text class="popip-subtitle">（小明）</text>
+    <view class="trendChart">
+      <ec-canvas id="trendChart" canvas-id="trendChart" ec="{{ ecThree }}"></ec-canvas>
+    </view>
+  </view>
+
+  <!-- 作文分数段统计 -->
   <text class="title" wx:if="{{role==0}}">— 作文分数段统计 —</text>
   <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text>
   <view class="chartWrap">
@@ -116,7 +130,5 @@
       <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
     </view>
   </view>
-  <view class="trendChart" style="display:none">
-    <ec-canvas id="trendChart" canvas-id="trendChart" ec="{{ ecThree }}"></ec-canvas>
-  </view>
+  
 </view>

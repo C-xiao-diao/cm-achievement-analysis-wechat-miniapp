@@ -16,6 +16,9 @@ Page({
     studentName: '',
     ticketNumber: '',
     scoreArray: [],
+    showTrendChart: false,
+    popupTop: 0,
+    popupLeft: 0,
     allRight: [],
     wrongQuestions: [],
     listResult: [],
@@ -135,6 +138,18 @@ Page({
       }
     })
   },
+  //单科成绩列表下，点击学生名字
+  getStudentInfo(e){
+    var name = e.currentTarget.dataset.name;
+    var left = e.changedTouches[0].clientX;
+    var top = e.changedTouches[0].clientY;
+    console.log(e)
+    this.getTrendData(name);
+    this.setData({
+      popupTop: top,
+      popupLeft: left
+    })
+  },
   //修改学生排名趋势数据
   // getStudentData(list){ 
   //   var legendData=[],
@@ -162,12 +177,12 @@ Page({
   //   // this.initChart();
   // },
   //获取学生成绩排名趋势图数据
-  getTrendData(Name, Class){
-    var str = '';
+  getTrendData(Name){
+    var str = '',that = this;
     var params = {
       'studentName': Name,
       'schoolId': this.data.schoolId,
-      'class_': Class
+      'class_': this.data.class
     };
     if(this.data.role == 0){//老师
       if(this.data.subject == '全科'){
@@ -194,6 +209,9 @@ Page({
             rankData.push(list[i].ranking);
             monthData.push(list[i].month +'月')
           }
+          that.setData({
+            showTrendChart: true
+          })
         }
       }
     })
@@ -425,7 +443,7 @@ Page({
       }]
     };
     return option;
-  }
+  },
   // getLinesOption(){//家长端 - 排名趋势图
   //   var option = {
   //     tooltip: {
