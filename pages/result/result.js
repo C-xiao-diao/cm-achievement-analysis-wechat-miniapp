@@ -1,5 +1,6 @@
 const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
+import "./../../utils/fix";
 import _ from "lodash";
 
 var trendChart = null,topChart=null,secondChart=null,bottomChart=null;
@@ -56,7 +57,7 @@ Page({
     this.initPage(option);
   },
   onReady(){
-    this.initAllCharts();
+    // this.initAllCharts();
   },
   //页面初始
   initPage(option){
@@ -278,7 +279,7 @@ Page({
    */
   initAllCharts: function(){
     //初始化顶部柱图（各班对比）
-    // this.initTopChart()
+    this.initTopChart()
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
