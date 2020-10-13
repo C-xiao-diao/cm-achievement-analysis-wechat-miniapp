@@ -18,7 +18,6 @@ Page({
     scoreArray: [],
     showTrendChart: false,
     popupTop: 0,
-    popupLeft: 0,
     allRight: [],
     wrongQuestions: [],
     listResult: [],
@@ -38,7 +37,6 @@ Page({
     ecBottom: {
       lazyLoad: true
     },
-  
   },
   onLoad(option){
     wx.showLoading({
@@ -141,13 +139,9 @@ Page({
   //单科成绩列表下，点击学生名字
   getStudentInfo(e){
     var name = e.currentTarget.dataset.name;
-    var left = e.changedTouches[0].clientX;
-    var top = e.changedTouches[0].clientY;
-    console.log(e)
     this.getTrendData(name);
     this.setData({
-      popupTop: top,
-      popupLeft: left
+      popupTop: (e.changedTouches[0].clientY - 40),
     })
   },
   //修改学生排名趋势数据
@@ -209,6 +203,7 @@ Page({
             rankData.push(list[i].ranking);
             monthData.push(list[i].month +'月')
           }
+          that.initTrendChart();
           that.setData({
             showTrendChart: true
           })
@@ -227,7 +222,7 @@ Page({
     //初始化底部柱状图
     this.initBottomChart();
     //初始化趋势图
-    // this.initTrendChart();
+    
   },
 
   //初始化顶部柱图（各班对比）
@@ -275,6 +270,7 @@ Page({
     if(!this[chartComponent]){
       this[chartComponent] = this.selectComponent(dom);  
     }
+    console.log(this[chartComponent],9999)
     this[chartComponent].init((canvas, width, height) => {
       whichChart = echarts.init(canvas, null, {
         width: width,
