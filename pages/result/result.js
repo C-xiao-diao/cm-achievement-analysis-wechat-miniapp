@@ -121,8 +121,8 @@ Page({
               }
               //总体情况 数据修改
               d.avgScore = parseInt(d.avgScore);
-              d.excellentRate = (d.excellentRate * 100) + '%';
-              d.passingRate = (d.passingRate * 100) + '%';
+              d.excellentRate = Math.ceil(d.excellentRate * 100);
+              d.passingRate = Math.ceil(d.passingRate * 100);
               // --------------  end  ---------------
               that.setData({
                 topDataSeriesByExcellent,
@@ -450,11 +450,10 @@ Page({
       title: {
           left: 'center'
       },
-      backgroundColor:'#fff',
       color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
       tooltip: {
           trigger: 'item',
-          // formatter: '{a} <br/>{b} : {c} ({d}%)'
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
       series: [
           {
@@ -496,6 +495,13 @@ Page({
         left: "18%",
         right:"15%"
       },
+      tooltip: {
+        show: true,
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow'
+        }
+      },
       xAxis: [
           {
               type: 'value',
@@ -530,6 +536,9 @@ Page({
         left: "20%",
         top:" 10%",
         bottom: "20%",
+      },
+      tooltip: {
+        trigger: 'axis'
       },
       xAxis: {
         type: 'category',

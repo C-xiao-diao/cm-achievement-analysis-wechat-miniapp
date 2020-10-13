@@ -12,8 +12,8 @@
     <view>平均分<text>{{avgScore}}</text></view>
   </view>
   <view class="total r2" wx:if="{{role==0 && subject!='全科'}}">
-    <view>优秀率<text>{{excellentRate}}</text></view>
-    <view>及格率<text>{{passingRate}}</text></view>
+    <view>优秀率<text>{{excellentRate}}%</text></view>
+    <view>及格率<text>{{passingRate}}%</text></view>
   </view>
 
   <!-- 各班对比 -->
