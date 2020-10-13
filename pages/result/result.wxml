@@ -16,9 +16,21 @@
   </view>
 
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
-  <view class="compareChart">
-    <ec-canvas id="compareChart" canvas-id="mychart-bar" ec="{{ compareChart }}"></ec-canvas>
+  <view class="topChart">
+    <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
+
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
+  <view class="chartWrap">
+    <view class="tab">
+      <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">饼状图</text>
+      <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">柱状图</text>
+    </view>
+    <view class="secondChart">
+      <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecond }}"></ec-canvas>
+    </view>
+  </view>
+  
 
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
   <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
@@ -93,9 +105,18 @@
     </view>
   </view>
 
-  <text class="title" wx:if="{{role==0}}">— 学校排名走势 —</text>
+  <text class="title" wx:if="{{role==0}}">— 作文分数段统计 —</text>
   <text class="h2" wx:if="{{role==0}}">（{{studentName}}）</text>
-  <view class="charts">
-    <ec-canvas id="mychart" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
+  <view class="chartWrap">
+    <view class="tab">
+      <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">饼状图</text>
+      <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">柱状图</text>
+    </view>
+    <view class="bottomChart">
+      <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
+    </view>
+  </view>
+  <view class="trendChart" style="display:none">
+    <ec-canvas id="trendChart" canvas-id="trendChart" ec="{{ ecThree }}"></ec-canvas>
   </view>
 </view>

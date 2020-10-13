@@ -46,11 +46,51 @@
   color: red;
 }
 
-.compareChart {
+.chartWrap {
+  width: 100%;
+  height: auto;
+}
+
+.tab {
+  float: right;
+  width: 300rpx;
+  height: 65rpx;
+  display: flex;
+  line-height: 65rpx;
+  font-size: 32rpx;
+  color: #566b8e;
+  z-index: 100;
+  margin-right: 50rpx;
+}
+
+.tab > text {
+  flex: 1;
+  display: block;
+  text-align: center;
+  border: 2rpx solid #566b8e;
+}
+
+.tab > text.active {
+  background: #566b8e;
+  color: #fff;
+}
+
+.tab > text:last-child {
+  border-left: 0;
+}
+
+.topChart, .secondChart, .bottomChart {
   width: 90%;
-  height: 675rpx;
-  background: #eee;
   margin-bottom: 60rpx;
+}
+
+.topChart {
+  height: 650rpx;
+}
+
+.secondChart, .bottomChart {
+  clear: both;
+  height: 550rpx;
 }
 
 .error-scale .section {
