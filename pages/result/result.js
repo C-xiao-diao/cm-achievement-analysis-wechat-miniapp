@@ -23,6 +23,11 @@ Page({
     wrongQuestions: [],
     listResult: [],
     pass: 0,
+    maxScore:0,//最高分
+    minScore:0,//最低分
+    avgScore:0,//平均分
+    excellentRate: 0,//优秀率
+    passingRate: 0,//及格率
     currentTab1: 0,
     currentTab2: 0,
     //图表相关
@@ -114,6 +119,10 @@ Page({
                   bottomPieDataSeries.push(obj)
                 }
               }
+              //总体情况 数据修改
+              d.avgScore = parseInt(d.avgScore);
+              d.excellentRate = Math.ceil(d.excellentRate * 100);
+              d.passingRate = Math.ceil(d.passingRate * 100);
               // --------------  end  ---------------
               that.setData({
                 topDataSeriesByExcellent,
@@ -121,6 +130,11 @@ Page({
                 bottomPieDataSeries,
                 bottomBarYAxis,
                 bottomBarDataSeries,
+                maxScore: d.maxScore,//最高分
+                minScore: d.minScore,//最低分
+                avgScore: d.avgScore,//平均分
+                excellentRate: d.excellentRate,//优秀率
+                passingRate: d.passingRate,//及格率
                 scoreArray: d.list,
                 allRight: d.allRight,
                 wrongQuestions: d.wrongQuestions,
@@ -333,8 +347,7 @@ Page({
         break;
     }
     
-    whichChart.setOption(option); 
-    console.log(whichChart,999999)
+    whichChart.setOption(option);
     return whichChart;
   },
   //图表初始化方法
@@ -437,11 +450,10 @@ Page({
       title: {
           left: 'center'
       },
-      backgroundColor:'#fff',
       color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
       tooltip: {
           trigger: 'item',
-          // formatter: '{a} <br/>{b} : {c} ({d}%)'
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
       series: [
           {
@@ -524,6 +536,9 @@ Page({
         left: "20%",
         top:" 10%",
         bottom: "20%",
+      },
+      tooltip: {
+        trigger: 'axis'
       },
       xAxis: {
         type: 'category',
