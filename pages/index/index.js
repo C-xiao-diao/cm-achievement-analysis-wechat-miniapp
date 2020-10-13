@@ -109,20 +109,18 @@ Page({
     });
   },
   getClassArray(e) {//获取班级列表
+    this.setData({class: e.detail.value});
     let Url = app.globalData.domain + '/auth/school/queryClass';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: {
-        'schoolId': that.data.schoolId
-      },
+      data: {'schoolId': that.data.schoolId},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
-          that.setData({
-            'classArray': resData.data.list
-          })
+          var list = resData.data.list;
+          that.setData({'classArray': list})
         }
       }
     })
