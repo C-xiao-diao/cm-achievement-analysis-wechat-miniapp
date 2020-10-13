@@ -294,7 +294,9 @@ Page({
           data: ['优秀率 ', '及格率']
       },
       grid:{
-        left: "20%"
+        left: "20%",
+        top: "10%",
+        bottom: "10%",
       },
       xAxis: [
           {
@@ -310,10 +312,10 @@ Page({
           {
               name: '优秀率 ',
               type: 'bar',
-              barGap: 0,
               label: {
                   show:true
               },
+              barGap: "0",
               data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
           },
           {
@@ -322,6 +324,7 @@ Page({
               label: {
                   show:true
               },
+              barGap: "0",
               data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
           }
       ]
