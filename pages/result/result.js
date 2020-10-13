@@ -20,15 +20,30 @@ Page({
     wrongQuestions: [],
     listResult: [],
     pass: 0,
-    ec: {
+    //
+    ecTop: {
       lazyLoad: true
-    }
+    },
+    ecSecond: {
+      lazyLoad: true
+    },
+    ecThree: {
+      lazyLoad: true
+    },
+    ecBottom: {
+      lazyLoad: true
+    },
+  
   },
   onLoad(option){
     wx.showLoading({
       title: '加载中...',
     })
     this.initPage(option);
+  },
+
+  onReady(){
+
   },
   initPage(option){//页面初始
     if(option.subject){
@@ -176,10 +191,40 @@ Page({
       }
     })
   },
+
+  /**
+   * 初始化所有需要初始化得图表
+   */
+  initAllCharts: function(){
+    //初始化顶部柱图（各班对比）
+    this.initTopBarChart()
+    //初始化第二项分数段统计（柱图/饼图 切换）
+    this.initSecondBarChart();
+    //初始化底部柱状图
+    this.initBottomBarChart();
+  },
+
+  //初始化顶部柱图（各班对比）
+  initTopBarChart: function(){
+    this.topBarComponent = this.selectComponent('#compareChart');  
+  },
+  //初始化第二项分数段统计（柱图/饼图 切换）
+  initSecondBarChart: function(){
+    this.secondBarComponent = this.selectComponent('#compareChart');  
+  },
+  //初始化底部柱状图
+  initBottomBarChart: function(){
+    this.bottomBarComponent = this.selectComponent('#compareChart');  
+  },
+  //通过图标数据切换
+  // setOption:function(chartLine){
+  //   chartLine.setOption()
+  // },
+
   initChart(){
     var that = this;
-    if(!this.chart){
-      this.chart = this.selectComponent('#mychart');  
+    if(!this.chartComponent){
+      this.chartComponent = this.selectComponent('#mychart');  
     }
     this.chart.init((canvas, width, height) => {
       chartLine = echarts.init(canvas, null, {
