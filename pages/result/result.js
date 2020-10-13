@@ -25,10 +25,14 @@ Page({
     pass: 0,
     currentTab1: 0,
     currentTab2: 0,
-    //
+    //图表相关
+    //顶部图表（各班对比）
     ecTop: {
       lazyLoad: true
     },
+    topDataSeriesByExcellent: [],    //顶部图表优秀率数据
+    topDataSeriesByPassing: [],    //顶部图表及格率数据
+    //顶部图表（各班对比）
     ecSecond: {
       lazyLoad: true
     },
@@ -86,8 +90,15 @@ Page({
               for(var i = 0; i < d.wrongQuestions.length; i++){
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
               }
+              let topDataSeriesByExcellent =[],  topDataSeriesByPassing= [];
+              for(var i = 0; i < d.listClassResult.length; i++){
+                topDataSeriesByExcellent.push(_.round(d.listClassResult[i].excellentRate, 3));
+                topDataSeriesByPassing.push(_.round(d.listClassResult[i].passingRate, 3));
+              }
 
               that.setData({
+                topDataSeriesByExcellent,
+                topDataSeriesByPassing,
                 scoreArray: d.list,
                 allRight: d.allRight,
                 wrongQuestions: d.wrongQuestions,
@@ -119,6 +130,7 @@ Page({
             })
             //this.getStudentData(d.listResult);//家长端查询学生排名趋势
           }
+          that.initTopChart();
         } else if(resData.code == 107){
           wx.showModal({
             title: '提示',
@@ -221,7 +233,7 @@ Page({
    */
   initAllCharts: function(){
     //初始化顶部柱图（各班对比）
-    this.initTopChart()
+    // this.initTopChart()
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
@@ -300,6 +312,8 @@ Page({
   },
   //老师端 - 各班对比图option
   getTopChartOption(){
+    const { topDataSeriesByExcellent, topDataSeriesByPassing, } = this.data;
+    console.log(topDataSeriesByExcellent,"][[[[", topDataSeriesByPassing)
     var option = {
       color: ['#edafda', '#93b7e3'],
       tooltip: {
@@ -334,7 +348,8 @@ Page({
                   show:true
               },
               barGap: "0",
-              data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+              // data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+              data: topDataSeriesByExcellent,
           },
           {
               name: '及格率',
@@ -343,7 +358,8 @@ Page({
                   show:true
               },
               barGap: "0",
-              data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+              // data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
+              data: topDataSeriesByPassing,
           }
       ]
     };
