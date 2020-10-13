@@ -50,6 +50,7 @@
 .total > view > text {
   font-size: 40rpx;
   color: red;
+  padding-left: 6rpx;
 }
 /* 总体情况end */
 

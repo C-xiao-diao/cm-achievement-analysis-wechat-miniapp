@@ -7,13 +7,13 @@
   <!-- 总体情况 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 总体情况 —</text>
   <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
-    <view>最高分<text>120</text></view>
-    <view>最低分<text>44</text></view>
-    <view>平均分<text>60</text></view>
+    <view>最高分<text>{{maxScore}}</text></view>
+    <view>最低分<text>{{minScore}}</text></view>
+    <view>平均分<text>{{avgScore}}</text></view>
   </view>
   <view class="total r2" wx:if="{{role==0 && subject!='全科'}}">
-    <view>优秀率<text>30%</text></view>
-    <view>及格率<text>50%</text></view>
+    <view>优秀率<text>{{excellentRate}}</text></view>
+    <view>及格率<text>{{passingRate}}</text></view>
   </view>
 
   <!-- 各班对比 -->
