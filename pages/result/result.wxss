@@ -13,7 +13,7 @@
 
 .title {
   font-size: 36rpx;
-  padding: 30rpx 0;
+  padding: 40rpx 0;
 }
 
 /* 页面标题样式end */
@@ -129,13 +129,13 @@
   width: 100%;
   text-align: center;
   font-size: 32rpx;
-  height: 30rpx;
-  line-height: 30rpx;
+  height: 45rpx;
+  line-height: 45rpx;
   margin-bottom: 30rpx;
 }
 
 .avg-error text {
-  font-size: 48rpx;
+  font-size: 42rpx;
   color: red;
   padding-left: 10rpx;
 }
