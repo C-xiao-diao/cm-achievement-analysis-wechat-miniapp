@@ -1,3 +1,7 @@
+
+import "./../../utils/fix";
+import _ from "lodash";
+
 const app = getApp()
 
 Page({
@@ -210,7 +214,7 @@ Page({
       })
       this.updateUserInfoTosServer(e.detail.userInfo)
     } else {
-      
+
     }
   },
   updateUserInfoTosServer: function (userInfo) {
