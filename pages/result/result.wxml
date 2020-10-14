@@ -31,9 +31,9 @@
         <text>区分度</text>
       </view>
       <view class="analysis-body">
-        <text>5.5</text>
-        <text>4.5</text>
-        <text>6.5</text>
+        <text>{{sqrt}}</text>
+        <text>{{difficultyFactor}}</text>
+        <text>{{distinction}}</text>
       </view>
       <text class="note">说明：标准差大于2.4，偏大，表明成绩高低分分布差距过大。</text>
   </view>
@@ -57,7 +57,7 @@
   
   <!-- 错题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
-  <view class="avg-error" wx:if="{{role==0 && subject!='全科'}}">平均错误率<text>35%</text></view>
+  <view class="avg-error" wx:if="{{role==0 && subject!='全科'}}">平均错误率<text>{{avgWrongQuestions}}%</text></view>
   <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>

@@ -21,11 +21,15 @@ Page({
     wrongQuestions: [],
     listResult: [],
     pass: 0,
+    avgWrongQuestions: 0,//平均错误率
     maxScore:0,//最高分
     minScore:0,//最低分
     avgScore:0,//平均分
     excellentRate: 0,//优秀率
     passingRate: 0,//及格率
+    distinction: 0, //区分度
+    sqrt: 0,//标准差
+    difficultyFactor:0 ,//难度
     currentTab1: 0,//top饼图柱状图tab
     currentTab2: 0,//bottom饼图柱状图tab
     currentTab3: 0,//分数段tab
@@ -77,6 +81,7 @@ Page({
       });
     }
     this.getSubjectData();
+    this.getDifficulty();
   },
   //获取成绩分析页面数据
   getSubjectData(){
@@ -126,6 +131,7 @@ Page({
               d.avgScore = parseInt(d.avgScore);
               d.excellentRate = Math.ceil(d.excellentRate * 100);
               d.passingRate = Math.ceil(d.passingRate * 100);
+              d.avgWrongQuestions = (d.avgWrongQuestions * 100);
               // --------------  end  ---------------
               that.setData({
                 studentScoreList2,
@@ -139,6 +145,7 @@ Page({
                 avgScore: d.avgScore,//平均分
                 excellentRate: d.excellentRate,//优秀率
                 passingRate: d.passingRate,//及格率
+                avgWrongQuestions: d.avgWrongQuestions,//平均错误率
                 scoreArray: d.list,
                 allRight: d.allRight,
                 wrongQuestions: d.wrongQuestions,
@@ -212,6 +219,27 @@ Page({
         }
       }
     })  
+  },
+  //获取试卷难度分析
+  getDifficulty(){
+    let Url = app.globalData.domain + '/auth/monthlyExamResults/difficultyAnalysisOfTestPaper';
+    var that = this;
+    wx.request({
+      url: Url,
+      header: {'uid': app.globalData.userId},
+      data: {'weChatUserId': app.globalData.userId},
+      success:res=>{
+        var resData = res.data;
+        if(resData.code == 200){
+          var d = resData.data;
+          that.setData({
+            distinction: d.distinction, //区分度
+            sqrt: d.sqrt,//标准差
+            difficultyFactor: d.difficultyFactor,//难度
+          })
+        }
+      }
+    })
   },
   //单科成绩列表下，点击学生名字显示排名趋势图
   getStudentInfo(e){
@@ -394,7 +422,8 @@ Page({
       ],
       yAxis: [
           {
-              data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805','C1806', 'C1807', 'C1808', 'C1809', 'C1810']
+              data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805','C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
+              inverse: true
           }
       ],
       series: [
