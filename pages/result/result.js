@@ -463,7 +463,7 @@ Page({
           position: ['15%', '15%'],
           textStyle: {
             'width': '80%',
-            'height': '300px'
+            // 'height': '300px'
           },
           formatter: function(params){
             var res = that.getFormatter(params, 'pie' , postion);
@@ -504,8 +504,8 @@ Page({
             type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
             triggerOn: 'click'
         },
-        position: ['15%', '15%'],
-        extraCssText: 'width: 300px;height:80px;',
+        position: ['15%', '0%'],
+        extraCssText: 'width: 60%;height:100%;',
         formatter: function(params){
           var res = that.getFormatter(params, 'bar', postion);
           return res;
@@ -589,8 +589,17 @@ Page({
         list = data[i].list.list;
       }
     }
+    // for (var i = 0; i < list.length; i++) {
+    //   res += list[i].studentName + '：' + list[i].score + '分' + '\n';
+    // }
     for (var i = 0; i < list.length; i++) {
-      res += list[i].studentName + '：' + list[i].score + '分' + '\n';
+      if(i % 2 ===0){
+        if(list[i+1]){
+          res += list[i].studentName + '：' + list[i].score + '分' + '   ' + list[i+1].studentName + '：' + list[i+1].score + '分' + '\n';
+        } else {
+          res += list[i].studentName + '：' + list[i].score + '分' + '   ' + '\n';
+        }
+      }
     }
     return res;
   }

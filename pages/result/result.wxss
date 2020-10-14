@@ -270,9 +270,14 @@
   height: 900rpx;
 }
 
-.secondChart, .bottomChart {
+.secondChart {
   clear: both;
   height: 550rpx;
+}
+
+.bottomChart {
+  clear: both;
+  height: 900rpx;
 }
 /* 图表样式end */
 
@@ -286,6 +291,7 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   position: fixed;
   left: 62px;
+  top: 300rpx;
   z-index: 100;
 }
 
