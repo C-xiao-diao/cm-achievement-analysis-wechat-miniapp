@@ -5,8 +5,6 @@ import _ from "lodash";
 
 var trendChart = null,topChart=null,secondChart=null,bottomChart=null;
 var rankData = [],monthData = [];
-var legendData = [];
-var seriesData = [];
 
 Page({
   data: {
@@ -223,32 +221,6 @@ Page({
       popupTop: (e.changedTouches[0].clientY - 40),
     })
   },
-  //修改学生排名趋势数据
-  // getStudentData(list){ 
-  //   var legendData=[],
-  //       seriesData = [],
-  //       str = this.data.yearMonth, 
-  //       month = str.substr(str.length-2)+'月',
-  //       index = 0;
-  //   monthArr.map((i, f)=>{
-  //     if(i == month){ index = f;}
-  //   });
-  //   for(var i = 0; i < list.length; i++){
-  //     legendData.push(list[i].subject);
-  //     seriesData.push({
-  //       name: list[i].subject,
-  //       type: 'line',
-  //       stack: '排名',
-  //       data: []
-  //     })
-  //   }
-  //   for(var i = 0; i < list.length; i++){
-  //     for(var j = 0; j < list.length; j++){
-  //       seriesData[i].data[index] = list[i].scoreRange;
-  //     }
-  //   }
-  //   // this.initChart();
-  // },
   //获取学生成绩排名趋势图数据
   getTrendData(Name){
     var str = '',that = this;
@@ -433,7 +405,6 @@ Page({
                   show:true
               },
               barGap: "0",
-              // data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
               data: topDataSeriesByExcellent,
           },
           {
@@ -443,7 +414,6 @@ Page({
                   show:true
               },
               barGap: "0",
-              // data: [0.3, 0.2, 0.4, 0.5, 0.3,0.3, 0.2, 0.4, 0.5, 0.3]
               data: topDataSeriesByPassing,
           }
       ]
@@ -590,18 +560,6 @@ Page({
         list = data[i].list.list;
       }
     }
-    // for (var i = 0; i < list.length; i++) {
-    //   res += list[i].studentName + '：' + list[i].score + '分' + '\n';
-    // }
-    // for (var i = 0; i < list.length; i++) {
-    //   if(i % 2 ===0){
-    //     if(list[i+1]){
-    //       res += list[i].studentName + '：' + list[i].score + '分' + '   ' + list[i+1].studentName + '：' + list[i+1].score + '分' + '\n';
-    //     } else {
-    //       res += list[i].studentName + '：' + list[i].score + '分' + '   ' + '\n';
-    //     }
-    //   }
-    // }
     for (var i = 0; i < list.length; i++) {
       if(i % 2 ===0){
         if(list[i+1]){
@@ -613,6 +571,7 @@ Page({
     }
     return res;
   },
+  // 图表tooltip 的formatter 函数的数据组装
   clearData: function(name, score){
     let str = "";
     if(_.size(name) === 2){
@@ -620,35 +579,8 @@ Page({
     } else if(_.size(name) === 3){
       str = name + '：' + score + '分';
     } else if(_.size(name) === 4){
-
+      str = name + '：' + score + '分';
     }
     return str;
   }
-  // getLinesOption(){//家长端 - 排名趋势图
-  //   var option = {
-  //     tooltip: {
-  //         trigger: 'axis'
-  //     },
-  //     legend: {
-  //         data: legendData
-  //     },
-  //     grid: {
-  //         left: '3%',
-  //         right: '4%',
-  //         bottom: '3%',
-  //         containLabel: true
-  //     },
-  //     xAxis: {
-  //         type: 'category',
-  //         boundaryGap: false,
-  //         data: ['08月','09月','10月','11月','12月','01月','02月','03月','04月','05月','06月','07月']
-  //     },
-  //     yAxis: {
-  //         type: 'value',
-  //         inverse: true
-  //     },
-  //     series: seriesData
-  //   };
-  //   return option;
-  // }
 })
