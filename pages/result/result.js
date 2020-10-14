@@ -593,16 +593,36 @@ Page({
     // for (var i = 0; i < list.length; i++) {
     //   res += list[i].studentName + '：' + list[i].score + '分' + '\n';
     // }
+    // for (var i = 0; i < list.length; i++) {
+    //   if(i % 2 ===0){
+    //     if(list[i+1]){
+    //       res += list[i].studentName + '：' + list[i].score + '分' + '   ' + list[i+1].studentName + '：' + list[i+1].score + '分' + '\n';
+    //     } else {
+    //       res += list[i].studentName + '：' + list[i].score + '分' + '   ' + '\n';
+    //     }
+    //   }
+    // }
     for (var i = 0; i < list.length; i++) {
       if(i % 2 ===0){
         if(list[i+1]){
-          res += list[i].studentName + '：' + list[i].score + '分' + '   ' + list[i+1].studentName + '：' + list[i+1].score + '分' + '\n';
+          res += this.clearData(list[i].studentName, list[i].score) +  '   ' + this.clearData(list[i+1].studentName,list[i+1].score) + '\n';
         } else {
-          res += list[i].studentName + '：' + list[i].score + '分' + '   ' + '\n';
+          res += this.clearData(list[i].studentName, list[i].score) + '   ' + '\n';
         }
       }
     }
     return res;
+  },
+  clearData: function(name, score){
+    let str = "";
+    if(_.size(name) === 2){
+      str = _.first(name) + '   ' + _.last(name) + '：' + score + '分';
+    } else if(_.size(name) === 3){
+      str = name + '：' + score + '分';
+    } else if(_.size(name) === 4){
+
+    }
+    return str;
   }
   // getLinesOption(){//家长端 - 排名趋势图
   //   var option = {
