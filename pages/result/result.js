@@ -513,9 +513,10 @@ Page({
   getTrendChartOption(){
     var option = {
       grid:{
-        left: "20%",
-        top:" 10%",
-        bottom: "20%",
+        left: "15%",
+        right: "5%",
+        top:" 5%",
+        bottom: "18%",
       },
       tooltip: {
         trigger: 'axis'

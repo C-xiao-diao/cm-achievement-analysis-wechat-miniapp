@@ -286,14 +286,14 @@
 
 /* 趋势图弹窗样式 */
 .popup {
-  width: 440rpx;
+  width: 500rpx;
   background: #fff;
   border: 2rpx solid #eee;
   padding: 30rpx;
   border-radius: 20rpx;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   position: fixed;
-  left: 62px;
+  left: 100rpx;
   top: 300rpx;
   z-index: 100;
 }
@@ -308,7 +308,6 @@
 .popup-subtitle {
   font-size: 36rpx;
   color: #666;
-  margin-bottom: 30rpx;
 }
 
 .popup-close {
@@ -327,7 +326,7 @@
 }
 
 .trendChart {
-  width: 440rpx;
+  width: 500rpx;
   height: 300rpx;
 }
 /* 趋势图弹窗样式end */
