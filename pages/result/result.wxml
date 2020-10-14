@@ -16,6 +16,12 @@
     <view>及格率<text>{{passingRate}}%</text></view>
   </view>
 
+  <!-- 各班对比 -->
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
+  <view class="topChart" wx:if="{{role==0 && subject!='全科'}}">
+    <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
+  </view>
+
   <!-- 试卷分析 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 试卷分析 —</text>
   <view class="analysis" wx:if="{{role==0 && subject!='全科'}}">
@@ -30,12 +36,6 @@
         <text>6.5</text>
       </view>
       <text class="note">说明：标准差大于2.4，偏大，表明成绩高低分分布差距过大。</text>
-  </view>
-
-  <!-- 各班对比 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
-  <view class="topChart" wx:if="{{role==0 && subject!='全科'}}">
-    <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
 
   <!-- 分数段统计 -->

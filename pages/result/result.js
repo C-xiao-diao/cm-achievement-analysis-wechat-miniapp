@@ -45,6 +45,7 @@ Page({
     secondPieDataSeries: [],        //分数段统计饼图数据
     secondBarYAxis: [],
     secondBarDataSeries: [],        //分数段统计饼图数据
+    //学生排名趋势图
     ecThree: {
       lazyLoad: true
     },
