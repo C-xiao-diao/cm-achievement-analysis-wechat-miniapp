@@ -28,8 +28,9 @@ Page({
     avgScore:0,//平均分
     excellentRate: 0,//优秀率
     passingRate: 0,//及格率
-    currentTab1: 0,
-    currentTab2: 0,
+    currentTab1: 0,//top饼图柱状图tab
+    currentTab2: 0,//bottom饼图柱状图tab
+    currentTab3: 0,//分数段tab
     //图表相关
     //顶部图表（各班对比）
     ecTop: {

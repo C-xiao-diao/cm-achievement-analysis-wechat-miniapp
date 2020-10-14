@@ -16,6 +16,22 @@
     <view>及格率<text>{{passingRate}}%</text></view>
   </view>
 
+  <!-- 试卷分析 -->
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 试卷分析 —</text>
+  <view class="analysis">
+      <view class="analysis-title">
+        <text>标准差</text>
+        <text>难度</text>
+        <text>区分度</text>
+      </view>
+      <view class="analysis-body">
+        <text>5.5</text>
+        <text>4.5</text>
+        <text>6.5</text>
+      </view>
+      <text class="note">说明：标准差大于2.4，偏大，表明成绩高低分分布差距过大。</text>
+  </view>
+
   <!-- 各班对比 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
   <view class="topChart">
@@ -25,6 +41,11 @@
   <!-- 分数段统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
   <view class="chartWrap">
+    <view class="tab fl-tab">
+      <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="0" data-name="currentTab3" bindtap="swichNav">10分段</text>
+      <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="1" data-name="currentTab3" bindtap="swichNav">20分段</text>
+      <text class="swiper-tab-list {{currentTab3==2 ? 'active' : ''}}" data-current="2" data-name="currentTab3" bindtap="swichNav">50分段</text>
+    </view>
     <view class="tab">
       <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">柱状图</text>
       <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">饼状图</text>

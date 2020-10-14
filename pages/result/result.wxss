@@ -54,15 +54,42 @@
 }
 /* 总体情况end */
 
+/* 试卷分析 */
+.analysis {
+  width: 80%;
+  margin-bottom: 60rpx;
+}
+
+.analysis-title, .analysis-body {
+  display: flex;
+}
+.analysis view text {
+  flex: 1;
+  width: 33.3%;
+  height: 65rpx;
+  line-height: 65rpx;
+  text-align: center;
+  border: 2rpx solid #eee;
+}
+
+.note {
+  color: red;
+  font-size: 26rpx;
+  line-height: 35rpx;
+  display: block;
+  margin-top: 18rpx;
+}
+/* 试卷分析end */
+
 
 /* tab切换样式 */
 .tab {
   float: right;
-  width: 300rpx;
+  width: 260rpx;
   height: 65rpx;
   display: flex;
   line-height: 65rpx;
-  font-size: 32rpx;
+  font-size: 28rpx;
   color: #566b8e;
   z-index: 100;
   margin-right: 50rpx;
@@ -84,6 +111,17 @@
   border-left: 0;
 }
 
+.fl-tab {
+  width: 355rpx;
+  float: left;
+  margin: 0 0 0 50rpx;
+
+}
+
+.fl-tab text {
+  border-radius: 10rpx;
+  margin-right: 16rpx;
+}
 /* tab切换样式end */
 
 /* 错题统计样式 */
@@ -211,7 +249,6 @@
 
 .topChart, .secondChart, .bottomChart {
   width: 100%;
-  margin-bottom: 60rpx;
 }
 
 .topChart {
