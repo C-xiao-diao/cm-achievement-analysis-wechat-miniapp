@@ -95,14 +95,14 @@
   <!-- 单科老师 -->
   <view class="table" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
-      <view class="th w64">姓名</view>
+      <view class="th">姓名</view>
       <view class="th w40">{{subject+'成绩'}}</view>
       <view class="th">单科<text class="br"></text>学校排名</view>
       <view class="th">总分<text class="br"></text>学校排名</view>
-      <view class="th">客观题<text class="br"></text>正确率</view>
+      <view class="th w64">客观题<text class="br"></text>正确率</view>
     </view>
     <view class="tr single" wx:for="{{scoreArray}}" wx:key="id">
-      <view class="td w64" bindtap="getStudentInfo" data-name="{{item.studentName}}">{{item.studentName}}</view>
+      <view class="td" bindtap="getStudentInfo" data-name="{{item.studentName}}">{{item.studentName}}</view>
       <view class="td w40" style="color: {{item.totalScore < pass? 'red': '#666'}}">{{item.totalScore}}</view>
       <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}}(--)</view>
       <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}})</view>
@@ -110,7 +110,7 @@
       <view class="td" wx:if="{{item.totalScoreFloatingRanking == 0}}">{{item.totalScoreRanking}}(--)</view>
       <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}})</view>
       <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.totalScoreFloatingRanking}})</view>
-      <view class="td">{{item.objectiveQuestionsCorrectRate}}</view>
+      <view class="td w64">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
   <!-- 家长 -->
