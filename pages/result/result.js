@@ -32,6 +32,7 @@ Page({
     sqrt: 0,//标准差
     difficultyFactor:0 ,//难度
     description: "",
+    description2: '',
     currentTab1: 0,//top饼图柱状图tab
     currentTab2: 0,//bottom饼图柱状图tab
     // currentTab3: 0,//分数段tab
@@ -255,12 +256,14 @@ Page({
         var resData = res.data;
         if(resData.code == 200){
           var d = resData.data;
-          let description = _.toNumber(d.sqrt) > 10 ? "标准差大于 10%，表明成绩过于离散，成绩差距过大" : _.toNumber(d.sqrt) > 5 ? "标准差小于10%且大于5%，表明成绩为正常水平":"标准差小于5%表明成绩趋于集中，没有拉开差距"
+          let description = _.toNumber(d.sqrt) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(d.sqrt) > 5 ? "此次成绩为正常水平。":"此次成绩趋于集中，没有拉开差距。";
+          let description2 = _.toNumber(d.difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(d.sqrt) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
           that.setData({
             distinction: d.distinction, //区分度
             sqrt: d.sqrt,//标准差
             difficultyFactor: d.difficultyFactor,//难度
-            description
+            description,
+            description2
           })
         }
       }
@@ -493,7 +496,8 @@ Page({
       title: {
           left: 'center'
       },
-      color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
+      // color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
+      color: ['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3','#fad680','#9ee6b7','#37a2da','#ff9f7f',    '#67e0e3','#9ee6b7','#a092f1','#c1232b','#27727b'],
       tooltip: {
           trigger: 'item',
           position: ['15%', '0'],

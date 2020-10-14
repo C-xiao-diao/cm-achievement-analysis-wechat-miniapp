@@ -275,7 +275,7 @@
 
 .secondChart {
   clear: both;
-  height: 550rpx;
+  height: 650rpx;
 }
 
 .bottomChart {

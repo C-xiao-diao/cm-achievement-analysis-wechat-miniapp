@@ -37,10 +37,7 @@
       </view>
       <text class="note">
   
-        说明：标准差，反映成绩分布的离散程度（即均匀性）。
-        {{
-          description
-        }}
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}{{description2}}
       </text>
   </view>
 
@@ -102,14 +99,18 @@
   <view class="table" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
-      <view class="th w40">{{subject+'成绩'}}</view>
+      <view class="th w40" style="width:{{subject == '语文' ? '80%':'40%'}}">
+        {{subject+'成绩' + (subject == '语文' ? '(作文)' : '')}}
+      </view>
       <view class="th">单科<text class="br"></text>学校排名</view>
       <view class="th">总分<text class="br"></text>学校排名</view>
       <view class="th w64">客观题<text class="br"></text>正确率</view>
     </view>
     <view class="tr single" wx:for="{{scoreArray}}" wx:key="id">
       <view class="td" bindtap="getStudentInfo" data-name="{{item.studentName}}">{{item.studentName}}</view>
-      <view class="td w40" style="color: {{item.totalScore < pass? 'red': '#666'}}">{{item.totalScore}}</view>
+      <view class="td w40" style="color: {{item.totalScore < pass? 'red': '#666'}};width:{{subject == '语文' ? '80%':'40%'}}">
+        {{item.totalScore + (subject == '语文' ? '(' +  item.essayScore + ')' : '')}}
+      </view>
       <view class="td" wx:if="{{item.ranking == 0}}">{{item.schoolRanking}}(--)</view>
       <view class="td" wx:if="{{item.ranking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}})</view>
       <view class="td" wx:if="{{item.ranking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.ranking}})</view>
