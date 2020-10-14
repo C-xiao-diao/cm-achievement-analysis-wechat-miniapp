@@ -48,9 +48,9 @@
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
   <view class="chartWrap" wx:if="{{role==0 && subject!='全科'}}">
     <view class="tab fl-tab">
-      <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="0" data-name="currentTab3" bindtap="swichNav">10分段</text>
-      <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="1" data-name="currentTab3" bindtap="swichNav">20分段</text>
-      <text class="swiper-tab-list {{currentTab3==2 ? 'active' : ''}}" data-current="2" data-name="currentTab3" bindtap="swichNav">50分段</text>
+      <text class="swiper-tab-list {{tegmentedTab==0 ? 'active' : ''}}" data-type="tegmentedTab" data-current="0" data-name="tegmentedTab" bindtap="swichNav2">10分段</text>
+      <text class="swiper-tab-list {{tegmentedTab==1 ? 'active' : ''}}" data-type="tegmentedTab" data-current="1" data-name="tegmentedTab" bindtap="swichNav2">20分段</text>
+      <text class="swiper-tab-list {{tegmentedTab==2 ? 'active' : ''}}" data-type="tegmentedTab" data-current="2" data-name="tegmentedTab" bindtap="swichNav2">50分段</text>
     </view>
     <view class="tab">
       <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">柱状图</text>

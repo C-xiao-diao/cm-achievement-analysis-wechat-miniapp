@@ -34,7 +34,8 @@ Page({
     description: "",
     currentTab1: 0,//top饼图柱状图tab
     currentTab2: 0,//bottom饼图柱状图tab
-    currentTab3: 0,//分数段tab
+    // currentTab3: 0,//分数段tab
+    tegmentedTab: 0, //分段tab
     //图表相关
     //顶部图表（各班对比）
     ecTop: {
@@ -199,11 +200,11 @@ Page({
       }
     })
     //获取单科分段人数统计
-    this.getSingleScoreSegmentStatistics();
+    this.getSingleScoreSegmentStatistics("10", 0);
   },
 
   //获取单科分数段得统计
-  getSingleScoreSegmentStatistics:function(intervalValue){
+  getSingleScoreSegmentStatistics:function(intervalValue, currentTab1){
     if(!intervalValue){
       intervalValue = "10";
     }
@@ -227,7 +228,16 @@ Page({
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
           this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries,studentScoreList1},()=>{
-            this.initSecondChart();
+            // this.initSecondChart();
+            if(!this.secondComponent){
+              this.secondComponent = this.selectComponent('#secondChart'); 
+            }
+            if(currentTab1 == 0){
+              this.initChart('secondComponent', '#secondBarChart', secondChart);
+            } else {
+              this.initChart('secondComponent', '#secondPieChart', secondChart);
+            }
+            
           });
         }
       }
@@ -393,11 +403,8 @@ Page({
     if( this.data[tab] === e.target.dataset.current ) {
         return false;
     } else {
-        that.setData( {
-            [tab]: e.target.dataset.current
-        })
+      that.setData( { [tab]: e.target.dataset.current, })
     }
-    console.log(tab, 'vvvvvvvvvvvvvvvlllllllllllllllllllllllllll',this.data[tab])
     if(tab=='currentTab1'){//分数段柱状图
       if(this.data[tab]==0){
         this.initChart('secondComponent', '#secondBarChart', secondChart);  
@@ -410,16 +417,21 @@ Page({
       } else {
         this.initChart('bottomComponent', '#bottomPieChart', bottomChart);  
       }
-    } else {
-      if(this.data[tab]==0){
-        this.getSingleScoreSegmentStatistics("10");
-      } else if(this.data[tab]==1) {
-        this.getSingleScoreSegmentStatistics("20");
-      } else {
-        this.getSingleScoreSegmentStatistics("50");
-      }
     }
   },
+  swichNav2:function(e){
+    let currentTab1 = this.data["currentTab1"];
+    let current = e.currentTarget.dataset.current;
+    this.setData({tegmentedTab: current});
+    if(current == 0){
+      this.getSingleScoreSegmentStatistics("10",currentTab1);
+    } else if(current == 1){
+      this.getSingleScoreSegmentStatistics("20",currentTab1);
+    } else {
+      this.getSingleScoreSegmentStatistics("50",currentTab1);
+    }
+  },
+
   //老师端 - 各班对比图option
   getTopChartOption(){
     const { topDataSeriesByExcellent, topDataSeriesByPassing, } = this.data;
