@@ -60,6 +60,10 @@
   margin-bottom: 60rpx;
 }
 
+.analysis-title{
+  background-color: #ccc;
+}
+
 .analysis-title, .analysis-body {
   display: flex;
 }
