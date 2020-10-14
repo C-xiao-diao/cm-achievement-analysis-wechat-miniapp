@@ -57,6 +57,7 @@
   
   <!-- 错题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
+  <view class="avg-error">平均错误率<text>35%</text></view>
   <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>

@@ -125,6 +125,21 @@
 /* tab切换样式end */
 
 /* 错题统计样式 */
+.avg-error {
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.avg-error text {
+  font-size: 48rpx;
+  color: red;
+  padding-left: 10rpx;
+}
+
 .error-scale .section {
   display: flex;
   margin-bottom: 30rpx;
