@@ -140,7 +140,8 @@
 
   <!-- 走势图弹窗 -->
   <!-- <view class="popup" style="display:{{showTrendChart? 'block': 'none'}}; top: {{popupTop+'px'}};"> -->
-  <view class="popup" style="display:{{showTrendChart? 'block': 'none'}};">
+  <!-- <view class="popup" style="display:{{showTrendChart? 'block': 'none'}};"> -->
+  <view class="popup" wx:if="{{showTrendChart}}">  
     <text class="popup-close" bindtap="closePopup">×</text>
     <text class="popup-title">学校排名走势</text>
     <text class="popup-subtitle">（{{studentName}}）</text>

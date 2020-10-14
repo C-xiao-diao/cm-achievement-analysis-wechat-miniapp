@@ -320,6 +320,9 @@ Page({
   //关闭趋势图弹窗
   closePopup(){
     this.setData({showTrendChart: false})
+    this.trendComponent = null;
+    // this.this.trendComponent = this.selectComponent('#trendChart');
+    // this.initChart('trendComponent', '#trendChart', trendChart); 
   },
   /**
    * 初始化所有需要初始化得图表
