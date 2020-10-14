@@ -18,7 +18,7 @@
 
   <!-- 试卷分析 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 试卷分析 —</text>
-  <view class="analysis">
+  <view class="analysis" wx:if="{{role==0 && subject!='全科'}}">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -34,13 +34,13 @@
 
   <!-- 各班对比 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
-  <view class="topChart">
+  <view class="topChart" wx:if="{{role==0 && subject!='全科'}}">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
 
   <!-- 分数段统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
-  <view class="chartWrap">
+  <view class="chartWrap" wx:if="{{role==0 && subject!='全科'}}">
     <view class="tab fl-tab">
       <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="0" data-name="currentTab3" bindtap="swichNav">10分段</text>
       <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="1" data-name="currentTab3" bindtap="swichNav">20分段</text>
@@ -57,7 +57,7 @@
   
   <!-- 错题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
-  <view class="avg-error">平均错误率<text>35%</text></view>
+  <view class="avg-error" wx:if="{{role==0 && subject!='全科'}}">平均错误率<text>35%</text></view>
   <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
