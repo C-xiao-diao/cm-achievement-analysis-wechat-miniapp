@@ -92,7 +92,7 @@
   font-size: 28rpx;
   color: #566b8e;
   z-index: 100;
-  margin-right: 50rpx;
+  margin: 0 50rpx 30rpx 0;
 }
 
 .tab > text {
@@ -111,11 +111,14 @@
   border-left: 0;
 }
 
+.fl-tab > text:last-child{
+  border-left: 2rpx solid #566b8e;
+}
+
 .fl-tab {
   width: 355rpx;
   float: left;
   margin: 0 0 0 50rpx;
-
 }
 
 .fl-tab text {
