@@ -133,7 +133,7 @@ Page({
               d.avgScore = parseInt(d.avgScore);
               d.excellentRate = Math.ceil(d.excellentRate * 100);
               d.passingRate = Math.ceil(d.passingRate * 100);
-              d.avgWrongQuestions = (d.avgWrongQuestions * 100);
+              d.avgWrongQuestions = Math.ceil(d.avgWrongQuestions * 100);
               // --------------  end  ---------------
               that.setData({
                 studentScoreList2,
