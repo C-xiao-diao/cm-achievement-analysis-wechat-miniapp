@@ -212,10 +212,39 @@ Page({
         hasUserInfo: true,
         isShowUserInfoBtn: false
       })
-      this.updateUserInfoTosServer(e.detail.userInfo)
+      if(app.globalData.userId){
+        this.updateUserInfoTosServer(e.detail.userInfo)
+      } else {
+        this._login(e.detail.userInfo);
+      }
     } else {
-
+      
     }
+  },
+  _login:function(userInfo){
+    var Url = this.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
+    wx.login({
+      success (res) {
+        if (res.code) {
+          wx.request({
+            url: Url,
+            data: {code: res.code},
+            success:res=>{
+              var resData = res.data;
+              if(resData.code == 200){
+                that.globalData.userId = resData.data.id;
+                that.globalData.openId = resData.data.openid;
+                that.globalData.unionid = resData.data.unionid;
+                that.updateUserInfoTosServer(userInfo)
+              }
+            }
+          })
+        } else {
+          // console.log('登录失败'+res.errMsg);
+          wx.showToast({title: '登录失败!'});
+        }
+      }
+    })
   },
   updateUserInfoTosServer: function (userInfo) {
     let Url = app.globalData.domain + '/auth/wechat/editUser';
