@@ -25,11 +25,13 @@ Page({
     maxScore:0,//最高分
     minScore:0,//最低分
     avgScore:0,//平均分
+    fullMarks: 100,
     excellentRate: 0,//优秀率
     passingRate: 0,//及格率
     distinction: 0, //区分度
     sqrt: 0,//标准差
     difficultyFactor:0 ,//难度
+    description: "",
     currentTab1: 0,//top饼图柱状图tab
     currentTab2: 0,//bottom饼图柱状图tab
     currentTab3: 0,//分数段tab
@@ -151,7 +153,8 @@ Page({
                 wrongQuestions: d.wrongQuestions,
                 class: d.class_,
                 yearMonth: (y + '-' + m),
-                pass: (d.fullMarks*0.6)
+                pass: (d.fullMarks*0.6),
+                fullMarks: d.fullMarks
               })
             }else{//班主任页面数据
               that.setData({
@@ -232,10 +235,12 @@ Page({
         var resData = res.data;
         if(resData.code == 200){
           var d = resData.data;
+          let description = _.toNumber(d.sqrt) > 10 ? "标准差大于 10%，表明成绩过于离散，成绩差距过大" : _.toNumber(d.sqrt) > 5 ? "标准差小于10%且大于5%，表明成绩为正常水平":"标准差小于5%表明成绩趋于集中，没有拉开差距"
           that.setData({
             distinction: d.distinction, //区分度
             sqrt: d.sqrt,//标准差
             difficultyFactor: d.difficultyFactor,//难度
+            description
           })
         }
       }

@@ -35,7 +35,13 @@
         <text>{{difficultyFactor}}</text>
         <text>{{distinction}}</text>
       </view>
-      <text class="note">说明：标准差大于2.4，偏大，表明成绩高低分分布差距过大。</text>
+      <text class="note">
+  
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。
+        {{
+          description
+        }}
+      </text>
   </view>
 
   <!-- 分数段统计 -->
