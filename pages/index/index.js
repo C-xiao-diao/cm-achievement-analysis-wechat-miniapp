@@ -200,13 +200,18 @@ Page({
   },
   //登录接口
   userInfoHandler: function (e) {
-    app.globalData.userInfo = e.detail.userInfo;
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true,
-      isShowUserInfoBtn: false
-    })
-    this.updateUserInfoTosServer(e.detail.userInfo)
+    console.log(e,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    if(!_.isEmpty(e.detail.userInfo)){
+      app.globalData.userInfo = e.detail.userInfo;
+      this.setData({
+        userInfo: e.detail.userInfo,
+        hasUserInfo: true,
+        isShowUserInfoBtn: false
+      })
+      this.updateUserInfoTosServer(e.detail.userInfo)
+    } else {
+      
+    }
   },
   updateUserInfoTosServer: function (userInfo) {
     let Url = app.globalData.domain + '/auth/wechat/editUser';
