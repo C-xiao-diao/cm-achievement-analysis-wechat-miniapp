@@ -2,7 +2,9 @@
   "pages":[
     "pages/index/index",
     "pages/result/result",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/supervisor/supervisor",
+    "pages/objective/objective"
   ],
   "window":{
     "backgroundTextStyle":"light",
