@@ -176,8 +176,8 @@ Page({
             //this.getStudentData(d.listResult);//家长端查询学生排名趋势
           }
           //初始化图表
-          that.initTopChart();
-          this.initSecondChart();
+          this.initTopChart();
+          // this.initSecondChart();
           this.initBottomChart();
           // ------- end --------
         } else if(resData.code == 107){
@@ -199,11 +199,19 @@ Page({
       }
     })
     //获取单科分段人数统计
+    this.getSingleScoreSegmentStatistics();
+  },
+
+  //获取单科分数段得统计
+  getSingleScoreSegmentStatistics:function(intervalValue){
+    if(!intervalValue){
+      intervalValue = "10";
+    }
     let Url2 = app.globalData.domain + '/auth/monthlyExamResults/scoreSegmentStatistics';
     wx.request({
       url: Url2,
       header: {'uid': app.globalData.userId},
-      data: {'weChatUserId': app.globalData.userId},
+      data: {'weChatUserId': app.globalData.userId, intervalValue },
       success:res=>{
         var resData = res.data;
         if(resData.code == 200){
@@ -218,10 +226,12 @@ Page({
             secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
-          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries,studentScoreList1});
+          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries,studentScoreList1},()=>{
+            this.initSecondChart();
+          });
         }
       }
-    })  
+    }) 
   },
   //获取试卷难度分析
   getDifficulty(){
@@ -387,17 +397,26 @@ Page({
             [tab]: e.target.dataset.current
         })
     }
+    console.log(tab, 'vvvvvvvvvvvvvvvlllllllllllllllllllllllllll',this.data[tab])
     if(tab=='currentTab1'){//分数段柱状图
       if(this.data[tab]==0){
         this.initChart('secondComponent', '#secondBarChart', secondChart);  
       } else {
         this.initChart('secondComponent', '#secondPieChart', secondChart);  
       }
-    } else{
+    } else if(tab=='currentTab2'){
       if(this.data[tab]==0){
         this.initChart('bottomComponent', '#bottomBarChart', bottomChart);  
       } else {
         this.initChart('bottomComponent', '#bottomPieChart', bottomChart);  
+      }
+    } else {
+      if(this.data[tab]==0){
+        this.getSingleScoreSegmentStatistics("10");
+      } else if(this.data[tab]==1) {
+        this.getSingleScoreSegmentStatistics("20");
+      } else {
+        this.getSingleScoreSegmentStatistics("50");
       }
     }
   },
