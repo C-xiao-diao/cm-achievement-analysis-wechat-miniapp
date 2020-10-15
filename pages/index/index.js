@@ -232,9 +232,9 @@ Page({
             success:res=>{
               var resData = res.data;
               if(resData.code == 200){
-                that.globalData.userId = resData.data.id;
-                that.globalData.openId = resData.data.openid;
-                that.globalData.unionid = resData.data.unionid;
+                app.globalData.userId = resData.data.id;
+                app.globalData.openId = resData.data.openid;
+                app.globalData.unionid = resData.data.unionid;
                 that.updateUserInfoTosServer(userInfo)
               }
             }
