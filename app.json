@@ -1,10 +1,10 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/objective/objective",
     "pages/result/result",
     "pages/logs/logs",
-    "pages/supervisor/supervisor",
-    "pages/objective/objective"
+    "pages/supervisor/supervisor"
   ],
   "window":{
     "backgroundTextStyle":"light",
