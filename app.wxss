@@ -30,7 +30,7 @@
   display: flex;
 }
 
-.r2 {
+.mb60 {
   margin-bottom: 60rpx;
 }
 
@@ -71,7 +71,6 @@
 /* 试卷分析 */
 .analysis {
   width: 80%;
-  margin-bottom: 60rpx;
 }
 
 .analysis-title{
@@ -112,22 +111,6 @@
   margin: 0 50rpx 30rpx 0;
 }
 
-.navAnalysisButtonGroup{
-  margin: 0 10%;
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-content: space-between;
-}
-
-.navAnalysisButton{
-  background: #566b8e;
-  color: #fff;
-  border-radius: 10rpx;
-  padding: 20rpx 30rpx;
-  font-size: 32rpx;
-}
 
 .tab > text {
   flex: 1;

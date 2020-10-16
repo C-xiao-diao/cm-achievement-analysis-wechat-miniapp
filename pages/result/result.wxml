@@ -12,13 +12,13 @@
     <view>最低分<text>{{minScore}}</text></view>
     <view>平均分<text>{{avgScore}}</text></view>
   </view>
-  <view class="total r2" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="total r2 mb60" wx:if="{{role==0 && subject!='全科'}}">
     <view>优秀率<text>{{excellentRate}}%</text></view>
     <view>及格率<text>{{passingRate}}%</text></view>
   </view>
   <!--年级总体情况 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全年级总体情况 —</text>
-  <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="total r3 mb60" wx:if="{{role==0 && subject!='全科'}}">
     <view>最高分<text>{{maxScoreAllClass}}</text></view>
     <view>最低分<text>{{minScoreAllClass}}</text></view>
     <view>平均分<text>{{avgScoreAllClass}}</text></view>
@@ -26,16 +26,16 @@
 
   <!-- 各班对比 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
-  <view class="topChart" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="topChart mb60" wx:if="{{role==0 && subject!='全科'}}">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
-  <view class="topChartByScore" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="topChartByScore mb60" wx:if="{{role==0 && subject!='全科'}}">
     <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
 
   <!-- 试卷分析 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 试卷分析 —</text>
-  <view class="analysis" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="analysis mb60" wx:if="{{role==0 && subject!='全科'}}">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -52,7 +52,7 @@
       </text>
   </view>
   <!-- 主观题客观题分析导航按钮 -->
-  <view class="navAnalysisButtonGroup" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="navAnalysisButtonGroup mb60" wx:if="{{role==0 && subject!='全科'}}">
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">主观题统计分析</Text>
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">客观题统计分析</Text>
   </view>
@@ -77,7 +77,7 @@
   <!-- 错题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
   <view class="avg-error" wx:if="{{role==0 && subject!='全科'}}">平均错误率<text>{{avgWrongQuestions}}%</text></view>
-  <view class="error-scale" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="error-scale mb60" wx:if="{{role==0 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
       <view class="progress-box">
@@ -88,14 +88,14 @@
 
   <!-- 全对题统计 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全对题统计 —</text>
-  <view class="all-right" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="all-right mb60" wx:if="{{role==0 && subject!='全科'}}">
     <text wx:if="{{allRight.length==0}}">无</text>
     <text wx:for="{{allRight}}" wx:key="id">{{item}}</text>
   </view>
 
   <text class="title" wx:if="{{role==0}}">— 成绩排名 —</text>
   <!-- 班主任 -->
-  <view class="table" wx:if="{{role==0 && subject == '全科'}}">
+  <view class="table mb60" wx:if="{{role==0 && subject == '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th">总分</view>
@@ -112,7 +112,7 @@
     </view>
   </view>
   <!-- 单科老师 -->
-  <view class="table" wx:if="{{role==0 && subject != '全科'}}">
+  <view class="table mb60" wx:if="{{role==0 && subject != '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th w40" style="width:{{subject == '语文' ? '80%':'40%'}}">
@@ -137,7 +137,7 @@
     </view>
   </view>
   <!-- 家长 -->
-  <view class="table parantsTable" wx:if="{{role==1}}">
+  <view class="table parantsTable mb60" wx:if="{{role==1}}">
     <view class="tr">
       <view class="th">科目</view>
       <view class="th">成绩</view>

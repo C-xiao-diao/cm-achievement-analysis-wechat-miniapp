@@ -50,7 +50,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 30rpx;
 }
 
 .all-right text {
@@ -73,7 +72,6 @@
   border-bottom: 0;
   width: 90%;
   font-size: 26rpx;
-  margin-bottom: 30rpx;
 }
 
 .tr{
@@ -207,3 +205,22 @@
   height: 300rpx;
 }
 /* 趋势图弹窗样式end */
+
+/* 主观题客观题分析导航按钮 */
+.navAnalysisButtonGroup{
+  margin: 0 10% 60rpx;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.navAnalysisButton{
+  background: #566b8e;
+  color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx 30rpx;
+  font-size: 32rpx;
+}
+/* 主观题客观题分析导航按钮end */
