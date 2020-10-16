@@ -282,7 +282,7 @@ Page({
 
         var option = {
             title: {
-                text: '选项答题分布',
+                text: '答题得分分布',
                 left: 'center',
                 textStyle: {
                     fontWeight: 'normal'
