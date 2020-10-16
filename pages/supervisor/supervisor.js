@@ -59,7 +59,7 @@ Page({
     },
     onLoad: function () {
         wx.showLoading({
-          title: '加载中...',
+            title: '加载中...',
         })
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
@@ -68,8 +68,7 @@ Page({
             data,
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-                    let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstfirstDataSeriesByScoringRrate= [];
-                    let tabList = [];
+                    let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstfirstDataSeriesByScoringRrate = [];
                     let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
                         classStatistics,
@@ -81,6 +80,7 @@ Page({
                         sqrtDouble,
                         difficultyFactor,
                         distinction,
+                        topicSet,
                         listTotalScore
                     } = responseData;
                     //数据组装和清洗
@@ -110,9 +110,6 @@ Page({
                     let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
                     let secondDescriptionSqrt = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
                     let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
-                    for(let i=0;i<listTotalScore.length;i++){
-                        tabList.push(listTotalScore[i].topic)
-                    }
                     //----------------  end  ------------------
                     this.setData({
                         classStatistics,
@@ -133,13 +130,13 @@ Page({
                         secondDataSeriesByMax,
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
-                        tabList,
+                        tabList: topicSet,
                         listTotalTopic: listTotalScore
                     })
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0,tabList[0], listTotalScore);
+                    this.setTopicData(0, tabList[0], listTotalScore);
                 }
             }
         })
@@ -196,7 +193,7 @@ Page({
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
 
         var option = {
-            color: type === 0 ? ['#93b7e3','#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
+            color: type === 0 ? ['#93b7e3', '#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -310,7 +307,10 @@ Page({
                 data: thirdDataSeries,
                 label: {
                     show: true,
-                    position: 'top'
+                    position: 'top',
+                    formatter: (params) => {
+                        return params.value + "%";
+                    }
                 },
                 type: 'bar',
                 showBackground: true,
@@ -329,17 +329,20 @@ Page({
         this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
     },
     // 试题分析
-    setTopicData:function(activeTabIndex, activeTabName, listTotalTopic){
+    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
         let thirdDataAxis = [], thirdDataSeries = [];
-        let item = _.find(listTotalTopic, o=> o.topic === activeTabName);
+        let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listScore;
-        if(listTopic && _.isArray(listTopic)){
-            for(let i=0;i<listTopic.length;i++){
-                thirdDataAxis = _.concat(thirdDataAxis,_.keys(listTopic[i]) )
-                thirdDataSeries = _.concat(thirdDataSeries,_.values(listTopic[i]) )
+        if (listTopic && _.isArray(listTopic)) {
+            for (let i = 0; i < listTopic.length; i++) {
+                thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
+                if(!_.isEmpty(_.values(_.get(listTopic, i)))){
+                    thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
+                }
+                // thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(listTopic[i])[0] * 100, 2))
             }
         }
-        this.setData({ activeTabIndex,activeTabName,thirdDataAxis, thirdDataSeries })
+        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
         this.initChart('thirdComponent', '#thirdChart', thirdChart);
     }
 })
