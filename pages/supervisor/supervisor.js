@@ -57,10 +57,18 @@ Page({
         this.initSecondChart();
         this.initThirdChart();
     },
-    onLoad: function () {
+    onLoad: function (option) {
+        this.setData({
+            'subject': option.subject,
+            'class': option.class,
+        });
         wx.showLoading({
             title: '加载中...',
         })
+        this.getSupervisorQuestionAnalysis();
+    },
+    //获取页面数据
+    getSupervisorQuestionAnalysis(){
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
         http.get({

@@ -779,13 +779,14 @@ Page({
   //导航至统计分析
   navAnalysis:function(e){
     let type = e.target.dataset.type;
+    let str = '?class=' + this.data.class +'&subject=' + this.data.subject;
     if(type === 0){
       wx.navigateTo({
-        url: '/pages/supervisor/supervisor' 
+        url: '/pages/supervisor/supervisor' + str 
       });
     } else {
       wx.navigateTo({
-        url: '/pages/objective/objective' 
+        url: '/pages/objective/objective' + str
       });
     }
   },

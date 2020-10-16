@@ -1,7 +1,7 @@
 <!--supervisor.wxml-->
 <view class="container">
     <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
-    <text class="h2" wx:if="{{role==1}}">（C1801 - 语文）</text>
+    <text class="h2">（{{class}} - {{subject}}）</text>
 
     <!-- 主观题统计分析 - 班级 -->
     <text class="title">— 主观题统计分析 —</text>
