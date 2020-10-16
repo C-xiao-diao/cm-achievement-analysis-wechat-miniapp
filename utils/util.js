@@ -21,43 +21,44 @@ const formatNumber = n => {
 const http = {
   get: function (options, cb) {
     const app = getApp();
-    const { cmd, method = "GET", data = {}, header = {uid: app && app.globalData.userId},
-    success = () => { }, fail = () => { wx.showToast({ title: '操作失败',  icon: 'error', duration: 2000 }) } } = options;
+    const { cmd, method = "GET", data = {}, header = { uid: app && app.globalData.userId },
+      success = () => { }, fail = () => { wx.showToast({ title: '操作失败', icon: 'error', duration: 2000 }) },
+      complete = () => { wx.hideLoading() } } = options;
     try {
       let url = "";
-      if(webConfig.port){
+      if (webConfig.port) {
         url = webConfig.protocol + "://" + webConfig.host + ":" + webConfig.port + `${cmd}`;
       } else {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
-      if(app.globalData.userId){
-        wx.request({ url, method: "GET", header,data, success, fail });
+      if (app.globalData.userId) {
+        wx.request({ url, method: "GET", header, data, success, fail, complete });
       } else {
-        wx.request({ url, method: "GET",data, success, fail });
+        wx.request({ url, method: "GET", data, success, fail,complete });
       }
     } catch (e) {
-      wx.showToast({ title: '操作失败',  icon: 'none',  duration: 2000 })
+      wx.showToast({ title: '操作失败', icon: 'none', duration: 2000 })
       console.log(e, '-----------------------');
     }
   },
   post: function (options, cb) {
     const app = getApp();
-    const { cmd, method = "POST", header = {uid: app && app.globalData.userId}, data = {}, success = () => { }, fail = () => { wx.showToast({ title: '操作失败',  icon: 'error', duration: 2000 }) } } = options;
+    const { cmd, method = "POST", header = { uid: app && app.globalData.userId }, data = {}, success = () => { }, fail = () => { wx.showToast({ title: '操作失败', icon: 'error', duration: 2000 }) }, complete = () => { wx.hideLoading() } } = options;
     try {
       let url = "";
-      if(webConfig.port){
+      if (webConfig.port) {
         url = webConfig.protocol + "://" + webConfig.host + ":" + webConfig.port + `${cmd}`;
       } else {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
-      if(app.globalData.userId){
-        wx.request({ url, method: "POST", header,data, success, fail });
+      if (app.globalData.userId) {
+        wx.request({ url, method: "POST", header, data, success, fail,complete });
       } else {
-        wx.request({ url, method: "POST",data, success, fail });
+        wx.request({ url, method: "POST", data, success, fail,complete });
       }
     } catch (e) {
-      console.log(e,'eeeeeeeeeeeeeeeeeeeeeeee')
-      wx.showToast({ title: '操作失败',  icon: 'none', duration: 2000 })
+      console.log(e, 'eeeeeeeeeeeeeeeeeeeeeeee')
+      wx.showToast({ title: '操作失败', icon: 'none', duration: 2000 })
     }
   },
 }

@@ -57,6 +57,9 @@ Page({
         this.initThirdChart();
     },
     onLoad: function () {
+        wx.showLoading({
+          title: '加载中...',
+        })
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
         http.get({
@@ -69,7 +72,6 @@ Page({
                     let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
                         classStatistics,
-                        listClassRatio,
                         listGroupClassStatistics,
                         maxScore,
                         minScore,
