@@ -38,6 +38,7 @@ Page({
         ecThirdChart: {
             lazyLoad: true
         },
+        listTotalTopic:[],
         thirdDataAxis: [],
         thirdDataSeries: [],
         //说明1
@@ -52,12 +53,13 @@ Page({
         //题目tab
         tabList: ["第一题", '第二题', '第三题', '第四题', '第五题', '第六题', '第七题', '第八题', '第九题', '第十题'],
         activeTabIndex: 0,
+        activeTabName: "第一题",
 
     },
     onReady() {
         // this.initFirstChart();
         // this.initSecondChart();
-        this.initThirdChart();
+        // this.initThirdChart();
     },
     onLoad: function () {
         this.getObjectiveQuestionAnalysis()
@@ -85,6 +87,7 @@ Page({
                         sqrtDouble,
                         difficultyFactor,
                         distinction,
+                        listTotalTopic,
                     } = responseData;
                     //数据组装和清洗
                     for(let key in classStatistics){
@@ -133,12 +136,13 @@ Page({
                         secondDataSeriesByMax, 
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
+                        listTotalTopic,
                     })
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
+                    this.setTopicData(0,"第一题", listTotalTopic);
                 }
-                console.log(res, 'fffffffffffffffffffffffffffffffffffffffff');
             }
         })
     },
@@ -277,6 +281,7 @@ Page({
         return option;
     },
     getVerticalOption() {
+        let { thirdDataAxis, thirdDataSeries } = this.data;
         var option = {
             title: {
                 text: '选项答题分布',
@@ -294,7 +299,8 @@ Page({
             },
             xAxis: {
                 type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: thirdDataAxis,
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
                 type: 'value'
@@ -305,7 +311,8 @@ Page({
                 bottom: "10%",
             },
             series: [{
-                data: [120, 200, 150, 80, 70, 110, 130],
+                data: thirdDataSeries,
+                // data: [120, 200, 150, 80, 70, 110, 130],
                 type: 'bar',
                 showBackground: true,
                 backgroundStyle: {
@@ -317,7 +324,23 @@ Page({
     },
     // 切换tab页试题
     swichNav: function (e) {
+        let { listTotalTopic, thirdDataAxis, thirdDataSeries } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
-        this.setData({ activeTabIndex })
+        let activeTabName = _.get(e, "currentTarget.dataset.name");
+        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
+    },
+    // 试题分析
+    setTopicData:function(activeTabIndex, activeTabName, listTotalTopic){
+        let thirdDataAxis = [], thirdDataSeries = [];
+        let item = _.find(listTotalTopic, o=> o.topic === activeTabName);
+        let listTopic = item && item.listTopic;
+        if(listTopic && _.isArray(listTopic)){
+            for(let i=0;i<listTopic.length;i++){
+                thirdDataAxis = _.concat(thirdDataAxis,_.keys(listTopic[i]) )
+                thirdDataSeries = _.concat(thirdDataSeries,_.values(listTopic[i]) )
+            }
+        }
+        this.setData({ activeTabIndex,activeTabName,thirdDataAxis,thirdDataSeries })
+        this.initChart('thirdComponent', '#thirdChart', thirdChart);
     }
 })
