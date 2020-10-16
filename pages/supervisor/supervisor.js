@@ -23,8 +23,9 @@ Page({
         ecFirstChart: {
             lazyLoad: true
         },
-        firstDataSeriesByExcellent: [],
-        firstDataSeriesByPassing: [],
+        // firstDataSeriesByExcellent: [],
+        // firstDataSeriesByPassing: [],
+        firstfirstDataSeriesByScoringRrate: [],
         firstDataAxis: [],
         //第二张图
         ecSecondChart: {
@@ -63,9 +64,8 @@ Page({
             data,
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-                    let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstDataSeriesByExcellent = [];
+                    let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstfirstDataSeriesByScoringRrate= [];
                     let tabList = [];
-                    let firstDataSeriesByPassing = [];
                     let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
                         classStatistics,
@@ -92,11 +92,10 @@ Page({
                     minScore = _.round(minScore);
                     avgScore = _.round(avgScore);
                     scoringRrate = _.round(scoringRrate * 100)
-                    for (let i = 0; i < listClassRatio.length; i++) {
+                    for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得游戏率和及格率
-                        firstDataAxis.push(listClassRatio[i].class_);
-                        firstDataSeriesByExcellent.push(_.round(listClassRatio[i].excellentRate, 1))
-                        firstDataSeriesByPassing.push(_.round(listClassRatio[i].passingRate, 1))
+                        firstDataAxis.push(listGroupClassStatistics[i].class_);
+                        firstfirstDataSeriesByScoringRrate.push(_.round(listGroupClassStatistics[i].scoringRrate, 1))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
@@ -125,8 +124,7 @@ Page({
                         difficultyFactor,
                         distinction,
                         firstDataAxis,
-                        firstDataSeriesByExcellent,
-                        firstDataSeriesByPassing,
+                        firstfirstDataSeriesByScoringRrate,
                         secondDataSeriesByMax,
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
@@ -189,11 +187,11 @@ Page({
         return whichChart;
     },
     getHorizontalOption(type) {
-        const { firstDataAxis, firstDataSeriesByExcellent, firstDataSeriesByPassing, secondDataSeriesByMax,
+        const { firstDataAxis, firstfirstDataSeriesByScoringRrate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
 
         var option = {
-            color: type === 0 ? ['#edafda', '#93b7e3'] : ['#99b7df', '#fad680', '#e4b2d8'],
+            color: type === 0 ? ['#93b7e3','#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -201,7 +199,7 @@ Page({
                 }
             },
             legend: {
-                data: type === 0 ? ['优秀率', '及格率'] : ['最高分', '最低分', '平均分']
+                data: type === 0 ? ['得分率'] : ['最高分', '最低分', '平均分']
             },
             grid: {
                 left: "20%",
@@ -225,23 +223,23 @@ Page({
         if (type === 0) {  //优秀率及格率柱图
             series = [
                 {
-                    name: '优秀率',
+                    name: '得分率',
                     type: 'bar',
                     label: {
                         show: true
                     },
                     barGap: "0",
-                    data: firstDataSeriesByExcellent,
+                    data: firstfirstDataSeriesByScoringRrate,
                 },
-                {
-                    name: '及格率',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: firstDataSeriesByPassing,
-                },
+                // {
+                //     name: '及格率',
+                //     type: 'bar',
+                //     label: {
+                //         show: true
+                //     },
+                //     barGap: "0",
+                //     data: firstDataSeriesByPassing,
+                // },
             ]
         } else { //分值柱图
             series = [
