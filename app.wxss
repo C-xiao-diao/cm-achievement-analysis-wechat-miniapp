@@ -31,7 +31,7 @@
 }
 
 .mb60 {
-  margin-bottom: 60rpx;
+  margin-bottom: 60rpx!important;
 }
 
 .total > view {
@@ -70,7 +70,7 @@
 
 /* 试卷分析 */
 .analysis {
-  width: 80%;
+  width: 90%;
 }
 
 .analysis-title{

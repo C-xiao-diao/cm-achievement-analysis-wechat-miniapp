@@ -14,7 +14,7 @@
     <view class="total w30">
         <view>得分率<text>{{classStatistics.scoringRrate}}%</text></view>
     </view>
-    <view class="analysis">
+    <view class="analysis mb60">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -42,7 +42,7 @@
     <view class="total w30">
         <view>得分率<text>{{scoringRrate}}%</text></view>
     </view>
-    <view class="analysis">
+    <view class="analysis mb60">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -63,7 +63,7 @@
     <view class="firstChart">
       <ec-canvas id="firstChart" canvas-id="firstChart" ec="{{ ecFirstChart }}"></ec-canvas>
     </view>
-    <view class="secondChart">
+    <view class="secondChart mb60">
       <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
 
@@ -74,7 +74,7 @@
 
     <text class="title">({{activeTabName}})</text>
     
-    <view class="thirdChart">
+    <view class="thirdChart mb60">
       <ec-canvas id="thirdChart" canvas-id="thirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
 </view>
