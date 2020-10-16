@@ -147,7 +147,7 @@ Page({
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0, "第一题", listTotalTopic);
+                    this.setTopicData(0, topicSet[0], listTotalTopic);
                 }
             }
         })

@@ -136,7 +136,7 @@ Page({
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0, tabList[0], listTotalScore);
+                    this.setTopicData(0, topicSet[0], listTotalScore);
                 }
             }
         })
