@@ -62,7 +62,23 @@ const http = {
   },
 }
 
+const returnFloat = value =>{
+  var v = Math.round(parseFloat(value)*100)/100;
+  var x = v.toString().split(".");
+  if(x.length == 1){
+    v = v.toString() + ".00";
+    return v;
+  }
+  if(x.length > 1){
+    if(x[1].length < 2){
+      v = v.toString() + "0";
+    } 
+  }
+  return v;
+}
+
 module.exports = {
   formatTime: formatTime,
-  http: http
+  http: http,
+  returnFloat: returnFloat
 }

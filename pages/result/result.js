@@ -1,5 +1,6 @@
 const app = getApp();
 import * as echarts from './../../components/ec-canvas/echarts'
+const util = require('../../utils/util.js')
 import "./../../utils/fix";
 import _ from "lodash";
 
@@ -144,9 +145,9 @@ Page({
                 }
               }
               //总体情况 数据修改
-              d.avgScore = parseInt(d.avgScore);
-              d.excellentRate = Math.ceil(d.excellentRate * 100);
-              d.passingRate = Math.ceil(d.passingRate * 100);
+              d.avgScore = util.returnFloat(d.avgScore);
+              d.excellentRate = util.returnFloat(d.excellentRate * 100);
+              d.passingRate = util.returnFloat(d.passingRate * 100);
               d.avgWrongQuestions = Math.ceil(d.avgWrongQuestions * 100);
               // --------------  end  ---------------
               that.setData({
@@ -241,7 +242,7 @@ Page({
             topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg,
             maxScoreAllClass: maxScore,
             minScoreAllClass: minScore,
-            avgScoreAllClass: _.round(avgScore),
+            avgScoreAllClass: util.returnFloat(avgScore),
             topDataAxis2
           });
           this.initTopChartByScore();
