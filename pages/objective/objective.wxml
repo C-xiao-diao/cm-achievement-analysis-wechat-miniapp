@@ -69,28 +69,11 @@
 
     <text class="title">— 试题分析统计 —</text>
     <view class="tab-questions test-questions">
-      <text wx:for="{{tabList}}" wx:key="id" class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="tegmentedTab" bindtap="swichNav">{{item + index}}</text>
+      <text wx:for="{{tabList}}" wx:key="id" class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">{{item}}</text>
     </view>
 
-    <text class="title">(第一题)</text>
-    <view class="analysis">
-      <view class="analysis-title">
-        <text>标准差</text>
-        <text>难度</text>
-        <text>区分度</text>
-      </view>
-      <view class="analysis-body">
-        <text>5.5</text>
-        <text>4.5</text>
-        <text>6.5</text>
-      </view>
-      <text class="note">
-        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}
-        难度，即试卷（题）的难易程度。{{description2}}
-      </text>
-    </view>
-
-
+    <text class="title">({{activeTabName}})</text>
+    
     <view class="thirdChart">
       <ec-canvas id="thirdChart" canvas-id="thirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
