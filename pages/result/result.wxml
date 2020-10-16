@@ -5,7 +5,8 @@
   <text class="h2" wx:if="{{role==1}}">（{{class + ' - ' + studentName}}）</text>
 
   <!-- 总体情况 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 总体情况 —</text>
+  <!--班级总体情况 -->
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 班级总体情况 —</text>
   <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
     <view>最高分<text>{{maxScore}}</text></view>
     <view>最低分<text>{{minScore}}</text></view>
@@ -15,11 +16,21 @@
     <view>优秀率<text>{{excellentRate}}%</text></view>
     <view>及格率<text>{{passingRate}}%</text></view>
   </view>
+  <!--年级总体情况 -->
+  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全年级总体情况 —</text>
+  <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
+    <view>最高分<text>{{maxScoreAllClass}}</text></view>
+    <view>最低分<text>{{minScoreAllClass}}</text></view>
+    <view>平均分<text>{{avgScoreAllClass}}</text></view>
+  </view>
 
   <!-- 各班对比 -->
   <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
   <view class="topChart" wx:if="{{role==0 && subject!='全科'}}">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
+  </view>
+  <view class="topChartByScore" wx:if="{{role==0 && subject!='全科'}}">
+    <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
 
   <!-- 试卷分析 -->
@@ -39,6 +50,11 @@
         说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}
         难度，即试卷（题）的难易程度。{{description2}}
       </text>
+  </view>
+  <!-- 主观题客观题分析导航按钮 -->
+  <view class="navAnalysisButtonGroup">
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">主观题统计分析</Text>
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">客观题统计分析</Text>
   </view>
 
   <!-- 分数段统计 -->

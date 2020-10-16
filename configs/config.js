@@ -17,7 +17,7 @@ const config = {
   },
   [Applets.prod]: {
     protocol: "https" || "wss",
-    host: "https://cminor.dookbook.info",
+    host: "cminor.dookbook.info",
     // port: 443,
     qiniuDomain : "qg2vjw9lg.hn-bkt.clouddn.com"
   }

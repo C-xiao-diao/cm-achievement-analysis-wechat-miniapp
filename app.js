@@ -3,7 +3,8 @@ App({
   globalData: {
     userInfo: null,
     domain: 'https://cminor.dookbook.info',
-    userId: '',
+    // userId: 'b9354f02763144dc9a1003627881f7c5',      //TODO 方便开发，先写死
+    userId: "",
     openId: '',
     unionid: "",
     isIpx: false,   //适配IPhoneX

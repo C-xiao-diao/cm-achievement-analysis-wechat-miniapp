@@ -3,8 +3,8 @@ import * as echarts from './../../components/ec-canvas/echarts'
 import "./../../utils/fix";
 import _ from "lodash";
 
-var trendChart = null,topChart=null,secondChart=null,bottomChart=null;
-var rankData = [],monthData = [];
+var trendChart = null, topChartByScore = null,topChart = null, secondChart = null, bottomChart = null;
+var rankData = [], monthData = [];
 
 Page({
   data: {
@@ -22,15 +22,18 @@ Page({
     listResult: [],
     pass: 0,
     avgWrongQuestions: 0,//平均错误率
-    maxScore:0,//最高分
-    minScore:0,//最低分
-    avgScore:0,//平均分
+    maxScore: 0,//最高分(班级)
+    minScore: 0,//最低分(班级)
+    avgScore: 0,//平均分(班级)
+    maxScoreAllClass: 0,//最高分(年级)
+    minScoreAllClass: 0,//最高分(年级)
+    avgScoreAllClass: 0,//最高分(年级)
     fullMarks: 100,
     excellentRate: 0,//优秀率
     passingRate: 0,//及格率
     distinction: 0, //区分度
     sqrt: 0,//标准差
-    difficultyFactor:0 ,//难度
+    difficultyFactor: 0,//难度
     description: "",
     description2: '',
     currentTab1: 0,//top饼图柱状图tab
@@ -44,6 +47,13 @@ Page({
     },
     topDataSeriesByExcellent: [],    //顶部图表优秀率数据
     topDataSeriesByPassing: [],    //顶部图表及格率数据
+    ecTopByScore: {
+      lazyLoad: true
+    },
+    topDataSeriesByScoreMax: [],    //顶部图表最高分
+    topDataSeriesByScoreMin: [],    //顶部图表最低分
+    topDataSeriesByScoreAvg: [],    //顶部图表平均分
+    topDataAxis: [],
     //分数段统计
     ecSecond: {
       lazyLoad: true
@@ -65,18 +75,18 @@ Page({
     studentScoreList1: [],
     studentScoreList2: []
   },
-  onLoad(option){
+  onLoad(option) {
     wx.showLoading({
       title: '加载中...',
     })
     this.initPage(option);
   },
-  onReady(){
+  onReady() {
     // this.initAllCharts();
   },
   //页面初始
-  initPage(option){
-    if(option.subject){
+  initPage(option) {
+    if (option.subject) {
       this.setData({
         'subject': option.subject,
         'subjectId': option.subjectId,
@@ -88,40 +98,40 @@ Page({
     this.getDifficulty();
   },
   //获取成绩分析页面数据
-  getSubjectData(){
+  getSubjectData() {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
       url: Url,
-      header: {'uid': app.globalData.userId},
-      data: {'weChatUserId': app.globalData.userId},
-      success:res=>{
+      header: { 'uid': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId },
+      success: res => {
         var resData = res.data;
-        if(resData.code == 200){
+        if (resData.code == 200) {
           var d = resData.data;
           //年-月 月考时间
-          var y = d.yearMonth.substr(0,4);
-          var m = d.yearMonth.substr(4,5);
+          var y = d.yearMonth.substr(0, 4);
+          var m = d.yearMonth.substr(4, 5);
 
-          if(that.data.role==0){
-            if(that.data.subject!='全科'){//单科老师页面数据
+          if (that.data.role == 0) {
+            if (that.data.subject != '全科') {//单科老师页面数据
               //小数点数据*100操作
-              for(var i = 0; i < d.list.length; i++){
-                d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate*100) +'%';
+              for (var i = 0; i < d.list.length; i++) {
+                d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate * 100) + '%';
               }
-              for(var i = 0; i < d.wrongQuestions.length; i++){
-                d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage*100) +'%';
+              for (var i = 0; i < d.wrongQuestions.length; i++) {
+                d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage * 100) + '%';
               }
-              let topDataSeriesByExcellent =[],  topDataSeriesByPassing= [];
+              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [];
               //顶部各班对比数据
-              for(var i = 0; i < d.listClassResult.length; i++){
+              for (var i = 0; i < d.listClassResult.length; i++) {
                 topDataSeriesByExcellent.unshift(_.round(d.listClassResult[i].excellentRate, 3));
                 topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
               }
               //作文分数段统计
-              let bottomBarDataSeries = [],bottomPieDataSeries = [],bottomBarYAxis = [],studentScoreList2=[];
-              if(this.data.subject && this.data.subject === "语文"){
-                for(var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++){
+              let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
+              if (this.data.subject && this.data.subject === "语文") {
+                for (var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++) {
                   let obj = {};
                   obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
                   obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
@@ -155,19 +165,19 @@ Page({
                 wrongQuestions: d.wrongQuestions,
                 class: d.class_,
                 yearMonth: (y + '-' + m),
-                pass: (d.fullMarks*0.6),
+                pass: (d.fullMarks * 0.6),
                 fullMarks: d.fullMarks
               })
-            }else{//班主任页面数据
+            } else {//班主任页面数据
               that.setData({
                 scoreArray: d.list,
                 class: d.class_,
                 yearMonth: (y + '-' + m)
               })
             }
-          }else {//家长端页面数据
-            for(var i = 0; i < d.listResult.length; i++){
-              d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange*100);
+          } else {//家长端页面数据
+            for (var i = 0; i < d.listResult.length; i++) {
+              d.listResult[i].scoreRange = Math.ceil(d.listResult[i].scoreRange * 100);
             }
             that.setData({
               class: d.class_,
@@ -182,44 +192,76 @@ Page({
           // this.initSecondChart();
           this.initBottomChart();
           // ------- end --------
-        } else if(resData.code == 107){
+        } else if (resData.code == 107) {
           wx.showModal({
             title: '提示',
-            content:  resData.msg || '暂无数据',
-            success (res) {
+            content: resData.msg || '暂无数据',
+            success(res) {
               if (res.confirm) {
-                wx.navigateBack({  delta: 0,})
+                wx.navigateBack({ delta: 0, })
               } else if (res.cancel) {
-                wx.navigateBack({  delta: 0,})
+                wx.navigateBack({ delta: 0, })
               }
             }
           })
         }
       },
-      complete: res=>{
+      complete: res => {
         wx.hideLoading();
       }
     })
+    //获取单科页面全年级分析及各班的优秀率
+    this.getAllClassesAnalysisScore();
     //获取单科分段人数统计
     this.getSingleScoreSegmentStatistics("10", 0);
   },
 
+  //获取单科分段人数统计
+  getAllClassesAnalysisScore: function () {
+    let url = app.globalData.domain + '/auth/allClassesAnalysis/allClassesAnalysisScore';
+    wx.request({
+      url: url,
+      header: { 'uid': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId },
+      success: res => {
+        if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+          let responseData = _.get(res, 'data.data');
+          let topDataSeriesByScoreMax = [], topDataSeriesByScoreMin = [], topDataSeriesByScoreAvg = [], topDataAxis = [];
+          let { minScore, avgScore, maxScore, listGroupClassStatistics } = responseData;
+          for (let i = 0; i < listGroupClassStatistics.length; i++) {
+            topDataSeriesByScoreMax.push(listGroupClassStatistics[i].maxScore)
+            topDataSeriesByScoreMin.push(listGroupClassStatistics[i].minScore)
+            topDataSeriesByScoreAvg.push(listGroupClassStatistics[i].avgScore)
+            topDataAxis.push(listGroupClassStatistics[i].class_)
+          }
+          this.setData({
+            topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis,
+            maxScoreAllClass: maxScore,
+            minScoreAllClass: minScore,
+            avgScoreAllClass: _.round(avgScore),
+          });
+          this.initTopChartByScore();
+        }
+      }
+    })
+  },
+
   //获取单科分数段得统计
-  getSingleScoreSegmentStatistics:function(intervalValue, currentTab1){
-    if(!intervalValue){
+  getSingleScoreSegmentStatistics: function (intervalValue, currentTab1) {
+    if (!intervalValue) {
       intervalValue = "10";
     }
     let Url2 = app.globalData.domain + '/auth/monthlyExamResults/scoreSegmentStatistics';
     wx.request({
       url: Url2,
-      header: {'uid': app.globalData.userId},
-      data: {'weChatUserId': app.globalData.userId, intervalValue },
-      success:res=>{
+      header: { 'uid': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, intervalValue },
+      success: res => {
         var resData = res.data;
-        if(resData.code == 200){
-          let secondPieDataSeries = [], secondBarYAxis = [],secondBarDataSeries = [], studentScoreList1 = [];
+        if (resData.code == 200) {
+          let secondPieDataSeries = [], secondBarYAxis = [], secondBarDataSeries = [], studentScoreList1 = [];
           let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
-          for(var i = 0; i < scoreSegmentStatistics.length; i++){
+          for (var i = 0; i < scoreSegmentStatistics.length; i++) {
             let obj = {};
             studentScoreList1.push(scoreSegmentStatistics[i]);
             obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
@@ -228,36 +270,36 @@ Page({
             secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
-          this.setData({secondPieDataSeries, secondBarYAxis, secondBarDataSeries,studentScoreList1},()=>{
+          this.setData({ secondPieDataSeries, secondBarYAxis, secondBarDataSeries, studentScoreList1 }, () => {
             // this.initSecondChart();
-            if(!this.secondComponent){
-              this.secondComponent = this.selectComponent('#secondChart'); 
+            if (!this.secondComponent) {
+              this.secondComponent = this.selectComponent('#secondChart');
             }
-            if(currentTab1 == 0){
+            if (currentTab1 == 0) {
               this.initChart('secondComponent', '#secondBarChart', secondChart);
             } else {
               this.initChart('secondComponent', '#secondPieChart', secondChart);
             }
-            
+
           });
         }
       }
-    }) 
+    })
   },
   //获取试卷难度分析
-  getDifficulty(){
+  getDifficulty() {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/difficultyAnalysisOfTestPaper';
     var that = this;
     wx.request({
       url: Url,
-      header: {'uid': app.globalData.userId},
-      data: {'weChatUserId': app.globalData.userId},
-      success:res=>{
+      header: { 'uid': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId },
+      success: res => {
         var resData = res.data;
-        if(resData.code == 200){
+        if (resData.code == 200) {
           var d = resData.data;
-          let description = _.toNumber(d.sqrt) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(d.sqrt) > 5 ? "此次成绩为正常水平。":"此次成绩趋于集中，没有拉开差距。";
-          let description2 = _.toNumber(d.difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(d.sqrt) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
+          let description = _.toNumber(d.sqrt) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(d.sqrt) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
+          let description2 = _.toNumber(d.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(d.sqrt) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
           that.setData({
             distinction: d.distinction, //区分度
             sqrt: d.sqrt,//标准差
@@ -270,7 +312,7 @@ Page({
     })
   },
   //单科成绩列表下，点击学生名字显示排名趋势图
-  getStudentInfo(e){
+  getStudentInfo(e) {
     var name = e.currentTarget.dataset.name;
     this.getTrendData(name);
     this.setData({
@@ -278,48 +320,48 @@ Page({
     })
   },
   //获取学生成绩排名趋势图数据
-  getTrendData(Name){
-    var str = '',that = this;
-    this.setData({'studentName': Name})
+  getTrendData(Name) {
+    var str = '', that = this;
+    this.setData({ 'studentName': Name })
     var params = {
       'studentName': Name,
       'schoolId': this.data.schoolId,
       'class_': this.data.class
     };
-    if(this.data.role == 0){//老师
-      if(this.data.subject == '全科'){
+    if (this.data.role == 0) {//老师
+      if (this.data.subject == '全科') {
         str = '/auth/monthlyExamResults/overallRankingTrend';
-      }else {
+      } else {
         str = '/auth/monthlyExamResults/singleRankingTrend';
         params.subject = this.data.subjectId;
       }
-    }else {//家长
+    } else {//家长
       str = '/auth/monthlyExamResults/personalPerformanceAnalysis';
     }
-    
+
     var Url = app.globalData.domain + str;
     wx.request({
       url: Url,
-      header: {'uid': app.globalData.userId},
+      header: { 'uid': app.globalData.userId },
       data: params,
-      success:res=>{
+      success: res => {
         var resData = res.data;
-        if(resData.code == 200){
+        if (resData.code == 200) {
           var list = resData.data.list;
-          rankData = [];monthData=[];
-          for(var i = 0 ; i < list.length; i++){
+          rankData = []; monthData = [];
+          for (var i = 0; i < list.length; i++) {
             rankData.push(list[i].ranking);
             monthData.push(list[i].month)
           }
-          that.setData({showTrendChart: true});
+          that.setData({ showTrendChart: true });
           that.initTrendChart();//打开趋势图
         }
       }
     })
   },
   //关闭趋势图弹窗
-  closePopup(){
-    this.setData({showTrendChart: false})
+  closePopup() {
+    this.setData({ showTrendChart: false })
     this.trendComponent = null;
     // this.this.trendComponent = this.selectComponent('#trendChart');
     // this.initChart('trendComponent', '#trendChart', trendChart); 
@@ -327,71 +369,79 @@ Page({
   /**
    * 初始化所有需要初始化得图表
    */
-  initAllCharts: function(){
+  initAllCharts: function () {
     //初始化顶部柱图（各班对比）
     this.initTopChart()
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
-    if(this.data.role==0 && this.data.subject=='语文'){
+    if (this.data.role == 0 && this.data.subject == '语文') {
       this.initBottomChart();
     }
     //初始化趋势图
     this.initTrendChart();
   },
 
-  //初始化顶部柱图（各班对比）
-  initTopChart: function(){
-    this.topComponent = this.selectComponent('#topChart');  
+  //初始化顶部柱图（各班对比-优秀率和及格率）
+  initTopChart: function () {
+    this.topComponent = this.selectComponent('#topChart');
     this.initChart('topComponent', '#topChart', topChart);
   },
+  //初始化顶部柱图（各班对比-分数）
+  initTopChartByScore: function () {
+    this.topComponent = this.selectComponent('#topChartByScore');
+    this.initChart('topComponent', '#topChartByScore', topChartByScore);
+  },
   //初始化第二项分数段统计（柱图/饼图 切换）
-  initSecondChart: function(){
-    this.secondComponent = this.selectComponent('#secondChart');  
+  initSecondChart: function () {
+    this.secondComponent = this.selectComponent('#secondChart');
     this.initChart('secondComponent', '#secondBarChart', secondChart);
   },
   //初始化底部柱状图
-  initBottomChart: function(){
+  initBottomChart: function () {
     this.bottomComponent = this.selectComponent('#bottomChart');
-    this.initChart('bottomComponent', '#bottomBarChart', bottomChart);  
+    this.initChart('bottomComponent', '#bottomBarChart', bottomChart);
   },
   //初始化趋势图
-  initTrendChart: function(){
+  initTrendChart: function () {
     this.trendComponent = this.selectComponent('#trendChart');
-    this.initChart('trendComponent', '#trendChart', trendChart); 
-    
+    this.initChart('trendComponent', '#trendChart', trendChart);
+
   },
   //图表设置
-  setOption:function(whichChart,dom){
+  setOption: function (whichChart, dom) {
     var option;
-    switch(dom){
+    switch (dom) {
       case '#topChart':
-        option = this.getTopChartOption(); 
+        option = this.getTopChartOption(0);
+        break;
+      case '#topChartByScore':
+        option = this.getTopChartOption(1);
         break;
       case '#secondBarChart':
-        option = this.getBarOption(0); 
+        option = this.getBarOption(0);
         break;
-      case  '#secondPieChart':
-        option = this.getPieOption(0); 
+      case '#secondPieChart':
+        option = this.getPieOption(0);
         break;
       case '#bottomBarChart':
         option = this.getBarOption(1);
         break;
       case '#bottomPieChart':
         option = this.getPieOption(1);
-        break;  
+        break;
       case '#trendChart':
         option = this.getTrendChartOption();
         break;
     }
-    
+
     whichChart.setOption(option);
     return whichChart;
   },
   //图表初始化方法
-  initChart(chartComponent, dom, whichChart){
-    if(!this[chartComponent]){
-      this[chartComponent] = this.selectComponent(dom);  
+  initChart(chartComponent, dom, whichChart) {
+    if (!this[chartComponent]) {
+      this[chartComponent] = this.selectComponent(dom);
     }
     this[chartComponent].init((canvas, width, height) => {
       whichChart = echarts.init(canvas, null, {
@@ -404,190 +454,248 @@ Page({
     });
   },
   //切换 柱状图/饼状图
-  swichNav: function( e ) {
+  swichNav: function (e) {
     var that = this, tab = e.currentTarget.dataset.name;
-    if( this.data[tab] === e.target.dataset.current ) {
-        return false;
+    if (this.data[tab] === e.target.dataset.current) {
+      return false;
     } else {
-      that.setData( { [tab]: e.target.dataset.current, })
+      that.setData({ [tab]: e.target.dataset.current, })
     }
-    if(tab=='currentTab1'){//分数段柱状图
-      if(this.data[tab]==0){
-        this.initChart('secondComponent', '#secondBarChart', secondChart);  
+    if (tab == 'currentTab1') {//分数段柱状图
+      if (this.data[tab] == 0) {
+        this.initChart('secondComponent', '#secondBarChart', secondChart);
       } else {
-        this.initChart('secondComponent', '#secondPieChart', secondChart);  
+        this.initChart('secondComponent', '#secondPieChart', secondChart);
       }
-    } else if(tab=='currentTab2'){
-      if(this.data[tab]==0){
-        this.initChart('bottomComponent', '#bottomBarChart', bottomChart);  
+    } else if (tab == 'currentTab2') {
+      if (this.data[tab] == 0) {
+        this.initChart('bottomComponent', '#bottomBarChart', bottomChart);
       } else {
-        this.initChart('bottomComponent', '#bottomPieChart', bottomChart);  
+        this.initChart('bottomComponent', '#bottomPieChart', bottomChart);
       }
     }
   },
-  swichNav2:function(e){
+  swichNav2: function (e) {
     let currentTab1 = this.data["currentTab1"];
     let current = e.currentTarget.dataset.current;
-    this.setData({tegmentedTab: current});
-    if(current == 0){
-      this.getSingleScoreSegmentStatistics("10",currentTab1);
-    } else if(current == 1){
-      this.getSingleScoreSegmentStatistics("20",currentTab1);
+    this.setData({ tegmentedTab: current });
+    if (current == 0) {
+      this.getSingleScoreSegmentStatistics("10", currentTab1);
+    } else if (current == 1) {
+      this.getSingleScoreSegmentStatistics("20", currentTab1);
     } else {
-      this.getSingleScoreSegmentStatistics("50",currentTab1);
+      this.getSingleScoreSegmentStatistics("50", currentTab1);
     }
   },
 
   //老师端 - 各班对比图option
-  getTopChartOption(){
-    const { topDataSeriesByExcellent, topDataSeriesByPassing, } = this.data;
+  getTopChartOption(type) {
+    const { topDataSeriesByExcellent, topDataSeriesByPassing, topDataSeriesByScoreMax,
+      topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis } = this.data;
+
     var option = {
-      color: ['#edafda', '#93b7e3'],
+      color: type === 0 ? ['#edafda', '#93b7e3'] : ['#99b7df', '#fad680', '#e4b2d8'],
       tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-              type: 'shadow'
-          }
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
       },
       legend: {
-          data: ['优秀率 ', '及格率']
+        data: type === 0 ? ['优秀率', '及格率'] : ['最高分', '最低分', '平均分']
       },
-      grid:{
+      grid: {
         left: "20%",
         top: "10%",
         bottom: "10%",
       },
       xAxis: [
-          {
-              type: 'value'
-          }
+        {
+          type: 'value'
+        }
       ],
       yAxis: [
-          {
-              data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805','C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
-              inverse: true
-          }
+        {
+          data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805', 'C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
+          inverse: true
+        }
       ],
-      series: [
-          {
-              name: '优秀率 ',
-              type: 'bar',
-              label: {
-                  show:true
-              },
-              barGap: "0",
-              data: topDataSeriesByExcellent,
+      // series: [
+      //   {
+      //     name: '优秀率',
+      //     type: 'bar',
+      //     label: {
+      //       show: true
+      //     },
+      //     barGap: "0",
+      //     data: topDataSeriesByExcellent,
+      //   },
+      //   {
+      //     name: '及格率',
+      //     type: 'bar',
+      //     label: {
+      //       show: true
+      //     },
+      //     barGap: "0",
+      //     data: topDataSeriesByPassing,
+      //   }
+      // ]
+    };
+    let series = [];
+    if (type === 0) {  //优秀率及格率柱图
+      series = [
+        {
+          name: '优秀率',
+          type: 'bar',
+          label: {
+            show: true
           },
-          {
-              name: '及格率',
-              type: 'bar',
-              label: {
-                  show:true
-              },
-              barGap: "0",
-              data: topDataSeriesByPassing,
+          barGap: "0",
+          data: topDataSeriesByExcellent,
+        },
+        {
+          name: '及格率',
+          type: 'bar',
+          label: {
+            show: true
+          },
+          barGap: "0",
+          data: topDataSeriesByPassing,
+        }
+      ]
+    } else { //分值柱图
+      series = [
+        {
+          name: '最高分',
+          type: 'bar',
+          label: {
+            show: true
+          },
+          barGap: "0",
+          data: topDataSeriesByScoreMax,
+        },
+        {
+          name: '最低分',
+          type: 'bar',
+          label: {
+            show: true
+          },
+          barGap: "0",
+          data: topDataSeriesByScoreMin,
+        },
+        {
+          name: '平均分',
+          type: 'bar',
+          label: {
+            show: true
+          },
+          barGap: "0",
+          data: topDataSeriesByScoreAvg,
+        },
+      ]
+    }
+    option.series = series;
+    return option;
+  },
+  //老师端 - 分数段统计饼图option
+  getPieOption(postion) {
+    var that = this;
+    const { secondPieDataSeries, bottomPieDataSeries } = this.data;
+    var option = {
+      title: {
+        left: 'center'
+      },
+      // color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
+      color: ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'],
+      tooltip: {
+        trigger: 'item',
+        position: ['15%', '0'],
+        textStyle: {
+          'width': '80%',
+          // 'height': '300px'
+        },
+        formatter: function (params) {
+          var res = that.getFormatter(params, 'pie', postion);
+          return res;
+        }
+      },
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: '55%',
+          center: ['50%', '60%'],
+          data: postion === 0 ? secondPieDataSeries : bottomPieDataSeries,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
           }
+        }
       ]
     };
     return option;
   },
-  //老师端 - 分数段统计饼图option
-  getPieOption(postion){
-    var that = this;
-    const { secondPieDataSeries,bottomPieDataSeries } = this.data;
-    var option = {
-      title: {
-          left: 'center'
-      },
-      // color:['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3'],
-      color: ['#516b91','#59c4e6','#edafda','#93b7e3','#a5e7f0','#cbb0e3','#fad680','#9ee6b7','#37a2da','#ff9f7f',    '#67e0e3','#9ee6b7','#a092f1','#c1232b','#27727b'],
-      tooltip: {
-          trigger: 'item',
-          position: ['15%', '0'],
-          textStyle: {
-            'width': '80%',
-            // 'height': '300px'
-          },
-          formatter: function(params){
-            var res = that.getFormatter(params, 'pie' , postion);
-            return res;
-          }
-      },
-      series: [
-          {
-              name: '访问来源',
-              type: 'pie',
-              radius: '55%',
-              center: ['50%', '60%'],
-              data: postion === 0 ? secondPieDataSeries : bottomPieDataSeries,
-              emphasis: {
-                  itemStyle: {
-                      shadowBlur: 10,
-                      shadowOffsetX: 0,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }
-              }
-          }
-      ]};
-    return option;
-  },
   //老师端 - 分数段统计柱状图option
-  getBarOption(postion){
-    const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries} = this.data;
+  getBarOption(postion) {
+    const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries } = this.data;
     var that = this;
     var option = {
       color: ['#516b91'],
-      grid:{
+      grid: {
         left: "18%",
-        right:"15%"
+        right: "15%"
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
-            triggerOn: 'click'
+          type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+          triggerOn: 'click'
         },
         position: ['15%', '0%'],
         extraCssText: 'width: 60%;height:100%;',
-        formatter: function(params){
+        formatter: function (params) {
           var res = that.getFormatter(params, 'bar', postion);
           return res;
         }
       },
       xAxis: [
-          {
-              type: 'value',
-              name:'人数'
-          }
+        {
+          type: 'value',
+          name: '人数'
+        }
       ],
       yAxis: [
-          {   
-              name:'分数区间段',
-              // data: ['0-10', '10-20', '20-30', '30-40', '40-50','50-60', '60-70', '70-80', '80-90', '90-100']
-              data: postion === 0 ? secondBarYAxis : bottomBarYAxis,
-          }
+        {
+          name: '分数区间段',
+          // data: ['0-10', '10-20', '20-30', '30-40', '40-50','50-60', '60-70', '70-80', '80-90', '90-100']
+          data: postion === 0 ? secondBarYAxis : bottomBarYAxis,
+        }
       ],
       series: [
-          {
-              name: '优秀率 ',
-              type: 'bar',
-              barGap: 0,
-              label: {
-                  show:true
-              },
-              // data: [1, 2, 3, 5, 6, 5, 7, 8, 12, 20]
-              data: postion === 0 ? secondBarDataSeries : bottomBarDataSeries
-          }
-      ]};
-      return option;
+        {
+          name: '优秀率 ',
+          type: 'bar',
+          barGap: 0,
+          label: {
+            show: true
+          },
+          // data: [1, 2, 3, 5, 6, 5, 7, 8, 12, 20]
+          data: postion === 0 ? secondBarDataSeries : bottomBarDataSeries
+        }
+      ]
+    };
+    return option;
   },
   //老师端 - 学生排名趋势图option
-  getTrendChartOption(){
+  getTrendChartOption() {
     var option = {
-      grid:{
+      grid: {
         left: "15%",
         right: "5%",
-        top:" 5%",
+        top: " 5%",
         bottom: "18%",
       },
       tooltip: {
@@ -608,35 +716,35 @@ Page({
         inverse: true
       },
       series: [{
-          data: rankData,
-          type: 'line'
+        data: rankData,
+        type: 'line'
       }]
     };
     return option;
   },
   //分数段对比图 提示框数据组装
-  getFormatter(params, type, postion){
+  getFormatter(params, type, postion) {
     var interval;
-    if(type=='pie'){
+    if (type == 'pie') {
       interval = params.data.name;
-    }else{
+    } else {
       interval = params[0].axisValue;
     }
-    var data,res='',list=[];
-    if(postion === 0){
+    var data, res = '', list = [];
+    if (postion === 0) {
       data = this.data.studentScoreList1;
-    }else{
+    } else {
       data = this.data.studentScoreList2;
     }
     for (var i = 0; i < data.length; i++) {
-      if(data[i].score==interval){
+      if (data[i].score == interval) {
         list = data[i].list.list;
       }
     }
     for (var i = 0; i < list.length; i++) {
-      if(i % 2 ===0){
-        if(list[i+1]){
-          res += this.clearData(list[i].studentName, list[i].score) +  '   ' + this.clearData(list[i+1].studentName,list[i+1].score) + '\n';
+      if (i % 2 === 0) {
+        if (list[i + 1]) {
+          res += this.clearData(list[i].studentName, list[i].score) + '   ' + this.clearData(list[i + 1].studentName, list[i + 1].score) + '\n';
         } else {
           res += this.clearData(list[i].studentName, list[i].score) + '   ' + '\n';
         }
@@ -645,15 +753,28 @@ Page({
     return res;
   },
   // 图表tooltip 的formatter 函数的数据组装
-  clearData: function(name, score){
+  clearData: function (name, score) {
     let str = "";
-    if(_.size(name) === 2){
+    if (_.size(name) === 2) {
       str = _.first(name) + '   ' + _.last(name) + '：' + score + '分';
-    } else if(_.size(name) === 3){
+    } else if (_.size(name) === 3) {
       str = name + '：' + score + '分';
-    } else if(_.size(name) === 4){
+    } else if (_.size(name) === 4) {
       str = name + '：' + score + '分';
     }
     return str;
-  }
+  },
+  //导航至统计分析
+  navAnalysis:function(e){
+    let type = e.target.dataset.type;
+    if(type === 0){
+      wx.navigateTo({
+        url: '/pages/supervisor/supervisor' 
+      });
+    } else {
+      wx.navigateTo({
+        url: '/pages/objective/objective' 
+      });
+    }
+  },
 })
