@@ -191,6 +191,7 @@ Page({
           }
           //初始化图表
           this.initTopChart();
+          this.initTopChartByScore();
           // this.initSecondChart();
           this.initBottomChart();
           // ------- end --------
@@ -242,7 +243,6 @@ Page({
             minScoreAllClass: minScore,
             avgScoreAllClass: _.round(avgScore),
           });
-          this.initTopChartByScore();
         }
       }
     })
@@ -391,8 +391,8 @@ Page({
   },
   //初始化顶部柱图（各班对比-分数）
   initTopChartByScore: function () {
-    this.topComponent = this.selectComponent('#topChartByScore');
-    this.initChart('topComponent', '#topChartByScore', topChartByScore);
+    this.topChartComponent = this.selectComponent('#topChartByScore');
+    this.initChart('topChartComponent', '#topChartByScore', topChartByScore);
   },
   //初始化第二项分数段统计（柱图/饼图 切换）
   initSecondChart: function () {
@@ -494,7 +494,6 @@ Page({
   getTopChartOption(type) {
     const { topDataSeriesByExcellent, topDataSeriesByPassing, topDataSeriesByScoreMax,
       topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis } = this.data;
-
     var option = {
       color: type === 0 ? ['#edafda', '#93b7e3'] : ['#99b7df', '#fad680', '#e4b2d8'],
       tooltip: {
