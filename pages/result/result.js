@@ -122,11 +122,12 @@ Page({
               for (var i = 0; i < d.wrongQuestions.length; i++) {
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage * 100) + '%';
               }
-              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [];
+              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [],topDataAxis =[];
               //顶部各班对比数据
               for (var i = 0; i < d.listClassResult.length; i++) {
                 topDataSeriesByExcellent.unshift(_.round(d.listClassResult[i].excellentRate, 3));
                 topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
+                topDataAxis.unshift(d.listClassResult[i].class_);
               }
               //作文分数段统计
               let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
@@ -149,6 +150,7 @@ Page({
               // --------------  end  ---------------
               that.setData({
                 studentScoreList2,
+                topDataAxis,
                 topDataSeriesByExcellent,
                 topDataSeriesByPassing,
                 bottomPieDataSeries,
@@ -216,7 +218,7 @@ Page({
     this.getSingleScoreSegmentStatistics("10", 0);
   },
 
-  //获取单科分段人数统计
+  //获取单科页面全年级分析及各班的优秀率
   getAllClassesAnalysisScore: function () {
     let url = app.globalData.domain + '/auth/allClassesAnalysis/allClassesAnalysisScore';
     wx.request({
@@ -229,13 +231,13 @@ Page({
           let topDataSeriesByScoreMax = [], topDataSeriesByScoreMin = [], topDataSeriesByScoreAvg = [], topDataAxis = [];
           let { minScore, avgScore, maxScore, listGroupClassStatistics } = responseData;
           for (let i = 0; i < listGroupClassStatistics.length; i++) {
-            topDataSeriesByScoreMax.push(listGroupClassStatistics[i].maxScore)
-            topDataSeriesByScoreMin.push(listGroupClassStatistics[i].minScore)
-            topDataSeriesByScoreAvg.push(listGroupClassStatistics[i].avgScore)
-            topDataAxis.push(listGroupClassStatistics[i].class_)
+            topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
+            topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
+            topDataSeriesByScoreAvg.unshift(listGroupClassStatistics[i].avgScore)
+            // topDataAxis.push(listGroupClassStatistics[i].class_)
           }
           this.setData({
-            topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis,
+            topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg,
             maxScoreAllClass: maxScore,
             minScoreAllClass: minScore,
             avgScoreAllClass: _.round(avgScore),
@@ -516,7 +518,8 @@ Page({
       ],
       yAxis: [
         {
-          data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805', 'C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
+          // data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805', 'C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
+          data: topDataAxis,
           inverse: true
         }
       ],
