@@ -112,7 +112,7 @@ Page({
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
-                        secondDataSeriesByAvg.push(_.round(listGroupClassStatistics[i].avgScore, 1))
+                        secondDataSeriesByAvg.push(util.returnFloat(listGroupClassStatistics[i].avgScore))
                     }
                     let firstDescriptionSqrt = _.toNumber(classStatistics.sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(classStatistics.sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
                     let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";

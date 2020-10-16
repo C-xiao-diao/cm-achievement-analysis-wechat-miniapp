@@ -235,7 +235,7 @@ Page({
           for (let i = 0; i < listGroupClassStatistics.length; i++) {
             topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
             topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
-            topDataSeriesByScoreAvg.unshift(_.round(listGroupClassStatistics[i].avgScore, 2))
+            topDataSeriesByScoreAvg.unshift(util.returnFloat(listGroupClassStatistics[i].avgScore))
             topDataAxis2.push(listGroupClassStatistics[i].class_)
           }
           this.setData({
