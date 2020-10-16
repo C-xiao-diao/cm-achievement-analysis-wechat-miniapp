@@ -7,12 +7,12 @@
     <text class="title">— 主观题统计分析 —</text>
     <text class="sub-title">(班级)</text>
     <view class="total r3">
-        <view>最高分<text>120</text></view>
-        <view>最低分<text>44</text></view>
-        <view>平均分<text>60</text></view>
+        <view>最高分<text>{{classStatistics.maxScore}}</text></view>
+        <view>最低分<text>{{classStatistics.minScore}}</text></view>
+        <view>平均分<text>{{classStatistics.avgScore}}</text></view>
     </view>
     <view class="total w30">
-        <view>得分率<text>25%</text></view>
+        <view>得分率<text>{{classStatistics.scoringRrate}}%</text></view>
     </view>
     <view class="analysis">
       <view class="analysis-title">
@@ -21,13 +21,13 @@
         <text>区分度</text>
       </view>
       <view class="analysis-body">
-        <text>5.5</text>
-        <text>4.5</text>
-        <text>6.5</text>
+        <text>{{classStatistics.sqrtDouble}}</text>
+        <text>{{classStatistics.difficultyFactor}}</text>
+        <text>{{classStatistics.distinction}}</text>
       </view>
       <text class="note">
-        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}
-        难度，即试卷（题）的难易程度。{{description2}}
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{firstDescriptionSqrt}}
+        难度，即试卷（题）的难易程度。{{firstDescriptionDifficulty}}
       </text>
     </view>
 
@@ -35,12 +35,12 @@
     <text class="title">— 主观题统计分析 —</text>
     <text class="sub-title">(全年级)</text>
     <view class="total r3">
-        <view>最高分<text>120</text></view>
-        <view>最低分<text>44</text></view>
-        <view>平均分<text>60</text></view>
+        <view>最高分<text>{{maxScore}}</text></view>
+        <view>最低分<text>{{minScore}}</text></view>
+        <view>平均分<text>{{avgScore}}</text></view>
     </view>
     <view class="total w30">
-        <view>得分率<text>25%</text></view>
+        <view>得分率<text>{{scoringRrate}}%</text></view>
     </view>
     <view class="analysis">
       <view class="analysis-title">
@@ -49,13 +49,13 @@
         <text>区分度</text>
       </view>
       <view class="analysis-body">
-        <text>5.5</text>
-        <text>4.5</text>
-        <text>6.5</text>
+        <text>{{sqrtDouble}}</text>
+        <text>{{difficultyFactor}}</text>
+        <text>{{distinction}}</text>
       </view>
       <text class="note">
-        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}
-        难度，即试卷（题）的难易程度。{{description2}}
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{secondDescriptionSqrt}}
+        难度，即试卷（题）的难易程度。{{secondDescriptionDifficulty}}
       </text>
     </view>
 

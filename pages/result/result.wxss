@@ -138,8 +138,12 @@
   height: auto;
 }
 
-.topChart, .secondChart, .bottomChart {
+.topChart, .topChartByScore, .secondChart, .bottomChart {
   width: 100%;
+}
+
+.topChartByScore{
+  height: 900rpx;
 }
 
 .topChart {
