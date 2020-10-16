@@ -40,7 +40,7 @@ Page({
         ecThirdChart: {
             lazyLoad: true
         },
-        listTotalTopic:[],
+        listTotalTopic: [],
         thirdDataAxis: [],
         thirdDataSeries: [],
         //说明1
@@ -75,9 +75,9 @@ Page({
             data,
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-                    let responseData = _.get(res, 'data.data'), firstDataAxis = [],firstfirstDataSeriesByCorrectRate = [];
+                    let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstfirstDataSeriesByCorrectRate = [];
                     let tabList = [];
-                    let secondDataSeriesByMax = [],secondDataSeriesByMin =[], secondDataSeriesByAvg=[];
+                    let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
                         classStatistics,
                         listGroupClassStatistics,
@@ -89,14 +89,15 @@ Page({
                         difficultyFactor,
                         distinction,
                         listTotalTopic,
+                        topicSet,
                     } = responseData;
                     //数据组装和清洗
-                    for(let key in classStatistics){
-                        if(key === "maxScore" || key === "minScore"){
+                    for (let key in classStatistics) {
+                        if (key === "maxScore" || key === "minScore") {
                             classStatistics[key] = _.round(classStatistics[key]);
                         } else if (key === "avgScore") {
                             classStatistics[key] = util.returnFloat(classStatistics[key]);
-                        } else if(key === "scoringRrate"){
+                        } else if (key === "scoringRrate") {
                             classStatistics[key] = util.returnFloat(classStatistics[key] * 100);
                         }
                     }
@@ -104,20 +105,20 @@ Page({
                     minScore = _.round(minScore);
                     avgScore = util.returnFloat(avgScore);
                     scoringRrate = util.returnFloat(scoringRrate * 100)
-                    for(let i=0;i<listGroupClassStatistics.length; i++){
+                    for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得正确率
                         firstDataAxis.push(listGroupClassStatistics[i].class_);
-                        firstfirstDataSeriesByCorrectRate.push(_.round(listGroupClassStatistics[i].         objectiveQuestionsCorrectRate, 1))
+                        firstfirstDataSeriesByCorrectRate.push(_.round(listGroupClassStatistics[i].objectiveQuestionsCorrectRate, 1))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
                         secondDataSeriesByAvg.push(_.round(listGroupClassStatistics[i].avgScore, 1))
                     }
-                    let firstDescriptionSqrt = _.toNumber(classStatistics.sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(classStatistics.sqrtDouble) > 5 ? "此次成绩为正常水平。":"此次成绩趋于集中，没有拉开差距。";
-                    let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
-                    let secondDescriptionSqrt = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。":"此次成绩趋于集中，没有拉开差距。";
-                    let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
-                    for(let i=0;i<listTotalTopic.length;i++){
+                    let firstDescriptionSqrt = _.toNumber(classStatistics.sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(classStatistics.sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
+                    let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
+                    let secondDescriptionSqrt = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
+                    let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
+                    for (let i = 0; i < listTotalTopic.length; i++) {
                         tabList.push(listTotalTopic[i].topic)
                     }
                     //----------------  end  ------------------
@@ -134,19 +135,19 @@ Page({
                         scoringRrate,
                         sqrtDouble,
                         difficultyFactor,
-                        distinction,               
+                        distinction,
                         firstDataAxis,
                         firstfirstDataSeriesByCorrectRate,
-                        secondDataSeriesByMax, 
+                        secondDataSeriesByMax,
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
-                        tabList,
+                        tabList: topicSet,
                         listTotalTopic,
                     })
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0,"第一题", listTotalTopic);
+                    this.setTopicData(0, "第一题", listTotalTopic);
                 }
             }
         })
@@ -199,10 +200,10 @@ Page({
         return whichChart;
     },
     getHorizontalOption(type) {
-        const { firstDataAxis,firstfirstDataSeriesByCorrectRate,secondDataSeriesByMax, 
+        const { firstDataAxis, firstfirstDataSeriesByCorrectRate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
         var option = {
-            color:  type  === 0 ? ['#93b7e3','#edafda'] : ['#99b7df', '#fad680','#e4b2d8'],
+            color: type === 0 ? ['#93b7e3', '#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
@@ -210,7 +211,7 @@ Page({
                 }
             },
             legend: {
-                data: type  === 0 ? ['正确率'] :  ['最高分', '最低分', '平均分'] 
+                data: type === 0 ? ['正确率'] : ['最高分', '最低分', '平均分']
             },
             grid: {
                 left: "20%",
@@ -230,7 +231,7 @@ Page({
             ],
         };
         let series = [];
-        if(type === 0){  //优秀率及格率柱图
+        if (type === 0) {  //优秀率及格率柱图
             series = [
                 {
                     name: '正确率',
@@ -321,7 +322,10 @@ Page({
                 type: 'bar',
                 label: {
                     show: true,
-                    position: 'top'
+                    position: 'top',
+                    formatter: (params) => {
+                        return params.value + "%";
+                    }
                 },
                 emphasis: {
                     itemStyle: {
@@ -345,17 +349,20 @@ Page({
         this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
     },
     // 试题分析
-    setTopicData:function(activeTabIndex, activeTabName, listTotalTopic){
+    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
         let thirdDataAxis = [], thirdDataSeries = [];
-        let item = _.find(listTotalTopic, o=> o.topic === activeTabName);
+        let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listTopic;
-        if(listTopic && _.isArray(listTopic)){
-            for(let i=0;i<listTopic.length;i++){
-                thirdDataAxis = _.concat(thirdDataAxis,_.keys(listTopic[i]) )
-                thirdDataSeries = _.concat(thirdDataSeries,_.values(listTopic[i]) )
+        if (listTopic && _.isArray(listTopic)) {
+            for (let i = 0; i < listTopic.length; i++) {
+                thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
+                if(!_.isEmpty(_.values(_.get(listTopic, i)))){
+                    thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
+                }
+                // thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(listTopic[i])[0] * 100, 2))
             }
         }
-        this.setData({ activeTabIndex,activeTabName,thirdDataAxis,thirdDataSeries })
+        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
         this.initChart('thirdComponent', '#thirdChart', thirdChart);
     }
 })
