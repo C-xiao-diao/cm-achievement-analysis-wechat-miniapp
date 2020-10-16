@@ -41,7 +41,7 @@
   line-height: 75rpx;
   border: 2rpx solid #eee;
   color: #666;
-  font-size: 32rpx;
+  font-size: 30rpx;
 }
 
 .r3 > view {
@@ -63,7 +63,7 @@
 }
 
 .total > view > text {
-  font-size: 36rpx;
+  font-size: 34rpx;
   color: red;
   padding-left: 6rpx;
 }
@@ -74,7 +74,7 @@
 }
 
 .analysis-title{
-  background-color: #ccc;
+  background-color: #eee;
 }
 
 .analysis-title, .analysis-body {
