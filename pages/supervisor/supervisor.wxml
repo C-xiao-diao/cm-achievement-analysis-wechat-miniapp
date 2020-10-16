@@ -66,6 +66,14 @@
     <view class="secondChart">
       <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
+    
+    <text class="title">— 试题分析统计 —</text>
+    <view class="tab-questions test-questions">
+      <text wx:for="{{tabList}}" wx:key="id" class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">{{item}}</text>
+    </view>
+
+    <text class="title">({{activeTabName}})</text>
+    
     <view class="thirdChart">
       <ec-canvas id="thirdChart" canvas-id="thirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>

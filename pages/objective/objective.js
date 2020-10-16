@@ -75,6 +75,7 @@ Page({
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let responseData = _.get(res, 'data.data'), firstDataAxis = [],firstDataSeriesByExcellent = [];
                     let firstDataSeriesByPassing = [];
+                    let tabList = [];
                     let secondDataSeriesByMax = [],secondDataSeriesByMin =[], secondDataSeriesByAvg=[];
                     let {
                         classStatistics,
@@ -115,6 +116,9 @@ Page({
                     let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
                     let secondDescriptionSqrt = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。":"此次成绩趋于集中，没有拉开差距。";
                     let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ?" 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。":"此次试题偏难。";
+                    for(let i=0;i<listTotalTopic.length;i++){
+                        tabList.push(listTotalTopic[i].topic)
+                    }
                     //----------------  end  ------------------
                     this.setData({
                         classStatistics,
@@ -136,6 +140,7 @@ Page({
                         secondDataSeriesByMax, 
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
+                        tabList,
                         listTotalTopic,
                     })
                     //画图
@@ -314,6 +319,10 @@ Page({
                 data: thirdDataSeries,
                 // data: [120, 200, 150, 80, 70, 110, 130],
                 type: 'bar',
+                label: {
+                    show: true,
+                    position: 'top'
+                },
                 showBackground: true,
                 backgroundStyle: {
                     color: 'rgba(220, 220, 220, 0.8)'

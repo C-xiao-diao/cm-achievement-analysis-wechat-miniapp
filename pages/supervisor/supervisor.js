@@ -46,6 +46,9 @@ Page({
         //说明2
         secondDescriptionSqrt: "",
         secondDescriptionDifficulty: "",
+        tabList: ["第一题", '第二题', '第三题', '第四题', '第五题', '第六题', '第七题', '第八题', '第九题', '第十题'],
+        activeTabIndex: 0,
+        activeTabName: "第一题",
     },
     onReady() {
         this.initFirstChart();
@@ -61,6 +64,7 @@ Page({
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstDataSeriesByExcellent = [];
+                    let tabList = [];
                     let firstDataSeriesByPassing = [];
                     let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
@@ -74,6 +78,7 @@ Page({
                         sqrtDouble,
                         difficultyFactor,
                         distinction,
+                        listTotalScore
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
@@ -101,6 +106,9 @@ Page({
                     let firstDescriptionDifficulty = _.toNumber(classStatistics.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(classStatistics.difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
                     let secondDescriptionSqrt = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
                     let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
+                    for(let i=0;i<listTotalScore.length;i++){
+                        tabList.push(listTotalScore[i].topic)
+                    }
                     //----------------  end  ------------------
                     this.setData({
                         classStatistics,
@@ -122,10 +130,13 @@ Page({
                         secondDataSeriesByMax,
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
+                        tabList,
+                        listTotalTopic: listTotalScore
                     })
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
+                    this.setTopicData(0,tabList[0], listTotalScore);
                 }
             }
         })
@@ -267,6 +278,8 @@ Page({
         return option;
     },
     getVerticalOption() {
+        let { thirdDataAxis, thirdDataSeries } = this.data;
+
         var option = {
             title: {
                 text: '选项答题分布',
@@ -278,7 +291,8 @@ Page({
             color: ['#566b8e'],
             xAxis: {
                 type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: thirdDataAxis
             },
             yAxis: {
                 type: 'value'
@@ -289,7 +303,12 @@ Page({
                 bottom: "10%",
             },
             series: [{
-                data: [120, 200, 150, 80, 70, 110, 130],
+                // data: [120, 200, 150, 80, 70, 110, 130],
+                data: thirdDataSeries,
+                label: {
+                    show: true,
+                    position: 'top'
+                },
                 type: 'bar',
                 showBackground: true,
                 backgroundStyle: {
@@ -298,5 +317,26 @@ Page({
             }]
         };
         return option;
+    },
+    // 切换tab页试题
+    swichNav: function (e) {
+        let { listTotalTopic, thirdDataAxis, thirdDataSeries } = this.data;
+        let activeTabIndex = _.get(e, "currentTarget.dataset.current");
+        let activeTabName = _.get(e, "currentTarget.dataset.name");
+        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
+    },
+    // 试题分析
+    setTopicData:function(activeTabIndex, activeTabName, listTotalTopic){
+        let thirdDataAxis = [], thirdDataSeries = [];
+        let item = _.find(listTotalTopic, o=> o.topic === activeTabName);
+        let listTopic = item && item.listScore;
+        if(listTopic && _.isArray(listTopic)){
+            for(let i=0;i<listTopic.length;i++){
+                thirdDataAxis = _.concat(thirdDataAxis,_.keys(listTopic[i]) )
+                thirdDataSeries = _.concat(thirdDataSeries,_.values(listTopic[i]) )
+            }
+        }
+        this.setData({ activeTabIndex,activeTabName,thirdDataAxis, thirdDataSeries })
+        this.initChart('thirdComponent', '#thirdChart', thirdChart);
     }
 })
