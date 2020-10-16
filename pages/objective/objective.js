@@ -58,6 +58,7 @@ Page({
         tabList: ["第一题", '第二题', '第三题', '第四题', '第五题', '第六题', '第七题', '第八题', '第九题', '第十题'],
         activeTabIndex: 0,
         activeTabName: "第一题",
+        correctAnswer: [], //正确答案
 
     },
     onReady() {
@@ -96,6 +97,7 @@ Page({
                         distinction,
                         listTotalTopic,
                         topicSet,
+                        correctAnswer
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
@@ -149,6 +151,8 @@ Page({
                         secondDataSeriesByAvg,
                         tabList: topicSet,
                         listTotalTopic,
+                        activeTabName: topicSet[0],
+                        correctAnswer
                     })
                     //画图
                     this.initFirstChart();
@@ -293,13 +297,20 @@ Page({
         return option;
     },
     getVerticalOption() {
-        let { thirdDataAxis, thirdDataSeries } = this.data;
+        let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
+        let answer = _.pick(correctAnswer, [activeTabName]);
+        let answerName = _.values(answer)[0];
+        console.log(correctAnswer, 'vvvvvvvvvvvvvv......................',activeTabName, answer,answerName);
         var option = {
             title: {
                 text: '选项答题分布',
                 left: 'center',
                 textStyle: {
                     fontWeight: 'normal'
+                },
+                subtext: "正确答案 ： " + answerName,
+                subtextStyle:{
+                    color: "#fad680"
                 }
             },
             color: ['#566b8e'],
