@@ -12,7 +12,7 @@
         <view>平均分<text>{{classStatistics.avgScore}}</text></view>
     </view>
     <view class="total w30">
-        <view>得分率<text>{{classStatistics.scoringRrate}}%</text></view>
+        <view>正确率<text>{{classStatistics.scoringRrate}}%</text></view>
     </view>
     <view class="analysis mb60">
       <view class="analysis-title">
@@ -40,7 +40,7 @@
         <view>平均分<text>{{avgScore}}</text></view>
     </view>
     <view class="total w30">
-        <view>得分率<text>{{scoringRrate}}%</text></view>
+        <view>正确率<text>{{scoringRrate}}%</text></view>
     </view>
     <view class="analysis mb60">
       <view class="analysis-title">
