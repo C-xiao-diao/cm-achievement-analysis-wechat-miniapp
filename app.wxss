@@ -45,7 +45,7 @@
 }
 
 .r3 > view {
-  width: 200rpx;
+  width: 225rpx;
 }
 
 .r3 > view:nth-child(2){
@@ -54,7 +54,7 @@
 } 
 
 .r2 > view {
-  width: 300rpx;
+  width: 337.5rpx;
   margin-top: 30rpx;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .total > view > text {
-  font-size: 40rpx;
+  font-size: 36rpx;
   color: red;
   padding-left: 6rpx;
 }

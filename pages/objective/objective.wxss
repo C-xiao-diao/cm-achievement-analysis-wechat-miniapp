@@ -17,7 +17,7 @@
 
 .w30 > view {
   display: inline-block;
-  width: 27.3%;
+  width: 225rpx;
 }
 
 .firstChart,.secondChart,.thirdChart {

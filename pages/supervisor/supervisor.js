@@ -2,6 +2,7 @@ import * as echarts from './../../components/ec-canvas/echarts'
 import "./../../utils/fix";
 import _ from "lodash";
 import { http } from "./../../utils/util";
+const util = require('../../utils/util.js')
 
 var firstChart = null, secondChart = null, thirdChart = null;
 
@@ -84,16 +85,18 @@ Page({
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
-                        if (key === "maxScore" || key === "minScore" || key === "avgScore") {
+                        if (key === "maxScore" || key === "minScore") {
                             classStatistics[key] = _.round(classStatistics[key]);
+                        } else if (key === "avgScore") {
+                            classStatistics[key] = util.returnFloat(classStatistics[key]);
                         } else if (key === "scoringRrate") {
-                            classStatistics[key] = _.round(classStatistics[key] * 100);
+                            classStatistics[key] = util.returnFloat(classStatistics[key] * 100);
                         }
                     }
                     maxScore = _.round(maxScore);
                     minScore = _.round(minScore);
-                    avgScore = _.round(avgScore);
-                    scoringRrate = _.round(scoringRrate * 100)
+                    avgScore = util.returnFloat(avgScore);
+                    scoringRrate = util.returnFloat(scoringRrate * 100)
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得游戏率和及格率
                         firstDataAxis.push(listGroupClassStatistics[i].class_);
