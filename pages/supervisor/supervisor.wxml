@@ -39,7 +39,7 @@
         <view>最低分<text>{{minScore}}</text></view>
         <view>平均分<text>{{avgScore}}</text></view>
     </view>
-    <view class="total">
+    <view class="total w30">
         <view>得分率<text>{{scoringRrate}}%</text></view>
     </view>
     <view class="analysis">
