@@ -222,7 +222,7 @@ Page({
     }
   },
   _login:function(userInfo){
-    var Url = this.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
+    var Url = app.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
     wx.login({
       success (res) {
         if (res.code) {

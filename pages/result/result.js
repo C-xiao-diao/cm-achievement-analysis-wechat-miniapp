@@ -127,8 +127,8 @@ Page({
               let topDataSeriesByExcellent = [], topDataSeriesByPassing = [],topDataAxis1 =[];
               //顶部各班对比数据
               for (var i = 0; i < d.listClassResult.length; i++) {
-                topDataSeriesByExcellent.unshift(_.round(d.listClassResult[i].excellentRate, 3));
-                topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
+                topDataSeriesByExcellent.unshift(util.returnFloat(d.listClassResult[i].excellentRate *100));
+                topDataSeriesByPassing.unshift(util.returnFloat(d.listClassResult[i].passingRate *100));
                 topDataAxis1.unshift(d.listClassResult[i].class_);
               }
               //作文分数段统计
@@ -235,7 +235,7 @@ Page({
           for (let i = 0; i < listGroupClassStatistics.length; i++) {
             topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
             topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
-            topDataSeriesByScoreAvg.unshift(listGroupClassStatistics[i].avgScore)
+            topDataSeriesByScoreAvg.unshift(_.round(listGroupClassStatistics[i].avgScore, 2))
             topDataAxis2.push(listGroupClassStatistics[i].class_)
           }
           this.setData({
@@ -555,7 +555,10 @@ Page({
           name: '优秀率',
           type: 'bar',
           label: {
-            show: true
+            show: true,
+            formatter: (params) =>{
+              return params.value + "%";
+            }
           },
           barGap: "0",
           data: topDataSeriesByExcellent,
@@ -564,7 +567,10 @@ Page({
           name: '及格率',
           type: 'bar',
           label: {
-            show: true
+            show: true,
+            formatter: (params) =>{
+              return params.value + "%";
+            }
           },
           barGap: "0",
           data: topDataSeriesByPassing,
