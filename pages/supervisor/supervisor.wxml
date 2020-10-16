@@ -39,7 +39,7 @@
         <view>最低分<text>44</text></view>
         <view>平均分<text>60</text></view>
     </view>
-    <view class="total">
+    <view class="total w30">
         <view>得分率<text>25%</text></view>
     </view>
     <view class="analysis">
