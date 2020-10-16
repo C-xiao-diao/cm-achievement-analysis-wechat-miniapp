@@ -300,7 +300,6 @@ Page({
         let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
-        console.log(correctAnswer, 'vvvvvvvvvvvvvv......................',activeTabName, answer,answerName);
         var option = {
             title: {
                 text: '选项答题分布',
@@ -310,7 +309,7 @@ Page({
                 },
                 subtext: "正确答案 ： " + answerName,
                 subtextStyle:{
-                    color: "#fad680"
+                    color: "red"
                 }
             },
             color: ['#566b8e'],
@@ -323,7 +322,6 @@ Page({
             xAxis: {
                 type: 'category',
                 data: thirdDataAxis,
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             yAxis: {
                 type: 'value'
@@ -335,7 +333,6 @@ Page({
             },
             series: [{
                 data: thirdDataSeries,
-                // data: [120, 200, 150, 80, 70, 110, 130],
                 type: 'bar',
                 label: {
                     show: true,
@@ -358,13 +355,16 @@ Page({
         };
         return option;
     },
+
+
     // 切换tab页试题
-    swichNav: _.debounce(function (e) {
-        let { listTotalTopic, thirdDataAxis, thirdDataSeries } = this.data;
+    swichNav: function (e) {
+        let { listTotalTopic } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
         this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
-    }, 1200),
+    },
+
     // 试题分析
     setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
         let thirdDataAxis = [], thirdDataSeries = [];
@@ -376,7 +376,6 @@ Page({
                 if(!_.isEmpty(_.values(_.get(listTopic, i)))){
                     thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
                 }
-                // thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(listTopic[i])[0] * 100, 2))
             }
         }
         this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })

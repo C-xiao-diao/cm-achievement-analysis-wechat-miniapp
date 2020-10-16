@@ -330,12 +330,12 @@ Page({
         return option;
     },
     // 切换tab页试题
-    swichNav: _.debounce(function (e) {
+    swichNav: function (e) {
         let { listTotalTopic, thirdDataAxis, thirdDataSeries } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
         this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
-    },1200),
+    },
     // 试题分析
     setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
         let thirdDataAxis = [], thirdDataSeries = [];
