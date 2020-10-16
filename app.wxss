@@ -48,9 +48,18 @@
   width: 200rpx;
 }
 
+.r3 > view:nth-child(2){
+  border-left: 0;
+  border-right: 0;
+} 
+
 .r2 > view {
   width: 300rpx;
   margin-top: 30rpx;
+}
+
+.r2 > view:last-child{
+  border-left: 0;
 }
 
 .total > view > text {
