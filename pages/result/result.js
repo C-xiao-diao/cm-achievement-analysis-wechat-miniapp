@@ -53,7 +53,8 @@ Page({
     topDataSeriesByScoreMax: [],    //顶部图表最高分
     topDataSeriesByScoreMin: [],    //顶部图表最低分
     topDataSeriesByScoreAvg: [],    //顶部图表平均分
-    topDataAxis: [],
+    topDataAxis1: [], //优秀及格率图表 - 班级列表
+    topDataAxis2: [], //最高低分图表 - 班级列表
     //分数段统计
     ecSecond: {
       lazyLoad: true
@@ -122,12 +123,12 @@ Page({
               for (var i = 0; i < d.wrongQuestions.length; i++) {
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage * 100) + '%';
               }
-              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [],topDataAxis =[];
+              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [],topDataAxis1 =[];
               //顶部各班对比数据
               for (var i = 0; i < d.listClassResult.length; i++) {
                 topDataSeriesByExcellent.unshift(_.round(d.listClassResult[i].excellentRate, 3));
                 topDataSeriesByPassing.unshift(_.round(d.listClassResult[i].passingRate, 3));
-                topDataAxis.unshift(d.listClassResult[i].class_);
+                topDataAxis1.unshift(d.listClassResult[i].class_);
               }
               //作文分数段统计
               let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
@@ -150,7 +151,7 @@ Page({
               // --------------  end  ---------------
               that.setData({
                 studentScoreList2,
-                topDataAxis,
+                topDataAxis1,
                 topDataSeriesByExcellent,
                 topDataSeriesByPassing,
                 bottomPieDataSeries,
@@ -191,7 +192,6 @@ Page({
           }
           //初始化图表
           this.initTopChart();
-          this.initTopChartByScore();
           // this.initSecondChart();
           this.initBottomChart();
           // ------- end --------
@@ -229,20 +229,22 @@ Page({
       success: res => {
         if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
           let responseData = _.get(res, 'data.data');
-          let topDataSeriesByScoreMax = [], topDataSeriesByScoreMin = [], topDataSeriesByScoreAvg = [], topDataAxis = [];
+          let topDataSeriesByScoreMax = [], topDataSeriesByScoreMin = [], topDataSeriesByScoreAvg = [], topDataAxis2 = [];
           let { minScore, avgScore, maxScore, listGroupClassStatistics } = responseData;
           for (let i = 0; i < listGroupClassStatistics.length; i++) {
             topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
             topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
             topDataSeriesByScoreAvg.unshift(listGroupClassStatistics[i].avgScore)
-            // topDataAxis.push(listGroupClassStatistics[i].class_)
+            topDataAxis2.push(listGroupClassStatistics[i].class_)
           }
           this.setData({
             topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg,
             maxScoreAllClass: maxScore,
             minScoreAllClass: minScore,
             avgScoreAllClass: _.round(avgScore),
+            topDataAxis2
           });
+          this.initTopChartByScore();
         }
       }
     })
@@ -493,7 +495,9 @@ Page({
   //老师端 - 各班对比图option
   getTopChartOption(type) {
     const { topDataSeriesByExcellent, topDataSeriesByPassing, topDataSeriesByScoreMax,
-      topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis } = this.data;
+      topDataSeriesByScoreMin, topDataSeriesByScoreAvg, topDataAxis1, topDataAxis2 } = this.data;
+      var topDataAxis = [];
+    type === 0 ? topDataAxis = topDataAxis1 : topDataAxis = topDataAxis2;
     var option = {
       color: type === 0 ? ['#edafda', '#93b7e3'] : ['#99b7df', '#fad680', '#e4b2d8'],
       tooltip: {
