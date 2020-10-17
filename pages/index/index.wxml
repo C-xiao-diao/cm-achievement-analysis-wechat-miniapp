@@ -42,7 +42,8 @@
       </view>
     </view>
 
-    <view wx:if="{{role === 0}}" class="class">
+    <!-- 任课老师 -->
+    <view wx:if="{{role === 0}}">
       <text>班级</text>
       <input class="weui-input" bind:input="getClassArray" value="{{class}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{classArray.length!=0}}">
@@ -50,6 +51,16 @@
       </view>
     </view>
 
+    <!-- 年级主任 -->
+    <view wx:if="{{role === 2}}">
+      <text>班级</text>
+      <input class="weui-input"  value="初中2018级" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <!-- <view class="ul" wx:if="{{classArray.length!=0}}">
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" catch:tap="getCurClass">{{item}}</text>
+      </view> -->
+    </view>
+
+    <!-- 任课老师 -->
     <view wx:if="{{role === 0}}" class="course">
       <text>科目</text>
       <picker bindchange="bindPickerSubject" value="{{subjectIndex}}" range="{{subject}}">
@@ -59,7 +70,8 @@
       </picker>
     </view>
 
-    <view wx:if="{{role === 1}}" class="admissionTicket">
+    <!-- 家长 -->
+    <view wx:if="{{role === 1}}">
       <text>准考证</text>
       <input class="weui-input" bind:input="getAdmissionTicket" value="{{ticketNumber}}" placeholder="请填写准考证号" placeholder-style="color:#aaa; font-size:30rpx;" />
     </view>

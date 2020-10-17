@@ -1,6 +1,6 @@
 /**index.wxss**/
 .container {
-  padding-top: 60rpx;
+  padding-top: 20rpx;
 }
 
 #getUserInfoBtn {
@@ -16,7 +16,7 @@
 
 .title {
   font-size: 36rpx;
-  padding: 30rpx 0 50rpx;
+  padding: 30rpx 0;
 }
 
 .title:first-child {
@@ -26,13 +26,13 @@
 .identity {
   width: 90%;
   align-items: center;
-  margin-bottom: 80rpx;
 }
 
 .identity .icon {
   display: block;
-  width: 100rpx;
-  height: 100rpx;
+  float: right;
+  width: 80rpx;
+  height: 80rpx;
 }
 
 .identity .right {
@@ -58,6 +58,10 @@
   box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
 }
 
+.identity > view.active text {
+  color: red;
+}
+
 /* .identity > view.active::before {
   display: block;
   content: "";
@@ -73,12 +77,10 @@
 } */
 
 .identity text {
-  width: 100%;
-  height: 40rpx;
-  display: block;
+  float: left;
   text-align: center;
   font-size: 32rpx;
-  line-height: 56rpx;
+  line-height: 80rpx;
 }
 
 .selector {
