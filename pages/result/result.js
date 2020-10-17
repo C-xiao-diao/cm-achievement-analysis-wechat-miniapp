@@ -459,7 +459,7 @@ Page({
     });
   },
   //切换 柱状图/饼状图
-  swichNav: _.debounce(function (e) {
+  swichNav: function (e) {
     var that = this, tab = e.currentTarget.dataset.name;
     if (this.data[tab] === e.target.dataset.current) {
       return false;
@@ -479,8 +479,8 @@ Page({
         this.initChart('bottomComponent', '#bottomPieChart', bottomChart);
       }
     }
-  },1200),
-  swichNav2: _.debounce(function (e) {
+  },
+  swichNav2: function (e) {
     let currentTab1 = this.data["currentTab1"];
     let current = e.currentTarget.dataset.current;
     this.setData({ tegmentedTab: current });
@@ -491,7 +491,7 @@ Page({
     } else {
       this.getSingleScoreSegmentStatistics("50", currentTab1);
     }
-  },1200),
+  },
   //老师端 - 各班对比图option
   getTopChartOption(type) {
     const { topDataSeriesByExcellent, topDataSeriesByPassing, topDataSeriesByScoreMax,
