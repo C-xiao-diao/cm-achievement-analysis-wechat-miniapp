@@ -1,0 +1,28 @@
+
+.title  {
+  padding-bottom: 20rpx;
+}
+
+.sub-title{
+  font-size: 30rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.w30 {
+  width: 100%;
+  text-align: center;
+  margin: 30rpx 0;
+}
+
+.w30 > view {
+  display: inline-block;
+  width: 225rpx;
+}
+
+.firstChart,.secondChart,.thirdChart {
+  width: 100%;
+  height: 700rpx;
+  padding-top: 30rpx;
+  margin-bottom: 30rpx;
+}

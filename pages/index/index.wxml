@@ -1,0 +1,75 @@
+<!--index.wxml-->
+<view class="container" bindtap="closeUl">
+  <text class="title">— 请选择您的身份 —</text>
+  <view class="identity">
+    <view data-role="{{0}}" class="{{role === 0 ? 'active' :''}}" bindtap="changeRole">
+      <image class="icon" src="/imgs/teacher.svg" alt=""></image>
+      <image class="right" src="/imgs/right.svg"></image>
+      <text>老师</text>
+    </view>
+    <view  data-role="{{1}}" class="{{role === 1 ? 'active' :''}}" bindtap="changeRole">
+      <image class="icon" src="/imgs/parent.svg" alt=""></image>
+      <image class="right" src="/imgs/right.svg"></image>
+      <text>家长</text>
+    </view>
+  </view>
+
+  <!-- <text class="title">— 请选择省份和城市 —</text>
+  <view class="selector">
+    <picker bindchange="bindPickerProvince" value="{{provinceIndex}}" range="{{province}}">
+      <text class="triangle"></text>
+      <view class="picker">
+        {{province[provinceIndex]}}
+      </view>
+    </picker>
+    <picker bindchange="bindPickerCity" value="{{cityIndex}}" range="{{city}}">
+      <text class="triangle"></text>
+      <view class="picker">
+        {{city[cityIndex]}}
+      </view>
+    </picker>
+  </view> -->
+
+  <text class="title">— 请填写信息 —</text>
+  <view class="fillIn">
+    <view class="school">
+      <text>学校</text>
+      <input class="weui-input" bind:input="getSchoolArray" value="{{school}}" placeholder="请填写学校" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <view class="ul" wx:if="{{schoolArray.length!=0}}">
+        <text wx:for="{{schoolArray}}" wx:key="id" data-name="{{item.schoolName}}" data-id="{{item.id}}" catch:tap="getCurSchool">{{item.schoolName}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{role === 0}}" class="class">
+      <text>班级</text>
+      <input class="weui-input" bind:input="getClassArray" value="{{class}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <view class="ul" wx:if="{{classArray.length!=0}}">
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" catch:tap="getCurClass">{{item}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{role === 0}}" class="course">
+      <text>科目</text>
+      <picker bindchange="bindPickerSubject" value="{{subjectIndex}}" range="{{subject}}">
+        <view class="picker">
+          {{subject[subjectIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view wx:if="{{role === 1}}" class="admissionTicket">
+      <text>准考证</text>
+      <input class="weui-input" bind:input="getAdmissionTicket" value="{{ticketNumber}}" placeholder="请填写准考证号" placeholder-style="color:#aaa; font-size:30rpx;" />
+    </view>
+
+  </view>
+
+  <view class="btn">
+    <button form-type="submit" bind:tap="analyzeInfo">月考成绩分析</button>
+  </view>
+
+
+</view>
+
+<button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo" style="width:100% !important;height:100%;z-index: 100"
+bindgetuserinfo="userInfoHandler"> Click me </button>

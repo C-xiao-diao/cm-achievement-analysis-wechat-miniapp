@@ -1,0 +1,227 @@
+/**result.wxss**/
+
+/* 错题统计样式 */
+.avg-error {
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  height: 45rpx;
+  line-height: 45rpx;
+  margin-bottom: 30rpx;
+}
+
+.avg-error text {
+  font-size: 42rpx;
+  color: red;
+  padding-left: 10rpx;
+}
+
+.error-scale .section {
+  display: flex;
+  margin-bottom: 30rpx;
+}
+
+.section > text {
+  display: block;
+  width: 180rpx;
+  height: 60rpx;
+  font-size: 32rpx;
+  line-height: 60rpx;
+}
+
+.error-scale .progress-box {
+  width: 480rpx;
+  height: 56rpx;
+  border: 2rpx solid #ccc;
+}
+
+.error-scale .progress-bar {
+  width: 460rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  background-color: #ccc;
+  text-align: center;
+  font-size: 32rpx;
+}
+/* 错题统计样式end */
+
+/* 全对题统计样式 */
+.all-right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.all-right text {
+  display: block;
+  width: 140rpx;
+  height: 56rpx;
+  font-size: 32rpx;
+  line-height: 56rpx;
+  border: 2rpx solid #ccc;
+  text-align: center;
+  margin: 0 14rpx 20rpx;
+}
+
+/* 全对题统计样式end */
+
+/* 表格样式 */
+.table {
+  border:1px solid #dadada;
+  border-right: 0;
+  border-bottom: 0;
+  width: 90%;
+  font-size: 26rpx;
+}
+
+.tr{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.th,.td {
+  padding: 6px 0;
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+  text-align: center;
+  width:100%
+}
+
+.th {
+  display: inline-block;
+  font-weight: 400;
+  background-color: #dadada;
+  vertical-align: middle;
+}
+.tr .td {
+  color: #666;
+}
+
+.w64 {
+  width: 64%;
+}
+
+.w40 {
+  width:40%;
+}
+
+.single .td:first-child {
+  color: blue;
+}
+
+.parantsTable .tr:last-child .td {
+  background-color: #dadada;
+}
+
+.td image {
+  width: 35rpx;
+  height: 35rpx;
+  vertical-align: middle;
+}
+
+.br {
+  display: block;
+}
+
+.td image.up {
+  transform: rotate(180deg);
+}
+
+/* 表格样式end */
+
+/* 图表样式 */
+.chartWrap {
+  width: 100%;
+  height: auto;
+}
+
+.topChart, .topChartByScore, .secondChart, .bottomChart {
+  width: 100%;
+}
+
+.topChartByScore{
+  height: 900rpx;
+}
+
+.topChart {
+  height: 900rpx;
+}
+
+.secondChart {
+  clear: both;
+  height: 650rpx;
+}
+
+.bottomChart {
+  clear: both;
+  height: 900rpx;
+}
+/* 图表样式end */
+
+/* 趋势图弹窗样式 */
+.popup {
+  width: 500rpx;
+  background: #fff;
+  border: 2rpx solid #eee;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  position: fixed;
+  left: 100rpx;
+  top: 300rpx;
+  z-index: 100;
+}
+
+.popup-title, .popup-subtitle {
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 40rpx;
+}
+
+.popup-subtitle {
+  font-size: 36rpx;
+  color: #666;
+}
+
+.popup-close {
+  position: absolute;
+  top: -15rpx;
+  right: -15rpx;
+  display: block;
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 40rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: red;
+  color: #fff;
+}
+
+.trendChart {
+  width: 500rpx;
+  height: 300rpx;
+}
+/* 趋势图弹窗样式end */
+
+/* 主观题客观题分析导航按钮 */
+.navAnalysisButtonGroup{
+  margin: 0 10% 60rpx;
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.navAnalysisButton{
+  background: #566b8e;
+  color: #fff;
+  border-radius: 10rpx;
+  padding: 20rpx 30rpx;
+  font-size: 32rpx;
+  box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+}
+/* 主观题客观题分析导航按钮end */

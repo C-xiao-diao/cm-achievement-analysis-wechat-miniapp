@@ -1,0 +1,80 @@
+<!--supervisor.wxml-->
+<view class="container">
+    <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
+    <text class="h2">（{{class}} - {{subject}}）</text>
+
+    <!-- 客观题统计分析 - 班级 -->
+    <text class="title">— 客观题统计分析 —</text>
+    <text class="sub-title">(班级)</text>
+    <view class="total r3">
+        <view>最高分<text>{{classStatistics.maxScore}}</text></view>
+        <view>最低分<text>{{classStatistics.minScore}}</text></view>
+        <view>平均分<text>{{classStatistics.avgScore}}</text></view>
+    </view>
+    <view class="total w30">
+        <view>正确率<text>{{classStatistics.scoringRrate}}%</text></view>
+    </view>
+    <view class="analysis mb60">
+      <view class="analysis-title">
+        <text>标准差</text>
+        <text>难度</text>
+        <text>区分度</text>
+      </view>
+      <view class="analysis-body">
+        <text>{{classStatistics.sqrtDouble}}</text>
+        <text>{{classStatistics.difficultyFactor}}</text>
+        <text>{{classStatistics.distinction}}</text>
+      </view>
+      <text class="note">
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{firstDescriptionSqrt}}
+        难度，即试卷（题）的难易程度。{{firstDescriptionDifficulty}}
+      </text>
+    </view>
+
+    <!-- 客观题统计分析 - 全年级 -->
+    <text class="title">— 客观题统计分析 —</text>
+    <text class="sub-title">(全年级)</text>
+    <view class="total r3">
+        <view>最高分<text>{{maxScore}}</text></view>
+        <view>最低分<text>{{minScore}}</text></view>
+        <view>平均分<text>{{avgScore}}</text></view>
+    </view>
+    <view class="total w30">
+        <view>正确率<text>{{scoringRrate}}%</text></view>
+    </view>
+    <view class="analysis mb60">
+      <view class="analysis-title">
+        <text>标准差</text>
+        <text>难度</text>
+        <text>区分度</text>
+      </view>
+      <view class="analysis-body">
+        <text>{{sqrtDouble}}</text>
+        <text>{{difficultyFactor}}</text>
+        <text>{{distinction}}</text>
+      </view>
+      <text class="note">
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{ secondDescriptionSqrt}}
+        难度，即试卷（题）的难易程度。{{secondDescriptionDifficulty}}
+      </text>
+    </view>
+
+    <text class="title">— 各班对比 —</text>
+    <view class="firstChart">
+      <ec-canvas id="firstChart" canvas-id="firstChart" ec="{{ ecFirstChart }}"></ec-canvas>
+    </view>
+    <view class="secondChart mb60">
+      <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecondChart }}"></ec-canvas>
+    </view>
+
+    <text class="title">— 试题分析统计 —</text>
+    <view class="tab-questions test-questions">
+      <text wx:for="{{tabList}}" wx:key="id" class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">{{item}}</text>
+    </view>
+
+    <text class="title">({{activeTabName}})</text>
+    
+    <view class="thirdChart mb60">
+      <ec-canvas id="thirdChart" canvas-id="thirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
+    </view>
+</view>
