@@ -61,10 +61,10 @@
 
     <text class="title">— 各班对比 —</text>
     <view class="firstChart">
-      <ec-canvas id="firstChart" canvas-id="firstChart" ec="{{ ecFirstChart }}"></ec-canvas>
+      <ec-canvas id="supervisorFirstChart" canvas-id="supervisorFirstChart" ec="{{ ecFirstChart }}"></ec-canvas>
     </view>
     <view class="secondChart mb60">
-      <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecondChart }}"></ec-canvas>
+      <ec-canvas id="supervisorSecondChart" canvas-id="supervisorSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
     
     <text class="title">— 试题分析统计 —</text>
@@ -75,6 +75,6 @@
     <text class="title">({{activeTabName}})</text>
     
     <view class="thirdChart mb60">
-      <ec-canvas id="thirdChart" canvas-id="thirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
+      <ec-canvas id="supervisorThirdChart" canvas-id="supervisorThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
 </view>

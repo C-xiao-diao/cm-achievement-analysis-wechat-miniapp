@@ -1,10 +1,9 @@
-import * as echarts from './../../components/ec-canvas/echarts'
 import "./../../utils/fix";
 import _ from "lodash";
-import { http } from "./../../utils/util";
+import { http, chart } from "./../../utils/util";
 const util = require('../../utils/util.js')
 
-var firstChart = null, secondChart = null, thirdChart = null;
+var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null;
 
 const app = getApp();
 
@@ -53,9 +52,9 @@ Page({
         activeTabName: "第一题",
     },
     onReady() {
-        this.initFirstChart();
-        this.initSecondChart();
-        this.initThirdChart();
+        // this.initFirstChart();
+        // this.initSecondChart();
+        // this.initThirdChart();
     },
     onLoad: function (option) {
         this.setData({
@@ -151,87 +150,34 @@ Page({
     },
     //初始化第一个图
     initFirstChart: function () {
-        this.firstComponent = this.selectComponent('#firstChart');
-        this.initChart('firstComponent', '#firstChart', firstChart);
+        this.firstComponent = this.selectComponent('#supervisorFirstChart');
+        chart.initChart(this, 'firstComponent', '#supervisorFirstChart', supervisorFirstChart);
     },
     //初始化第二个图
     initSecondChart: function () {
-        this.secondComponent = this.selectComponent('#secondChart');
-        this.initChart('secondComponent', '#secondChart', secondChart);
+        this.secondComponent = this.selectComponent('#supervisorSecondChart');
+        chart.initChart(this,'secondComponent', '#supervisorSecondChart', supervisorSecondChart);
     },
     //初始化第三个图
     initThirdChart: function () {
-        this.thirdComponent = this.selectComponent('#thirdChart');
-        this.initChart('thirdComponent', '#thirdChart', thirdChart);
+        this.thirdComponent = this.selectComponent('#supervisorThirdChart');
+        chart.initChart(this,'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
     },
-    //图表初始化方法
-    initChart(chartComponent, dom, whichChart) {
-        if (!this[chartComponent]) {
-            this[chartComponent] = this.selectComponent(dom);
-        }
-        this[chartComponent].init((canvas, width, height) => {
-            whichChart = echarts.init(canvas, null, {
-                width: width,
-                height: height,
-                devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
-            });
-            this.setOption(whichChart, dom);
-            return whichChart;
-        });
-    },
-    //图表设置
-    setOption: function (whichChart, dom) {
-        var option;
-        switch (dom) {
-            case '#firstChart':
-                option = this.getHorizontalOption(0);
-                break;
-            case '#secondChart':
-                option = this.getHorizontalOption(1);
-                break;
-            case '#thirdChart':
-                option = this.getVerticalOption();
-                break;
-        }
-        whichChart.setOption(option);
-        return whichChart;
-    },
+    /*
+        主观题分析
+        type==0: 得分率
+        type==1: 最高分/最低分/平均分
+    */ 
     getHorizontalOption(type) {
+        var colorData = [], legendData = [], xData = [], yData = [],
+        gridSetting = {}, seriesData = [], tooltipSetting = [];
         const { firstDataAxis, firstfirstDataSeriesByScoringRrate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
-
-        var option = {
-            color: type === 0 ? ['#93b7e3', '#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                }
-            },
-            legend: {
-                data: type === 0 ? ['得分率'] : ['最高分', '最低分', '平均分']
-            },
-            grid: {
-                left: "20%",
-                top: "10%",
-                bottom: "10%",
-            },
-            xAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            yAxis: [
-                {
-                    // data: ['C1801', 'C1802', 'C1803', 'C1804', 'C1805', 'C1806', 'C1807', 'C1808', 'C1809', 'C1810'],
-                    data: firstDataAxis,
-                    inverse: true
-                }
-            ],
-        };
-        let series = [];
-        if (type === 0) {  //优秀率及格率柱图
-            series = [
+        
+        if(type===0){
+            colorData = ['#93b7e3'];
+            legendData = ['得分率'];
+            seriesData = [
                 {
                     name: '得分率',
                     type: 'bar',
@@ -240,94 +186,59 @@ Page({
                     },
                     barGap: "0",
                     data: firstfirstDataSeriesByScoringRrate,
-                },
-                // {
-                //     name: '及格率',
-                //     type: 'bar',
-                //     label: {
-                //         show: true
-                //     },
-                //     barGap: "0",
-                //     data: firstDataSeriesByPassing,
-                // },
+                }
             ]
-        } else { //分值柱图
-            series = [
-                {
-                    name: '最高分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByMax,
+        }else{
+            colorData = ['#99b7df', '#fad680', '#e4b2d8'];
+            legendData = ['最高分', '最低分', '平均分'];
+            seriesData = [{
+                name: '最高分',
+                type: 'bar',
+                label: {
+                    show: true
                 },
-                {
-                    name: '最低分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByMin,
+                barGap: "0",
+                data: secondDataSeriesByMax,
+            },
+            {
+                name: '最低分',
+                type: 'bar',
+                label: {
+                    show: true
                 },
-                {
-                    name: '平均分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByAvg,
+                barGap: "0",
+                data: secondDataSeriesByMin,
+            },
+            {
+                name: '平均分',
+                type: 'bar',
+                label: {
+                    show: true
                 },
-            ]
+                barGap: "0",
+                data: secondDataSeriesByAvg,
+            }]
         }
-        option.series = series;
-        return option;
+        xData = [{type: 'value'}];
+        yData = [{data: firstDataAxis, inverse: true}];
+        gridSetting = {left: "20%",top: "10%",bottom: "10%"};
+        tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
+        return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
+    /*
+        主观题答题分布分析
+    */ 
     getVerticalOption() {
+        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[];
         let { thirdDataAxis, thirdDataSeries } = this.data;
 
-        var option = {
-            title: {
-                text: '答题得分分布',
-                left: 'center',
-                textStyle: {
-                    fontWeight: 'normal'
-                }
-            },
-            color: ['#566b8e'],
-            xAxis: {
-                type: 'category',
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                data: thirdDataAxis
-            },
-            yAxis: {
-                type: 'value'
-            },
-            grid: {
-                left: "20%",
-                top: "20%",
-                bottom: "10%",
-            },
-            series: [{
-                // data: [120, 200, 150, 80, 70, 110, 130],
-                data: thirdDataSeries,
-                label: {
-                    show: true,
-                    position: 'top',
-                    formatter: (params) => {
-                        return params.value + "%";
-                    }
-                },
-                type: 'bar',
-                showBackground: true,
-                backgroundStyle: {
-                    color: 'rgba(220, 220, 220, 0.8)'
-                }
-            }]
-        };
-        return option;
+        Title = '答题得分分布';
+        colorData = ['#566b8e'];
+        xData = thirdDataAxis;
+        gridSetting = {left: "20%",top: "20%",bottom: "10%"}
+        seriesData = thirdDataSeries;
+
+        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData});
     },
     // 切换tab页试题
     swichNav: function (e) {
@@ -351,6 +262,6 @@ Page({
             }
         }
         this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
-        this.initChart('thirdComponent', '#thirdChart', thirdChart);
+        chart.initChart(this, 'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
     }
 })

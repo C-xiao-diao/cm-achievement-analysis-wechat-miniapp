@@ -120,12 +120,21 @@ const chart = {
       case '#trendChart':
         option = obj.getGradeTrendData();
         break;
-    }
+      case '#supervisorFirstChart':
+        option = obj.getHorizontalOption(0);
+        break;
+      case '#supervisorSecondChart':
+        option = obj.getHorizontalOption(1);
+        break;
+      case '#supervisorThirdChart':
+        option = obj.getVerticalOption();
+        break;
+  }
 
     whichChart.setOption(option);
     return whichChart;
   },
-  //柱状图option
+  //横向柱状图option
   barChartOption: function({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting}){
     var option = {
       color: colorData, //颜色数组
@@ -134,7 +143,6 @@ const chart = {
         data: legendData  //示例数组
       },
       grid: gridSetting,
-      
       xAxis: xData,
       yAxis: yData,
       series: seriesData  //数据
@@ -192,6 +200,43 @@ const chart = {
       series: seriesData
     };
 
+    return option;
+  },
+  //垂直柱状图option
+  verticalBarChartOption: function({Title,colorData,xData,gridSetting,seriesData}){
+    var option = {
+        title: {
+            text: Title,
+            left: 'center',
+            textStyle: {
+                fontWeight: 'normal'
+            }
+        },
+        color: colorData,
+        xAxis: {
+            type: 'category',
+            data: xData
+        },
+        yAxis: {
+            type: 'value'
+        },
+        grid: gridSetting,
+        series: [{
+            data: seriesData,
+            label: {
+                show: true,
+                position: 'top',
+                formatter: (params) => {
+                    return params.value + "%";
+                }
+            },
+            type: 'bar',
+            showBackground: true,
+            backgroundStyle: {
+                color: 'rgba(220, 220, 220, 0.8)'
+            }
+        }]
+    };
     return option;
   },
   //分数段对比图 提示框数据组装

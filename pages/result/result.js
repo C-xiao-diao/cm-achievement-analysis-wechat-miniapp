@@ -1,5 +1,4 @@
 const app = getApp();
-import * as echarts from './../../components/ec-canvas/echarts'
 const util = require('../../utils/util.js')
 import { chart } from "./../../utils/util";
 import "./../../utils/fix";
