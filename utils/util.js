@@ -129,6 +129,15 @@ const chart = {
       case '#supervisorThirdChart':
         option = obj.getVerticalOption();
         break;
+      case '#objectiveFirstChart':
+        option = obj.getHorizontalOption(0);
+        break;
+      case '#objectiveSecondChart':
+        option = obj.getHorizontalOption(1);
+        break;
+      case '#objectiveThirdChart':
+        option = obj.getVerticalOption();
+        break;
   }
 
     whichChart.setOption(option);
@@ -203,13 +212,17 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function({Title,colorData,xData,gridSetting,seriesData}){
+  verticalBarChartOption: function({Title,colorData,xData,gridSetting,seriesData,subTitle}){
     var option = {
         title: {
             text: Title,
             left: 'center',
             textStyle: {
                 fontWeight: 'normal'
+            },
+            subtext: subTitle,
+            subtextStyle:{
+                color: "red"
             }
         },
         color: colorData,
@@ -234,6 +247,12 @@ const chart = {
             showBackground: true,
             backgroundStyle: {
                 color: 'rgba(220, 220, 220, 0.8)'
+            },
+            emphasis: {
+                itemStyle: {
+                    // 高亮时点的颜色。
+                    color: '#fad680',
+                }
             }
         }]
     };

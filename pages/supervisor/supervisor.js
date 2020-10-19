@@ -229,7 +229,7 @@ Page({
         主观题答题分布分析
     */ 
     getVerticalOption() {
-        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[];
+        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[],subTitle='';
         let { thirdDataAxis, thirdDataSeries } = this.data;
 
         Title = '答题得分分布';
@@ -238,7 +238,7 @@ Page({
         gridSetting = {left: "20%",top: "20%",bottom: "10%"}
         seriesData = thirdDataSeries;
 
-        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData});
+        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,subTitle});
     },
     // 切换tab页试题
     swichNav: function (e) {
