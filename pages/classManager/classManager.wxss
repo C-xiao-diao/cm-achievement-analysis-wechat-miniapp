@@ -15,7 +15,38 @@
 
 .chart {
     width: 96%;
-    height: 500rpx;
+    height: 700rpx;
     margin: 30rpx 0;
-    background: #eee;
 }
+
+.fl-tab {
+    width: 40%;
+    float: left;
+}
+
+.txtBtn{
+    width: 100%;
+    text-align: right;
+}
+
+.button {
+    color: blue;
+    font-size: 32rpx;
+    margin-right: 10%;
+}
+
+.tab {
+    width: 100%;
+    margin-left: 20%;
+}
+
+.tab > text {
+    flex: none;
+    width: 150rpx;
+    border-radius: 10rpx;
+}
+
+.tab > text:last-child {
+    border-left: 2rpx solid #566b8e;
+    margin-left: 15rpx;
+} 

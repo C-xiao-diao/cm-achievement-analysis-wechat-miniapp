@@ -34,14 +34,15 @@
 
     <!--优秀率/及格率对比 -->
     <text class="title">— 优秀率/及格率对比 —</text>
-    <text class="button">按优秀率排序</text>
+    <view class="txtBtn">
+        <text class="button">按优秀率排序</text>
+    </view>    
     <view class="chart mb60">
         <ec-canvas id="managerThirdChart" canvas-id="managerThirdChart" ec="{{ ecThird }}"></ec-canvas>
     </view>
 
     <!--历史走势图（优秀率/及格率） -->
     <text class="title">— 历史走势图（优秀率/及格率） —</text>
-    <text class="button">按优秀率排序</text>
     <view class="chart mb60">
         <ec-canvas id="managerFourthChart" canvas-id="managerFourthChart" ec="{{ ecFourth }}"></ec-canvas>
     </view>
@@ -67,7 +68,7 @@
 
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
-    <view class="tab fl-tab">
+    <view class="tab">
       <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">50分段</text>
       <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">100分段</text>
     </view>

@@ -77,57 +77,52 @@ Page({
     //获取 平均分对比 图表数据
     getAvgCompareData(){
         var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
-        colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
-        legendData = ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810'];
-        yData = [
-            {
-                data: ['0-50','50-100','100-150']
-            }
-        ];
+        gridSetting = {}, seriesData = [], tooltipSetting = {};
+        colorData = ['#99b7df', '#fad680', '#e4b2d8'];
+        legendData = ['最高分', '最低分', '平均分'];
+        yData = [{
+            data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
+        }];
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
         seriesData = [
-            [
-                {
-                  name: '最高分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [6,7,8,9,10,5,6,7,8,9],
+            {
+                name: '最高分',
+                type: 'bar',
+                label: {
+                show: true
                 },
-                {
-                  name: '最低分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [0,1,2,3,4,5,3,2,4,5,1],
+                barGap: "0",
+                data: [117, 110, 121, 116, 116, 107, 111, 117, 130, 130]
+            },
+            {
+                name: '最低分',
+                type: 'bar',
+                label: {
+                show: true
                 },
-                {
-                  name: '平均分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [3,4,5,2,3,7,8,5,6,2],
+                barGap: "0",
+                data: [70, 53, 54, 55, 31, 0, 58, 0, 0, 86]
+            },
+            {
+                name: '平均分',
+                type: 'bar',
+                label: {
+                show: true
                 },
-              ]
+                barGap: "0",
+                data: ["96.50", 88.53, 95.04, 89.11, 88.98, 85.58, "87.60", 86.71, 101.79, 104.75]
+            }
         ]
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
-
     },
     //获取 平均分趋势 图表数据
     getAvgTrendData(){
-        var gridSetting = {},xData=[],legendData=[],yAxisInverse=false,seriesData=[];
-
-        gridSetting = {left: "15%",right: "5%",top: "5%",bottom: "18%",}
+        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
+        gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
         xData = ['202006','202007','202008','202009','202010'];
         seriesData = [
             {
@@ -162,10 +157,12 @@ Page({
     //获取 优秀率/及格率对比 图表数据
     getPassRateData(){
         var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
+        gridSetting = {}, seriesData = [], tooltipSetting = {};
         colorData = ['#edafda', '#93b7e3'];
         legendData = ['优秀率', '及格率'];
-        yData = []
+        yData = [{
+            data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
+        }]
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
@@ -180,7 +177,7 @@ Page({
                     }
                 },
                 barGap: "0",
-                data: [4,5,6,7,8,1,2,4,5,6],
+                data: [24,55,36,77,88,41,32,64,85,76],
             },
             {
                 name: '及格率',
@@ -192,16 +189,17 @@ Page({
                     }
                 },
                 barGap: "0",
-                data: [7,5,2,4,7,5,8,9,3,2]
-            }]
+                data: [17,25,42,54,37,75,84,29,30,32]
+            }
+        ]
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
     //获取 优秀率/及格率趋势 图表数据
     getPassTrendData(){
-        var gridSetting = {},xData=[],legendData=[],yAxisInverse=false,seriesData=[];
-
-        gridSetting = {left: "15%",right: "5%",top: "5%",bottom: "18%",}
+        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
+        gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
         xData = ['202006','202007','202008','202009','202010'];
         seriesData = [
             {
@@ -237,48 +235,55 @@ Page({
     getGradeSectionData(){
         var colorData = [], legendData = [], xData = [], yData = [],
         gridSetting = {}, seriesData = [], tooltipSetting = [];
-        colorData = ['#99b7df', '#fad680', '#e4b2d8'];
+        colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
         legendData = ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810'];
         yData = [
             {
-            data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
+            data: ['0-50','50-100','100-150']
             }
         ];
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
         seriesData = [
-            [
-                {
-                  name: '最高分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [6,7,8,9,10,5,6,7,8,9],
+            {
+                name: 'C1801',
+                type: 'bar',
+                label: {
+                show: true
                 },
-                {
-                  name: '最低分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [0,1,2,3,4,5,3,2,4,5,1],
+                barGap: "0",
+                data: [6,7,8,9,10,5,6,7,8,9],
+            },
+            {
+                name: 'C1802',
+                type: 'bar',
+                label: {
+                show: true
                 },
-                {
-                  name: '平均分',
-                  type: 'bar',
-                  label: {
-                    show: true
-                  },
-                  barGap: "0",
-                  data: [3,4,5,2,3,7,8,5,6,2],
+                barGap: "0",
+                data: [0,1,2,3,4,5,3,2,4,5,1],
+            },
+            {
+                name: 'C1803',
+                type: 'bar',
+                label: {
+                show: true
                 },
-              ]
+                barGap: "0",
+                data: [3,4,5,2,3,7,8,5,6,2],
+            }
         ]
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
+    },
+    //切换 分数段
+    swichNav(e){
+        var that = this, tab = e.currentTarget.dataset.name;
+        if (this.data[tab] === e.target.dataset.current) {
+          return false;
+        } else {
+          that.setData({ [tab]: e.target.dataset.current, })
+        }
     }
 })

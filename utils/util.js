@@ -144,7 +144,7 @@ const chart = {
       case '#managerSecondChart':
         option = obj.getAvgTrendData();
         break;
-      case '#managerThirdtChart':
+      case '#managerThirdChart':
         option = obj.getPassRateData();
         break;
       case '#managerFourthChart':
