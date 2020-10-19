@@ -192,7 +192,7 @@
   display: block;
   width: 50rpx;
   height: 50rpx;
-  line-height: 50rpx;
+  line-height: 48rpx;
   font-size: 40rpx;
   text-align: center;
   border-radius: 50%;

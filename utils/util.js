@@ -1,3 +1,4 @@
+import * as echarts from './../components/ec-canvas/echarts'
 import webConfig from "./../configs/config"
 import "./fix"
 import _ from "lodash";
@@ -78,8 +79,163 @@ const returnFloat = value =>{
   return v;
 }
 
+const chart = {
+  //图表初始化
+  initChart: function(obj, chartComponent, dom, whichChart) {
+    if (!obj[chartComponent]) {
+      obj[chartComponent] = obj.selectComponent(dom);
+    }
+    obj[chartComponent].init((canvas, width, height) => {
+      whichChart = echarts.init(canvas, null, {
+        width: width,
+        height: height,
+        devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
+      });
+      this.setOption(obj, whichChart, dom);
+      return whichChart;
+    });
+  },
+  //设置图表option
+  setOption: function (obj, whichChart, dom) {
+    var option;
+    switch (dom) {
+      case '#topChart':
+        option = obj.getClassCompareData(0);
+        break;
+      case '#topChartByScore':
+        option = obj.getClassCompareData(1);
+        break;
+      case '#secondBarChart':
+        option = obj.getBandScoreBarData(0);
+        break;
+      case '#secondPieChart':
+        option = obj.getBandScorePieData(0);
+        break;
+      case '#bottomBarChart':
+        option = obj.getBandScoreBarData(1);
+        break;
+      case '#bottomPieChart':
+        option = obj.getBandScorePieData(1);
+        break;
+      case '#trendChart':
+        option = obj.getGradeTrendData();
+        break;
+    }
+
+    whichChart.setOption(option);
+    return whichChart;
+  },
+  //柱状图option
+  barChartOption: function({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting}){
+    var option = {
+      color: colorData, //颜色数组
+      tooltip: tooltipSetting,  //提示框设置
+      legend: {
+        data: legendData  //示例数组
+      },
+      grid: gridSetting,
+      
+      xAxis: xData,
+      yAxis: yData,
+      series: seriesData  //数据
+    };
+    return option;
+  },
+  //饼状图option
+  pieChartOption: function({colorData,pieData,tooltipSetting}){
+    var option = {
+      title: {
+        left: 'center'
+      },
+      color: colorData, //颜色数组
+      tooltip: tooltipSetting,//提示框设置
+      series: [
+        {
+          name: '访问来源',
+          type: 'pie',
+          radius: '55%',
+          center: ['50%', '60%'],
+          data: pieData,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }
+      ]
+    };
+    return option;
+  },
+  //折线图option
+  lineChartOption: function({gridSetting,xData,yAxisInverse,seriesData}){
+    var option = {
+      grid: gridSetting,
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: xData,
+        nameTextStyle: {
+          fontSize: 40
+        }
+      },
+      yAxis: {
+        type: 'value',
+        nameTextStyle: {
+          fontSize: 40
+        },
+        inverse: yAxisInverse
+      },
+      series: seriesData
+    };
+
+    return option;
+  },
+  //分数段对比图 提示框数据组装
+  getFormatter(params, type, data) {
+    var interval;
+    if (type == 'pie') {
+      interval = params.data.name;
+    } else {
+      interval = params[0].axisValue;
+    }
+    var res = '', list = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].score == interval) {
+        list = data[i].list.list;
+      }
+    }
+    for (var i = 0; i < list.length; i++) {
+      if (i % 2 === 0) {
+        if (list[i + 1]) {
+          res += this.clearData(list[i].studentName, list[i].score) + '   ' + this.clearData(list[i + 1].studentName, list[i + 1].score) + '\n';
+        } else {
+          res += this.clearData(list[i].studentName, list[i].score) + '   ' + '\n';
+        }
+      }
+    }
+    return res;
+  },
+  // 图表tooltip 的formatter 函数的数据组装
+  clearData: function (name, score) {
+    let str = "";
+    if (_.size(name) === 2) {
+      str = _.first(name) + '   ' + _.last(name) + '：' + score + '分';
+    } else if (_.size(name) === 3) {
+      str = name + '：' + score + '分';
+    } else if (_.size(name) === 4) {
+      str = name + '：' + score + '分';
+    }
+    return str;
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
   http: http,
-  returnFloat: returnFloat
+  returnFloat: returnFloat,
+  chart: chart
 }
