@@ -1,0 +1,78 @@
+<!--classManager.wxml-->
+<view class="container">
+    <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
+    <view class="choose">
+        <view class="section__title">选择科目</view>
+        <picker bindchange="pickSubject" value="{{gradeIndex}}" range="{{subArray}}">
+            <view class="picker">
+            {{subArray[gradeIndex]}}
+            </view>
+        </picker>
+    </view>
+    
+
+    <!--全年级总体情况 -->
+    <text class="title">— 全年级总体情况 —</text>
+    <view class="total r3 mb60">
+        <view>最高分<text>120</text></view>
+        <view>最低分<text>64</text></view>
+        <view>平均分<text>80</text></view>
+    </view>
+
+    <!--平均分对比 -->
+    <text class="title">— 平均分对比 —</text>
+    <text class="subtitle">（按平均分从高至低排序）</text>
+    <view class="chart mb60">
+        <ec-canvas id="managerFirstChart" canvas-id="managerFirstChart" ec="{{ ecFirst }}"></ec-canvas>
+    </view>
+
+    <!--历史走势图（平均分） -->
+    <text class="title">— 历史走势图（平均分） —</text>
+    <view class="chart mb60">
+        <ec-canvas id="managerSecondChart" canvas-id="managerSecondChart" ec="{{ ecSecond }}"></ec-canvas>
+    </view>
+
+    <!--优秀率/及格率对比 -->
+    <text class="title">— 优秀率/及格率对比 —</text>
+    <text class="button">按优秀率排序</text>
+    <view class="chart mb60">
+        <ec-canvas id="managerThirdChart" canvas-id="managerThirdChart" ec="{{ ecThird }}"></ec-canvas>
+    </view>
+
+    <!--历史走势图（优秀率/及格率） -->
+    <text class="title">— 历史走势图（优秀率/及格率） —</text>
+    <text class="button">按优秀率排序</text>
+    <view class="chart mb60">
+        <ec-canvas id="managerFourthChart" canvas-id="managerFourthChart" ec="{{ ecFourth }}"></ec-canvas>
+    </view>
+
+    <!--试卷分析 -->
+    <text class="title">— 试卷分析 —</text>
+    <view class="analysis mb60">
+        <view class="analysis-title">
+            <text>标准差</text>
+            <text>难度</text>
+            <text>区分度</text>
+        </view>
+        <view class="analysis-body">
+            <text>{{sqrt}}</text>
+            <text>{{difficultyFactor}}</text>
+            <text>{{distinction}}</text>
+        </view>
+        <text class="note">
+            说明：标准差，反映成绩分布的离散程度（即均匀性）。{{description}}
+            难度，即试卷（题）的难易程度。{{description2}}
+        </text>
+    </view>
+
+    <!--分数段统计 -->
+    <text class="title">— 分数段统计 —</text>
+    <view class="tab fl-tab">
+      <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="0" data-name="currentTab1" bindtap="swichNav">50分段</text>
+      <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="1" data-name="currentTab1" bindtap="swichNav">100分段</text>
+    </view>
+    <view class="chart">
+        <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
+    </view>
+
+</view>

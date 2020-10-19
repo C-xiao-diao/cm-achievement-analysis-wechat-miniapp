@@ -138,6 +138,21 @@ const chart = {
       case '#objectiveThirdChart':
         option = obj.getVerticalOption();
         break;
+      case '#managerFirstChart':
+        option = obj.getAvgCompareData();
+        break;
+      case '#managerSecondChart':
+        option = obj.getAvgTrendData();
+        break;
+      case '#managerThirdtChart':
+        option = obj.getPassRateData();
+        break;
+      case '#managerFourthChart':
+        option = obj.getPassTrendData();
+        break;
+      case '#managerFifthChart':
+        option = obj.getGradeSectionData();
+        break;
   }
 
     whichChart.setOption(option);
@@ -156,7 +171,6 @@ const chart = {
       yAxis: yData,
       series: seriesData  //数据
     };
-    console.log(option,9999)
     return option;
   },
   //饼状图option
@@ -187,12 +201,13 @@ const chart = {
     return option;
   },
   //折线图option
-  lineChartOption: function({gridSetting,xData,yAxisInverse,seriesData}){
+  lineChartOption: function({gridSetting,legendData,xData,yAxisInverse,seriesData}){
     var option = {
       grid: gridSetting,
       tooltip: {
         trigger: 'axis'
       },
+      legend: legendData,
       xAxis: {
         type: 'category',
         data: xData,
