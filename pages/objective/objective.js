@@ -1,4 +1,3 @@
-import * as echarts from './../../components/ec-canvas/echarts'
 import "./../../utils/fix";
 import _ from "lodash";
 const util = require('../../utils/util.js')
@@ -115,7 +114,7 @@ Page({
                     scoringRrate = util.returnFloat(scoringRrate * 100)
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得正确率
-                        firstDataAxis.push(listGroupClassStatistics[i].class_);
+                        firstDataAxis.unshift(listGroupClassStatistics[i].class_);
                         firstfirstDataSeriesByCorrectRate.push(_.round(listGroupClassStatistics[i].objectiveQuestionsCorrectRate, 1))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))

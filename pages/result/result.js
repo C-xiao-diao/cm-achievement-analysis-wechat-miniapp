@@ -234,7 +234,7 @@ Page({
             topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
             topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
             topDataSeriesByScoreAvg.unshift(util.returnFloat(listGroupClassStatistics[i].avgScore))
-            topDataAxis2.push(listGroupClassStatistics[i].class_)
+            topDataAxis2.unshift(listGroupClassStatistics[i].class_)
           }
           this.setData({
             topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg,

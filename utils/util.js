@@ -156,6 +156,7 @@ const chart = {
       yAxis: yData,
       series: seriesData  //数据
     };
+    console.log(option,9999)
     return option;
   },
   //饼状图option
