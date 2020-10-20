@@ -52,12 +52,13 @@
     </view>
 
     <!-- 年级主任 -->
-    <view wx:if="{{role === 2}}">
-      <text>班级</text>
-      <input class="weui-input"  value="初中2018级" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
-      <!-- <view class="ul" wx:if="{{classArray.length!=0}}">
-        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" catch:tap="getCurClass">{{item}}</text>
-      </view> -->
+    <view class="choose-grade" wx:if="{{role === 2}}">
+      <text>年级</text>
+      <picker bindchange="pickerGrade" value="{{gradeIndex}}" range="{{grade}}">
+      <view class="picker">
+        {{grade[gradeIndex]}}
+      </view>
+    </picker>
     </view>
 
     <!-- 任课老师 -->

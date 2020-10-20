@@ -178,3 +178,14 @@
   background: #333;
   color: #fff;
 }
+
+.choose-grade picker {
+  flex: 1;
+  width: 400rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 10rpx;
+  border: 2rpx solid #eee;
+  border-radius: 10rpx;
+  font-size: 32rpx;
+}

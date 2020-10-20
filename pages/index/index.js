@@ -26,6 +26,25 @@ Page({
     subjectIndex: 0,
     subjectId: 1,
     subjectArray: [{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }, { id: 9, name: '全科' }],
+    gradeIndex: 0,
+    grade: ['初中2018级','初中2019级','初中2020级'],
+    gradeArray: [
+      {
+        id: 0,
+        name: '初中2018级',
+        class: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
+      },
+      {
+        id: 1,
+        name: '初中2019级',
+        class: ['C1901','C1902','C1903','C1904','C1905','C1906','C1907','C1908','C1909','C1910']
+      },
+      {
+        id: 2,
+        name: '初中2020级',
+        class: ['C2001','C2002','C2003','C2004','C2005','C2006','C2007','C2008','C2009','C2010']
+      }
+    ],
     //角色
     role: 0,            // 0老师   1 家长
     ticketNumber: "",
@@ -66,6 +85,9 @@ Page({
       'schoolArray': [],
       'classArray': []
     })
+  },
+  pickerGrade(e){  //选择年级
+    this.setData({ gradeIndex: e.detail.value });
   },
   bindPickerProvince(e) {//选择省
     this.setData({ provinceIndex: e.detail.value })
