@@ -11,7 +11,7 @@ Page({
   data: {
     userId: '',
     subject: '',
-    role: 0,
+    role: 1,
     yearMonth: '',
     studentName: '',
     ticketNumber: '',
@@ -114,7 +114,7 @@ Page({
           var y = d.yearMonth.substr(0, 4);
           var m = d.yearMonth.substr(4, 5);
 
-          if (that.data.role == 0) {
+          if (that.data.role == 1) {
             if (that.data.subject != '全科') {//单科老师页面数据
               //小数点数据*100操作
               for (var i = 0; i < d.list.length; i++) {
@@ -328,7 +328,7 @@ Page({
       'schoolId': this.data.schoolId,
       'class_': this.data.class
     };
-    if (this.data.role == 0) {//老师
+    if (this.data.role == 1) {//老师
       if (this.data.subject == '全科') {
         str = '/auth/monthlyExamResults/overallRankingTrend';
       } else {
@@ -375,7 +375,7 @@ Page({
     //初始化第二项分数段统计（柱图/饼图 切换）
     this.initSecondChart();
     //初始化底部柱状图
-    if (this.data.role == 0 && this.data.subject == '语文') {
+    if (this.data.role == 1 && this.data.subject == '语文') {
       this.initBottomChart();
     }
     //初始化趋势图
