@@ -17,6 +17,8 @@ Page({
         difficultyFactor: 0,    //难度
         distinction: 0, //区分度
         description: '',    //试卷分析描述
+        description2:'',
+        currentSort: 0,
         currentTab1: 0,
         maxScore: 0,
         minScore: 0,
@@ -93,7 +95,7 @@ Page({
                     //数据的清洗和组装
                     let maxScore = _.round(_.get(resData, 'maxScore'));
                     let minScore = _.round(_.get(resData, 'minScore'));
-                    let avgScore = _.round(_.get(resData, 'avgScore'));
+                    let avgScore = util.returnFloat(_.get(resData, 'avgScore'));
                     let classListMaxMinAvg = _.get(resData, 'classListMaxMinAvg');
                     let listAvg =  _.get(resData, 'listAvg');
                     let sqrtDouble = _.get(resData, 'sqrtDouble');
@@ -105,7 +107,7 @@ Page({
                     for(let i=0;i< resData.classListMaxMinAvg.length; i++){
                         firstDataSeriesByMax.push(classListMaxMinAvg[i].maxScore);
                         firstDataSeriesByMin.push(classListMaxMinAvg[i].minScore);
-                        firstDataSeriesByAvg.push(classListMaxMinAvg[i].maxScore);
+                        firstDataSeriesByAvg.push(util.returnFloat(classListMaxMinAvg[i].avgScore));
                         firstDataAxis.push(classListMaxMinAvg[i].class_);
                     }
                     //历史走势图
@@ -117,7 +119,7 @@ Page({
                         secondDataLegend.push(listAvg[i].class_);
                         let list = _.get(listAvg, `${i}.list`, []);
                         for (let j=0;j< list.length; j++){
-                            obj.data[j] = _.round(list[j].avgScore, 2);
+                            obj.data[j] = util.returnFloat(list[j].avgScore);
                             secondDataAxis.push(list[j].yearMonth);
                             secondDataAxis = _.uniq(secondDataAxis);
                         }
@@ -226,7 +228,6 @@ Page({
         colorData = ['#99b7df', '#fad680', '#e4b2d8'];
         legendData = ['最高分', '最低分', '平均分'];
         yData = [{
-            // data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
             data: firstDataAxis
         }];
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
@@ -240,7 +241,6 @@ Page({
                 show: true
                 },
                 barGap: "0",
-                // data: [117, 110, 121, 116, 116, 107, 111, 117, 130, 130]
                 data: firstDataSeriesByMax,
             },
             {
@@ -250,7 +250,6 @@ Page({
                 show: true
                 },
                 barGap: "0",
-                // data: [70, 53, 54, 55, 31, 0, 58, 0, 0, 86]
                 data: firstDataSeriesByMin,
             },
             {
@@ -260,7 +259,6 @@ Page({
                 show: true
                 },
                 barGap: "0",
-                // data: ["96.50", 88.53, 95.04, 89.11, 88.98, 85.58, "87.60", 86.71, 101.79, 104.75]
                 data: firstDataSeriesByAvg,
             }
         ]
@@ -271,39 +269,10 @@ Page({
     getAvgTrendData(){
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
-        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: secondDataLegend};
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
-        // xData = ['202006','202007','202008','202009','202010'];
         xData = secondDataAxis;
         seriesData = secondDataSeries;
-        // seriesData = [
-        //     {
-        //         name: 'C1801',
-        //         type: 'line',
-        //         data: [120, 132, 101, 134, 90]
-        //     },
-        //     {
-        //         name: 'C1802',
-        //         type: 'line',
-        //         data: [220, 182, 191, 234, 290]
-        //     },
-        //     {
-        //         name: 'C1803',
-        //         type: 'line',
-        //         data: [150, 232, 201, 154, 190]
-        //     },
-        //     {
-        //         name: 'C1804',
-        //         type: 'line',
-        //         data: [320, 332, 301, 334, 390]
-        //     },
-        //     {
-        //         name: 'C1805',
-        //         type: 'line',
-        //         data: [820, 932, 901, 934, 1290]
-        //     }
-        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData});   
     },
@@ -315,7 +284,6 @@ Page({
         colorData = ['#edafda', '#93b7e3'];
         legendData = ['优秀率', '及格率'];
         yData = [{
-            // data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
             data: thirdDataAxis
         }]
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
@@ -332,7 +300,6 @@ Page({
                     }
                 },
                 barGap: "0",
-                // data: [24,55,36,77,88,41,32,64,85,76],
                 data: thirdDataSeriesByExcellent
             },
             {
@@ -345,7 +312,6 @@ Page({
                     }
                 },
                 barGap: "0",
-                // data: [17,25,42,54,37,75,84,29,30,32]
                 data: thirdDataSeriesByPassing
             }
         ]
@@ -356,40 +322,10 @@ Page({
     getPassTrendData(){
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
-        console.log(fourthDataSeries,'111111', fourthDataAxis, '2222', fourthDataLegend)
-        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: fourthDataLegend}
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
-        // xData = ['202006','202007','202008','202009','202010'];
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
-        // seriesData = [
-        //     {
-        //         name: 'C1801',
-        //         type: 'line',
-        //         data: [120, 132, 101, 134, 90]
-        //     },
-        //     {
-        //         name: 'C1802',
-        //         type: 'line',
-        //         data: [220, 182, 191, 234, 290]
-        //     },
-        //     {
-        //         name: 'C1803',
-        //         type: 'line',
-        //         data: [150, 232, 201, 154, 190]
-        //     },
-        //     {
-        //         name: 'C1804',
-        //         type: 'line',
-        //         data: [320, 332, 301, 334, 390]
-        //     },
-        //     {
-        //         name: 'C1805',
-        //         type: 'line',
-        //         data: [820, 932, 901, 934, 1290]
-        //     }
-        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
     },
