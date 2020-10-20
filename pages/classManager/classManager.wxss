@@ -15,7 +15,7 @@
 
 .chart {
     width: 96%;
-    height: 700rpx;
+    height: 800rpx;
     margin: 30rpx 0;
 }
 

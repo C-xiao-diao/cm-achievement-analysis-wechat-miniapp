@@ -14,9 +14,9 @@
     <!--全年级总体情况 -->
     <text class="title">— 全年级总体情况 —</text>
     <view class="total r3 mb60">
-        <view>最高分<text>120</text></view>
-        <view>最低分<text>64</text></view>
-        <view>平均分<text>80</text></view>
+        <view>最高分<text>{{maxScore}}</text></view>
+        <view>最低分<text>{{minScore}}</text></view>
+        <view>平均分<text>{{avgScore}}</text></view>
     </view>
 
     <!--平均分对比 -->
