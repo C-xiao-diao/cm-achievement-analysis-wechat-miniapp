@@ -243,7 +243,7 @@ Page({
         客观题答题选项分布分析
     */
     getVerticalOption() {
-        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[],subTitle='';
+        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[],subTitle='',tooltipSetting={};
         let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
@@ -254,8 +254,24 @@ Page({
         gridSetting = {left: "20%",top: "20%",bottom: "10%"}
         seriesData = thirdDataSeries;
         subTitle = "正确答案 ： " + answerName;
+        tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+              triggerOn: 'click'
+            },
+            position: ['15%', '0%'],
+            extraCssText: 'width: 60%;height:100%;',
+            formatter: function (params) {
+              var data;
+              console.log(params[0].axisValue,999999)
+            //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
+            //   var res = chart.getFormatter(params, 'bar', data);
+            //   return res;
+            }
+        }
 
-        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,subTitle});
+        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,tooltipSetting,subTitle});
     },
 
     // 切换tab页试题

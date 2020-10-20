@@ -228,7 +228,7 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function({Title,colorData,xData,gridSetting,seriesData,subTitle}){
+  verticalBarChartOption: function({Title,colorData,xData,gridSetting,tooltipSetting,seriesData,subTitle}){
     var option = {
         title: {
             text: Title,
@@ -241,6 +241,7 @@ const chart = {
                 color: "red"
             }
         },
+        tooltip: tooltipSetting,
         color: colorData,
         xAxis: {
             type: 'category',
@@ -263,12 +264,6 @@ const chart = {
             showBackground: true,
             backgroundStyle: {
                 color: 'rgba(220, 220, 220, 0.8)'
-            },
-            emphasis: {
-                itemStyle: {
-                    // 高亮时点的颜色。
-                    color: '#fad680',
-                }
             }
         }]
     };
