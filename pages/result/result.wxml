@@ -53,8 +53,8 @@
   </view>
   <!-- 主观题客观题分析导航按钮 -->
   <view class="navAnalysisButtonGroup mb60" wx:if="{{role==0 && subject!='全科'}}">
-    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">主观题统计分析</Text>
-    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">客观题统计分析</Text>
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">客观题统计分析</Text>
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">主观题统计分析</Text>
   </view>
 
   <!-- 分数段统计 -->

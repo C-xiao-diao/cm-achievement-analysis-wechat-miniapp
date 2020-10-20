@@ -236,7 +236,7 @@ Page({
             topDataSeriesByScoreMax.unshift(listGroupClassStatistics[i].maxScore)
             topDataSeriesByScoreMin.unshift(listGroupClassStatistics[i].minScore)
             topDataSeriesByScoreAvg.unshift(util.returnFloat(listGroupClassStatistics[i].avgScore))
-            topDataAxis2.push(listGroupClassStatistics[i].class_)
+            topDataAxis2.unshift(listGroupClassStatistics[i].class_)
           }
           this.setData({
             topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg,
@@ -782,11 +782,11 @@ Page({
     let str = '?class=' + this.data.class +'&subject=' + this.data.subject;
     if(type === 0){
       wx.navigateTo({
-        url: '/pages/supervisor/supervisor' + str 
+        url: '/pages/objective/objective' + str 
       });
     } else {
       wx.navigateTo({
-        url: '/pages/objective/objective' + str
+        url: '/pages/supervisor/supervisor' + str
       });
     }
   },
