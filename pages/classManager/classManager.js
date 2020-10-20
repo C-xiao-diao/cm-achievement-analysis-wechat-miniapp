@@ -12,7 +12,6 @@ Page({
         subArray: ['总分','语文','数学','英语','生物','物理','地理','地理','政治','历史','化学','体育'],
         subjectIndex: 1,
         classArray: [],
-        ecFirst: {lazyLoad: true},
         sqrt: 0,    //标准差
         difficultyFactor: 0,    //难度
         distinction: 0, //区分度
