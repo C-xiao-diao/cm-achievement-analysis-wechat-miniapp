@@ -3,6 +3,11 @@
   padding-bottom: 20rpx;
 }
 
+.score{
+  color: red;
+  font-size: 40;
+}
+
 .sub-title{
   font-size: 30rpx;
   color: #666;

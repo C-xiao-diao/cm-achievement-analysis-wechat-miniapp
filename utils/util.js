@@ -35,7 +35,7 @@ const http = {
       if (app.globalData.userId) {
         wx.request({ url, method: "GET", header, data, success, fail, complete });
       } else {
-        wx.request({ url, method: "GET", data, success, fail,complete });
+        wx.request({ url, method: "GET", data, success, fail, complete });
       }
     } catch (e) {
       wx.showToast({ title: '操作失败', icon: 'none', duration: 2000 })
@@ -53,9 +53,9 @@ const http = {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
       if (app.globalData.userId) {
-        wx.request({ url, method: "POST", header, data, success, fail,complete });
+        wx.request({ url, method: "POST", header, data, success, fail, complete });
       } else {
-        wx.request({ url, method: "POST", data, success, fail,complete });
+        wx.request({ url, method: "POST", data, success, fail, complete });
       }
     } catch (e) {
       console.log(e, 'eeeeeeeeeeeeeeeeeeeeeeee')
@@ -64,24 +64,24 @@ const http = {
   },
 }
 
-const returnFloat = value =>{
-  var v = Math.round(parseFloat(value)*100)/100;
+const returnFloat = value => {
+  var v = Math.round(parseFloat(value) * 100) / 100;
   var x = v.toString().split(".");
-  if(x.length == 1){
+  if (x.length == 1) {
     v = v.toString() + ".00";
     return v;
   }
-  if(x.length > 1){
-    if(x[1].length < 2){
+  if (x.length > 1) {
+    if (x[1].length < 2) {
       v = v.toString() + "0";
-    } 
+    }
   }
   return v;
 }
 
 const chart = {
   //图表初始化
-  initChart: function(obj, chartComponent, dom, whichChart) {
+  initChart: function (obj, chartComponent, dom, whichChart) {
     if (!obj[chartComponent]) {
       obj[chartComponent] = obj.selectComponent(dom);
     }
@@ -129,6 +129,9 @@ const chart = {
       case '#supervisorThirdChart':
         option = obj.getVerticalOption();
         break;
+      case '#supervisorFourthChart':
+        option = obj.getTopicHorizontalOption();
+        break;
       case '#objectiveFirstChart':
         option = obj.getHorizontalOption(0);
         break;
@@ -153,13 +156,13 @@ const chart = {
       case '#managerFifthChart':
         option = obj.getGradeSectionData();
         break;
-  }
+    }
 
     whichChart.setOption(option);
     return whichChart;
   },
   //横向柱状图option
-  barChartOption: function({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting}){
+  barChartOption: function ({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting }) {
     var option = {
       color: colorData, //颜色数组
       tooltip: tooltipSetting,  //提示框设置
@@ -174,7 +177,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function({colorData,pieData,tooltipSetting}){
+  pieChartOption: function ({ colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'
@@ -201,7 +204,7 @@ const chart = {
     return option;
   },
   //折线图option
-  lineChartOption: function({gridSetting,legendData,xData,yAxisInverse,seriesData}){
+  lineChartOption: function ({ gridSetting, legendData, xData, yAxisInverse, seriesData }) {
     var option = {
       grid: gridSetting,
       tooltip: {
@@ -228,44 +231,44 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function({Title,colorData,xData,gridSetting,tooltipSetting,seriesData,subTitle}){
+  verticalBarChartOption: function ({ Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
     var option = {
-        title: {
-            text: Title,
-            left: 'center',
-            textStyle: {
-                fontWeight: 'normal'
-            },
-            subtext: subTitle,
-            subtextStyle:{
-                color: "red"
-            }
+      title: {
+        text: Title,
+        left: 'center',
+        textStyle: {
+          fontWeight: 'normal'
         },
-        tooltip: tooltipSetting,
-        color: colorData,
-        xAxis: {
-            type: 'category',
-            data: xData
+        subtext: subTitle,
+        subtextStyle: {
+          color: "red"
+        }
+      },
+      tooltip: tooltipSetting,
+      color: colorData,
+      xAxis: {
+        type: 'category',
+        data: xData
+      },
+      yAxis: {
+        type: 'value'
+      },
+      grid: gridSetting,
+      series: [{
+        data: seriesData,
+        label: {
+          show: true,
+          position: 'top',
+          formatter: (params) => {
+            return params.value + "%";
+          }
         },
-        yAxis: {
-            type: 'value'
-        },
-        grid: gridSetting,
-        series: [{
-            data: seriesData,
-            label: {
-                show: true,
-                position: 'top',
-                formatter: (params) => {
-                    return params.value + "%";
-                }
-            },
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-                color: 'rgba(220, 220, 220, 0.8)'
-            }
-        }]
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+          color: 'rgba(220, 220, 220, 0.8)'
+        }
+      }]
     };
     return option;
   },

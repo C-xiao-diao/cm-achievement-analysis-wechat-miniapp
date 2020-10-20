@@ -2,7 +2,8 @@
 <view class="container">
     <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
     <text class="h2">（{{class}} - {{subject}}）</text>
-
+    <!-- 总分 -->
+    <text class="title">总分 <text class="score">{{subjectiveFullMarks}}</text></text>
     <!-- 主观题统计分析 - 班级 -->
     <text class="title">— 主观题统计分析 —</text>
     <text class="sub-title">(班级)</text>
@@ -14,7 +15,7 @@
     <view class="total w30">
         <view>得分率<text>{{classStatistics.scoringRrate}}%</text></view>
     </view>
-    <view class="analysis mb60">
+    <!-- <view class="analysis mb60">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -29,7 +30,7 @@
         说明：标准差，反映成绩分布的离散程度（即均匀性）。{{firstDescriptionSqrt}}
         难度，即试卷（题）的难易程度。{{firstDescriptionDifficulty}}
       </text>
-    </view>
+    </view> -->
 
     <!-- 主观题统计分析 - 全年级 -->
     <text class="title">— 主观题统计分析 —</text>
@@ -76,5 +77,9 @@
     
     <view class="thirdChart mb60">
       <ec-canvas id="supervisorThirdChart" canvas-id="supervisorThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
+    </view>
+
+    <view class="fourthChart mb60">
+      <ec-canvas id="supervisorFourthChart" canvas-id="supervisorFourthChart" ec="{{ ecFourthChart }}"></ec-canvas>
     </view>
 </view>

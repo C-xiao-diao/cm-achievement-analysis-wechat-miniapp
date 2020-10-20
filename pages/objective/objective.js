@@ -14,6 +14,7 @@ Page({
         //客观题班级统计数据
         classStatistics: {},
         //客观题年级统计数据(PS 这里服务端年级数据没有用对象包起来)
+        objectiveFullMarks: 0,
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
@@ -96,7 +97,8 @@ Page({
                         distinction,
                         listTotalTopic,
                         topicSet,
-                        correctAnswer
+                        correctAnswer,
+                        objectiveFullMarks
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
@@ -130,6 +132,7 @@ Page({
                     }
                     //----------------  end  ------------------
                     this.setData({
+                        objectiveFullMarks,
                         classStatistics,
                         firstDescriptionSqrt,
                         firstDescriptionDifficulty,

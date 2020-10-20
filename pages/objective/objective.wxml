@@ -2,7 +2,8 @@
 <view class="container">
     <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
     <text class="h2">（{{class}} - {{subject}}）</text>
-
+    <!-- 总分 -->
+    <text class="title">总分 <text class="score">{{objectiveFullMarks}}</text></text>
     <!-- 客观题统计分析 - 班级 -->
     <text class="title">— 客观题统计分析 —</text>
     <text class="sub-title">(班级)</text>

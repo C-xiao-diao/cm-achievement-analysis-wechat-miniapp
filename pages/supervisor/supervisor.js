@@ -3,7 +3,7 @@ import _ from "lodash";
 import { http, chart } from "./../../utils/util";
 const util = require('../../utils/util.js')
 
-var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null;
+var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null,supervisorFourthChart = null;
 
 const app = getApp();
 
@@ -12,6 +12,7 @@ Page({
         //客观题班级统计数据
         classStatistics: {},
         //客观题年级统计数据(PS 这里服务端年级数据没有用对象包起来)
+        subjectiveFullMarks: 0,
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
@@ -41,6 +42,12 @@ Page({
         },
         thirdDataAxis: [],
         thirdDataSeries: [],
+        //第四张图
+        ecFourthChart: {
+            lazyLoad: true
+        },
+        fourthDataAxis: [],
+        fourthDataSeries: [],
         //说明1
         firstDescriptionSqrt: "",
         firstDescriptionDifficulty: "",
@@ -55,6 +62,7 @@ Page({
         // this.initFirstChart();
         // this.initSecondChart();
         // this.initThirdChart();
+        this.initFourthChart();
     },
     onLoad: function (option) {
         this.setData({
@@ -78,6 +86,7 @@ Page({
                     let responseData = _.get(res, 'data.data'), firstDataAxis = [], firstfirstDataSeriesByScoringRrate = [];
                     let secondDataSeriesByMax = [], secondDataSeriesByMin = [], secondDataSeriesByAvg = [];
                     let {
+                        subjectiveFullMarks,
                         classStatistics,
                         listGroupClassStatistics,
                         maxScore,
@@ -119,6 +128,7 @@ Page({
                     let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
                     //----------------  end  ------------------
                     this.setData({
+                        subjectiveFullMarks,
                         classStatistics,
                         firstDescriptionSqrt,
                         firstDescriptionDifficulty,
@@ -162,6 +172,11 @@ Page({
     initThirdChart: function () {
         this.thirdComponent = this.selectComponent('#supervisorThirdChart');
         chart.initChart(this,'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
+    },
+    //初始化第四个图
+    initFourthChart: function () {
+        this.fourthComponent = this.selectComponent('#supervisorFourthChart');
+        chart.initChart(this,'fourthComponent', '#supervisorFourthChart', supervisorFourthChart);
     },
     /*
         主观题分析
@@ -272,6 +287,47 @@ Page({
         }
 
         return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,tooltipSetting,subTitle});
+    },
+
+    getTopicHorizontalOption: function(){
+        let Title = '世界人口总量';
+        let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
+        let tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        };
+        let legendData = ['2011年', '2012年'];
+        let gridSetting = {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        };
+        let subTitle = '数据来自网络';
+        let xData = {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        };
+        let yData = {
+            type: 'category',
+            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+        };
+        let seriesData = [
+            {
+                name: '2011年',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
+            },
+            {
+                name: '2012年',
+                type: 'bar',
+                data: [19325, 23438, 31000, 121594, 134141, 681807]
+            }
+        ]; 
+        return chart.barChartOption({Title,colorData,xData,yData,legendData,
+            gridSetting,seriesData,tooltipSetting,subTitle});
     },
     // 切换tab页试题
     swichNav: function (e) {
