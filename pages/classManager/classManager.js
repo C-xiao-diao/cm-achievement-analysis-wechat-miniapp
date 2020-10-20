@@ -10,7 +10,7 @@ Page({
     data: {
         subjectArray: [{name:'总分', id:0},{name:'语文', id:1},{name:'数学', id:2},{name:'英语', id:3},{name:'生物', id:4},{name:'物理', id:5},{name:'地理', id:6},{name:'政治', id:7},{name:'历史', id:8},{name:'化学', id:10},{name:'体育', id:11}],
         subArray: ['总分','语文','数学','英语','生物','物理','地理','地理','政治','历史','化学','体育'],
-        gradeIndex: 0,
+        subjectIndex: 0,
         classArray: [],
         ecFirst: {lazyLoad: true},
         sqrt: 0,    //标准差
@@ -35,6 +35,7 @@ Page({
         }
     },
     onLoad: function(){
+        this.getGradeAnalysisData();
         this.initFirstChart();
         this.initSecondChart();
         this.initThirdChart();
@@ -46,7 +47,27 @@ Page({
     },
     pickSubject: function(e) {
         this.setData({
-            gradeIndex: e.detail.value
+            subjectIndex: e.detail.value
+        })
+    },
+    //获取年级成绩分析数据
+    getGradeAnalysisData: function(){
+        let Url = app.globalData.domain + '/auth/gradeDirector/list';
+        wx.request({
+            url: Url,
+            header: { uid: app.globalData.userId },
+            data: { 
+                weChatUserId: app.globalData.userId,
+                subject: this.data.subjectIndex
+            },
+            success: res => {
+                console.log(res,999)
+                var resData = res.data;
+                if (resData.code == 200) {
+                    console.log(res, 99999)
+                }
+            }
+        
         })
     },
     //初始化 平均分对比 图表

@@ -47,7 +47,7 @@ Page({
     ],
     currentGrade: 'C1801,C1802,C1803,C1804,C1805,C1806,C1807,C1808,C1809,C1810',
     //角色
-    role: 0,            // 0老师   1 家长
+    role: 1,            // 1老师   2家长   3年级主任
     ticketNumber: "",
   },
   onLoad() {
@@ -164,18 +164,20 @@ Page({
     });
   },
   analyzeInfo() {//月考分析提交
+    var Grade = '';
     const { role, ticketNumber, currentGrade } = this.data;
-    if (role === 0) {
+    if (role === 1) {//老师
       if (!this.data.school || !this.data.class) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
       }
-    } else if(role == 1) {
+    } else if(role == 2) {//家长
       if (!ticketNumber) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
       }
-    }else if(role == 2 ) {
+    }else if(role == 3 ) {//年级主任
+      Grade = this.data.currentGrade;
       if (!currentGrade) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
@@ -201,22 +203,22 @@ Page({
       method: "POST",
       data: {
         weChatUserId: app.globalData.userId,
-        userType: role === 1 ? 2 : 1,
+        userType: role,
         schoolId: that.data.schoolId,
         class_: that.data.class,
         subject: that.data.subjectId,
         ticketNumber: ticketNumber,
-        grade: this.data.currentGrade
+        grade: Grade
       },
       success: res => {
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
-          if(role == 0){//to教师
+          if(role == 1){//to教师
             wx.navigateTo({
               url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
               + '&subjectId=' + that.data.subjectId
             });
-          }else if(role == 2) {//年级主任
+          }else if(role == 3) {//年级主任
             wx.navigateTo({
               url: '/pages/classManager/classManager'
             });

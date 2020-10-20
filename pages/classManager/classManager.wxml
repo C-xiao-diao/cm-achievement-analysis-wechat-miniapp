@@ -5,7 +5,7 @@
         <view class="section__title">选择科目</view>
         <picker bindchange="pickSubject" value="{{gradeIndex}}" range="{{subArray}}">
             <view class="picker">
-            {{subArray[gradeIndex]}}
+            {{subArray[subjectIndex]}}
             </view>
         </picker>
     </view>
