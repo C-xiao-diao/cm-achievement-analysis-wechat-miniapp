@@ -63,11 +63,6 @@ Page({
     onLoad: function(){
         this.getGradeAnalysisData();
         this.getScoreStatistics();
-        // this.initFirstChart();
-        // this.initSecondChart();
-        // this.initThirdChart();
-        // this.initFourthChart();
-        this.initFifthChart();
     },
     onReady: function(){
 
@@ -201,10 +196,13 @@ Page({
             data,
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
-                    let listScore = _.get(res, 'data.data.listScore');
+                    let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
                     for(let i=0;i<listScore.length;i++){
-                        fifthDataAxis.push(listScore[i].class_);
+                        fifthDataAxis.push(listScore[i].score);
+                        fifthDataSeries.push(listScore[i].list)
                     }
+                    this.setData({fifthDataAxis,fifthDataSeries})
+                    this.getGradeSectionData();
                 }
             }
         })    
@@ -345,48 +343,50 @@ Page({
     },
     //获取 分数段统计 图表数据
     getGradeSectionData(){
+        const { fifthDataSeries, fifthDataAxis } = this.data;
         var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
+        gridSetting = {}, seriesData = [], tooltipSetting = [], arr=[];
         colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
-        legendData = ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810'];
-        yData = [
-            {
-            data: ['0-50','50-100','100-150']
-            }
-        ];
+        yData = {data: fifthDataAxis};
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        seriesData = [
-            {
-                name: 'C1801',
+        //i: 分数段（y轴 yData.data）； j:班级（示例 legendData）
+        for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
+            seriesData.push({
+                name: '',
                 type: 'bar',
                 label: {
                 show: true
                 },
                 barGap: "0",
-                data: [6,7,8,9,10,5,6,7,8,9],
-            },
-            {
-                name: 'C1802',
-                type: 'bar',
-                label: {
-                show: true
-                },
-                barGap: "0",
-                data: [0,1,2,3,4,5,3,2,4,5,1],
-            },
-            {
-                name: 'C1803',
-                type: 'bar',
-                label: {
-                show: true
-                },
-                barGap: "0",
-                data: [3,4,5,2,3,7,8,5,6,2],
+                data: []
+            })
+            for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
+                // console.log(i,fifthDataSeries[i][j].class_,fifthDataSeries[i][j].list.amount, 8888888)
+                // seriesData[i].name = fifthDataSeries[i][j].class_;
+                // 
+                // seriesData[i].data.push(fifthDataSeries[i][j].list.amount);
+                arr.push(fifthDataSeries[i][j].class_);
             }
-        ]
+            legendData = _.union(arr);
+            
+        }
 
+        for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
+            for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
+                // console.log(fifthDataSeries[i][j].class_, legendData[k],'lllllllll')
+                if(fifthDataSeries[i][j].class_ != legendData[j]){
+                    console.log(i,j,fifthDataSeries[i][j].class_)
+                    fifthDataSeries[i][j].list.amount = 0;
+                }
+                // seriesData[i].data.push(fifthDataSeries[i][j].list.amount)
+            }
+        }
+        
+
+        legendData = _.union(arr);
+        console.log(seriesData,999999)
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
     //切换 分数段
