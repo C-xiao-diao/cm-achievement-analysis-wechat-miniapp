@@ -45,6 +45,7 @@ Page({
         class: ['C2001','C2002','C2003','C2004','C2005','C2006','C2007','C2008','C2009','C2010']
       }
     ],
+    currentGrade: 'C1801,C1802,C1803,C1804,C1805,C1806,C1807,C1808,C1809,C1810',
     //角色
     role: 0,            // 0老师   1 家长
     ticketNumber: "",
@@ -87,7 +88,12 @@ Page({
     })
   },
   pickerGrade(e){  //选择年级
-    this.setData({ gradeIndex: e.detail.value });
+    var classArr = this.data.gradeArray[e.detail.value].class;
+    var str = classArr.toString();
+    this.setData({ 
+      gradeIndex: e.detail.value,
+      currentGrade: str
+    });
   },
   bindPickerProvince(e) {//选择省
     this.setData({ provinceIndex: e.detail.value })
@@ -158,14 +164,19 @@ Page({
     });
   },
   analyzeInfo() {//月考分析提交
-    const { role, ticketNumber } = this.data;
+    const { role, ticketNumber, currentGrade } = this.data;
     if (role === 0) {
       if (!this.data.school || !this.data.class) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
       }
-    } else {
+    } else if(role == 1) {
       if (!ticketNumber) {
+        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        return;
+      }
+    }else if(role == 2 ) {
+      if (!currentGrade) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
       }
@@ -173,7 +184,8 @@ Page({
     //将选择存入本地缓存
     let dataSource = {
       schoolId: this.data.schoolId, class_: this.data.class,school: this.data.school,
-      subjectId: this.data.subjectId,subjectIndex: this.data.subjectIndex, ticketNumber: ticketNumber
+      subjectId: this.data.subjectId,subjectIndex: this.data.subjectIndex, ticketNumber: ticketNumber,
+      currentGrade: this.data.currentGrade
     }
     try {
       wx.setStorageSync('lastDataSource', JSON.stringify(dataSource))
@@ -193,15 +205,22 @@ Page({
         schoolId: that.data.schoolId,
         class_: that.data.class,
         subject: that.data.subjectId,
-        ticketNumber: ticketNumber
+        ticketNumber: ticketNumber,
+        grade: this.data.currentGrade
       },
       success: res => {
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
-          wx.navigateTo({
-            url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
-            + '&subjectId=' + that.data.subjectId
-          });
+          if(role == 0){//to教师
+            wx.navigateTo({
+              url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
+              + '&subjectId=' + that.data.subjectId
+            });
+          }else if(role == 2) {//年级主任
+            wx.navigateTo({
+              url: '/pages/classManager/classManager'
+            });
+          }
         } else if (resData.code === 106) {
           wx.showToast({
             title: resData.msg || '准考证号不存在',
@@ -226,7 +245,6 @@ Page({
   },
   //登录接口
   userInfoHandler: function (e) {
-    console.log(e,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
     if(!_.isEmpty(e.detail.userInfo)){
       app.globalData.userInfo = e.detail.userInfo;
       this.setData({
