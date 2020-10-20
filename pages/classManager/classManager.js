@@ -12,7 +12,6 @@ Page({
         subArray: ['总分','语文','数学','英语','生物','物理','地理','地理','政治','历史','化学','体育'],
         subjectIndex: 1,
         classArray: [],
-        ecFirst: {lazyLoad: true},
         sqrt: 0,    //标准差
         difficultyFactor: 0,    //难度
         distinction: 0, //区分度
@@ -269,10 +268,39 @@ Page({
     getAvgTrendData(){
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: secondDataLegend};
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
+        // xData = ['202006','202007','202008','202009','202010'];
         xData = secondDataAxis;
         seriesData = secondDataSeries;
+        // seriesData = [
+        //     {
+        //         name: 'C1801',
+        //         type: 'line',
+        //         data: [120, 132, 101, 134, 90]
+        //     },
+        //     {
+        //         name: 'C1802',
+        //         type: 'line',
+        //         data: [220, 182, 191, 234, 290]
+        //     },
+        //     {
+        //         name: 'C1803',
+        //         type: 'line',
+        //         data: [150, 232, 201, 154, 190]
+        //     },
+        //     {
+        //         name: 'C1804',
+        //         type: 'line',
+        //         data: [320, 332, 301, 334, 390]
+        //     },
+        //     {
+        //         name: 'C1805',
+        //         type: 'line',
+        //         data: [820, 932, 901, 934, 1290]
+        //     }
+        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData});   
     },
@@ -284,6 +312,7 @@ Page({
         colorData = ['#edafda', '#93b7e3'];
         legendData = ['优秀率', '及格率'];
         yData = [{
+            // data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
             data: thirdDataAxis
         }]
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
@@ -300,6 +329,7 @@ Page({
                     }
                 },
                 barGap: "0",
+                // data: [24,55,36,77,88,41,32,64,85,76],
                 data: thirdDataSeriesByExcellent
             },
             {
@@ -312,6 +342,7 @@ Page({
                     }
                 },
                 barGap: "0",
+                // data: [17,25,42,54,37,75,84,29,30,32]
                 data: thirdDataSeriesByPassing
             }
         ]
@@ -322,10 +353,40 @@ Page({
     getPassTrendData(){
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        console.log(fourthDataSeries,'111111', fourthDataAxis, '2222', fourthDataLegend)
+        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: fourthDataLegend}
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
+        // xData = ['202006','202007','202008','202009','202010'];
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
+        // seriesData = [
+        //     {
+        //         name: 'C1801',
+        //         type: 'line',
+        //         data: [120, 132, 101, 134, 90]
+        //     },
+        //     {
+        //         name: 'C1802',
+        //         type: 'line',
+        //         data: [220, 182, 191, 234, 290]
+        //     },
+        //     {
+        //         name: 'C1803',
+        //         type: 'line',
+        //         data: [150, 232, 201, 154, 190]
+        //     },
+        //     {
+        //         name: 'C1804',
+        //         type: 'line',
+        //         data: [320, 332, 301, 334, 390]
+        //     },
+        //     {
+        //         name: 'C1805',
+        //         type: 'line',
+        //         data: [820, 932, 901, 934, 1290]
+        //     }
+        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
     },
@@ -376,12 +437,16 @@ Page({
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
     //切换 分数段
-    swichNav(e){
-        var that = this, tab = e.currentTarget.dataset.name;
+    swichNav(e) {
+        var tab = e.currentTarget.dataset.name;
         if (this.data[tab] === e.target.dataset.current) {
-          return false;
+            return false;
         } else {
-          that.setData({ [tab]: e.target.dataset.current, })
+            let intervalValue = _.get(e, 'target.dataset.current') === 0 ? 50 : 100;
+            console.log(intervalValue,'intervalValueintervalValueintervalValueintervalValue')
+            this.setData({ [tab]: e.target.dataset.current, intervalValue }, () =>{
+                this.getScoreStatistics();
+            })
         }
     }
 })
