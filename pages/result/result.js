@@ -641,11 +641,11 @@ Page({
     let str = '?class=' + this.data.class +'&subject=' + this.data.subject;
     if(type === 0){
       wx.navigateTo({
-        url: '/pages/supervisor/supervisor' + str 
+        url: '/pages/objective/objective' + str 
       });
     } else {
       wx.navigateTo({
-        url: '/pages/objective/objective' + str
+        url: '/pages/supervisor/supervisor' + str
       });
     }
   },
