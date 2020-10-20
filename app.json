@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/classManager/classManager",
     "pages/index/index",
+    "pages/classManager/classManager",
     "pages/supervisor/supervisor",
     "pages/objective/objective",
     "pages/result/result",

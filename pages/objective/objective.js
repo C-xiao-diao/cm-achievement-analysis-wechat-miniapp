@@ -164,17 +164,17 @@ Page({
     //初始化第一个图
     initFirstChart: function () {
         this.firstComponent = this.selectComponent('#objectiveFirstChart');
-        chart.initChart(this,'firstComponent', '#objectiveFirstChart', objectiveFirstChart);
+        chart.initChart(this, 'firstComponent', '#objectiveFirstChart', objectiveFirstChart);
     },
     //初始化第二个图
     initSecondChart: function () {
         this.secondComponent = this.selectComponent('#objectiveSecondChart');
-        chart.initChart(this,'secondComponent', '#objectiveSecondChart', objectiveSecondChart);
+        chart.initChart(this, 'secondComponent', '#objectiveSecondChart', objectiveSecondChart);
     },
     //初始化第三个图
     initThirdChart: function () {
         this.thirdComponent = this.selectComponent('#objectiveThirdChart');
-        chart.initChart(this,'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
+        chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
     },
     /*
         客观题分析
@@ -182,12 +182,13 @@ Page({
         type==1: 最高分/最低分/平均分
     */
     getHorizontalOption(type) {
+        let _this = this;
         var colorData = [], legendData = [], xData = [], yData = [],
             gridSetting = {}, seriesData = [], tooltipSetting = [];
         const { firstDataAxis, firstfirstDataSeriesByCorrectRate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
 
-        if(type===0){
+        if (type === 0) {
             colorData = ['#93b7e3'];
             legendData = ['正确率'];
             seriesData = [
@@ -201,7 +202,7 @@ Page({
                     data: firstfirstDataSeriesByCorrectRate,
                 }
             ]
-        }else{
+        } else {
             colorData = ['#99b7df', '#fad680', '#e4b2d8'];
             legendData = ['最高分', '最低分', '平均分'];
             seriesData = [{
@@ -232,18 +233,34 @@ Page({
                 data: secondDataSeriesByAvg,
             }]
         }
-        
-        xData = [{type: 'value'}];
-        yData = [{data: firstDataAxis, inverse: true}];
-        gridSetting = {left: "20%",top: "10%",bottom: "10%"};
-        tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
+
+        xData = [{ type: 'value' }];
+        yData = [{
+            data: firstDataAxis, inverse: true,
+            axisLabel: {
+                formatter: function (value) {
+                    if (value === _this.data.class) {
+                        return '{' + value + '| }{value|' + value + '}';
+                    } else {
+                        return value;
+                    }
+                },
+                rich: {
+                    value: {
+                        color: 'red'
+                    }
+                }
+            },
+        }];
+        gridSetting = { left: "20%", top: "10%", bottom: "10%" };
+        tooltipSetting = { trigger: 'axis', axisPointer: { type: 'shadow' } };
+        return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
     },
     /*
         客观题答题选项分布分析
     */
     getVerticalOption() {
-        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[],subTitle='',tooltipSetting={};
+        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
         let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
@@ -251,27 +268,27 @@ Page({
         Title = '选项答题分布';
         colorData = ['#566b8e'];
         xData = thirdDataAxis;
-        gridSetting = {left: "20%",top: "20%",bottom: "10%"}
+        gridSetting = { left: "20%", top: "20%", bottom: "10%" }
         seriesData = thirdDataSeries;
         subTitle = "正确答案 ： " + answerName;
         tooltipSetting = {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-              type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
-              triggerOn: 'click'
+                type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                triggerOn: 'click'
             },
             position: ['15%', '0%'],
             extraCssText: 'width: 60%;height:100%;',
             formatter: function (params) {
-              var data;
-              console.log(params[0].axisValue,999999)
-            //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
-            //   var res = chart.getFormatter(params, 'bar', data);
-            //   return res;
+                var data;
+                console.log(params[0].axisValue, 999999)
+                //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
+                //   var res = chart.getFormatter(params, 'bar', data);
+                //   return res;
             }
         }
 
-        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,tooltipSetting,subTitle});
+        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
     },
 
     // 切换tab页试题
@@ -290,7 +307,7 @@ Page({
         if (listTopic && _.isArray(listTopic)) {
             for (let i = 0; i < listTopic.length; i++) {
                 thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
-                if(!_.isEmpty(_.values(_.get(listTopic, i)))){
+                if (!_.isEmpty(_.values(_.get(listTopic, i)))) {
                     thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
                 }
             }

@@ -169,6 +169,7 @@ Page({
         type==1: 最高分/最低分/平均分
     */ 
     getHorizontalOption(type) {
+        let _this = this;
         var colorData = [], legendData = [], xData = [], yData = [],
         gridSetting = {}, seriesData = [], tooltipSetting = [];
         const { firstDataAxis, firstfirstDataSeriesByScoringRrate, secondDataSeriesByMax,
@@ -220,7 +221,23 @@ Page({
             }]
         }
         xData = [{type: 'value'}];
-        yData = [{data: firstDataAxis, inverse: true}];
+        yData = [{
+            data: firstDataAxis, inverse: true,
+            axisLabel: {
+                formatter: function (value) {
+                    if (value === _this.data.class) {
+                        return '{' + value + '| }{value|' + value + '}';
+                    } else {
+                        return value;
+                    }
+                },
+                rich: {
+                    value: {
+                        color: 'red'
+                    }
+                }
+            },
+        }];
         gridSetting = {left: "20%",top: "10%",bottom: "10%"};
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
