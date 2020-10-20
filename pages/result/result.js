@@ -4,7 +4,7 @@ import { chart } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "lodash";
 
-var trendChart = null, topChartByScore = null,topChart = null, secondChart = null, bottomChart = null;
+var trendChart = null, topChartByScore = null, topChart = null, secondChart = null, bottomChart = null;
 var rankData = [], monthData = [];
 
 Page({
@@ -123,11 +123,11 @@ Page({
               for (var i = 0; i < d.wrongQuestions.length; i++) {
                 d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage * 100) + '%';
               }
-              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [],topDataAxis1 =[];
+              let topDataSeriesByExcellent = [], topDataSeriesByPassing = [], topDataAxis1 = [];
               //顶部各班对比数据
               for (var i = 0; i < d.listClassResult.length; i++) {
-                topDataSeriesByExcellent.unshift(util.returnFloat(d.listClassResult[i].excellentRate *100));
-                topDataSeriesByPassing.unshift(util.returnFloat(d.listClassResult[i].passingRate *100));
+                topDataSeriesByExcellent.unshift(util.returnFloat(d.listClassResult[i].excellentRate * 100));
+                topDataSeriesByPassing.unshift(util.returnFloat(d.listClassResult[i].passingRate * 100));
                 topDataAxis1.unshift(d.listClassResult[i].class_);
               }
               //作文分数段统计
@@ -279,9 +279,9 @@ Page({
               this.secondComponent = this.selectComponent('#secondChart');
             }
             if (currentTab1 == 0) {
-                chart.initChart(this,'secondComponent', '#secondBarChart', secondChart);
+              chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
             } else {
-                chart.initChart(this,'secondComponent', '#secondPieChart', secondChart);
+              chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
             }
 
           });
@@ -395,17 +395,17 @@ Page({
   //初始化第二项分数段统计（柱图/饼图 切换）
   initSecondChart: function () {
     this.secondComponent = this.selectComponent('#secondChart');
-    chart.initChart(this,'secondComponent', '#secondBarChart', secondChart);
+    chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
   },
   //初始化底部柱状图
   initBottomChart: function () {
     this.bottomComponent = this.selectComponent('#bottomChart');
-    chart.initChart(this,'bottomComponent', '#bottomBarChart', bottomChart);
+    chart.initChart(this, 'bottomComponent', '#bottomBarChart', bottomChart);
   },
   //初始化趋势图
   initTrendChart: function () {
     this.trendComponent = this.selectComponent('#trendChart');
-    chart.initChart(this,'trendComponent', '#trendChart', trendChart);
+    chart.initChart(this, 'trendComponent', '#trendChart', trendChart);
 
   },
   /*
@@ -413,19 +413,34 @@ Page({
     type==0 : 优秀率/及格率
     type==1 : 最高分/最低分/平均分
   */
-  getClassCompareData(type){
+  getClassCompareData(type) {
+    let _this = this;
     var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
-    const {topDataAxis1,topDataAxis2,topDataSeriesByExcellent,topDataSeriesByPassing
-      ,topDataSeriesByScoreMax,topDataSeriesByScoreMin,topDataSeriesByScoreAvg} = this.data;
+      gridSetting = {}, seriesData = [], tooltipSetting = [];
+    const { topDataAxis1, topDataAxis2, topDataSeriesByExcellent, topDataSeriesByPassing
+      , topDataSeriesByScoreMax, topDataSeriesByScoreMin, topDataSeriesByScoreAvg } = this.data;
 
-    if(type == 0){
+    if (type == 0) {
       colorData = ['#edafda', '#93b7e3'];
       legendData = ['优秀率', '及格率'];
       yData = [
         {
           data: topDataAxis1,  //y轴数据
-          inverse: true
+          inverse: true,
+          axisLabel: {
+            formatter: function (value) {
+              if(value === _this.data.class){
+                return '{' + value + '| }{value|' + value + '}';   
+              } else {
+                return value;
+              }           
+            },
+            rich: {
+              value: {
+                color: 'red'
+              }
+            }
+          },
         }
       ];
       seriesData = [{
@@ -433,7 +448,7 @@ Page({
         type: 'bar',
         label: {
           show: true,
-          formatter: (params) =>{
+          formatter: (params) => {
             return params.value + "%";
           }
         },
@@ -445,20 +460,34 @@ Page({
         type: 'bar',
         label: {
           show: true,
-          formatter: (params) =>{
+          formatter: (params) => {
             return params.value + "%";
-          }
+          },
         },
         barGap: "0",
         data: topDataSeriesByPassing,
       }]
-    }else{
+    } else {
       colorData = ['#99b7df', '#fad680', '#e4b2d8'];
       legendData = ['最高分', '最低分', '平均分'];
       yData = [
         {
           data: topDataAxis2,  //y轴数据
-          inverse: true
+          inverse: true,
+          axisLabel: {
+            formatter: function (value) {
+              if(value === _this.data.class){
+                return '{' + value + '| }{value|' + value + '}';   
+              } else {
+                return value;
+              }           
+            },
+            rich: {
+              value: {
+                color: 'red'
+              }
+            }
+          },
         }
       ];
       seriesData = [
@@ -500,7 +529,7 @@ Page({
 
     xData = [
       {
-        type: 'value'
+        type: 'value',
       }
     ];
 
@@ -511,28 +540,28 @@ Page({
       }
     };
 
-    return chart.barChartOption({topChart,colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
+    return chart.barChartOption({ topChart, colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
   },
   /*
     分数段柱状图：
     postion==0：班级分数段统计数据
     postion==1：作文题分数段统计
   */
-  getBandScoreBarData(postion){
-    var colorData = ['#516b91'], legendData = [], xData = [], yData = [], 
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
-    const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries, 
+  getBandScoreBarData(postion) {
+    var colorData = ['#516b91'], legendData = [], xData = [], yData = [],
+      gridSetting = {}, seriesData = [], tooltipSetting = [];
+    const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries,
       studentScoreList1, studentScoreList2 } = this.data;
 
     yData = [
       {
-      name: '分数区间段',
-      data: postion === 0 ? secondBarYAxis : bottomBarYAxis,
+        name: '分数区间段',
+        data: postion === 0 ? secondBarYAxis : bottomBarYAxis,
       }
     ];
 
-    xData = [{type: 'value',name: '人数'}]
-    gridSetting = {left: "18%",right: "15%"}
+    xData = [{ type: 'value', name: '人数' }]
+    gridSetting = { left: "18%", right: "15%" }
 
     seriesData = [
       {
@@ -542,7 +571,7 @@ Page({
         label: {
           show: true
         },
-        data: postion === 0 ? secondBarDataSeries : bottomBarDataSeries 
+        data: postion === 0 ? secondBarDataSeries : bottomBarDataSeries
       }
     ]
 
@@ -562,22 +591,22 @@ Page({
       }
     }
 
-    return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
+    return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
   },
   /*分数段饼状图：
     postion==0：班级分数段统计数据
     postion==1：作文题分数段统计
   */
-  getBandScorePieData(postion){
-    var colorData = [],pieData=[],tooltipSetting={};
-    const { secondPieDataSeries, bottomPieDataSeries,studentScoreList1,studentScoreList2 } = this.data;
+  getBandScorePieData(postion) {
+    var colorData = [], pieData = [], tooltipSetting = {};
+    const { secondPieDataSeries, bottomPieDataSeries, studentScoreList1, studentScoreList2 } = this.data;
 
     colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b']
     postion === 0 ? pieData = secondPieDataSeries : pieData = bottomPieDataSeries;
     tooltipSetting = {
       trigger: 'item',
       position: ['15%', '0'],
-      textStyle: {'width': '80%'},
+      textStyle: { 'width': '80%' },
       formatter: function (params) {
         var data;
         postion === 0 ? data = studentScoreList1 : data = studentScoreList2;
@@ -586,19 +615,19 @@ Page({
       }
     }
 
-    return chart.pieChartOption({colorData,pieData,tooltipSetting});
+    return chart.pieChartOption({ colorData, pieData, tooltipSetting });
   },
   /*
     获取学生成绩排名数据
-  */ 
-  getGradeTrendData(){
-    var gridSetting = {},xData=[],legendData=[],yAxisInverse=true,seriesData=[];
+  */
+  getGradeTrendData() {
+    var gridSetting = {}, xData = [], legendData = [], yAxisInverse = true, seriesData = [];
 
-    gridSetting = {left: "15%",right: "5%",top: "5%",bottom: "18%",}
+    gridSetting = { left: "15%", right: "5%", top: "5%", bottom: "18%", }
     xData = monthData;
-    seriesData = [{data: rankData,type: 'line'}];
+    seriesData = [{ data: rankData, type: 'line' }];
 
-    return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData});
+    return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData });
   },
   //切换 柱状图/饼状图
   swichNav: function (e) {
@@ -610,15 +639,15 @@ Page({
     }
     if (tab == 'currentTab1') {//分数段柱状图
       if (this.data[tab] == 0) {
-        chart.initChart(this,'secondComponent', '#secondBarChart', secondChart);
+        chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
       } else {
-        chart.initChart(this,'secondComponent', '#secondPieChart', secondChart);
+        chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
       }
     } else if (tab == 'currentTab2') {
       if (this.data[tab] == 0) {
-        chart.initChart(this,'bottomComponent', '#bottomBarChart', bottomChart);
+        chart.initChart(this, 'bottomComponent', '#bottomBarChart', bottomChart);
       } else {
-        chart.initChart(this,'bottomComponent', '#bottomPieChart', bottomChart);
+        chart.initChart(this, 'bottomComponent', '#bottomPieChart', bottomChart);
       }
     }
   },
@@ -636,12 +665,12 @@ Page({
     }
   },
   //导航至统计分析
-  navAnalysis:function(e){
+  navAnalysis: function (e) {
     let type = e.target.dataset.type;
-    let str = '?class=' + this.data.class +'&subject=' + this.data.subject;
-    if(type === 0){
+    let str = '?class=' + this.data.class + '&subject=' + this.data.subject;
+    if (type === 0) {
       wx.navigateTo({
-        url: '/pages/objective/objective' + str 
+        url: '/pages/objective/objective' + str
       });
     } else {
       wx.navigateTo({
