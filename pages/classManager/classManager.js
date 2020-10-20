@@ -10,7 +10,7 @@ Page({
     data: {
         subjectArray: [{name:'总分', id:0},{name:'语文', id:1},{name:'数学', id:2},{name:'英语', id:3},{name:'生物', id:4},{name:'物理', id:5},{name:'地理', id:6},{name:'政治', id:7},{name:'历史', id:8},{name:'化学', id:10},{name:'体育', id:11}],
         subArray: ['总分','语文','数学','英语','生物','物理','地理','地理','政治','历史','化学','体育'],
-        subjectIndex: 1,
+        subjectIndex: 0,
         classArray: [],
         sqrt: 0,    //标准差
         difficultyFactor: 0,    //难度
@@ -22,6 +22,7 @@ Page({
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
+        classListExcellentPassRate: [],
         //第一张图表
         ecFirst: {
             lazyLoad: true
@@ -93,7 +94,7 @@ Page({
                     let firstDataSeriesByMax = [],firstDataSeriesByMin = [],firstDataSeriesByAvg = [],
                     firstDataAxis = [];
                     let secondDataSeries = [],secondDataAxis = [], secondDataLegend = [];
-                    let thirdDataSeriesByExcellent = [], thirdDataSeriesByPassing=[], thirdDataAxis= [];
+                    
                     let fourthDataSeries= [], fourthDataAxis= [], fourthDataLegend = [];
                     //数据的清洗和组装
                     let maxScore = _.round(_.get(resData, 'maxScore'));
@@ -129,11 +130,8 @@ Page({
                         secondDataSeries.push(obj);
                     }
                     //优秀率/及格率对比
-                    for (let i=0;i< classListExcellentPassRate.length; i++){
-                        thirdDataSeriesByExcellent.push(util.returnFloat(classListExcellentPassRate[i].excellentRate *100));
-                        thirdDataSeriesByPassing.push(util.returnFloat(classListExcellentPassRate[i].passingRate*100));
-                        thirdDataAxis.push(classListExcellentPassRate[i].class_);
-                    }
+                    this.getExcellentPassRate(classListExcellentPassRate,'excellentRate');
+
                     //历史走势图（优秀率/及格率）
                     for (let i=0;i< listExcellentPass.length; i++){
                         let obj = {};
@@ -164,20 +162,30 @@ Page({
                         sqrt: sqrtDouble,
                         difficultyFactor,
                         distinction,
-                        thirdDataSeriesByExcellent,
-                        thirdDataSeriesByPassing,
-                        thirdDataAxis,
                         fourthDataSeries,
                         fourthDataAxis,
                         fourthDataLegend,
+                        classListExcellentPassRate
                     })
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.initThirdChart();
+                    
                     this.initFourthChart();
                 }
             }
         })
+    },
+    //优秀率/及格率对比
+    getExcellentPassRate: function(arr,sort){
+        let thirdDataSeriesByExcellent = [], thirdDataSeriesByPassing=[], thirdDataAxis= [];
+        arr = _.sortBy(arr, function(o) { return o[sort]; });
+        for (let i=0;i< arr.length; i++){
+            thirdDataSeriesByExcellent.push(util.returnFloat(arr[i].excellentRate *100));
+            thirdDataSeriesByPassing.push(util.returnFloat(arr[i].passingRate*100));
+            thirdDataAxis.push(arr[i].class_);
+        }
+        this.setData({thirdDataSeriesByExcellent,thirdDataSeriesByPassing,thirdDataAxis})
+        this.initThirdChart();
     },
     // 分数段统计
     getScoreStatistics:function(subject){
@@ -272,39 +280,10 @@ Page({
     getAvgTrendData(){
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
-        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: secondDataLegend};
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
-        // xData = ['202006','202007','202008','202009','202010'];
         xData = secondDataAxis;
         seriesData = secondDataSeries;
-        // seriesData = [
-        //     {
-        //         name: 'C1801',
-        //         type: 'line',
-        //         data: [120, 132, 101, 134, 90]
-        //     },
-        //     {
-        //         name: 'C1802',
-        //         type: 'line',
-        //         data: [220, 182, 191, 234, 290]
-        //     },
-        //     {
-        //         name: 'C1803',
-        //         type: 'line',
-        //         data: [150, 232, 201, 154, 190]
-        //     },
-        //     {
-        //         name: 'C1804',
-        //         type: 'line',
-        //         data: [320, 332, 301, 334, 390]
-        //     },
-        //     {
-        //         name: 'C1805',
-        //         type: 'line',
-        //         data: [820, 932, 901, 934, 1290]
-        //     }
-        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData});   
     },
@@ -316,7 +295,6 @@ Page({
         colorData = ['#edafda', '#93b7e3'];
         legendData = ['优秀率', '及格率'];
         yData = [{
-            // data: ['C1801','C1802','C1803','C1804','C1805','C1806','C1807','C1808','C1809','C1810']
             data: thirdDataAxis
         }]
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
@@ -333,7 +311,6 @@ Page({
                     }
                 },
                 barGap: "0",
-                // data: [24,55,36,77,88,41,32,64,85,76],
                 data: thirdDataSeriesByExcellent
             },
             {
@@ -346,7 +323,6 @@ Page({
                     }
                 },
                 barGap: "0",
-                // data: [17,25,42,54,37,75,84,29,30,32]
                 data: thirdDataSeriesByPassing
             }
         ]
@@ -357,40 +333,10 @@ Page({
     getPassTrendData(){
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
-        console.log(fourthDataSeries,'111111', fourthDataAxis, '2222', fourthDataLegend)
-        // legendData = {data: ['C1801','C1802','C1803','C1804','C1805']};
         legendData = {data: fourthDataLegend}
         gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
-        // xData = ['202006','202007','202008','202009','202010'];
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
-        // seriesData = [
-        //     {
-        //         name: 'C1801',
-        //         type: 'line',
-        //         data: [120, 132, 101, 134, 90]
-        //     },
-        //     {
-        //         name: 'C1802',
-        //         type: 'line',
-        //         data: [220, 182, 191, 234, 290]
-        //     },
-        //     {
-        //         name: 'C1803',
-        //         type: 'line',
-        //         data: [150, 232, 201, 154, 190]
-        //     },
-        //     {
-        //         name: 'C1804',
-        //         type: 'line',
-        //         data: [320, 332, 301, 334, 390]
-        //     },
-        //     {
-        //         name: 'C1805',
-        //         type: 'line',
-        //         data: [820, 932, 901, 934, 1290]
-        //     }
-        // ];
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
     },
@@ -452,5 +398,18 @@ Page({
                 this.getScoreStatistics();
             })
         }
+    },
+    SortBy(e){
+        var tab = e.currentTarget.dataset.name, sortName = '', num = 0;
+        if (this.data[tab] === 0) {
+            num = 1;
+            sortName = 'passingRate';
+        } else {
+            num = 0;
+            sortName = 'excellentRate';
+        }
+        this.setData({ [tab]: num }, () =>{
+            this.getExcellentPassRate(this.data.classListExcellentPassRate,sortName);
+        })
     }
 })
