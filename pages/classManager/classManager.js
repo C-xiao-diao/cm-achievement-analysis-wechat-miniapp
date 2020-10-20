@@ -71,15 +71,19 @@ Page({
     onReady: function(){
 
     },
+    changeSubject: function(subject){
+        this.getGradeAnalysisData(subject);
+        this.getScoreStatistics(subject);
+    },
     pickSubject: function(e) {
-        this.setData({
-            subjectIndex: e.detail.value
+        this.setData({ subjectIndex: e.detail.value}, () =>{
+            this.changeSubject(e.detail.value)
         })
     },
     //获取年级成绩分析数据
-    getGradeAnalysisData: function(){
+    getGradeAnalysisData: function(subject){
         let cmd = '/auth/gradeDirector/list';
-        let data = { weChatUserId: app.globalData.userId, subject: this.data.subjectIndex };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex };
         http.get({
             cmd,
             data,
@@ -176,11 +180,11 @@ Page({
         })
     },
     // 分数段统计
-    getScoreStatistics:function(){
+    getScoreStatistics:function(subject){
         let fifthDataSeries = [],fifthDataAxis = [];
         const { intervalValue } = this.data;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = { weChatUserId: app.globalData.userId, subject: this.data.subjectIndex, intervalValue };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue };
         http.get({
             cmd,
             data,
