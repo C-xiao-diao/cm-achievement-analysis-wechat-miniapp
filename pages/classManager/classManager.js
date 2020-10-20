@@ -94,7 +94,6 @@ Page({
                     let firstDataSeriesByMax = [],firstDataSeriesByMin = [],firstDataSeriesByAvg = [],
                     firstDataAxis = [];
                     let secondDataSeries = [],secondDataAxis = [], secondDataLegend = [];
-                    
                     let fourthDataSeries= [], fourthDataAxis= [], fourthDataLegend = [];
                     //数据的清洗和组装
                     let maxScore = _.round(_.get(resData, 'maxScore'));
@@ -105,6 +104,8 @@ Page({
                     let sqrtDouble = _.get(resData, 'sqrtDouble');
                     let difficultyFactor = _.get(resData, 'difficultyFactor');
                     let distinction = _.get(resData, 'distinction');
+                    let description = _.toNumber(sqrtDouble) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(sqrtDouble) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
+                    let description2 = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(sqrtDouble) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
                     let listExcellentPass = _.get(resData, 'listExcellentPass');
                     let classListExcellentPassRate = _.get(resData, 'classListExcellentPassRate');
                     //平均分对比
@@ -162,6 +163,8 @@ Page({
                         sqrt: sqrtDouble,
                         difficultyFactor,
                         distinction,
+                        description,
+                        description2,
                         fourthDataSeries,
                         fourthDataAxis,
                         fourthDataLegend,

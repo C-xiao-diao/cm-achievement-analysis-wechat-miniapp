@@ -12,7 +12,7 @@
     
 
     <!--全年级总体情况 -->
-    <text class="title">— 全年级总体情况 —</text>
+    <text class="title">— 全年级{{subArray[subjectIndex]=='总分'? '总体': subArray[subjectIndex]}}情况 —</text>
     <view class="total r3 mb60">
         <view>最高分<text>{{maxScore}}</text></view>
         <view>最低分<text>{{minScore}}</text></view>
