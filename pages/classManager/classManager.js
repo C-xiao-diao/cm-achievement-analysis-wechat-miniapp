@@ -56,8 +56,9 @@ Page({
         ecFifth: {
             lazyLoad: true
         },
+        fifthDataAxis:[],
         fifthDataSeries: [],
-        fifthDataAxis: [],
+        classSet: [],
         intervalValue: 50
     },
     onLoad: function(){
@@ -187,7 +188,7 @@ Page({
     },
     // 分数段统计
     getScoreStatistics:function(subject){
-        let fifthDataSeries = [],fifthDataAxis = [];
+        let fifthDataAxis = [], fifthDataSeries = [], classSet = [];
         const { intervalValue } = this.data;
         let cmd = '/auth/gradeDirector/scoreStatistics';
         let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: 1};
@@ -197,16 +198,52 @@ Page({
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
                     let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
-                    let classSet = _.get(res, 'data.data.classSet');
+                    fifthDataSeries = this.setGradeSectionData(listScore);
+                    classSet =  _.get(res, 'data.data.classSet');
                     for(let i=0;i<listScore.length;i++){
                         fifthDataAxis.push(listScore[i].score);
-                        fifthDataSeries.push(listScore[i].list)
                     }
-                    this.setData({fifthDataAxis,fifthDataSeries})
-                    this.getGradeSectionData(classSet);
+                    this.setData({fifthDataAxis, fifthDataSeries, classSet })
+                    this.initFifthChart();
                 }
             }
         })    
+    },
+    //组装分数段统计数据
+    setGradeSectionData(listScore){
+        let fourthDataAxis = [], fourthDataLegend = [],fourthDataSeries = [];
+        if (listScore && !_.isEmpty(listScore)) {
+            for (let i = 0; i < listScore.length; i++) {
+                let classList = _.get(listScore, `${i}.list`);
+                for (let j = 0; j < classList.length; j++) {
+                    if (i === 0) {
+                        //班级列表取一次足够，取索引 0 的班级列表
+                        fourthDataLegend.push(classList[j].class_)
+                    }
+                }
+                fourthDataAxis.push(listScore[i].score);
+            }
+        }
+
+        for (let i = 0; i < fourthDataLegend.length; i++) {
+            let obj = {};
+            obj.type = "bar";
+            obj.label = {
+                show: true,
+                position: 'right',
+                formatter: (params) => {
+                    return params.value + "%";
+                }
+            };
+            obj.name = fourthDataLegend[i];
+            let data = [];
+            for (let j = 0; j < listScore.length; j++) {
+                data[j] = listScore[j].list[i].list.amount;
+            }
+            obj.data = data;
+            fourthDataSeries.push(obj);
+        }
+        return fourthDataSeries;
     },
     //初始化 平均分对比 图表
     initFirstChart: function () {
@@ -343,38 +380,19 @@ Page({
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
     },
     //获取 分数段统计 图表数据
-    getGradeSectionData(classSet){
-        const { fifthDataSeries, fifthDataAxis } = this.data;
+    getGradeSectionData(){
         var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [], arr=[];
+        gridSetting = {}, seriesData = [], tooltipSetting = [];
+        const {fifthDataAxis, fifthDataSeries, classSet } = this.data;
 
         colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
         legendData = classSet;
         yData = {data: fifthDataAxis};
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
+        seriesData = fifthDataSeries;
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        //i: 分数段（y轴 yData.data）； j:班级（示例 legendData）
-        for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
-            seriesData.push({name: '',type: 'bar',label: {show: true},barGap: "0",data: []});
-        }
 
-        for(var i = 0; i < fifthDataSeries.length; i++){
-            let item = fifthDataSeries[i];
-            item.list = new Array(legendData.length);
-            console.log(item, item.list, 'hhhhhhhhhhhhhhhhhh')
-            for(let j=0;j<legendData.length;j++){
-                if(item.class_ != legendData[j]){
-                    item.list[j+1] = item.list[j];
-                    item.list[j] = {amount: 0}
-                }
-            }
-            fifthDataSeries[i] = item;
-        }
-        
-
-        legendData = _.union(arr);
-        // console.log(seriesData,999999)
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
     //切换 分数段

@@ -73,7 +73,7 @@
       <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab1" bindtap="swichNav">50分段</text>
       <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
     </view>
-    <view class="chart">
+    <view class="chart last-chart">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
 

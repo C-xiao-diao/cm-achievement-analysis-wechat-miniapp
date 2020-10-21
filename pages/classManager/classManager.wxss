@@ -50,3 +50,7 @@
     border-left: 2rpx solid #566b8e;
     margin-left: 15rpx;
 } 
+
+.last-chart {
+    height: 2200rpx;
+}
