@@ -1,8 +1,8 @@
 {
   "pages":[
-    "pages/supervisor/supervisor",
-    "pages/objective/objective",
     "pages/index/index",
+    "pages/objective/objective",
+    "pages/supervisor/supervisor",
     "pages/result/result",
     "pages/classManager/classManager",
     "pages/logs/logs"
