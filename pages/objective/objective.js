@@ -422,6 +422,9 @@ Page({
                 show: true,
                 position: 'right',
                 formatter: (params) => {
+                    if(params.value == 0){
+                        return ""
+                    }
                     return params.value + "%";
                 }
             };
