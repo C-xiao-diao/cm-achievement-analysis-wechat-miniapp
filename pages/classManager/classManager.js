@@ -126,7 +126,7 @@ Page({
                         secondDataSeries.push(obj);
                     }
                     //优秀率/及格率对比
-                    this.getExcellentPassRate(classListExcellentPassRate,'excellentRate');
+                    this.getExcellentPassRate(classListExcellentPassRate,'passingRate');
 
                     //历史走势图（优秀率/及格率）
                     for (let i=0;i< listExcellentPass.length; i++){
@@ -420,10 +420,10 @@ Page({
         var tab = e.currentTarget.dataset.name, sortName = '', num = 0;
         if (this.data[tab] === 0) {
             num = 1;
-            sortName = 'passingRate';
+            sortName = 'excellentRate';
         } else {
             num = 0;
-            sortName = 'excellentRate';
+            sortName = 'passingRate';
         }
         this.setData({ [tab]: num }, () =>{
             this.getExcellentPassRate(this.data.classListExcellentPassRate,sortName);

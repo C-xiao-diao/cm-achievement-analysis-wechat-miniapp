@@ -208,7 +208,8 @@ const chart = {
     var option = {
       grid: gridSetting,
       tooltip: {
-        trigger: 'axis'
+        trigger: 'axis',
+        position: ['15%', '0']
       },
       legend: legendData,
       xAxis: {
