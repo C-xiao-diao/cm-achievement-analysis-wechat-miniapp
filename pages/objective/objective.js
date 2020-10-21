@@ -335,7 +335,19 @@ Page({
     //第四张图option
     getTopicHorizontalOption: function () {
         const { fourthDataAxis, fourthDataLegend, fourthDataSeries } = this.data;
-        let title = { subtext: '（点击图标可选中或取消对比项）' };
+        let title = { 
+            text: '（点击图标可选中或取消对比项）',
+            top: '0%',
+            color: 'gray',
+            textStyle:{
+                color: 'gray',
+                fontWeight : 200,
+            },
+            textAlign: 'auto'
+        };
+        let legendAttributes = {
+            top: '4%'
+        };
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
         let tooltipSetting = {
             trigger: 'axis',
@@ -345,7 +357,7 @@ Page({
         };
         let legendData = fourthDataLegend;
         let gridSetting = {
-            top: '10%',
+            top: '15%',
             left: '3%',
             right: '4%',
             bottom: '3%',
@@ -362,7 +374,7 @@ Page({
         };
         let seriesData = fourthDataSeries;
         return chart.barChartOption({
-            title, colorData, xData, yData, legendData,
+            title, colorData, xData, yData, legendData,legendAttributes,
             gridSetting, seriesData, tooltipSetting, subTitle
         });
     },
@@ -419,10 +431,8 @@ Page({
                 data[j] = _.round(itemClassList[j].list[i].ratio * 100, 2);
             }
             obj.data = data;
-            console.log("执行！！！！！！！")
             fourthDataSeries.push(obj);
         }
-        console.log(fourthDataSeries, 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz', listClassTopic, fourthDataLegend)
         this.setData({
             activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries, studentScoreList1: listTopic,
             fourthDataAxis, fourthDataLegend, fourthDataSeries
