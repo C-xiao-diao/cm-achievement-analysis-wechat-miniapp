@@ -165,8 +165,9 @@ const chart = {
     return whichChart;
   },
   //横向柱状图option
-  barChartOption: function ({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting }) {
+  barChartOption: function ({ title,colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting }) {
     var option = {
+      title: title,
       color: colorData, //颜色数组
       tooltip: tooltipSetting,  //提示框设置
       legend: {

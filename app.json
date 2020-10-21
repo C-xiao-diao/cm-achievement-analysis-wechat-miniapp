@@ -1,9 +1,9 @@
 {
   "pages":[
-    "pages/objective/objective",
     "pages/supervisor/supervisor",
-    "pages/result/result",
+    "pages/objective/objective",
     "pages/index/index",
+    "pages/result/result",
     "pages/classManager/classManager",
     "pages/logs/logs"
   ],

@@ -49,7 +49,9 @@ Page({
             lazyLoad: true
         },
         fourthDataAxis: [],
+        fourthDataLegend: [],
         fourthDataSeries: [],
+        listClassTotalScore: [],
         //说明1
         firstDescriptionSqrt: "",
         firstDescriptionDifficulty: "",
@@ -64,7 +66,7 @@ Page({
         // this.initFirstChart();
         // this.initSecondChart();
         // this.initThirdChart();
-        this.initFourthChart();
+        // this.initFourthChart();
     },
     onLoad: function (option) {
         this.setData({
@@ -157,7 +159,7 @@ Page({
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0, topicSet[0], listTotalScore);
+                    this.setTopicData(0, topicSet[0], listTotalScore,listClassTotalScore);
                 }
             }
         })
@@ -309,7 +311,8 @@ Page({
     
     //第四张图option
     getTopicHorizontalOption: function () {
-        let Title = '世界人口总量';
+        const { fourthDataAxis, fourthDataLegend, fourthDataSeries } = this.data;
+        let title = { subtext: '（点击图标可选中或取消对比项）' };
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
         let tooltipSetting = {
             trigger: 'axis',
@@ -317,7 +320,8 @@ Page({
                 type: 'shadow'
             }
         };
-        let legendData = ['2011年', '2012年'];
+        // let legendData = ['2011年', '2012年'];
+        let legendData = fourthDataLegend;
         let gridSetting = {
             left: '3%',
             right: '4%',
@@ -331,22 +335,23 @@ Page({
         };
         let yData = {
             type: 'category',
-            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+            data: fourthDataAxis,
         };
-        let seriesData = [
-            {
-                name: '2011年',
-                type: 'bar',
-                data: [18203, 23489, 29034, 104970, 131744, 630230]
-            },
-            {
-                name: '2012年',
-                type: 'bar',
-                data: [19325, 23438, 31000, 121594, 134141, 681807]
-            }
-        ];
+        // let seriesData = [
+        //     {
+        //         name: '2011年',
+        //         type: 'bar',
+        //         data: [18203, 23489, 29034, 104970, 131744, 630230]
+        //     },
+        //     {
+        //         name: '2012年',
+        //         type: 'bar',
+        //         data: [19325, 23438, 31000, 121594, 134141, 681807]
+        //     }
+        // ];
+        let seriesData = fourthDataSeries;
         return chart.barChartOption({
-            Title, colorData, xData, yData, legendData,
+            title, colorData, xData, yData, legendData,
             gridSetting, seriesData, tooltipSetting, subTitle
         });
     },
@@ -360,16 +365,55 @@ Page({
     // 试题分析
     setTopicData: function (activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore) {
         let thirdDataAxis = [], thirdDataSeries = [], studentScoreList1 = [];
+        let fourthDataAxis = [],fourthDataLegend = [],fourthDataSeries = [];
         let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listScore;
-        let listTopicIndex = _.findIndex(listTotalTopic, o => o.topic === activeTabName);
         if (listTopic && _.isArray(listTopic)) {
             for (let i = 0; i < listTopic.length; i++) {
                 thirdDataAxis.push(listTopic[i].score);
                 thirdDataSeries.push(_.round(listTopic[i].ratio * 100, 2));
             }
         }
-        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries, studentScoreList1: listTopic })
+
+        let itemClass = _.find(listClassTotalScore, o => o.topic === activeTabName);
+        let itemClassList = itemClass && itemClass.list;
+        if (itemClassList && !_.isEmpty(itemClassList)) {
+            for (let i = 0; i < itemClassList.length; i++) {
+                let classList = _.get(itemClassList, `${i}.list`);
+                for (let j = 0; j < classList.length; j++) {
+                    if (i === 0) {
+                        //班级列表取一次足够，取索引 0 的班级列表
+                        fourthDataLegend.push(classList[j].class_)
+                    }
+                }
+                fourthDataAxis.push(itemClassList[i].score);
+            }
+        }
+
+        for (let i = 0; i < fourthDataLegend.length; i++) {
+            let obj = {};
+            obj.type = "bar";
+            obj.label = {
+                show: true,
+                position: 'right',
+                formatter: (params) => {
+                    return params.value + "%";
+                }
+            };
+            obj.name = fourthDataLegend[i];
+            let data = [];
+            for (let j = 0; j < itemClassList.length; j++) {
+                data[j] = _.round(itemClassList[j].list[i].ratio * 100, 2);
+            }
+            obj.data = data;
+            fourthDataSeries.push(obj);
+        }
+
+        this.setData({ 
+            activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries, studentScoreList1: listTopic,
+            fourthDataAxis, fourthDataLegend,  fourthDataSeries,
+         })
         chart.initChart(this, 'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
+        this.initFourthChart();
     }
 })
