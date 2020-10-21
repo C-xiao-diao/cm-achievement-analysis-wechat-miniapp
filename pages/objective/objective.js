@@ -45,6 +45,7 @@ Page({
         listTotalTopic: [],
         thirdDataAxis: [],
         thirdDataSeries: [],
+        studentScoreList1: [],
         //说明1
         firstDescriptionSqrt: "",
         firstDescriptionDifficulty: "",
@@ -263,8 +264,9 @@ Page({
         客观题答题选项分布分析
     */
     getVerticalOption() {
+        let _this = this;
         var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
-        let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
+        let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName, studentScoreList1 } = this.data;
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
 
@@ -288,10 +290,29 @@ Page({
                 //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
                 //   var res = chart.getFormatter(params, 'bar', data);
                 //   return res;
+                return _this.getFormatter(studentScoreList1, params[0].axisValue);
             }
         }
 
         return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
+    },
+
+    //tootip弹框
+    getFormatter: function (studentScoreList1, score) {
+        let item = _.find(studentScoreList1, o => o.answer === score);
+        let studentNameList = _.get(item, 'studentNameList', []);
+        let str = "";
+        for (let i = 0; i < studentNameList.length; i++) {
+
+            if (i % 2 === 0) {
+                if (studentNameList[i + 1]) {
+                    str += studentNameList[i].studentName + '   ' + studentNameList[i + 1].studentName + '\n';
+                } else {
+                    str += studentNameList[i].studentName + '   ' + '\n';
+                }
+            }
+        }
+        return str;
     },
 
     // 切换tab页试题
@@ -309,13 +330,11 @@ Page({
         let listTopic = item && item.listTopic;
         if (listTopic && _.isArray(listTopic)) {
             for (let i = 0; i < listTopic.length; i++) {
-                thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
-                if (!_.isEmpty(_.values(_.get(listTopic, i)))) {
-                    thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
-                }
+                thirdDataAxis.push(listTopic[i].answer);
+                thirdDataSeries.push(_.round(listTopic[i].ratio * 100, 2));
             }
         }
-        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
+        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries,studentScoreList1: listTopic })
         chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
     }
 })
