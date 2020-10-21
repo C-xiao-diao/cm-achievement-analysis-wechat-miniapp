@@ -97,7 +97,8 @@ Page({
                         difficultyFactor,
                         distinction,
                         topicSet,
-                        listTotalScore
+                        listTotalScore,
+                        listClassTotalScore
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
@@ -148,7 +149,8 @@ Page({
                         secondDataSeriesByMin,
                         secondDataSeriesByAvg,
                         tabList: topicSet,
-                        listTotalTopic: listTotalScore
+                        listTotalTopic: listTotalScore,
+                        listClassTotalScore
                     })
                     //画图
                     this.initFirstChart();
@@ -331,23 +333,21 @@ Page({
     },
     // 切换tab页试题
     swichNav: function (e) {
-        let { listTotalTopic, thirdDataAxis, thirdDataSeries } = this.data;
+        let { listTotalTopic, listClassTotalScore } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
-        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
+        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic,listClassTotalScore);
     },
     // 试题分析
-    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
+    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore) {
         let thirdDataAxis = [], thirdDataSeries = [];
         let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listScore;
+        let listTopicIndex = _.findIndex(listTotalTopic, o => o.topic === activeTabName);
         if (listTopic && _.isArray(listTopic)) {
             for (let i = 0; i < listTopic.length; i++) {
-                thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
-                if(!_.isEmpty(_.values(_.get(listTopic, i)))){
-                    thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
-                }
-                // thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(listTopic[i])[0] * 100, 2))
+                thirdDataAxis.push(listTopic[i].score);
+                thirdDataSeries.push(_.round(listTopic[i].ratio * 100, 2));
             }
         }
         this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
