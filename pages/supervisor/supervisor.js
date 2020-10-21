@@ -312,7 +312,19 @@ Page({
     //第四张图option
     getTopicHorizontalOption: function () {
         const { fourthDataAxis, fourthDataLegend, fourthDataSeries } = this.data;
-        let title = { subtext: '（点击图标可选中或取消对比项）' };
+        let title = { 
+            text: '（点击图标可选中或取消对比项）',
+            top: '0%',
+            color: 'gray',
+            textStyle:{
+                color: 'gray',
+                fontWeight : 200,
+            },
+            textAlign: 'auto'
+        };
+        let legendAttributes = {
+            top: '4%'
+        };
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
         let tooltipSetting = {
             trigger: 'axis',
@@ -323,6 +335,7 @@ Page({
         // let legendData = ['2011年', '2012年'];
         let legendData = fourthDataLegend;
         let gridSetting = {
+            top: '15%',
             left: '3%',
             right: '4%',
             bottom: '3%',
@@ -337,21 +350,9 @@ Page({
             type: 'category',
             data: fourthDataAxis,
         };
-        // let seriesData = [
-        //     {
-        //         name: '2011年',
-        //         type: 'bar',
-        //         data: [18203, 23489, 29034, 104970, 131744, 630230]
-        //     },
-        //     {
-        //         name: '2012年',
-        //         type: 'bar',
-        //         data: [19325, 23438, 31000, 121594, 134141, 681807]
-        //     }
-        // ];
         let seriesData = fourthDataSeries;
         return chart.barChartOption({
-            title, colorData, xData, yData, legendData,
+            title, colorData, xData, yData, legendData,legendAttributes,
             gridSetting, seriesData, tooltipSetting, subTitle
         });
     },
@@ -397,6 +398,9 @@ Page({
                 show: true,
                 position: 'right',
                 formatter: (params) => {
+                    if(params.value == 0){
+                        return ""
+                    }
                     return params.value + "%";
                 }
             };

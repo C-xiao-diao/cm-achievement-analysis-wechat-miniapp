@@ -41,7 +41,7 @@
 
 .fourthChart{
   width: 100%;
-  height: 1800rpx;
+  height: 2200rpx;
   padding-top: 30rpx;
   margin-bottom: 60rpx;
 }

@@ -165,7 +165,7 @@ const chart = {
     return whichChart;
   },
   //横向柱状图option
-  barChartOption: function ({ title,colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting }) {
+  barChartOption: function ({ title,colorData, legendData, legendAttributes,xData, yData, gridSetting, seriesData, tooltipSetting }) {
     var option = {
       title: title,
       color: colorData, //颜色数组
@@ -178,6 +178,9 @@ const chart = {
       yAxis: yData,
       series: seriesData  //数据
     };
+    // TODO 暂时改不了，只能额外添加
+    option.legend = Object.assign(option.legend, legendAttributes);
+    //end
     return option;
   },
   //饼状图option
