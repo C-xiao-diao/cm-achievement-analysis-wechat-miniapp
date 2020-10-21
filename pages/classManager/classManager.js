@@ -9,7 +9,7 @@ var managerFirstChart = null , managerSecondChart = null, managerThirdChart = nu
 Page({
     data: {
         subjectArray: [{name:'总分', id:0},{name:'语文', id:1},{name:'数学', id:2},{name:'英语', id:3},{name:'生物', id:4},{name:'物理', id:5},{name:'地理', id:6},{name:'政治', id:7},{name:'历史', id:8},{name:'化学', id:10},{name:'体育', id:11}],
-        subArray: ['总分','语文','数学','英语','生物','物理','地理','地理','政治','历史','化学','体育'],
+        subArray: ['总分','语文','数学','英语','生物','物理','地理','政治','历史','化学','体育'],
         subjectIndex: 0,
         classArray: [],
         sqrt: 0,    //标准差
@@ -243,7 +243,7 @@ Page({
                 show: true,
                 position: 'right',
                 formatter: (params) => {
-                    return params.value + "%";
+                    return params.value;
                 }
             };
             obj.name = fourthDataLegend[i];
@@ -399,13 +399,13 @@ Page({
         colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
         yData = {data: fifthDataAxis};
         
-        xData = [{type: 'value'}];
+        xData = [{type: 'value',name:'人数'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
 
         if(classType == 1){//各班
             legendData = fifthDataYAxis;
             seriesData = fifthDataSeries;
-            gridSetting = {left: "20%",top: "10%",bottom: "10%",}
+            gridSetting = {left: "20%",right:'15%',top: "10%",bottom: "10%",}
         }else {//全年级
             legendData = [];
             seriesData = [
@@ -414,7 +414,7 @@ Page({
                     data: fifthDataSeries
                 }
             ];
-            gridSetting = {left: "20%",top: "0",bottom: "10%",}
+            gridSetting = {left: "20%",right:'15%',top: "0",bottom: "10%",}
         }
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
