@@ -83,4 +83,8 @@
     <view class="thirdChart mb60">
       <ec-canvas id="objectiveThirdChart" canvas-id="objectiveThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
+
+    <view class="fourthChart mb60">
+      <ec-canvas id="objectiveFourthChart" canvas-id="objectiveFourthChart" ec="{{ ecFourthChart }}"></ec-canvas>
+    </view>
 </view>

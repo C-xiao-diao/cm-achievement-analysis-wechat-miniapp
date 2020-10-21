@@ -3,7 +3,7 @@ import _ from "lodash";
 const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
 
-var objectiveFirstChart = null, objectiveSecondChart = null, objectiveThirdChart = null;
+var objectiveFirstChart = null, objectiveSecondChart = null, objectiveThirdChart = null, objectiveFourthChart = null;
 
 const app = getApp();
 
@@ -46,6 +46,12 @@ Page({
         thirdDataAxis: [],
         thirdDataSeries: [],
         studentScoreList1: [],
+        //第四张图
+        ecFourthChart: {
+            lazyLoad: true
+        },
+        fourthDataAxis: [],
+        fourthDataSeries: [],
         //说明1
         firstDescriptionSqrt: "",
         firstDescriptionDifficulty: "",
@@ -66,6 +72,8 @@ Page({
         // this.initFirstChart();
         // this.initSecondChart();
         // this.initThirdChart();
+        this.initFourthChart();
+
     },
     onLoad: function (option) {
         this.setData({
@@ -179,6 +187,11 @@ Page({
     initThirdChart: function () {
         this.thirdComponent = this.selectComponent('#objectiveThirdChart');
         chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
+    },
+    //初始化第四个图
+    initFourthChart: function () {
+        this.fourthComponent = this.selectComponent('#objectiveFourthChart');
+        chart.initChart(this, 'fourthComponent', '#objectiveFourthChart', objectiveFourthChart);
     },
     /*
         客观题分析
@@ -313,6 +326,50 @@ Page({
             }
         }
         return str;
+    },
+
+    //第四张图option
+    getTopicHorizontalOption: function () {
+        let Title = '世界人口总量';
+        let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
+        let tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        };
+        let legendData = ['2011年', '2012年'];
+        let gridSetting = {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        };
+        let subTitle = '数据来自网络';
+        let xData = {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        };
+        let yData = {
+            type: 'category',
+            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+        };
+        let seriesData = [
+            {
+                name: '2011年',
+                type: 'bar',
+                data: [18203, 23489, 29034, 104970, 131744, 630230]
+            },
+            {
+                name: '2012年',
+                type: 'bar',
+                data: [19325, 23438, 31000, 121594, 134141, 681807]
+            }
+        ];
+        return chart.barChartOption({
+            Title, colorData, xData, yData, legendData,
+            gridSetting, seriesData, tooltipSetting, subTitle
+        });
     },
 
     // 切换tab页试题

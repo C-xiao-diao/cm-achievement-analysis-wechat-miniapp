@@ -141,6 +141,9 @@ const chart = {
       case '#objectiveThirdChart':
         option = obj.getVerticalOption();
         break;
+      case '#objectiveFourthChart':
+        option = obj.getTopicHorizontalOption();
+        break;
       case '#managerFirstChart':
         option = obj.getAvgCompareData();
         break;

@@ -32,9 +32,9 @@
   margin-bottom: 30rpx;
 }
 
-.thirdChart {
+.thirdChart, .fourthChart{
   width: 100%;
   height: 900rpx;
   padding-top: 30rpx;
-  margin-bottom: 30rpx;
+  margin-bottom: 60rpx;
 }

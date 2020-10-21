@@ -306,7 +306,8 @@ Page({
         }
         return str;
     },
-
+    
+    //第四张图option
     getTopicHorizontalOption: function () {
         let Title = '世界人口总量';
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
