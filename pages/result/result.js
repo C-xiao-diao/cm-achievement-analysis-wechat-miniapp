@@ -625,6 +625,7 @@ Page({
       position: ['15%', '0'],
       textStyle: { 'width': '80%' },
       formatter: function (params) {
+        console.log(params, 11111111111111111, studentScoreList1,222222222222222,studentScoreList2)
         var data;
         postion === 0 ? data = studentScoreList1 : data = studentScoreList2;
         var res = chart.getFormatter(params, 'pie', data);

@@ -3,7 +3,7 @@ import _ from "lodash";
 import { http, chart } from "./../../utils/util";
 const util = require('../../utils/util.js')
 
-var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null,supervisorFourthChart = null;
+var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null, supervisorFourthChart = null;
 
 const app = getApp();
 
@@ -42,6 +42,8 @@ Page({
         },
         thirdDataAxis: [],
         thirdDataSeries: [],
+        studentScoreList1: [],
+        studentScoreList1: [],
         //第四张图
         ecFourthChart: {
             lazyLoad: true
@@ -75,7 +77,7 @@ Page({
         this.getSupervisorQuestionAnalysis();
     },
     //获取页面数据
-    getSupervisorQuestionAnalysis(){
+    getSupervisorQuestionAnalysis() {
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
         http.get({
@@ -168,31 +170,31 @@ Page({
     //初始化第二个图
     initSecondChart: function () {
         this.secondComponent = this.selectComponent('#supervisorSecondChart');
-        chart.initChart(this,'secondComponent', '#supervisorSecondChart', supervisorSecondChart);
+        chart.initChart(this, 'secondComponent', '#supervisorSecondChart', supervisorSecondChart);
     },
     //初始化第三个图
     initThirdChart: function () {
         this.thirdComponent = this.selectComponent('#supervisorThirdChart');
-        chart.initChart(this,'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
+        chart.initChart(this, 'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
     },
     //初始化第四个图
     initFourthChart: function () {
         this.fourthComponent = this.selectComponent('#supervisorFourthChart');
-        chart.initChart(this,'fourthComponent', '#supervisorFourthChart', supervisorFourthChart);
+        chart.initChart(this, 'fourthComponent', '#supervisorFourthChart', supervisorFourthChart);
     },
     /*
         主观题分析
         type==0: 得分率
         type==1: 最高分/最低分/平均分
-    */ 
+    */
     getHorizontalOption(type) {
         let _this = this;
         var colorData = [], legendData = [], xData = [], yData = [],
-        gridSetting = {}, seriesData = [], tooltipSetting = [];
+            gridSetting = {}, seriesData = [], tooltipSetting = [];
         const { firstDataAxis, firstfirstDataSeriesByScoringRrate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
-        
-        if(type===0){
+
+        if (type === 0) {
             colorData = ['#93b7e3'];
             legendData = ['得分率'];
             seriesData = [
@@ -206,7 +208,7 @@ Page({
                     data: firstfirstDataSeriesByScoringRrate,
                 }
             ]
-        }else{
+        } else {
             colorData = ['#99b7df', '#fad680', '#e4b2d8'];
             legendData = ['最高分', '最低分', '平均分'];
             seriesData = [{
@@ -237,7 +239,7 @@ Page({
                 data: secondDataSeriesByAvg,
             }]
         }
-        xData = [{type: 'value'}];
+        xData = [{ type: 'value' }];
         yData = [{
             data: firstDataAxis, inverse: true,
             axisLabel: {
@@ -255,43 +257,57 @@ Page({
                 }
             },
         }];
-        gridSetting = {left: "20%",top: "10%",bottom: "10%"};
-        tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
+        gridSetting = { left: "20%", top: "10%", bottom: "10%" };
+        tooltipSetting = { trigger: 'axis', axisPointer: { type: 'shadow' } };
+        return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
     },
     /*
         主观题答题分布分析
-    */ 
+    */
     getVerticalOption() {
-        var Title = '',colorData=[],xData=[],gridSetting={},seriesData=[],subTitle='',tooltipSetting={};
-        let { thirdDataAxis, thirdDataSeries } = this.data;
+        let _this = this;
+        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
+        let { thirdDataAxis, thirdDataSeries, studentScoreList1 } = this.data;
 
         Title = '答题得分分布';
         colorData = ['#566b8e'];
         xData = thirdDataAxis;
-        gridSetting = {left: "20%",top: "20%",bottom: "10%"}
+        gridSetting = { left: "20%", top: "20%", bottom: "10%" }
         seriesData = thirdDataSeries;
         tooltipSetting = {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-              type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
-              triggerOn: 'click'
+                type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                triggerOn: 'click'
             },
             position: ['15%', '0%'],
             extraCssText: 'width: 60%;height:100%;',
             formatter: function (params) {
-              var data;
-              console.log(params[0].axisValue,999999)
-            //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
-            //   var res = chart.getFormatter(params, 'bar', data);
-            //   return res;
+                return _this.getFormatter(studentScoreList1, params[0].axisValue);
             }
         }
 
-        return chart.verticalBarChartOption({Title,colorData,xData,gridSetting,seriesData,tooltipSetting,subTitle});
+        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
     },
 
-    getTopicHorizontalOption: function(){
+    getFormatter: function (studentScoreList1, score) {
+        let item = _.find(studentScoreList1, o => o.score === score);
+        let studentNameList = _.get(item, 'studentNameList', []);
+        let str = "";
+        for (let i = 0; i < studentNameList.length; i++) {
+
+            if (i % 2 === 0) {
+                if (studentNameList[i + 1]) {
+                    str += studentNameList[i].studentName + '   ' + studentNameList[i + 1].studentName + '\n';
+                } else {
+                    str += studentNameList[i].studentName + '   ' + '\n';
+                }
+            }
+        }
+        return str;
+    },
+
+    getTopicHorizontalOption: function () {
         let Title = '世界人口总量';
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
         let tooltipSetting = {
@@ -327,20 +343,22 @@ Page({
                 type: 'bar',
                 data: [19325, 23438, 31000, 121594, 134141, 681807]
             }
-        ]; 
-        return chart.barChartOption({Title,colorData,xData,yData,legendData,
-            gridSetting,seriesData,tooltipSetting,subTitle});
+        ];
+        return chart.barChartOption({
+            Title, colorData, xData, yData, legendData,
+            gridSetting, seriesData, tooltipSetting, subTitle
+        });
     },
     // 切换tab页试题
     swichNav: function (e) {
         let { listTotalTopic, listClassTotalScore } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
-        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic,listClassTotalScore);
+        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore);
     },
     // 试题分析
     setTopicData: function (activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore) {
-        let thirdDataAxis = [], thirdDataSeries = [];
+        let thirdDataAxis = [], thirdDataSeries = [], studentScoreList1 = [];
         let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listScore;
         let listTopicIndex = _.findIndex(listTotalTopic, o => o.topic === activeTabName);
@@ -350,7 +368,7 @@ Page({
                 thirdDataSeries.push(_.round(listTopic[i].ratio * 100, 2));
             }
         }
-        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
+        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries, studentScoreList1: listTopic })
         chart.initChart(this, 'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
     }
 })
