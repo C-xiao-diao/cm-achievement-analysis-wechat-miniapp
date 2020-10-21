@@ -190,19 +190,20 @@ Page({
         let fifthDataSeries = [],fifthDataAxis = [];
         const { intervalValue } = this.data;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: 2};
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: 1};
         http.get({
             cmd,
             data,
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
                     let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
+                    let classSet = _.get(res, 'data.data.classSet');
                     for(let i=0;i<listScore.length;i++){
                         fifthDataAxis.push(listScore[i].score);
                         fifthDataSeries.push(listScore[i].list)
                     }
                     this.setData({fifthDataAxis,fifthDataSeries})
-                    this.getGradeSectionData();
+                    this.getGradeSectionData(classSet);
                 }
             }
         })    
@@ -342,41 +343,26 @@ Page({
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
     },
     //获取 分数段统计 图表数据
-    getGradeSectionData(){
+    getGradeSectionData(classSet){
         const { fifthDataSeries, fifthDataAxis } = this.data;
         var colorData = [], legendData = [], xData = [], yData = [],
         gridSetting = {}, seriesData = [], tooltipSetting = [], arr=[];
+
         colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
+        legendData = classSet;
         yData = {data: fifthDataAxis};
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        console.log(fifthDataSeries,22222222)
         //i: 分数段（y轴 yData.data）； j:班级（示例 legendData）
         for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
-            seriesData.push({
-                name: '',
-                type: 'bar',
-                label: {
-                show: true
-                },
-                barGap: "0",
-                data: []
-            })
-            for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
-                // console.log(i,fifthDataSeries[i][j].class_,fifthDataSeries[i][j].list.amount, 8888888)
-                // seriesData[i].name = fifthDataSeries[i][j].class_;
-                // 
-                // seriesData[i].data.push(fifthDataSeries[i][j].list.amount);
-                arr.push(fifthDataSeries[i][j].class_);
-            }
-            legendData = _.union(arr);
-            
+            seriesData.push({name: '',type: 'bar',label: {show: true},barGap: "0",data: []});
         }
 
         for(var i = 0; i < fifthDataSeries.length; i++){
             let item = fifthDataSeries[i];
             item.list = new Array(legendData.length);
+            console.log(item, item.list, 'hhhhhhhhhhhhhhhhhh')
             for(let j=0;j<legendData.length;j++){
                 if(item.class_ != legendData[j]){
                     item.list[j+1] = item.list[j];
@@ -385,22 +371,10 @@ Page({
             }
             fifthDataSeries[i] = item;
         }
-        console.log(fifthDataSeries, 'vvvvvvvvvvvvvvvvvv555555555555555');
-
-        // for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
-        //     for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
-        //         // console.log(fifthDataSeries[i][j].class_, legendData[k],'lllllllll')
-        //         if(fifthDataSeries[i][j].class_ != legendData[j]){
-        //             console.log(i,j,fifthDataSeries[i][j].class_)
-        //             fifthDataSeries[i][j].list.amount = 0;
-        //         }
-        //         // seriesData[i].data.push(fifthDataSeries[i][j].list.amount)
-        //     }
-        // }
         
 
         legendData = _.union(arr);
-        console.log(seriesData,999999)
+        // console.log(seriesData,999999)
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
     //切换 分数段
