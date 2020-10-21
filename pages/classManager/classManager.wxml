@@ -80,7 +80,7 @@
         </view>
     </view>
     
-    <view class="chart last-chart">
+    <view class="chart" style="height:{{classType==1? '2200rpx': '600rpx'}}">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
 

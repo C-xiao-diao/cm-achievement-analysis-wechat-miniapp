@@ -50,10 +50,6 @@
     margin-left: 15rpx;
 } 
 
-.last-chart {
-    height: 2200rpx;
-}
-
 .tabWrap{
     display: flex;
 }
