@@ -190,7 +190,7 @@ Page({
         let fifthDataSeries = [],fifthDataAxis = [];
         const { intervalValue } = this.data;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: 2};
         http.get({
             cmd,
             data,
@@ -351,6 +351,7 @@ Page({
         gridSetting = {left: "20%",top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
+        console.log(fifthDataSeries,22222222)
         //i: 分数段（y轴 yData.data）； j:班级（示例 legendData）
         for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
             seriesData.push({
@@ -373,16 +374,29 @@ Page({
             
         }
 
-        for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
-            for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
-                // console.log(fifthDataSeries[i][j].class_, legendData[k],'lllllllll')
-                if(fifthDataSeries[i][j].class_ != legendData[j]){
-                    console.log(i,j,fifthDataSeries[i][j].class_)
-                    fifthDataSeries[i][j].list.amount = 0;
+        for(var i = 0; i < fifthDataSeries.length; i++){
+            let item = fifthDataSeries[i];
+            item.list = new Array(legendData.length);
+            for(let j=0;j<legendData.length;j++){
+                if(item.class_ != legendData[j]){
+                    item.list[j+1] = item.list[j];
+                    item.list[j] = {amount: 0}
                 }
-                // seriesData[i].data.push(fifthDataSeries[i][j].list.amount)
             }
+            fifthDataSeries[i] = item;
         }
+        console.log(fifthDataSeries, 'vvvvvvvvvvvvvvvvvv555555555555555');
+
+        // for(var i = 0; i < fifthDataSeries.length; i++){//遍历分数段
+        //     for(let j=0;j<fifthDataSeries[i].length;j++){//遍历班级
+        //         // console.log(fifthDataSeries[i][j].class_, legendData[k],'lllllllll')
+        //         if(fifthDataSeries[i][j].class_ != legendData[j]){
+        //             console.log(i,j,fifthDataSeries[i][j].class_)
+        //             fifthDataSeries[i][j].list.amount = 0;
+        //         }
+        //         // seriesData[i].data.push(fifthDataSeries[i][j].list.amount)
+        //     }
+        // }
         
 
         legendData = _.union(arr);

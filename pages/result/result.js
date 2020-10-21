@@ -29,6 +29,7 @@ Page({
     minScoreAllClass: 0,//最高分(年级)
     avgScoreAllClass: 0,//最高分(年级)
     fullMarks: 100,
+    excellentLine: 85,//优秀线
     excellentRate: 0,//优秀率
     passingRate: 0,//及格率
     distinction: 0, //区分度
@@ -98,14 +99,30 @@ Page({
     this.getSubjectData();
     this.getDifficulty();
   },
+  //获取用户输入的优秀线
+  getExcellentRate(e){
+    var regInterger = /(^[1-9]\d*$)/;
+    let value = e.detail.value;
+    if(!regInterger.test(value)){
+      wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
+      return;
+    }
+    if(value < 10 || value > 100){
+      wx.showToast({title: '请输入两位数',icon: 'none',duration: 1500});
+      return;
+    }
+    this.setData({excellentLine: value});
+    this.getSubjectData();
+  },
   //获取成绩分析页面数据
   getSubjectData() {
+    const {excellentLine} = this.data;
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, excellentRate: excellentLine},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {

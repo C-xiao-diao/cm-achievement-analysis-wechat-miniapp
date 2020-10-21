@@ -4,6 +4,26 @@
     <text class="h2">（{{class}} - {{subject}}）</text>
     <!-- 总分 -->
     <text class="title">总分 <text class="score">{{subjectiveFullMarks}}</text></text>
+
+    <!-- 试卷分析 -->
+    <text class="title">— 试卷分析 —</text>
+    <view class="analysis mb60">
+      <view class="analysis-title">
+        <text>标准差</text>
+        <text>难度</text>
+        <text>区分度</text>
+      </view>
+      <view class="analysis-body">
+        <text>{{sqrtDouble}}</text>
+        <text>{{difficultyFactor}}</text>
+        <text>{{distinction}}</text>
+      </view>
+      <text class="note">
+        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{secondDescriptionSqrt}}
+        难度，即试卷（题）的难易程度。{{secondDescriptionDifficulty}}
+      </text>
+    </view>
+
     <!-- 主观题统计分析 - 班级 -->
     <text class="title">— 主观题统计分析 —</text>
     <text class="sub-title">(班级)</text>
@@ -43,22 +63,7 @@
     <view class="total w30">
         <view>得分率<text>{{scoringRrate}}%</text></view>
     </view>
-    <view class="analysis mb60">
-      <view class="analysis-title">
-        <text>标准差</text>
-        <text>难度</text>
-        <text>区分度</text>
-      </view>
-      <view class="analysis-body">
-        <text>{{sqrtDouble}}</text>
-        <text>{{difficultyFactor}}</text>
-        <text>{{distinction}}</text>
-      </view>
-      <text class="note">
-        说明：标准差，反映成绩分布的离散程度（即均匀性）。{{secondDescriptionSqrt}}
-        难度，即试卷（题）的难易程度。{{secondDescriptionDifficulty}}
-      </text>
-    </view>
+    
 
     <text class="title">— 各班对比 —</text>
     <view class="firstChart">

@@ -4,6 +4,12 @@
   <text class="h2" wx:if="{{role==1}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
   <text class="h2" wx:if="{{role==2}}">（{{class + ' - ' + studentName}}）</text>
 
+  <!-- 优秀线 -->
+  <view class="excellent">
+    <view class="text">优秀线<input class="weui-input" bind:input="getExcellentRate" value="{{excellentLine}}"/>%</view>
+    <view class="subText">（仅支持正整数）</view>
+  </view>
+
   <!-- 总体情况 -->
   <!--班级总体情况 -->
   <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 班级总体情况 —</text>
