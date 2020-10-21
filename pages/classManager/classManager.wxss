@@ -36,13 +36,12 @@
 }
 
 .tab {
-    width: 100%;
-    margin-left: 20%;
+    flex: 1;
 }
 
 .tab > text {
     flex: none;
-    width: 150rpx;
+    padding: 0 20rpx;
     border-radius: 10rpx;
 }
 
@@ -53,4 +52,16 @@
 
 .last-chart {
     height: 2200rpx;
+}
+
+.tabWrap{
+    display: flex;
+}
+
+.fr-tab {
+    margin-left: 25%;
+}
+
+.fr-tab text {
+    border-radius: 0
 }

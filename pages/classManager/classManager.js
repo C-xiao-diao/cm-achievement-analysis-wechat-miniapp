@@ -19,6 +19,7 @@ Page({
         description2:'',
         currentSort: 0,
         currentTab1: 0,
+        currentTab2: 0,
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
@@ -58,7 +59,8 @@ Page({
         },
         fifthDataAxis:[],
         fifthDataSeries: [],
-        classSet: [],
+        fifthDataYAxis: [],
+        classType: 1, //1: 各班； 2：全年级
         intervalValue: 50
     },
     onLoad: function(){
@@ -188,22 +190,31 @@ Page({
     },
     // 分数段统计
     getScoreStatistics:function(subject){
-        let fifthDataAxis = [], fifthDataSeries = [], classSet = [];
-        const { intervalValue } = this.data;
+        let fifthDataAxis = [], fifthDataSeries = [], fifthDataYAxis = [];
+        const { intervalValue ,classType } = this.data;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: 1};
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, intervalValue, type: classType};
         http.get({
             cmd,
             data,
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
                     let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
-                    fifthDataSeries = this.setGradeSectionData(listScore);
-                    classSet =  _.get(res, 'data.data.classSet');
-                    for(let i=0;i<listScore.length;i++){
-                        fifthDataAxis.push(listScore[i].score);
+                    
+                    if(classType == 1){//各班
+                        fifthDataSeries = this.setGradeSectionData(listScore);
+                        fifthDataYAxis =  _.get(res, 'data.data.classSet');
+                        for(let i=0;i<listScore.length;i++){
+                            fifthDataAxis.push(listScore[i].score);
+                        }
+                        this.setData({fifthDataAxis, fifthDataSeries, fifthDataYAxis })
+                    }else {//全年级
+                        for(let i=0;i<listScore.length;i++){
+                            fifthDataAxis.push(listScore[i].score);
+                            fifthDataSeries.push(listScore[i].list.amount);
+                        }
+                        this.setData({fifthDataAxis, fifthDataSeries })
                     }
-                    this.setData({fifthDataAxis, fifthDataSeries, classSet })
                     this.initFifthChart();
                 }
             }
@@ -383,15 +394,28 @@ Page({
     getGradeSectionData(){
         var colorData = [], legendData = [], xData = [], yData = [],
         gridSetting = {}, seriesData = [], tooltipSetting = [];
-        const {fifthDataAxis, fifthDataSeries, classSet } = this.data;
+        const {fifthDataAxis, fifthDataSeries, fifthDataYAxis, classType } = this.data;
 
         colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f'];
-        legendData = classSet;
         yData = {data: fifthDataAxis};
-        gridSetting = {left: "20%",top: "10%",bottom: "10%",}
+        
         xData = [{type: 'value'}];
-        seriesData = fifthDataSeries;
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
+
+        if(classType == 1){//各班
+            legendData = fifthDataYAxis;
+            seriesData = fifthDataSeries;
+            gridSetting = {left: "20%",top: "10%",bottom: "10%",}
+        }else {//全年级
+            legendData = [];
+            seriesData = [
+                {
+                    type: 'bar',
+                    data: fifthDataSeries
+                }
+            ];
+            gridSetting = {left: "20%",top: "0",bottom: "10%",}
+        }
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});
     },
@@ -402,7 +426,6 @@ Page({
             return false;
         } else {
             let intervalValue = _.get(e, 'target.dataset.current') === 0 ? 50 : 100;
-            console.log(intervalValue,'intervalValueintervalValueintervalValueintervalValue')
             this.setData({ [tab]: e.target.dataset.current, intervalValue }, () =>{
                 this.getScoreStatistics();
             })
@@ -420,5 +443,17 @@ Page({
         this.setData({ [tab]: num }, () =>{
             this.getExcellentPassRate(this.data.classListExcellentPassRate,sortName);
         })
+    },
+    //切换 - 各班 / 全年级
+    swichNav2(e){
+        var tab = e.currentTarget.dataset.name;
+        if (this.data[tab] === e.target.dataset.current) {
+            return false;
+        } else {
+            let classType = _.get(e, 'target.dataset.current') === 0 ? 1 : 2;
+            this.setData({ [tab]: e.target.dataset.current, classType }, () =>{
+                this.getScoreStatistics();
+            })
+        }
     }
 })

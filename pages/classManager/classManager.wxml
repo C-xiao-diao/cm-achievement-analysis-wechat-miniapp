@@ -69,10 +69,17 @@
 
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
-    <view class="tab">
-      <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab1" bindtap="swichNav">50分段</text>
-      <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
+    <view class="tabWrap" hover-class="none" hover-stop-propagation="false">
+        <view class="tab">
+            <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab1" bindtap="swichNav">50分段</text>
+            <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
+        </view>
+        <view class="tab fr-tab">
+            <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab2" bindtap="swichNav2">各班</text>
+            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav2">全年级</text>
+        </view>
     </view>
+    
     <view class="chart last-chart">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
