@@ -338,6 +338,7 @@ Page({
         let title = { 
             text: '（点击图标可选中或取消对比项）',
             top: '0%',
+            left: 'center',
             color: 'gray',
             textStyle:{
                 color: 'gray',

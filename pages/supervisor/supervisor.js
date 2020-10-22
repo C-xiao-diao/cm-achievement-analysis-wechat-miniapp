@@ -315,7 +315,7 @@ Page({
         let title = { 
             text: '（点击图标可选中或取消对比项）',
             top: '0%',
-            color: 'gray',
+            left: 'center',
             textStyle:{
                 color: 'gray',
                 fontWeight : 200,
@@ -323,7 +323,7 @@ Page({
             textAlign: 'auto'
         };
         let legendAttributes = {
-            top: '4%'
+            top: '5%'
         };
         let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
         let tooltipSetting = {
@@ -336,8 +336,8 @@ Page({
         let legendData = fourthDataLegend;
         let gridSetting = {
             top: '15%',
-            left: '3%',
-            right: '4%',
+            left: '5%',
+            right: '15%',
             bottom: '3%',
             containLabel: true
         };
@@ -353,7 +353,7 @@ Page({
         let seriesData = fourthDataSeries;
         return chart.barChartOption({
             title, colorData, xData, yData, legendData,legendAttributes,
-            gridSetting, seriesData, tooltipSetting, subTitle
+            gridSetting, seriesData, tooltipSetting
         });
     },
     // 切换tab页试题
