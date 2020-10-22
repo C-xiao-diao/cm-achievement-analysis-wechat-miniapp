@@ -20,6 +20,7 @@ Page({
         currentSort: 0,
         currentTab1: 0,
         currentTab2: 0,
+        currentTab3: 0,
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
@@ -53,6 +54,9 @@ Page({
         fourthDataSeries: [],
         fourthDataLegend: [],
         fourthDataAxis: [],
+        rateType: 0,
+        listAvg: [],
+        listExcellentPass: [],
         //第五张图表
         ecFifth: {
             lazyLoad: true
@@ -64,6 +68,7 @@ Page({
         intervalValue: 50
     },
     onLoad: function(){
+        wx.showLoading({title: '加载中...'})
         this.getGradeAnalysisData();
         this.getScoreStatistics();
     },
@@ -92,7 +97,7 @@ Page({
                     let firstDataSeriesByMax = [],firstDataSeriesByMin = [],firstDataSeriesByAvg = [],
                     firstDataAxis = [];
                     let secondDataSeries = [],secondDataAxis = [], secondDataLegend = [];
-                    let fourthDataSeries= [], fourthDataAxis= [], fourthDataLegend = [];
+                    
                     //数据的清洗和组装
                     let maxScore = _.round(_.get(resData, 'maxScore'));
                     let minScore = _.round(_.get(resData, 'minScore'));
@@ -132,20 +137,8 @@ Page({
                     this.getExcellentPassRate(classListExcellentPassRate,'passingRate');
 
                     //历史走势图（优秀率/及格率）
-                    for (let i=0;i< listExcellentPass.length; i++){
-                        let obj = {};
-                        obj.data = [];
-                        obj.type ="line";
-                        obj.name = listAvg[i].class_;
-                        fourthDataLegend.push(listExcellentPass[i].class_);
-                        let list = _.get(listExcellentPass, `${i}.list`, []);
-                        for (let j=0;j< list.length; j++){
-                            obj.data[j] = _.round(list[j].excellentRate/list[j].passingRate, 2);
-                            fourthDataAxis.push(list[j].yearMonth);
-                            fourthDataAxis = _.uniq(fourthDataAxis);
-                        }
-                        fourthDataSeries.push(obj);
-                    }
+                    this.changeExcellentOrPass(listAvg,listExcellentPass,'passingRate')
+                    
                     //数据赋值
                     this.setData({
                         maxScore,
@@ -163,15 +156,14 @@ Page({
                         distinction,
                         description,
                         description2,
-                        fourthDataSeries,
-                        fourthDataAxis,
-                        fourthDataLegend,
+                        listAvg,
+                        listExcellentPass,
                         classListExcellentPassRate
                     })
                     this.initFirstChart();
                     this.initSecondChart();
                     
-                    this.initFourthChart();
+                    
                 }
             }
         })
@@ -187,6 +179,26 @@ Page({
         }
         this.setData({thirdDataSeriesByExcellent,thirdDataSeriesByPassing,thirdDataAxis})
         this.initThirdChart();
+    },
+    //切换优秀率/及格率
+    changeExcellentOrPass: function(listAvg,listExcellentPass,type){
+        let fourthDataSeries= [], fourthDataAxis= [], fourthDataLegend = [];
+        for (let i=0;i< listExcellentPass.length; i++){
+            let obj = {};
+            obj.data = [];
+            obj.type ="line";
+            obj.name = listAvg[i].class_;
+            fourthDataLegend.push(listExcellentPass[i].class_);
+            let list = _.get(listExcellentPass, `${i}.list`, []);
+            for (let j=0;j< list.length; j++){
+                obj.data[j] = util.returnFloat(list[j][type], 2);
+                fourthDataAxis.push(list[j].yearMonth);
+                fourthDataAxis = _.uniq(fourthDataAxis);
+            }
+            fourthDataSeries.push(obj);
+        }
+        this.setData({fourthDataSeries,fourthDataAxis,fourthDataLegend});
+        this.initFourthChart();
     },
     // 分数段统计
     getScoreStatistics:function(subject){
@@ -425,12 +437,26 @@ Page({
         if (this.data[tab] === e.target.dataset.current) {
             return false;
         } else {
-            let intervalValue = _.get(e, 'target.dataset.current') === 0 ? 50 : 100;
-            this.setData({ [tab]: e.target.dataset.current, intervalValue }, () =>{
-                this.getScoreStatistics();
-            })
+            if(tab == 'currentTab1'){
+                let intervalValue = _.get(e, 'target.dataset.current') === 0 ? 50 : 100;
+                this.setData({ [tab]: e.target.dataset.current, intervalValue }, () =>{
+                    this.getScoreStatistics();
+                })
+            }else if(tab == 'currentTab2'){
+                let classType = _.get(e, 'target.dataset.current') === 0 ? 1 : 2;
+                this.setData({ [tab]: e.target.dataset.current, classType }, () =>{
+                    this.getScoreStatistics();
+                })
+            }else if(tab == 'currentTab3'){
+                let num = _.get(e, 'target.dataset.current'),rateType = '';
+                num == 0 ? rateType = 'passingRate' : rateType = 'excellentRate'
+                this.setData({ [tab]: e.target.dataset.current, rateType }, () =>{
+                    this.changeExcellentOrPass(this.data.listAvg, this.data.listExcellentPass,rateType);
+                })
+            }
         }
     },
+    //按优秀率/及格率排序
     SortBy(e){
         var tab = e.currentTarget.dataset.name, sortName = '', num = 0;
         if (this.data[tab] === 0) {
@@ -443,17 +469,5 @@ Page({
         this.setData({ [tab]: num }, () =>{
             this.getExcellentPassRate(this.data.classListExcellentPassRate,sortName);
         })
-    },
-    //切换 - 各班 / 全年级
-    swichNav2(e){
-        var tab = e.currentTarget.dataset.name;
-        if (this.data[tab] === e.target.dataset.current) {
-            return false;
-        } else {
-            let classType = _.get(e, 'target.dataset.current') === 0 ? 1 : 2;
-            this.setData({ [tab]: e.target.dataset.current, classType }, () =>{
-                this.getScoreStatistics();
-            })
-        }
     }
 })

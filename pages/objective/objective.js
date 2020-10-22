@@ -78,6 +78,7 @@ Page({
 
     },
     onLoad: function (option) {
+        wx.showLoading({title: '加载中...'})
         this.setData({
             'subject': option.subject,
             'class': option.class,

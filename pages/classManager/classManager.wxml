@@ -44,6 +44,10 @@
 
     <!--历史走势图（优秀率/及格率） -->
     <text class="title">— 历史走势图（优秀率/及格率） —</text>
+    <view class="tab">
+        <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab3" bindtap="swichNav">及格率</text>
+        <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab3" bindtap="swichNav">优秀率</text>
+    </view>
     <view class="chart mb60">
         <ec-canvas id="managerFourthChart" canvas-id="managerFourthChart" ec="{{ ecFourth }}"></ec-canvas>
     </view>
@@ -75,8 +79,8 @@
             <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
         </view>
         <view class="tab fr-tab">
-            <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab2" bindtap="swichNav2">各班</text>
-            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav2">全年级</text>
+            <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab2" bindtap="swichNav">各班</text>
+            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
         </view>
     </view>
     
