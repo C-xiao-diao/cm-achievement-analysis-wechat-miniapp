@@ -396,7 +396,7 @@ Page({
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
         legendData = {data: fourthDataLegend}
-        gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
+        gridSetting = {left: "15%",right: "5%",top: "28%",bottom: "18%",}
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
 
