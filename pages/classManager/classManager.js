@@ -113,10 +113,10 @@ Page({
                     let classListExcellentPassRate = _.get(resData, 'classListExcellentPassRate');
                     //平均分对比
                     for(let i=0;i< resData.classListMaxMinAvg.length; i++){
-                        firstDataSeriesByMax.push(classListMaxMinAvg[i].maxScore);
-                        firstDataSeriesByMin.push(classListMaxMinAvg[i].minScore);
-                        firstDataSeriesByAvg.push(util.returnFloat(classListMaxMinAvg[i].avgScore));
-                        firstDataAxis.push(classListMaxMinAvg[i].class_);
+                        firstDataSeriesByMax.unshift(classListMaxMinAvg[i].maxScore);
+                        firstDataSeriesByMin.unshift(classListMaxMinAvg[i].minScore);
+                        firstDataSeriesByAvg.unshift(util.returnFloat(classListMaxMinAvg[i].avgScore));
+                        firstDataAxis.unshift(classListMaxMinAvg[i].class_);
                     }
                     //历史走势图
                     for (let i=0;i< listAvg.length; i++){
