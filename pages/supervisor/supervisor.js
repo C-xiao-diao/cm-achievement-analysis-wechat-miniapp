@@ -121,7 +121,7 @@ Page({
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得游戏率和及格率
                         firstDataAxis.unshift(listGroupClassStatistics[i].class_);
-                        firstfirstDataSeriesByScoringRrate.push(_.round(listGroupClassStatistics[i].scoringRrate, 1))
+                        firstfirstDataSeriesByScoringRrate.push(util.returnFloat(listGroupClassStatistics[i].scoringRrate*100))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
@@ -204,7 +204,10 @@ Page({
                     name: '得分率',
                     type: 'bar',
                     label: {
-                        show: true
+                        show: true,
+                        formatter: (params) => {
+                            return params.value + "%";
+                        }
                     },
                     barGap: "0",
                     data: firstfirstDataSeriesByScoringRrate,
