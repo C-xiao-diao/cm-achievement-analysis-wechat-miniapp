@@ -1,3 +1,7 @@
+.subtitle{
+    font-size: 34rpx;
+    margin-bottom: 20rpx;
+}
 
 .choose {
     display: flex;
@@ -19,11 +23,6 @@
     margin: 30rpx 0;
 }
 
-.fl-tab {
-    width: 40%;
-    float: left;
-}
-
 .txtBtn{
     width: 100%;
     text-align: right;
@@ -33,31 +32,30 @@
     color: blue;
     font-size: 32rpx;
     margin-right: 10%;
+    margin-bottom: 20rpx;
 }
 
-.tab {
-    flex: 1;
+.newTab {
+    margin: 0 0 20rpx 60%;
+}
+
+.fl-tab {
+    margin: 0;
 }
 
 .tab > text {
     flex: none;
     padding: 0 20rpx;
-    border-radius: 10rpx;
 }
-
-.tab > text:last-child {
-    border-left: 2rpx solid #566b8e;
-    margin-left: 15rpx;
-} 
 
 .tabWrap{
     display: flex;
 }
 
-.fr-tab {
-    margin-left: 25%;
-}
-
-.fr-tab text {
-    border-radius: 0
-}
+.gray-txt {
+    display: block;
+    width: 100%;
+    font-size: 28rpx;
+    text-align: center;
+    color: gray;
+  }
