@@ -346,7 +346,7 @@ Page({
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
         var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
         legendData = {data: secondDataLegend};
-        gridSetting = {left: "15%",right: "5%",top: "20%",bottom: "18%",}
+        gridSetting = {left: "15%",right: "5%",top: "28%",bottom: "18%",}
         xData = secondDataAxis;
         seriesData = secondDataSeries;
 
