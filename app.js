@@ -14,23 +14,23 @@ App({
     nonetwork: false,
   },
   onLaunch: function () {
+    let _this = this;
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     this.Login();
     wx.onNetworkStatusChange(function (res) {
-      console.log(res, "resresresresresresresresresresresresresresresres");
       if (res.networkType == 'none') {
         wx.showToast({
           title: '已断开网络',
         })
-        this.globalData.nonetwork = true;
+        _this.globalData.nonetwork = true;
       } else {
         wx.showToast({
           title: '已连上网络',
         })
-        this.globalData.nonetwork = false;
+        _this.globalData.nonetwork = false;
       }
     })
 
