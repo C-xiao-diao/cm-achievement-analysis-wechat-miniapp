@@ -6,7 +6,7 @@
   "setting": {
     "urlCheck": true,
     "es6": true,
-    "enhance": true,
+    "enhance": false,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
@@ -28,7 +28,7 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "bundle": true,
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
@@ -79,10 +79,10 @@
           "scene": null
         },
         {
-          "id": -1,
-          "name": "pages/result/result",
-          "pathName": "pages/result/result",
-          "query": "subject=\"全科\"&class=\"C1801\"",
+          "id": 2,
+          "name": "pages/classManager/classManager",
+          "pathName": "pages/classManager/classManager",
+          "query": "",
           "scene": null
         },
         {

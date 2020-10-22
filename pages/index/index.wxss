@@ -1,6 +1,6 @@
 /**index.wxss**/
 .container {
-  padding-top: 60rpx;
+  padding-top: 20rpx;
 }
 
 #getUserInfoBtn {
@@ -16,7 +16,7 @@
 
 .title {
   font-size: 36rpx;
-  padding: 30rpx 0 50rpx;
+  padding: 30rpx 0;
 }
 
 .title:first-child {
@@ -24,14 +24,15 @@
 }
 
 .identity {
-  display: flex;
-  margin-bottom: 80rpx;
+  width: 90%;
+  align-items: center;
 }
 
 .identity .icon {
   display: block;
-  width: 100rpx;
-  height: 100rpx;
+  float: right;
+  width: 80rpx;
+  height: 80rpx;
 }
 
 .identity .right {
@@ -43,20 +44,25 @@
 }
 
 .identity > view {
-  flex: 1;
+  width: 100%;
   padding: 20rpx 60rpx;
-  margin: 0 30rpx;
   border: 2rpx solid #eee;
-  border-radius: 10rpx;
+  border-radius: 20rpx;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
+  margin-bottom: 30rpx;
 }
 
 .identity > view.active {
   box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
 }
 
-.identity > view.active::before {
+.identity > view.active text {
+  color: red;
+}
+
+/* .identity > view.active::before {
   display: block;
   content: "";
   position: absolute;
@@ -68,15 +74,13 @@
   border-bottom: 40rpx solid transparent;
   border-left: 40rpx solid red;
   transform: rotate(-45deg);
-}
+} */
 
 .identity text {
-  width: 100%;
-  height: 40rpx;
-  display: block;
+  float: left;
   text-align: center;
   font-size: 32rpx;
-  line-height: 56rpx;
+  line-height: 80rpx;
 }
 
 .selector {
@@ -173,4 +177,15 @@
   margin: 0 auto;
   background: #333;
   color: #fff;
+}
+
+.choose-grade picker {
+  flex: 1;
+  width: 400rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 10rpx;
+  border: 2rpx solid #eee;
+  border-radius: 10rpx;
+  font-size: 32rpx;
 }

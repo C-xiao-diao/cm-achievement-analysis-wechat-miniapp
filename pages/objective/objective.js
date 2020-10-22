@@ -1,10 +1,9 @@
-import * as echarts from './../../components/ec-canvas/echarts'
 import "./../../utils/fix";
 import _ from "lodash";
 const util = require('../../utils/util.js')
-import { http } from "./../../utils/util";
+import { http, chart } from "./../../utils/util";
 
-var firstChart = null, secondChart = null, thirdChart = null;
+var objectiveFirstChart = null, objectiveSecondChart = null, objectiveThirdChart = null, objectiveFourthChart = null;
 
 const app = getApp();
 
@@ -15,6 +14,7 @@ Page({
         //客观题班级统计数据
         classStatistics: {},
         //客观题年级统计数据(PS 这里服务端年级数据没有用对象包起来)
+        objectiveFullMarks: 0,
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
@@ -43,8 +43,17 @@ Page({
             lazyLoad: true
         },
         listTotalTopic: [],
+        listClassTopic: [],
         thirdDataAxis: [],
         thirdDataSeries: [],
+        studentScoreList1: [],
+        //第四张图
+        ecFourthChart: {
+            lazyLoad: true
+        },
+        fourthDataAxis: [],
+        fourthDataLegend: [],
+        fourthDataSeries: [],
         //说明1
         firstDescriptionSqrt: "",
         firstDescriptionDifficulty: "",
@@ -65,8 +74,11 @@ Page({
         // this.initFirstChart();
         // this.initSecondChart();
         // this.initThirdChart();
+        // this.initFourthChart();
+
     },
     onLoad: function (option) {
+        wx.showLoading({title: '加载中...'})
         this.setData({
             'subject': option.subject,
             'class': option.class,
@@ -96,8 +108,10 @@ Page({
                         difficultyFactor,
                         distinction,
                         listTotalTopic,
+                        listClassTopic,
                         topicSet,
-                        correctAnswer
+                        correctAnswer,
+                        objectiveFullMarks
                     } = responseData;
                     //数据组装和清洗
                     for (let key in classStatistics) {
@@ -115,8 +129,8 @@ Page({
                     scoringRrate = util.returnFloat(scoringRrate * 100)
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得正确率
-                        firstDataAxis.push(listGroupClassStatistics[i].class_);
-                        firstfirstDataSeriesByCorrectRate.push(_.round(listGroupClassStatistics[i].objectiveQuestionsCorrectRate, 1))
+                        firstDataAxis.unshift(listGroupClassStatistics[i].class_);
+                        firstfirstDataSeriesByCorrectRate.push(util.returnFloat(listGroupClassStatistics[i].objectiveQuestionsCorrectRate*100))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
@@ -131,6 +145,7 @@ Page({
                     }
                     //----------------  end  ------------------
                     this.setData({
+                        objectiveFullMarks,
                         classStatistics,
                         firstDescriptionSqrt,
                         firstDescriptionDifficulty,
@@ -151,234 +166,287 @@ Page({
                         secondDataSeriesByAvg,
                         tabList: topicSet,
                         listTotalTopic,
+                        listClassTopic,
                         activeTabName: topicSet[0],
                         correctAnswer
                     })
                     //画图
                     this.initFirstChart();
                     this.initSecondChart();
-                    this.setTopicData(0, topicSet[0], listTotalTopic);
+                    this.setTopicData(0, topicSet[0], listTotalTopic, listClassTopic);
                 }
             }
         })
     },
     //初始化第一个图
     initFirstChart: function () {
-        this.firstComponent = this.selectComponent('#firstChart');
-        this.initChart('firstComponent', '#firstChart', firstChart);
+        this.firstComponent = this.selectComponent('#objectiveFirstChart');
+        chart.initChart(this, 'firstComponent', '#objectiveFirstChart', objectiveFirstChart);
     },
     //初始化第二个图
     initSecondChart: function () {
-        this.secondComponent = this.selectComponent('#secondChart');
-        this.initChart('secondComponent', '#secondChart', secondChart);
+        this.secondComponent = this.selectComponent('#objectiveSecondChart');
+        chart.initChart(this, 'secondComponent', '#objectiveSecondChart', objectiveSecondChart);
     },
     //初始化第三个图
     initThirdChart: function () {
-        this.thirdComponent = this.selectComponent('#thirdChart');
-        this.initChart('thirdComponent', '#thirdChart', thirdChart);
+        this.thirdComponent = this.selectComponent('#objectiveThirdChart');
+        chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
     },
-    //图表初始化方法
-    initChart(chartComponent, dom, whichChart) {
-        if (!this[chartComponent]) {
-            this[chartComponent] = this.selectComponent(dom);
-        }
-        this[chartComponent].init((canvas, width, height) => {
-            whichChart = echarts.init(canvas, null, {
-                width: width,
-                height: height,
-                devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
-            });
-            this.setOption(whichChart, dom);
-            return whichChart;
-        });
+    //初始化第四个图
+    initFourthChart: function () {
+        this.fourthComponent = this.selectComponent('#objectiveFourthChart');
+        chart.initChart(this, 'fourthComponent', '#objectiveFourthChart', objectiveFourthChart);
     },
-    //图表设置
-    setOption: function (whichChart, dom) {
-        var option;
-        switch (dom) {
-            case '#firstChart':
-                option = this.getHorizontalOption(0);
-                break;
-            case '#secondChart':
-                option = this.getHorizontalOption(1);
-                break;
-            case '#thirdChart':
-                option = this.getVerticalOption();
-                break;
-        }
-        whichChart.setOption(option);
-        return whichChart;
-    },
+    /*
+        客观题分析
+        type==0: 正确率
+        type==1: 最高分/最低分/平均分
+    */
     getHorizontalOption(type) {
+        let _this = this;
+        var colorData = [], legendData = [], xData = [], yData = [],
+            gridSetting = {}, seriesData = [], tooltipSetting = [];
         const { firstDataAxis, firstfirstDataSeriesByCorrectRate, secondDataSeriesByMax,
             secondDataSeriesByMin, secondDataSeriesByAvg } = this.data;
-        var option = {
-            color: type === 0 ? ['#93b7e3', '#edafda'] : ['#99b7df', '#fad680', '#e4b2d8'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                }
-            },
-            legend: {
-                data: type === 0 ? ['正确率'] : ['最高分', '最低分', '平均分']
-            },
-            grid: {
-                left: "20%",
-                top: "10%",
-                bottom: "10%",
-            },
-            xAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            yAxis: [
-                {
-                    data: firstDataAxis,
-                    inverse: true
-                }
-            ],
-        };
-        let series = [];
-        if (type === 0) {  //优秀率及格率柱图
-            series = [
+
+        if (type === 0) {
+            colorData = ['#93b7e3'];
+            legendData = ['正确率'];
+            seriesData = [
                 {
                     name: '正确率',
                     type: 'bar',
                     label: {
-                        show: true
+                        show: true,
+                        formatter: (params) => {
+                            return params.value + "%";
+                        }
                     },
                     barGap: "0",
                     data: firstfirstDataSeriesByCorrectRate,
-                },
-                // {
-                //     name: '及格率',
-                //     type: 'bar',
-                //     label: {
-                //         show: true
-                //     },
-                //     barGap: "0",
-                //     data: firstDataSeriesByPassing,
-                // },
-            ]
-        } else { //分值柱图
-            series = [
-                {
-                    name: '最高分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByMax,
-                },
-                {
-                    name: '最低分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByMin,
-                },
-                {
-                    name: '平均分',
-                    type: 'bar',
-                    label: {
-                        show: true
-                    },
-                    barGap: "0",
-                    data: secondDataSeriesByAvg,
-                },
-            ]
-        }
-        option.series = series;
-        return option;
-    },
-    getVerticalOption() {
-        let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName } = this.data;
-        let answer = _.pick(correctAnswer, [activeTabName]);
-        let answerName = _.values(answer)[0];
-        var option = {
-            title: {
-                text: '选项答题分布',
-                left: 'center',
-                textStyle: {
-                    fontWeight: 'normal'
-                },
-                subtext: "正确答案 ： " + answerName,
-                subtextStyle:{
-                    color: "red"
                 }
-            },
-            color: ['#566b8e'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'shadow'
-                },
-            },
-            xAxis: {
-                type: 'category',
-                data: thirdDataAxis,
-            },
-            yAxis: {
-                type: 'value'
-            },
-            grid: {
-                left: "20%",
-                top: "20%",
-                bottom: "10%",
-            },
-            series: [{
-                data: thirdDataSeries,
+            ]
+        } else {
+            colorData = ['#99b7df', '#fad680', '#e4b2d8'];
+            legendData = ['最高分', '最低分', '平均分'];
+            seriesData = [{
+                name: '最高分',
                 type: 'bar',
                 label: {
-                    show: true,
-                    position: 'top',
-                    formatter: (params) => {
-                        return params.value + "%";
-                    }
+                    show: true
                 },
-                emphasis: {
-                    itemStyle: {
-                        // 高亮时点的颜色。
-                        color: '#fad680',
-                    }
+                barGap: "0",
+                data: secondDataSeriesByMax,
+            },
+            {
+                name: '最低分',
+                type: 'bar',
+                label: {
+                    show: true
                 },
-                showBackground: true,
-                backgroundStyle: {
-                    color: 'rgba(220, 220, 220, 0.8)'
-                }
+                barGap: "0",
+                data: secondDataSeriesByMin,
+            },
+            {
+                name: '平均分',
+                type: 'bar',
+                label: {
+                    show: true
+                },
+                barGap: "0",
+                data: secondDataSeriesByAvg,
             }]
-        };
-        return option;
+        }
+
+        xData = [{ type: 'value' }];
+        yData = [{
+            data: firstDataAxis, inverse: true,
+            axisLabel: {
+                formatter: function (value) {
+                    if (value === _this.data.class) {
+                        return '{' + value + '| }{value|' + value + '}';
+                    } else {
+                        return value;
+                    }
+                },
+                rich: {
+                    value: {
+                        color: 'red'
+                    }
+                }
+            },
+        }];
+        gridSetting = { left: "20%", top: "10%", bottom: "10%" };
+        tooltipSetting = { trigger: 'axis', axisPointer: { type: 'shadow' } };
+        return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
+    },
+    /*
+        客观题答题选项分布分析
+    */
+    getVerticalOption() {
+        let _this = this;
+        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
+        let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName, studentScoreList1 } = this.data;
+        let answer = _.pick(correctAnswer, [activeTabName]);
+        let answerName = _.values(answer)[0];
+
+        Title = '选项答题分布';
+        colorData = ['#566b8e'];
+        xData = thirdDataAxis;
+        gridSetting = { left: "20%", top: "20%", bottom: "10%" }
+        seriesData = thirdDataSeries;
+        subTitle = "正确答案 ： " + answerName;
+        tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+                triggerOn: 'click'
+            },
+            position: ['15%', '0%'],
+            extraCssText: 'width: 60%;height:100%;',
+            formatter: function (params) {
+                var data;
+                console.log(params[0].axisValue, 999999)
+                //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
+                //   var res = chart.getFormatter(params, 'bar', data);
+                //   return res;
+                return _this.getFormatter(studentScoreList1, params[0].axisValue);
+            }
+        }
+
+        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
     },
 
+    //tootip弹框
+    getFormatter: function (studentScoreList1, score) {
+        let item = _.find(studentScoreList1, o => o.answer === score);
+        let studentNameList = _.get(item, 'studentNameList', []);
+        let str = "";
+        for (let i = 0; i < studentNameList.length; i++) {
+
+            if (i % 2 === 0) {
+                if (studentNameList[i + 1]) {
+                    str += studentNameList[i].studentName + '   ' + studentNameList[i + 1].studentName + '\n';
+                } else {
+                    str += studentNameList[i].studentName + '   ' + '\n';
+                }
+            }
+        }
+        return str;
+    },
+
+    //第四张图option
+    getTopicHorizontalOption: function () {
+        const { fourthDataAxis, fourthDataLegend, fourthDataSeries } = this.data;
+        let title = { 
+            text: '（点击图标可选中或取消对比项）',
+            top: '0%',
+            left: 'center',
+            color: 'gray',
+            textStyle:{
+                color: 'gray',
+                fontWeight : 200,
+            },
+            textAlign: 'auto'
+        };
+        let legendAttributes = {
+            top: '4%'
+        };
+        let colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b'];
+        let tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        };
+        let legendData = fourthDataLegend;
+        let gridSetting = {
+            top: '15%',
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        };
+        let subTitle = '数据来自网络';
+        let xData = {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        };
+        let yData = {
+            type: 'category',
+            data: fourthDataAxis,
+        };
+        let seriesData = fourthDataSeries;
+        return chart.barChartOption({
+            title, colorData, xData, yData, legendData,legendAttributes,
+            gridSetting, seriesData, tooltipSetting, subTitle
+        });
+    },
 
     // 切换tab页试题
     swichNav: function (e) {
-        let { listTotalTopic } = this.data;
+        let { listTotalTopic, listClassTopic } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
-        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic);
+        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTopic);
     },
 
     // 试题分析
-    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic) {
+    setTopicData: function (activeTabIndex, activeTabName, listTotalTopic, listClassTopic) {
         let thirdDataAxis = [], thirdDataSeries = [];
+        let fourthDataAxis = [], fourthDataLegend = [], fourthDataSeries = [];
         let item = _.find(listTotalTopic, o => o.topic === activeTabName);
         let listTopic = item && item.listTopic;
         if (listTopic && _.isArray(listTopic)) {
             for (let i = 0; i < listTopic.length; i++) {
-                thirdDataAxis = _.concat(thirdDataAxis, _.keys(listTopic[i]))
-                if(!_.isEmpty(_.values(_.get(listTopic, i)))){
-                    thirdDataSeries = _.concat(thirdDataSeries, _.round(_.values(_.get(listTopic, i))[0] * 100, 2))
-                }
+                thirdDataAxis.push(listTopic[i].answer);
+                thirdDataSeries.push(_.round(listTopic[i].ratio * 100, 2));
             }
         }
-        this.setData({ activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries })
-        this.initChart('thirdComponent', '#thirdChart', thirdChart);
+        let itemClass = _.find(listClassTopic, o => o.topic === activeTabName);
+        let itemClassList = itemClass && itemClass.list;
+
+        if (itemClassList && !_.isEmpty(itemClassList)) {
+            for (let i = 0; i < itemClassList.length; i++) {
+                let classList = _.get(itemClassList, `${i}.list`);
+                for (let j = 0; j < classList.length; j++) {
+                    if (i === 0) {
+                        //班级列表取一次足够，取索引 0 的班级列表
+                        fourthDataLegend.push(classList[j].class_)
+                    }
+                }
+                fourthDataAxis.push(itemClassList[i].answer);
+            }
+        }
+
+        for (let i = 0; i < fourthDataLegend.length; i++) {
+            let obj = {};
+            obj.type = "bar";
+            obj.label = {
+                show: true,
+                position: 'right',
+                formatter: (params) => {
+                    if(params.value == 0){
+                        return ""
+                    }
+                    return params.value + "%";
+                }
+            };
+            obj.name = fourthDataLegend[i];
+            let data = [];
+            for (let j = 0; j < itemClassList.length; j++) {
+                data[j] = _.round(itemClassList[j].list[i].ratio * 100, 2);
+            }
+            obj.data = data;
+            fourthDataSeries.push(obj);
+        }
+        this.setData({
+            activeTabIndex, activeTabName, thirdDataAxis, thirdDataSeries, studentScoreList1: listTopic,
+            fourthDataAxis, fourthDataLegend, fourthDataSeries
+        })
+        chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
+        // chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
+        this.initFourthChart();
     }
 })

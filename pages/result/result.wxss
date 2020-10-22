@@ -1,5 +1,37 @@
 /**result.wxss**/
 
+/* 优秀线样式 */
+.excellent {
+  width: 100%;
+  line-height: 50rpx;
+  font-size: 36rpx;
+}
+
+.excellent input {
+  width: 15%;
+  border: 2rpx solid #eee;
+  margin: 0 10rpx;
+}
+
+.excellent .text {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+}
+
+.excellent .subText {
+  width: 100%;
+  text-align: center;
+}
+
+.subText {
+  color: #666;
+  font-size: 28rpx;
+}
+
+
 /* 错题统计样式 */
 .avg-error {
   width: 100%;
@@ -192,7 +224,7 @@
   display: block;
   width: 50rpx;
   height: 50rpx;
-  line-height: 50rpx;
+  line-height: 48rpx;
   font-size: 40rpx;
   text-align: center;
   border-radius: 50%;

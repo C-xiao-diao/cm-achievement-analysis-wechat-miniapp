@@ -1,41 +1,47 @@
-<!--result.wxml-->
+<!-- result.wxml -->
 <view class="container">
   <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
-  <text class="h2" wx:if="{{role==0}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
-  <text class="h2" wx:if="{{role==1}}">（{{class + ' - ' + studentName}}）</text>
+  <text class="h2" wx:if="{{role==1}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
+  <text class="h2" wx:if="{{role==2}}">（{{class + ' - ' + studentName}}）</text>
+
+  <!-- 优秀线 -->
+  <view class="excellent">
+    <view class="text">优秀线<input class="weui-input" bind:input="getExcellentRate" value="{{excellentLine}}"/>%</view>
+    <view class="subText">（仅支持正整数）</view>
+  </view>
 
   <!-- 总体情况 -->
   <!--班级总体情况 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 班级总体情况 —</text>
-  <view class="total r3" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 班级总体情况 —</text>
+  <view class="total r3" wx:if="{{role==1 && subject!='全科'}}">
     <view>最高分<text>{{maxScore}}</text></view>
     <view>最低分<text>{{minScore}}</text></view>
     <view>平均分<text>{{avgScore}}</text></view>
   </view>
-  <view class="total r2 mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="total r2 mb60" wx:if="{{role==1 && subject!='全科'}}">
     <view>优秀率<text>{{excellentRate}}%</text></view>
     <view>及格率<text>{{passingRate}}%</text></view>
   </view>
   <!--年级总体情况 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全年级总体情况 —</text>
-  <view class="total r3 mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 全年级总体情况 —</text>
+  <view class="total r3 mb60" wx:if="{{role==1 && subject!='全科'}}">
     <view>最高分<text>{{maxScoreAllClass}}</text></view>
     <view>最低分<text>{{minScoreAllClass}}</text></view>
     <view>平均分<text>{{avgScoreAllClass}}</text></view>
   </view>
 
   <!-- 各班对比 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 各班对比 —</text>
-  <view class="topChart mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 各班对比 —</text>
+  <view class="topChart mb60" wx:if="{{role==1 && subject!='全科'}}">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
-  <view class="topChartByScore mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="topChartByScore mb60" wx:if="{{role==1 && subject!='全科'}}">
     <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
 
   <!-- 试卷分析 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 试卷分析 —</text>
-  <view class="analysis mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 试卷分析 —</text>
+  <view class="analysis mb60" wx:if="{{role==1 && subject!='全科'}}">
       <view class="analysis-title">
         <text>标准差</text>
         <text>难度</text>
@@ -52,14 +58,14 @@
       </text>
   </view>
   <!-- 主观题客观题分析导航按钮 -->
-  <view class="navAnalysisButtonGroup mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <view class="navAnalysisButtonGroup mb60" wx:if="{{role==1 && subject!='全科'}}">
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">客观题统计分析</Text>
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">主观题统计分析</Text>
   </view>
 
   <!-- 分数段统计 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 分数段统计 —</text>
-  <view class="chartWrap" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 分数段统计 —</text>
+  <view class="chartWrap" wx:if="{{role==1 && subject!='全科'}}">
     <view class="tab fl-tab">
       <text class="swiper-tab-list {{tegmentedTab==0 ? 'active' : ''}}" data-type="tegmentedTab" data-current="0" data-name="tegmentedTab" bindtap="swichNav2">10分段</text>
       <text class="swiper-tab-list {{tegmentedTab==1 ? 'active' : ''}}" data-type="tegmentedTab" data-current="1" data-name="tegmentedTab" bindtap="swichNav2">20分段</text>
@@ -75,9 +81,9 @@
   </view>
   
   <!-- 错题统计 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 错题统计 —</text>
-  <view class="avg-error" wx:if="{{role==0 && subject!='全科'}}">平均错误率<text>{{avgWrongQuestions}}%</text></view>
-  <view class="error-scale mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 错题统计 —</text>
+  <view class="avg-error" wx:if="{{role==1 && subject!='全科'}}">平均错误率<text>{{avgWrongQuestions}}%</text></view>
+  <view class="error-scale mb60" wx:if="{{role==1 && subject!='全科'}}">
     <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
       <text>{{item.topic}}</text>
       <view class="progress-box">
@@ -87,15 +93,15 @@
   </view>
 
   <!-- 全对题统计 -->
-  <text class="title" wx:if="{{role==0 && subject!='全科'}}">— 全对题统计 —</text>
-  <view class="all-right mb60" wx:if="{{role==0 && subject!='全科'}}">
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 全对题统计 —</text>
+  <view class="all-right mb60" wx:if="{{role==1 && subject!='全科'}}">
     <text wx:if="{{allRight.length==0}}">无</text>
     <text wx:for="{{allRight}}" wx:key="id">{{item}}</text>
   </view>
 
-  <text class="title" wx:if="{{role==0}}">— 成绩排名 —</text>
+  <text class="title" wx:if="{{role==1}}">— 成绩排名 —</text>
   <!-- 班主任 -->
-  <view class="table mb60" wx:if="{{role==0 && subject == '全科'}}">
+  <view class="table mb60" wx:if="{{role==1 && subject == '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th">总分</view>
@@ -112,7 +118,7 @@
     </view>
   </view>
   <!-- 单科老师 -->
-  <view class="table mb60" wx:if="{{role==0 && subject != '全科'}}">
+  <view class="table mb60" wx:if="{{role==1 && subject != '全科'}}">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th w40" style="width:{{subject == '语文' ? '80%':'40%'}}">
@@ -137,7 +143,7 @@
     </view>
   </view>
   <!-- 家长 -->
-  <view class="table parantsTable mb60" wx:if="{{role==1}}">
+  <view class="table parantsTable mb60" wx:if="{{role==2}}">
     <view class="tr">
       <view class="th">科目</view>
       <view class="th">成绩</view>
@@ -155,8 +161,6 @@
   </view>
 
   <!-- 走势图弹窗 -->
-  <!-- <view class="popup" style="display:{{showTrendChart? 'block': 'none'}}; top: {{popupTop+'px'}};"> -->
-  <!-- <view class="popup" style="display:{{showTrendChart? 'block': 'none'}};"> -->
   <view class="popup" wx:if="{{showTrendChart}}">  
     <text class="popup-close" bindtap="closePopup">×</text>
     <text class="popup-title">学校排名走势</text>
@@ -167,8 +171,8 @@
   </view>
 
   <!-- 作文分数段统计 -->
-  <text class="title" wx:if="{{role==0 && subject=='语文'}}">— 作文分数段统计 —</text>
-  <view class="chartWrap" style="display:{{role==0 && subject=='语文'? 'block': 'none'}}">
+  <text class="title" wx:if="{{role==1 && subject=='语文'}}">— 作文分数段统计 —</text>
+  <view class="chartWrap" style="display:{{role==1 && subject=='语文'? 'block': 'none'}}">
     <view class="tab">
       <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>
       <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">饼状图</text>

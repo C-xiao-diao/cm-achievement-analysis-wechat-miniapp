@@ -1,0 +1,63 @@
+
+.choose {
+    display: flex;
+    flex-direction: row;
+    margin: 30rpx 0;
+}
+
+.section__title ,.choose picker {
+    padding: 10rpx 30rpx;
+}
+
+.choose picker {
+    border: 2rpx solid #eee;
+}
+
+.chart {
+    width: 96%;
+    height: 800rpx;
+    margin: 30rpx 0;
+}
+
+.fl-tab {
+    width: 40%;
+    float: left;
+}
+
+.txtBtn{
+    width: 100%;
+    text-align: right;
+}
+
+.button {
+    color: blue;
+    font-size: 32rpx;
+    margin-right: 10%;
+}
+
+.tab {
+    flex: 1;
+}
+
+.tab > text {
+    flex: none;
+    padding: 0 20rpx;
+    border-radius: 10rpx;
+}
+
+.tab > text:last-child {
+    border-left: 2rpx solid #566b8e;
+    margin-left: 15rpx;
+} 
+
+.tabWrap{
+    display: flex;
+}
+
+.fr-tab {
+    margin-left: 25%;
+}
+
+.fr-tab text {
+    border-radius: 0
+}

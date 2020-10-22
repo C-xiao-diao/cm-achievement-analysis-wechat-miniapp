@@ -1,9 +1,10 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/supervisor/supervisor",
     "pages/objective/objective",
+    "pages/supervisor/supervisor",
     "pages/result/result",
+    "pages/classManager/classManager",
     "pages/logs/logs"
   ],
   "window":{
