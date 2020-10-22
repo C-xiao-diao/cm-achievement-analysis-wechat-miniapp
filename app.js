@@ -11,13 +11,29 @@ App({
     statusBarHeight: 20,
     isConnected: true,
     pixelRatio: 1,
+    nonetwork: false,
   },
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs) 
+    wx.setStorageSync('logs', logs)
     this.Login();
+    wx.onNetworkStatusChange(function (res) {
+      console.log(res, "resresresresresresresresresresresresresresresres");
+      if (res.networkType == 'none') {
+        wx.showToast({
+          title: '已断开网络',
+        })
+        this.globalData.nonetwork = true;
+      } else {
+        wx.showToast({
+          title: '已连上网络',
+        })
+        this.globalData.nonetwork = false;
+      }
+    })
+
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.pixelRatio = res.pixelRatio;
@@ -44,17 +60,17 @@ App({
       },
     })
   },
-  Login: function(){// 登录
-    var Url = this.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
+  Login: function () {// 登录
+    var Url = this.globalData.domain + '/api/weChat/appletsGetOpenid', that = this;
     wx.login({
-      success (res) {
+      success(res) {
         if (res.code) {
           wx.request({
             url: Url,
-            data: {code: res.code},
-            success:res=>{
+            data: { code: res.code },
+            success: res => {
               var resData = res.data;
-              if(resData.code == 200){
+              if (resData.code == 200) {
                 that.globalData.userId = resData.data.id;
                 that.globalData.openId = resData.data.openid;
                 that.globalData.unionid = resData.data.unionid;
@@ -64,12 +80,12 @@ App({
           })
         } else {
           // console.log('登录失败'+res.errMsg);
-          wx.showToast({title: '登录失败!'});
+          wx.showToast({ title: '登录失败!' });
         }
       }
     })
   },
-  getUserInfo: function(){// 获取用户信息
+  getUserInfo: function () {// 获取用户信息
     wx.getSetting({
       success: res => {
         if (res.authSetting['scope.userInfo']) {
