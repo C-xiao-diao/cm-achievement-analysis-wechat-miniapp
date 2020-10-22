@@ -211,13 +211,10 @@ const chart = {
     return option;
   },
   //折线图option
-  lineChartOption: function ({ gridSetting, legendData, xData, yAxisInverse, seriesData }) {
+  lineChartOption: function ({ gridSetting, legendData, xData, yAxisInverse, seriesData,tooltipSetting }) {
     var option = {
       grid: gridSetting,
-      tooltip: {
-        trigger: 'axis',
-        position: ['15%', '0']
-      },
+      tooltip: tooltipSetting,
       legend: legendData,
       xAxis: {
         type: 'category',

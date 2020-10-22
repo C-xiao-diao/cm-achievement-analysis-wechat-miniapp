@@ -639,13 +639,17 @@ Page({
     获取学生成绩排名数据
   */
   getGradeTrendData() {
-    var gridSetting = {}, xData = [], legendData = [], yAxisInverse = true, seriesData = [];
+    var gridSetting = {}, xData = [], legendData = [], yAxisInverse = true, seriesData = [],tooltipSetting={};
 
     gridSetting = { left: "15%", right: "5%", top: "5%", bottom: "18%", }
     xData = monthData;
     seriesData = [{ data: rankData, type: 'line' }];
+    tooltipSetting = {
+      trigger: 'axis',
+      position: ['15%', '0']
+  }
 
-    return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData });
+    return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData,tooltipSetting });
   },
   //切换 柱状图/饼状图
   swichNav: function (e) {

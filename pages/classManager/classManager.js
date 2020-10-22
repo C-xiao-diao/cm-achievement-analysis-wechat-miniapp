@@ -191,7 +191,7 @@ Page({
             fourthDataLegend.push(listExcellentPass[i].class_);
             let list = _.get(listExcellentPass, `${i}.list`, []);
             for (let j=0;j< list.length; j++){
-                obj.data[j] = util.returnFloat(list[j][type], 2);
+                obj.data[j] = util.returnFloat((list[j][type]*100), 2);
                 fourthDataAxis.push(list[j].yearMonth);
                 fourthDataAxis = _.uniq(fourthDataAxis);
             }
@@ -344,13 +344,18 @@ Page({
     //获取 平均分趋势 图表数据
     getAvgTrendData(){
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
-        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[],tooltipSetting={};
+
         legendData = {data: secondDataLegend};
         gridSetting = {left: "15%",right: "5%",top: "28%",bottom: "18%",}
         xData = secondDataAxis;
         seriesData = secondDataSeries;
+        tooltipSetting = {
+            trigger: 'axis',
+            position: ['15%', '0']
+        }
 
-        return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData});   
+        return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData,tooltipSetting});   
     },
     //获取 优秀率/及格率对比 图表数据
     getPassRateData(){
@@ -397,13 +402,24 @@ Page({
     //获取 优秀率/及格率趋势 图表数据
     getPassTrendData(){
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
-        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[];
+        var gridSetting = {},xData=[],legendData={},yAxisInverse=false,seriesData=[],tooltipSetting={};
         legendData = {data: fourthDataLegend}
         gridSetting = {left: "15%",right: "5%",top: "28%",bottom: "18%",}
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
+        tooltipSetting = {
+            trigger: 'axis',
+            position: ['15%', '0'],
+            formatter: (params) => {
+                var arr = '';
+                for(var i = 0; i < params.length; i++){
+                    arr += params[i].seriesName +'：'+params[i].value+'%' + '\n';
+                }
+              return arr;
+            }
+        }
 
-        return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData}); 
+        return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData,tooltipSetting}); 
     },
     //获取 分数段统计 图表数据
     getGradeSectionData(){
