@@ -83,12 +83,13 @@
             <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
         </view>
         <view class="tab">
-            <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
-            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各科</text>
-            <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">各班</text>
+        <!-- 全年级：2； 各科：3；各班：1； -->
+            <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
+            <text class="swiper-tab-list {{currentTab2==3 ? 'active' : ''}}" data-current="{{3}}" data-name="currentTab2" bindtap="swichNav">各科</text>
+            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各班</text>
         </view>
     </view>
-    <view class="chart" style="height:{{classType==1? '2200rpx': '600rpx'}}">
+    <view class="chart" style="height:{{currentTab2 == 2 ? '600rpx': '2000rpx'}}">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
 
