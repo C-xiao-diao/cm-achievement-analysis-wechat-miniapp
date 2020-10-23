@@ -1,0 +1,4 @@
+<!--parent.wxml-->
+<view class="container">
+    <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
+</view>

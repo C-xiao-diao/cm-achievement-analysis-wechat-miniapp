@@ -1,6 +1,6 @@
 <!--classManager.wxml-->
 <view class="container">
-    <text class="h1"><text class="bold">2020-10</text>月考成绩</text>
+    <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
     <view class="choose">
         <view class="section__title">选择科目</view>
         <picker bindchange="pickSubject" value="{{gradeIndex}}" range="{{subArray}}">
