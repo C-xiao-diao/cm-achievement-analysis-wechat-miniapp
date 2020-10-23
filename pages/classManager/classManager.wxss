@@ -48,6 +48,14 @@
     padding: 0 20rpx;
 }
 
+.fl-tab > text:nth-child(2) {
+    border-left: 2rpx solid #566b8e!important;
+}
+
+.tab > text:nth-child(2){
+    border-left: 0;
+}
+
 .tabWrap{
     display: flex;
 }
