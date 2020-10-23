@@ -2,7 +2,6 @@
 <view class="container">
   <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
   <text class="h2" wx:if="{{role==1}}">（{{subject=='全科'? class : (class + ' - ' +subject)}}）</text>
-  <text class="h2" wx:if="{{role==2}}">（{{class + ' - ' + studentName}}）</text>
 
   <!-- 优秀线 -->
   <view class="excellent">
@@ -140,23 +139,6 @@
       <view class="td" wx:if="{{item.totalScoreFloatingRanking > 0}}">{{item.totalScoreRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.totalScoreFloatingRanking}})</view>
       <view class="td" wx:if="{{item.totalScoreFloatingRanking < 0}}">{{item.totalScoreRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.totalScoreFloatingRanking}})</view>
       <view class="td w64">{{item.objectiveQuestionsCorrectRate}}</view>
-    </view>
-  </view>
-  <!-- 家长 -->
-  <view class="table parantsTable mb60" wx:if="{{role==2}}">
-    <view class="tr">
-      <view class="th">科目</view>
-      <view class="th">成绩</view>
-      <view class="th">分数区间<text class="br"></text>（年级）</view>
-      <view class="th">较上次</view>
-    </view>
-    <view class="tr" wx:for="{{listResult}}" wx:key="id">
-      <view class="td">{{item.subject}}</view>
-      <view class="td">{{item.socre}}</view>
-      <view class="td">前{{item.scoreRange}}%</view>
-      <view class="td" wx:if="{{item.ranking == 0}}">--</view>
-      <view class="td" wx:if="{{item.ranking > 0}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
-      <view class="td" wx:if="{{item.ranking < 0}}"><image class="down" src="/imgs/arrow_down.svg"></image>{{-item.ranking}}</view>
     </view>
   </view>
 
