@@ -69,7 +69,6 @@
       width: 90%;
       height: 600rpx;
       margin-top: 30rpx;
-      background: #eee;
   }
 
   .subtitle {
@@ -93,7 +92,6 @@
   }
 
   .show-result {
-
       margin-bottom: 30rpx;
   }
 
