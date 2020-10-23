@@ -22,12 +22,14 @@
     <!--平均分对比 -->
     <text class="title">— 平均分对比 —</text>
     <text class="subtitle">（按平均分从高至低排序）</text>
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="chart mb60">
         <ec-canvas id="managerFirstChart" canvas-id="managerFirstChart" ec="{{ ecFirst }}"></ec-canvas>
     </view>
 
     <!--历史走势图（平均分） -->
     <text class="title">— 历史走势图（平均分） —</text>
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="chart mb60">
         <ec-canvas id="managerSecondChart" canvas-id="managerSecondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>
@@ -37,17 +39,19 @@
     <view class="txtBtn">
         <text class="button" bindtap="SortBy" style="display: {{currentSort==0?'block':'none'}}" data-name="currentSort">按优秀率排序</text>
         <text class="button" bindtap="SortBy" style="display: {{currentSort==1?'block':'none'}}" data-name="currentSort">按及格率排序</text>
-    </view>    
+    </view> 
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>   
     <view class="chart mb60">
         <ec-canvas id="managerThirdChart" canvas-id="managerThirdChart" ec="{{ ecThird }}"></ec-canvas>
     </view>
 
     <!--历史走势图（优秀率/及格率） -->
     <text class="title">— 历史走势图（优秀率/及格率） —</text>
-    <view class="tab">
+    <view class="tab newTab">
         <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab3" bindtap="swichNav">及格率</text>
         <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab3" bindtap="swichNav">优秀率</text>
     </view>
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="chart mb60">
         <ec-canvas id="managerFourthChart" canvas-id="managerFourthChart" ec="{{ ecFourth }}"></ec-canvas>
     </view>
@@ -74,17 +78,18 @@
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
     <view class="tabWrap" hover-class="none" hover-stop-propagation="false">
-        <view class="tab">
+        <view class="tab fl-tab">
             <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab1" bindtap="swichNav">50分段</text>
             <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
         </view>
-        <view class="tab fr-tab">
-            <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab2" bindtap="swichNav">各班</text>
-            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
+        <view class="tab">
+        <!-- 全年级：2； 各科：3；各班：1； -->
+            <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
+            <text class="swiper-tab-list {{currentTab2==3 ? 'active' : ''}}" data-current="{{3}}" data-name="currentTab2" bindtap="swichNav">各科</text>
+            <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各班</text>
         </view>
     </view>
-    
-    <view class="chart" style="height:{{classType==1? '2200rpx': '600rpx'}}">
+    <view class="chart" style="height:{{currentTab2 == 2 ? '600rpx': '2000rpx'}}">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
 
