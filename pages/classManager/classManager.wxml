@@ -46,8 +46,8 @@
     <view class="txtBtn">
         <text class="button" bindtap="SortBy" style="display: {{currentSort==0?'block':'none'}}" data-name="currentSort">按优秀率排序</text>
         <text class="button" bindtap="SortBy" style="display: {{currentSort==1?'block':'none'}}" data-name="currentSort">按及格率排序</text>
-    </view> 
-    <text class="gray-txt">（点击图标可选中或取消对比项）</text>   
+    </view>
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="chart mb60">
         <ec-canvas id="managerThirdChart" canvas-id="managerThirdChart" ec="{{ ecThird }}"></ec-canvas>
     </view>

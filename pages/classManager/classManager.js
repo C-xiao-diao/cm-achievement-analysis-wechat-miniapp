@@ -20,6 +20,7 @@ Page({
         description: '',    //试卷分析描述
         description2:'',
         currentSort: 0,
+        currentTab1: 0,
         currentTab2: 2, //1,各班，2全年级,3各科
         currentTab3: 0,
         maxScore: 0,
@@ -65,6 +66,7 @@ Page({
         fifthDataAxis:[],
         fifthDataSeries: [],
         fifthDataYAxis: [],
+        classType: 1, //1: 各班； 2：全年级
         intervalValue: 50
     },
     onLoad: function(){
@@ -321,7 +323,7 @@ Page({
         try {
           wx.setStorageSync('excellentLine', value)
         } catch (e) {
-    
+
         }
         //end
         this.setData({excellentLine: value});
