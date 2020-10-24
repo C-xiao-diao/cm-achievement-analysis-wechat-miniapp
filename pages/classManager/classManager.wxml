@@ -35,6 +35,12 @@
         <ec-canvas id="managerSecondChart" canvas-id="managerSecondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>
 
+    <!-- 优秀线 -->
+    <view class="excellent">
+        <view class="text">优秀线<input class="weui-input" bind:input="getExcellentRate" value="{{excellentLine}}"/>%</view>
+        <view class="subText">（仅支持正整数）</view>
+    </view>
+
     <!--优秀率/及格率对比 -->
     <text class="title">— 优秀率/及格率对比 —</text>
     <view class="txtBtn">
@@ -80,13 +86,12 @@
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
     <view class="tabWrap" hover-class="none" hover-stop-propagation="false">
-        <view class="tab fl-tab">
-            <text class="swiper-tab-list {{currentTab1==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab1" bindtap="swichNav">50分段</text>
-            <text class="swiper-tab-list {{currentTab1==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab1" bindtap="swichNav">100分段</text>
+        <view class="score-input">
+            <input class="weui-input" bind:input="getScoreInterval" value="{{intervalValue}}" />
+            <text>分段</text>
         </view>
         <view class="tab">
-        <!-- 全年级：2； 各科：3；各班：1； -->
-            <!-- <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">全年级</text> -->
+        <!-- 总分：2； 各科：3；各班：1； -->
             <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">总分</text>
             <text class="swiper-tab-list {{currentTab2==3 ? 'active' : ''}}" data-current="{{3}}" data-name="currentTab2" bindtap="swichNav">各科</text>
             <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各班</text>

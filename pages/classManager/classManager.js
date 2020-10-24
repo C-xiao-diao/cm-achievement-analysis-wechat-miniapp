@@ -13,13 +13,13 @@ Page({
         subArray: ['总分','语文','数学','英语','生物','物理','地理','政治','历史','化学','体育'],
         subjectIndex: 0,
         classArray: [],
+        excellentLine: 85,
         sqrt: 0,    //标准差
         difficultyFactor: 0,    //难度
         distinction: 0, //区分度
         description: '',    //试卷分析描述
         description2:'',
         currentSort: 0,
-        currentTab1: 0,
         currentTab2: 2, //1,各班，2全年级,3各科
         currentTab3: 0,
         maxScore: 0,
@@ -68,6 +68,14 @@ Page({
         intervalValue: 50
     },
     onLoad: function(){
+        //获取缓存内的数据，初始化数据
+        let excellentLine = null;
+        try {
+            excellentLine = wx.getStorageSync('excellentLine');
+        } catch (e) {
+
+        }
+        this.setData({excellentLine: excellentLine || 85});
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysisData();
         this.getScoreStatistics();
@@ -86,8 +94,9 @@ Page({
     },
     //获取年级成绩分析数据
     getGradeAnalysisData: function(subject){
+        const {excellentLine} = this.data;
         let cmd = '/auth/gradeDirector/list';
-        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || this.data.subjectIndex, excellentRate: excellentLine };
         http.get({
             cmd,
             data,
@@ -99,11 +108,12 @@ Page({
                     let secondDataSeries = [],secondDataAxis = [], secondDataLegend = [];
                     
                     //数据的清洗和组装
+                    let yearMonth = resData.yearMonth.substr(0, 4) + '-' + resData.yearMonth.substr(4, 5);
                     let maxScore = _.round(_.get(resData, 'maxScore'));
                     let minScore = _.round(_.get(resData, 'minScore'));
                     let avgScore = util.returnFloat(_.get(resData, 'avgScore'));
                     let classListMaxMinAvg = _.get(resData, 'classListMaxMinAvg');
-                    let listAvg =  _.get(resData, 'listAvg');
+                    let listAvg =  _.get(resData, 'listAvgRangking');
                     let sqrtDouble = _.get(resData, 'sqrtDouble');
                     let difficultyFactor = _.get(resData, 'difficultyFactor');
                     let distinction = _.get(resData, 'distinction');
@@ -127,7 +137,7 @@ Page({
                         secondDataLegend.push(listAvg[i].class_);
                         let list = _.get(listAvg, `${i}.list`, []);
                         for (let j=0;j< list.length; j++){
-                            obj.data[j] = util.returnFloat(list[j].avgScore);
+                            obj.data[j] = list[j].rangking;
                             secondDataAxis.push(list[j].yearMonth);
                             secondDataAxis = _.uniq(secondDataAxis);
                         }
@@ -141,6 +151,7 @@ Page({
                     
                     //数据赋值
                     this.setData({
+                        yearMonth,
                         maxScore,
                         minScore,
                         avgScore,
@@ -279,6 +290,40 @@ Page({
             fourthDataSeries.push(obj);
         }
         return fourthDataSeries;
+    },
+    //获取用户输入的分数段数值
+    getScoreInterval: function(e){
+        var reg = /(^[1-9]\d*$)/;
+        let intervalValue = e.detail.value;
+        if(!reg.test(intervalValue)){
+            wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
+            return;
+        }
+        this.setData({ intervalValue }, () =>{
+            this.getScoreStatistics();
+        })
+    },
+    //获取优秀线
+    getExcellentRate: function(e){
+        var regInterger = /(^[1-9]\d*$)/;
+        let value = e.detail.value;
+        if(!regInterger.test(value)){
+          wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
+          return;
+        }
+        if(value < 10 || value > 100){
+          wx.showToast({title: '请输入两位数',icon: 'none',duration: 1500});
+          return;
+        }
+        //存入本地缓存
+        try {
+          wx.setStorageSync('excellentLine', value)
+        } catch (e) {
+    
+        }
+        //end
+        this.setData({excellentLine: value});
+        this.getGradeAnalysisData();
     },
     //初始化 平均分对比 图表
     initFirstChart: function () {
@@ -463,12 +508,7 @@ Page({
         if (this.data[tab] === e.target.dataset.current) {
             return false;
         } else {
-            if(tab == 'currentTab1'){
-                let intervalValue = _.get(e, 'target.dataset.current') === 0 ? 50 : 100;
-                this.setData({ [tab]: e.target.dataset.current, intervalValue }, () =>{
-                    this.getScoreStatistics();
-                })
-            }else if(tab == 'currentTab2'){
+            if(tab == 'currentTab2'){
                 let classType = _.get(e, 'target.dataset.current');
                 this.setData({ [tab]: classType }, () =>{
                     this.getScoreStatistics();

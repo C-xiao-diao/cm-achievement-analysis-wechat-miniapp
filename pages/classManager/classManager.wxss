@@ -59,3 +59,48 @@
 .tabWrap{
     display: flex;
 }
+
+.score-input {
+    display: flex;
+    width: 55%;
+}
+
+.score-input input{
+    width: 15%;
+    padding: 0 20rpx;
+    margin: 0 10rpx 0 10%;
+    border: 2rpx solid #eee;
+    border-radius: 10rpx;
+}
+
+
+/* 优秀线样式 */
+.excellent {
+    width: 100%;
+    line-height: 50rpx;
+    font-size: 36rpx;
+  }
+  
+  .excellent input {
+    width: 15%;
+    border: 2rpx solid #eee;
+    margin: 0 10rpx;
+  }
+  
+  .excellent .text {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .excellent .subText {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .subText {
+    color: #666;
+    font-size: 28rpx;
+  }
