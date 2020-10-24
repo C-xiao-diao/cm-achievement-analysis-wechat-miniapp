@@ -480,6 +480,7 @@ Page({
         type: 'bar',
         label: {
           show: true,
+          position: 'right',
           formatter: (params) => {
             return params.value + "%";
           }
@@ -492,6 +493,7 @@ Page({
         type: 'bar',
         label: {
           show: true,
+          position: 'right',
           formatter: (params) => {
             return params.value + "%";
           },
