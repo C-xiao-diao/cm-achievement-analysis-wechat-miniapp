@@ -112,6 +112,7 @@ Page({
                     let maxScore = _.round(_.get(resData, 'maxScore'));
                     let minScore = _.round(_.get(resData, 'minScore'));
                     let avgScore = util.returnFloat(_.get(resData, 'avgScore'));
+                    let classSet = _.get(resData, 'classSet');
                     let classListMaxMinAvg = _.get(resData, 'classListMaxMinAvg');
                     let listAvg =  _.get(resData, 'listAvgRangking');
                     let sqrtDouble = _.get(resData, 'sqrtDouble');
@@ -129,12 +130,13 @@ Page({
                         firstDataAxis.unshift(classListMaxMinAvg[i].class_);
                     }
                     //历史走势图
+                    secondDataLegend = classSet;
                     for (let i=0;i< listAvg.length; i++){
                         let obj = {};
                         obj.data = [];
                         obj.type ="line";
                         obj.name = listAvg[i].class_;
-                        secondDataLegend.push(listAvg[i].class_);
+                        // secondDataLegend.push(listAvg[i].class_);
                         let list = _.get(listAvg, `${i}.list`, []);
                         for (let j=0;j< list.length; j++){
                             obj.data[j] = list[j].rangking;
@@ -147,7 +149,7 @@ Page({
                     this.getExcellentPassRate(classListExcellentPassRate,'passingRate');
 
                     //历史走势图（优秀率/及格率）
-                    this.changeExcellentOrPass(listAvg,listExcellentPass,'passingRate')
+                    this.changeExcellentOrPass(listAvg,listExcellentPass,classSet,'passingRate')
                     
                     //数据赋值
                     this.setData({
@@ -192,14 +194,14 @@ Page({
         this.initThirdChart();
     },
     //切换优秀率/及格率
-    changeExcellentOrPass: function(listAvg,listExcellentPass,type){
+    changeExcellentOrPass: function(listAvg,listExcellentPass,classSet,type){
         let fourthDataSeries= [], fourthDataAxis= [], fourthDataLegend = [];
         for (let i=0;i< listExcellentPass.length; i++){
             let obj = {};
             obj.data = [];
             obj.type ="line";
             obj.name = listAvg[i].class_;
-            fourthDataLegend.push(listExcellentPass[i].class_);
+            fourthDataLegend = classSet;
             let list = _.get(listExcellentPass, `${i}.list`, []);
             for (let j=0;j< list.length; j++){
                 obj.data[j] = util.returnFloat((list[j][type]*100), 2);
@@ -421,7 +423,7 @@ Page({
         yData = [{
             data: thirdDataAxis
         }]
-        gridSetting = {left: "20%",top: "10%",bottom: "10%",}
+        gridSetting = {left: "20%",right: '16%',top: "10%",bottom: "10%",}
         xData = [{type: 'value'}];
         tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
         seriesData = [
@@ -430,6 +432,7 @@ Page({
                 type: 'bar',
                 label: {
                     show: true,
+                    position: 'right',
                     formatter: (params) =>{
                         return params.value + "%";
                     }
@@ -442,6 +445,7 @@ Page({
                 type: 'bar',
                 label: {
                     show: true,
+                    position: 'right',
                     formatter: (params) =>{
                         return params.value + "%";
                     }
