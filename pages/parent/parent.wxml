@@ -1,7 +1,7 @@
 <!--parent.wxml-->
 <view class="container">
     <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
-    <text class="h2">（{{class + ' - ' + studentName}}）</text>
+    <text class="h2">（{{class_ + ' - ' + studentName}}）</text>
 
     <!-- 成绩表 -->
     <view class="table parantsTable mb60">
@@ -13,28 +13,24 @@
             <view class="th">班级<br />平均分</view>
             <view class="th">年级<br />最高分</view>
         </view>
-        <view class="tr">
-            <view class="td">语文</view>
-            <view class="td">105</view>
-            <view class="td">1(<image class="up" src="/imgs/arrow_up.svg"></image>1)</view>
-            <view class="td">5(<image class="down" src="/imgs/arrow_down.svg"></image>1)</view>
-            <view class="td">80</view>
-            <view class="td">90</view>
-        </view>
-        <view class="tr">
-            <view class="td">总分</view>
-            <view class="td">105</view>
-            <view class="td">1(<image class="up" src="/imgs/arrow_up.svg"></image>1)</view>
-            <view class="td">5(<image class="down" src="/imgs/arrow_down.svg"></image>1)</view>
-            <view class="td">80</view>
-            <view class="td">90</view>
+        <view class="tr" wx:for="{{transcriptList}}" wx:key="id">
+            <view class="td">{{item.subject}}</view>
+            <view class="td">{{item.socre}}</view>
+            <view class="td" wx:if="{{item.floatClassRanking == 0}}">{{item.classRanking}}(--)</view>
+            <view class="td" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
+            <view class="td" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
+            <view class="td" wx:if="{{item.floatSchoolRanking == 0}}">{{item.schoolRanking}}(--)</view>
+            <view class="td" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
+            <view class="td" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
+            <view class="td">{{item.classAvgScore}}</view>
+            <view class="td">{{item.gradeMaxScore}}</view>
         </view>
     </view>
 
     <!-- 历史年级排名走势 -->
     <text class="title">— 历史年级排名走势 —</text>
     <text class="subtitle">（点击图标可选中或取消对比项）</text>
-    <view class="chart">
+    <view class="chart mb60">
         <ec-canvas id="parentTopChart" canvas-id="parentTopChart" ec="{{ ecTopChart }}"></ec-canvas>
     </view>
 
@@ -51,26 +47,24 @@
     <!-- 各题得分（客观题） -->
     <text class="title">— 各题得分（客观题） —</text>
     <view class="tab-questions test-questions">
-      <text class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">第一题</text>
-      <text class="swiper-tab-list" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">第二题</text>
+      <text wx:for="{{objectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex1==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item.topic}}" data-type="objective" bindtap="swichNav">{{item.topic}}</text>
     </view>
-    <text class="exam-number">第一题</text>
-    <view class="show-result">
-        <text>选<text class="red">C</text></text>
-        <text>正确答案<text class="red">D</text></text>
-        <text>年级正确率<text class="red">80%</text></text>
+    <text class="exam-number">{{objectiveAnswer.topic}}</text>
+    <view class="show-result mb60">
+        <text>选<text class="red">{{objectiveAnswer.answer}}</text></text>
+        <text>正确答案<text class="red">{{objectiveAnswer.correctAnswer}}</text></text>
+        <text>年级正确率<text class="red">{{objectiveAnswer.gradeCorrectAnswerRate}}%</text></text>
     </view>
 
     <!-- 各题得分（主观题） -->
     <text class="title">— 各题得分（主观题） —</text>
     <view class="tab-questions test-questions">
-      <text class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">第一题</text>
-      <text class="swiper-tab-list" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">第二题</text>
+      <text wx:for="{{subjectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex2==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item.topic}}" data-type="supervisor" bindtap="swichNav">{{item.topic}}</text>
     </view>
-    <text class="exam-number">第一题</text>
+    <text class="exam-number">{{supervisorAnswer.topic}}</text>
     <view class="show-result">
-        <text>得分<text class="red">3</text></text>
-        <text>年级得分率<text class="red">80%</text></text>
+        <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
+        <text>年级得分率<text class="red">{{supervisorAnswer.gradeScoreRate}}%</text></text>
     </view>
     <!-- 主观题得分分布图 -->
     <view class="chart mb60">
