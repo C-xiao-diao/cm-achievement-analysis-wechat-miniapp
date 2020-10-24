@@ -28,7 +28,8 @@
     </view>
 
     <!--历史走势图（平均分） -->
-    <text class="title">— 历史走势图（平均分） —</text>
+    <!-- <text class="title">— 历史走势图（平均分） —</text> -->
+    <text class="title">— 平均分排名走势 —</text>
     <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="chart mb60">
         <ec-canvas id="managerSecondChart" canvas-id="managerSecondChart" ec="{{ ecSecond }}"></ec-canvas>
@@ -46,7 +47,8 @@
     </view>
 
     <!--历史走势图（优秀率/及格率） -->
-    <text class="title">— 历史走势图（优秀率/及格率） —</text>
+    <!-- <text class="title">— 历史走势图（优秀率/及格率） —</text> -->
+    <text class="title">— 优秀率/及格率走势 —</text>
     <view class="tab newTab">
         <text class="swiper-tab-list {{currentTab3==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab3" bindtap="swichNav">及格率</text>
         <text class="swiper-tab-list {{currentTab3==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab3" bindtap="swichNav">优秀率</text>
@@ -84,7 +86,8 @@
         </view>
         <view class="tab">
         <!-- 全年级：2； 各科：3；各班：1； -->
-            <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">全年级</text>
+            <!-- <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">全年级</text> -->
+            <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">总分</text>
             <text class="swiper-tab-list {{currentTab2==3 ? 'active' : ''}}" data-current="{{3}}" data-name="currentTab2" bindtap="swichNav">各科</text>
             <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各班</text>
         </view>

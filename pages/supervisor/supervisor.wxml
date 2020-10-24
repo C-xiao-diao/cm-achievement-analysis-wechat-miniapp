@@ -69,6 +69,7 @@
     <view class="firstChart">
       <ec-canvas id="supervisorFirstChart" canvas-id="supervisorFirstChart" ec="{{ ecFirstChart }}"></ec-canvas>
     </view>
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
     <view class="secondChart mb60">
       <ec-canvas id="supervisorSecondChart" canvas-id="supervisorSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
@@ -79,7 +80,7 @@
     </view>
 
     <text class="title">({{activeTabName}})</text>
-    
+    <text class="title-questions">选项答题分布</text>
     <view class="thirdChart mb60">
       <ec-canvas id="supervisorThirdChart" canvas-id="supervisorThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>

@@ -59,11 +59,3 @@
 .tabWrap{
     display: flex;
 }
-
-.gray-txt {
-    display: block;
-    width: 100%;
-    font-size: 28rpx;
-    text-align: center;
-    color: gray;
-  }

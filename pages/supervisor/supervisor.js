@@ -275,10 +275,15 @@ Page({
     */
     getVerticalOption() {
         let _this = this;
-        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
+        var colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
         let { thirdDataAxis, thirdDataSeries, studentScoreList1 } = this.data;
-
-        Title = '答题得分分布';
+        let title = {
+            left: 'center',
+            subtext: "（点击柱状图查看学生名称）",
+            subtextStyle: {
+                color: "gray"
+            }
+        };
         colorData = ['#566b8e'];
         xData = thirdDataAxis;
         gridSetting = { left: "20%", top: "20%", bottom: "10%" }
@@ -296,7 +301,7 @@ Page({
             }
         }
 
-        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
+        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, seriesData, tooltipSetting });
     },
 
     getFormatter: function (studentScoreList1, score) {
@@ -391,7 +396,7 @@ Page({
                 for (let j = 0; j < classList.length; j++) {
                     if (i === 0) {
                         //班级列表取一次足够，取索引 0 的班级列表
-                        fourthDataLegend.push(classList[j].class_)
+                        fourthDataLegend.unshift(classList[j].class_)
                     }
                 }
                 fourthDataAxis.push(itemClassList[i].score);

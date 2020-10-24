@@ -30,10 +30,12 @@
   </view>
 
   <!-- 各班对比 -->
-  <text class="title" wx:if="{{role==1 && subject!='全科'}}">— 各班对比 —</text>
+  <text class="title" wx:if="{{role==1 && subject!='全科'}}">各班对比</text>
+  <text class="gray-txt">（点击图标可选中或取消对比项）</text>
   <view class="topChart mb60" wx:if="{{role==1 && subject!='全科'}}">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
+  <text class="gray-txt">（点击图标可选中或取消对比项）</text>
   <view class="topChartByScore mb60" wx:if="{{role==1 && subject!='全科'}}">
     <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
