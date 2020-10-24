@@ -218,10 +218,10 @@ Page({
               url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
               + '&subjectId=' + that.data.subjectId
             });
+          }else if(role == 2){//to家长
+            wx.navigateTo({url: '/pages/parent/parent'});
           }else if(role == 3) {//年级主任
-            wx.navigateTo({
-              url: '/pages/classManager/classManager'
-            });
+            wx.navigateTo({url: '/pages/classManager/classManager'});
           }
         } else if (resData.code === 106) {
           wx.showToast({

@@ -159,6 +159,12 @@ const chart = {
       case '#managerFifthChart':
         option = obj.getGradeSectionData();
         break;
+      case '#parentTopChart':
+        option = obj.getStudentGradeTrendData();
+          break;
+      case '#parentSecondChart':
+        option = obj.getStudentScoreData();
+        break;
     }
 
     whichChart.setOption(option);

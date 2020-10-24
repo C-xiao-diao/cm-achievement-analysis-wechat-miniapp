@@ -11,6 +11,7 @@ Page({
     data: {
         class: '',//班级
         subject: '',//科目
+        yearMonth: '',
         //客观题班级统计数据
         classStatistics: {},
         //客观题年级统计数据(PS 这里服务端年级数据没有用对象包起来)
@@ -82,6 +83,7 @@ Page({
         this.setData({
             'subject': option.subject,
             'class': option.class,
+            'yearMonth': option.yearMonth
         });
         this.getObjectiveQuestionAnalysis()
     },

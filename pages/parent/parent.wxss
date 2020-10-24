@@ -1,0 +1,117 @@
+
+
+/* 表格样式 */
+.table {
+    border:1px solid #dadada;
+    border-right: 0;
+    border-bottom: 0;
+    width: 90%;
+    font-size: 26rpx;
+  }
+  
+  .tr{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .th,.td {
+    padding: 6px 0;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    text-align: center;
+    width:100%
+  }
+  
+  .th {
+    display: inline-block;
+    font-weight: 400;
+    background-color: #dadada;
+    vertical-align: middle;
+  }
+  .tr .td {
+    color: #666;
+  }
+  
+  .w64 {
+    width: 64%;
+  }
+  
+  .w40 {
+    width:40%;
+  }
+  
+  .single .td:first-child {
+    color: blue;
+  }
+  
+  .parantsTable .tr:last-child .td {
+    background-color: #dadada;
+  }
+  
+  .td image {
+    width: 35rpx;
+    height: 35rpx;
+    vertical-align: middle;
+  }
+  
+  .br {
+    display: block;
+  }
+  
+  .td image.up {
+    transform: rotate(180deg);
+  }
+  
+  /* 表格样式end */
+
+  .chart{
+      width: 90%;
+      height: 700rpx;
+      margin-top: 30rpx;
+  }
+
+  .subtitle {
+      font-size: 28rpx;
+      color: #666;
+  }
+
+  .exam-number {
+      font-size: 34rpx;
+      margin: 20rpx 0;
+  }
+
+  .show-result > text {
+      font-size: 32rpx;
+      margin-right: 30rpx;
+  }
+
+  .show-result .red {
+      color: red;
+      padding-left: 10rpx;
+  }
+
+  .show-result {
+      margin-bottom: 30rpx;
+  }
+
+/* 选择科目 */
+.choose {
+    display: flex;
+    flex-direction: row;
+    margin: 30rpx 0;
+}
+
+.section__title ,.choose picker {
+    padding: 10rpx 30rpx;
+}
+
+.choose picker {
+    border: 2rpx solid #eee;
+}
+
+/* 选择科目end */
+
+.width10 {
+  width: 110%;
+}
