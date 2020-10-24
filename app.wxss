@@ -24,6 +24,11 @@
   padding: 40rpx 0;
 }
 
+.title-questions{
+  font-size: 44rpx;
+  margin-top: 20rpx;
+}
+
 /* 页面标题样式end */
 
 .r3 , .r2 {
@@ -174,3 +179,12 @@
   margin-right: 16rpx;
 }
 /* tab切换样式end */
+
+/* 图表说明 */
+.gray-txt {
+  display: block;
+  width: 100%;
+  font-size: 36rpx;
+  text-align: center;
+  color: gray;
+}

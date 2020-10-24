@@ -187,7 +187,14 @@ Page({
     getStudentScoreData(){
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
-        let Title = '得分分布图';
+        let title ={
+            text: '得分分布图',
+            left: 'center',
+            textStyle:{
+               fontWeight: 'normal',
+               fontSize: 16 
+            } 
+        }
         let subTitle = '';
         let colorData = ['#566b8e'];
         let xData = scoreList.map(item=>{ return item.score });
@@ -201,6 +208,6 @@ Page({
         };
         let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
 
-        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle })
+        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle })
     }
 })

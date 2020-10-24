@@ -79,7 +79,7 @@ Page({
 
     },
     onLoad: function (option) {
-        wx.showLoading({title: '加载中...'})
+        wx.showLoading({ title: '加载中...' })
         this.setData({
             'subject': option.subject,
             'class': option.class,
@@ -132,7 +132,7 @@ Page({
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得正确率
                         firstDataAxis.unshift(listGroupClassStatistics[i].class_);
-                        firstfirstDataSeriesByCorrectRate.push(util.returnFloat(listGroupClassStatistics[i].objectiveQuestionsCorrectRate*100))
+                        firstfirstDataSeriesByCorrectRate.push(util.returnFloat(listGroupClassStatistics[i].objectiveQuestionsCorrectRate * 100))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
                         secondDataSeriesByMin.push(_.round(listGroupClassStatistics[i].minScore, 1))
@@ -293,12 +293,25 @@ Page({
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
 
-        Title = '选项答题分布';
+        // Title = '选项答题分布';
+        let title = {
+            text: "正确答案 ： " + answerName,
+            left: 'center',
+            textStyle: {
+                fontWeight: 'normal',
+                color: 'red',
+                fontSize: 14
+            },
+            subtext: "（点击柱状图查看学生名称）",
+            subtextStyle: {
+                color: "gray"
+            }
+        };
         colorData = ['#566b8e'];
         xData = thirdDataAxis;
         gridSetting = { left: "20%", top: "20%", bottom: "10%" }
         seriesData = thirdDataSeries;
-        subTitle = "正确答案 ： " + answerName;
+        // subTitle = "正确答案 ： " + answerName;
         tooltipSetting = {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -317,7 +330,7 @@ Page({
             }
         }
 
-        return chart.verticalBarChartOption({ Title, colorData, xData, gridSetting, seriesData, tooltipSetting, subTitle });
+        return chart.verticalBarChartOption({ title, Title, colorData, xData, gridSetting, seriesData, tooltipSetting });
     },
 
     //tootip弹框
@@ -341,14 +354,14 @@ Page({
     //第四张图option
     getTopicHorizontalOption: function () {
         const { fourthDataAxis, fourthDataLegend, fourthDataSeries } = this.data;
-        let title = { 
+        let title = {
             text: '（点击图标可选中或取消对比项）',
             top: '0%',
             left: 'center',
             color: 'gray',
-            textStyle:{
+            textStyle: {
                 color: 'gray',
-                fontWeight : 200,
+                fontWeight: 200,
             },
             textAlign: 'auto'
         };
@@ -381,7 +394,7 @@ Page({
         };
         let seriesData = fourthDataSeries;
         return chart.barChartOption({
-            title, colorData, xData, yData, legendData,legendAttributes,
+            title, colorData, xData, yData, legendData, legendAttributes,
             gridSetting, seriesData, tooltipSetting, subTitle
         });
     },
@@ -415,7 +428,7 @@ Page({
                 for (let j = 0; j < classList.length; j++) {
                     if (i === 0) {
                         //班级列表取一次足够，取索引 0 的班级列表
-                        fourthDataLegend.push(classList[j].class_)
+                        fourthDataLegend.unshift(classList[j].class_)
                     }
                 }
                 fourthDataAxis.push(itemClassList[i].answer);
@@ -429,7 +442,7 @@ Page({
                 show: true,
                 position: 'right',
                 formatter: (params) => {
-                    if(params.value == 0){
+                    if (params.value == 0) {
                         return ""
                     }
                     return params.value + "%";

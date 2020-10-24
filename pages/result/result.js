@@ -78,22 +78,30 @@ Page({
     studentScoreList2: []
   },
   onLoad(option) {
+    //获取缓存内的数据，初始化数据
+    let excellentLine = null;
+    try {
+      excellentLine = wx.getStorageSync('excellentLine');
+    } catch (e) {
+
+    }
     wx.showLoading({
       title: '加载中...',
     })
-    this.initPage(option);
+    this.initPage(option,excellentLine);
   },
   onReady() {
     // this.initAllCharts();
   },
   //页面初始
-  initPage(option) {
+  initPage(option,excellentLine) {
     if (option.subject) {
       this.setData({
         'subject': option.subject,
         'subjectId': option.subjectId,
         'role': option.role,
-        'schoolId': option.schoolId
+        'schoolId': option.schoolId,
+        excellentLine: excellentLine || 85
       });
     }
     this.getSubjectData();
@@ -111,6 +119,13 @@ Page({
       wx.showToast({title: '请输入两位数',icon: 'none',duration: 1500});
       return;
     }
+    //存入本地缓存
+    try {
+      wx.setStorageSync('excellentLine', value)
+    } catch (e) {
+
+    }
+    //end
     this.setData({excellentLine: value});
     this.getSubjectData();
   },
@@ -465,6 +480,7 @@ Page({
         type: 'bar',
         label: {
           show: true,
+          position: 'right',
           formatter: (params) => {
             return params.value + "%";
           }
@@ -477,6 +493,7 @@ Page({
         type: 'bar',
         label: {
           show: true,
+          position: 'right',
           formatter: (params) => {
             return params.value + "%";
           },
@@ -569,7 +586,15 @@ Page({
       gridSetting = {}, seriesData = [], tooltipSetting = [];
     const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries,
       studentScoreList1, studentScoreList2 } = this.data;
+    let title ={
+      text: "（点击柱状查看学生名字及分数）",
+      textStyle:{
+        color: 'gray',
+        fontSize: 14,
+        fontWeight: 400,
 
+      }
+    };  
     yData = [
       {
         name: '分数区间段',
@@ -608,7 +633,7 @@ Page({
       }
     }
 
-    return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
+    return chart.barChartOption({ title,colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
   },
   /*分数段饼状图：
     postion==0：班级分数段统计数据
@@ -618,6 +643,15 @@ Page({
     var colorData = [], pieData = [], tooltipSetting = {};
     const { secondPieDataSeries, bottomPieDataSeries, studentScoreList1, studentScoreList2 } = this.data;
 
+    let title ={
+      text: "（点击饼状查看学生名字及分数）",
+      textStyle:{
+        color: 'gray',
+        fontSize: 14,
+        fontWeight: 400,
+
+      }
+    }; 
     colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b']
     postion === 0 ? pieData = secondPieDataSeries : pieData = bottomPieDataSeries;
     tooltipSetting = {
@@ -633,7 +667,7 @@ Page({
       }
     }
 
-    return chart.pieChartOption({ colorData, pieData, tooltipSetting });
+    return chart.pieChartOption({ title,colorData, pieData, tooltipSetting });
   },
   /*
     获取学生成绩排名数据

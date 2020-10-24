@@ -190,7 +190,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function ({ colorData, pieData, tooltipSetting }) {
+  pieChartOption: function ({ title,colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'
@@ -214,6 +214,11 @@ const chart = {
         }
       ]
     };
+    // TODO 暂时改不了，只能额外添加
+    if(title){
+      option.title = title;
+    }
+    //end
     return option;
   },
   //折线图option
@@ -242,19 +247,20 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function ({ Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
+  verticalBarChartOption: function ({ title,Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
     var option = {
-      title: {
-        text: Title,
-        left: 'center',
-        textStyle: {
-          fontWeight: 'normal'
-        },
-        subtext: subTitle,
-        subtextStyle: {
-          color: "red"
-        }
-      },
+      // title: {
+      //   text: Title,
+      //   left: 'center',
+      //   textStyle: {
+      //     fontWeight: 'normal'
+      //   },
+      //   subtext: subTitle,
+      //   subtextStyle: {
+      //     color: "red"
+      //   }
+      // },
+      title: title,
       tooltip: tooltipSetting,
       color: colorData,
       xAxis: {
