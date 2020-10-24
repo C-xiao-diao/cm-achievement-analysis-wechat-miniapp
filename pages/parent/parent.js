@@ -90,14 +90,17 @@ Page({
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let responseData = _.get(res, 'data.data');
+                    console.log(responseData, ',,,,,,,,,,,,,,,,,,,,,,,,,,');
                     let objectiveQuestion = responseData.objectiveQuestion;
-                    let subjectiveQuestion =responseData.subjectiveQuestion;
+                    // let subjectiveQuestion = responseData.subjectiveQuestion;
+                    let subjectiveQuestion = [];
                     let listResultObjectiveQuestion = responseData.listResultObjectiveQuestion;
                     for(let i = 0; i < listResultObjectiveQuestion.length; i++){
                         listResultObjectiveQuestion[i].gradeCorrectAnswerRate = util.returnFloat(listResultObjectiveQuestion[i].gradeCorrectAnswerRate*100);
                     }
                     let listResultSubjectiveQuestion = responseData.listResultSubjectiveQuestion;
                     for(let i = 0; i < listResultSubjectiveQuestion.length; i++){
+                        subjectiveQuestion.push(listResultSubjectiveQuestion[i].topic);
                         listResultSubjectiveQuestion[i].gradeScoreRate = util.returnFloat(listResultSubjectiveQuestion[i].gradeScoreRate*100);
                     }
 
@@ -109,7 +112,7 @@ Page({
                     })
                     this.getObjectiveAnswer(listResultObjectiveQuestion,activeTabIndex1);
                     this.getSupervisoreAnswer(listResultSubjectiveQuestion, activeTabIndex2);
-                    // console.log(listResultSubjectiveQuestion, activeTabIndex2,'hhhhhhhhh')
+                    console.log(listResultSubjectiveQuestion, activeTabIndex2,'hhhhhhhhh',subjectiveQuestion)
                 }
             }
         })

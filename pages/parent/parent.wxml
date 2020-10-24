@@ -8,20 +8,20 @@
         <view class="tr">
             <view class="th">科目</view>
             <view class="th">得分</view>
-            <view class="th">班级排名</view>
-            <view class="th">学校排名</view>
+            <view class="th width10">班级排名</view>
+            <view class="th width10">学校排名</view>
             <view class="th">班级<br />平均分</view>
             <view class="th">年级<br />最高分</view>
         </view>
         <view class="tr" wx:for="{{transcriptList}}" wx:key="id">
             <view class="td">{{item.subject}}</view>
             <view class="td">{{item.socre}}</view>
-            <view class="td" wx:if="{{item.floatClassRanking == 0}}">{{item.classRanking}}(--)</view>
-            <view class="td" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
-            <view class="td" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
-            <view class="td" wx:if="{{item.floatSchoolRanking == 0}}">{{item.schoolRanking}}(--)</view>
-            <view class="td" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
-            <view class="td" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking == 0}}">{{item.classRanking}}(--)</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking == 0}}">{{item.schoolRanking}}(--)</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
             <view class="td">{{item.classAvgScore}}</view>
             <view class="td">{{item.gradeMaxScore}}</view>
         </view>
@@ -59,7 +59,7 @@
     <!-- 各题得分（主观题） -->
     <text class="title">— 各题得分（主观题） —</text>
     <view class="tab-questions test-questions">
-      <text wx:for="{{subjectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex2==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item.topic}}" data-type="supervisor" bindtap="swichNav">{{item.topic}}</text>
+        <text wx:for="{{subjectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex2==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" data-type="supervisor" bindtap="swichNav">{{item}}</text>
     </view>
     <text class="exam-number">{{supervisorAnswer.topic}}</text>
     <view class="show-result">
