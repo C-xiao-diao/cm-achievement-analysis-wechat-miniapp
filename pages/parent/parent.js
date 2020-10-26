@@ -4,7 +4,7 @@ import _ from "lodash";
 const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
 
-var parentTopChart = null, parentSecondChart = null;
+var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
 Page({
     data: {
@@ -29,6 +29,9 @@ Page({
             lazyLoad: true
         },
         ecSecondChart: {
+            lazyLoad: true
+        },
+        ecThirdChart: {
             lazyLoad: true
         }
     },
@@ -142,6 +145,7 @@ Page({
         let supervisorAnswer = arr[index];
         this.setData({supervisorAnswer});
         this.initSecondChart();
+        this.initThirdChart();
     },
      //初始化 历史年级排名走势 图表
     initFirstChart: function () {
@@ -152,6 +156,11 @@ Page({
     initSecondChart: function () {
         this.secondComponent = this.selectComponent('#parentSecondChart');
         chart.initChart(this, 'parentSecondChart', '#parentSecondChart', parentSecondChart);
+    },
+    //初始化 主观题得分分布 图表
+    initThirdChart: function () {
+        this.thirdComponent = this.selectComponent('#parentThirdChart');
+        chart.initChart(this, 'parentThirdChart', '#parentThirdChart', parentThirdChart);
     },
     //获取 历史年级排名走势 option
     getStudentGradeTrendData(){
@@ -183,10 +192,10 @@ Page({
 
         return chart.lineChartOption({ gridSetting, legendData, xData, yAxisInverse, seriesData,tooltipSetting });
     },
-    //获取 主观题得分分布 option
-    getStudentScoreData(){
+    //获取 主观题得分率分布 option
+    getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
-        let scoreList = supervisorAnswer.list;
+        let scoreList = supervisorAnswer.listScoreCount;
         let title ={
             text: '年级得分率分布图',
             left: 'center',
@@ -206,8 +215,50 @@ Page({
             },
             position: ['15%', '0%']
         };
+        let seriesLabel = {
+            show: true,
+            position: 'top',
+            formatter: (params) => {
+              return params.value + "%";
+            }
+        }
+        let seriesData = scoreList.map(item=>{ return item.scoreCount });
+
+        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData,seriesLabel, subTitle })
+    },
+    //获取 主观题得分分布 option
+    getStudentScoreData(){
+        const { supervisorAnswer } = this.data;
+        let scoreList = supervisorAnswer.list;
+        let title ={
+            text: '平均得分分布图',
+            left: 'center',
+            textStyle:{
+               fontWeight: 'normal',
+               fontSize: 16 
+            } 
+        }
+        let subTitle = '';
+        let colorData = ['#566b8e'];
+        let xData = scoreList.map(item=>{ return item.score });
+        let gridSetting = {left: "20%", top: "20%", bottom: "10%"};
+        let tooltipSetting = {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
+            },
+            position: ['15%', '0%']
+        };
+        let seriesLabel = {
+            show: true,
+            position: 'top',
+            formatter: (params) => {
+              return params.value;
+            }
+        }
         let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
 
-        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle })
+        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, seriesLabel, subTitle })
+    
     }
 })

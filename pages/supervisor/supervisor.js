@@ -300,8 +300,15 @@ Page({
                 return _this.getFormatter(studentScoreList1, params[0].axisValue);
             }
         }
+        let seriesLabel = {
+            show: true,
+            position: 'top',
+            formatter: (params) => {
+              return params.value + "%";
+            }
+        }
 
-        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, seriesData, tooltipSetting });
+        return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, seriesData, seriesLabel, tooltipSetting });
     },
 
     getFormatter: function (studentScoreList1, score) {
