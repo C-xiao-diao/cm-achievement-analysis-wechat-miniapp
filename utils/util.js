@@ -247,19 +247,8 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function ({ title,Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
+  verticalBarChartOption: function ({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
     var option = {
-      // title: {
-      //   text: Title,
-      //   left: 'center',
-      //   textStyle: {
-      //     fontWeight: 'normal'
-      //   },
-      //   subtext: subTitle,
-      //   subtextStyle: {
-      //     color: "red"
-      //   }
-      // },
       title: title,
       tooltip: tooltipSetting,
       color: colorData,

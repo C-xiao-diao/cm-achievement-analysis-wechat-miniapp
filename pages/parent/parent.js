@@ -155,7 +155,7 @@ Page({
     },
     //获取 历史年级排名走势 option
     getStudentGradeTrendData(){
-        const { listMonth,subArray,historicalGradeRanking } = this.data;
+        const { listMonth,historicalGradeRanking } = this.data;
         let gridSetting = {
             top: '30%',
             left: '3%',
@@ -163,9 +163,9 @@ Page({
             bottom: '3%',
             containLabel: true
         };
-        let legendData = {data: subArray};
+        let legendData = {data: ['总分','语文','数学','英语','生物','物理','地理','政治','历史','化学','体育']};
         let xData = listMonth.map(item=>{ return item.yearMonth });
-        let yAxisInverse = false;
+        let yAxisInverse = true;
         let seriesArr = []
         for(let i = 0; i < historicalGradeRanking.length; i++){
             let dataArr = [];
@@ -188,7 +188,7 @@ Page({
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
         let title ={
-            text: '得分分布图',
+            text: '年级得分率分布图',
             left: 'center',
             textStyle:{
                fontWeight: 'normal',
