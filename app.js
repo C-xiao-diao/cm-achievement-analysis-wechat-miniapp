@@ -108,6 +108,7 @@ App({
   }
 })
 
+
 Object.assign(global, {
   Array: Array,
   Date: Date,
