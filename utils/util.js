@@ -163,6 +163,9 @@ const chart = {
         option = obj.getStudentGradeTrendData();
           break;
       case '#parentSecondChart':
+        option = obj.getStudentScoreRateData();
+        break;
+      case '#parentThirdChart':
         option = obj.getStudentScoreData();
         break;
     }
@@ -247,19 +250,8 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function ({ title,Title, colorData, xData, gridSetting, tooltipSetting, seriesData, subTitle }) {
+  verticalBarChartOption: function ({ title, colorData, xData, gridSetting, tooltipSetting,seriesLabel, seriesData, subTitle }) {
     var option = {
-      // title: {
-      //   text: Title,
-      //   left: 'center',
-      //   textStyle: {
-      //     fontWeight: 'normal'
-      //   },
-      //   subtext: subTitle,
-      //   subtextStyle: {
-      //     color: "red"
-      //   }
-      // },
       title: title,
       tooltip: tooltipSetting,
       color: colorData,
@@ -273,13 +265,7 @@ const chart = {
       grid: gridSetting,
       series: [{
         data: seriesData,
-        label: {
-          show: true,
-          position: 'top',
-          formatter: (params) => {
-            return params.value + "%";
-          }
-        },
+        label: seriesLabel,
         type: 'bar',
         showBackground: true,
         backgroundStyle: {
