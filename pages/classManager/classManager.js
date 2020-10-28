@@ -360,7 +360,7 @@ Page({
     //初始化 分数段统计 图表
     initFifthChart: function () {
         this.fifthComponent = this.selectComponent('#managerFifthChart');
-        chart.initChart(this, 'fifthComponent', '#managerFifthChart', managerFifthChart);
+        chart.initChart(this, 'fifthComponent', '#managerFifthChart', managerFifthChart, true);
     },
     //获取 平均分对比 图表数据
     getAvgCompareData(){

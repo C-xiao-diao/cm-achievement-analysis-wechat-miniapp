@@ -81,11 +81,11 @@ const returnFloat = value => {
 
 const chart = {
   //图表初始化
-  initChart: function (obj, chartComponent, dom, whichChart) {
+  initChart: function (obj, chartComponent, dom, whichChart,isNewChart) {
     if (!obj[chartComponent]) {
       obj[chartComponent] = obj.selectComponent(dom);
     }
-    if (!obj[chartComponent].chart) {
+    if (!obj[chartComponent].chart || isNewChart) {
       obj[chartComponent].init((canvas, width, height) => {
         whichChart = echarts.init(canvas, null, {
           width: width,
@@ -199,7 +199,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function ({ title, colorData, pieData, tooltipSetting }) {
+  pieChartOption: function ({ title, xData = [],colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'

@@ -676,15 +676,15 @@ Page({
     }
     if (tab == 'currentTab1') {//分数段柱状图
       if (this.data[tab] == 0) {
-        chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
+        chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart, true);
       } else {
-        chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
+        chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart, true);
       }
     } else if (tab == 'currentTab2') {
       if (this.data[tab] == 0) {
-        chart.initChart(this, 'bottomComponent', '#bottomBarChart', bottomChart);
+        chart.initChart(this, 'bottomComponent', '#bottomBarChart', bottomChart, true);
       } else {
-        chart.initChart(this, 'bottomComponent', '#bottomPieChart', bottomChart);
+        chart.initChart(this, 'bottomComponent', '#bottomPieChart', bottomChart, true);
       }
     }
   },
