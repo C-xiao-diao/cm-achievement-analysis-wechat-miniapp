@@ -381,8 +381,8 @@ Page({
         let legendData = fourthDataLegend;
         let gridSetting = {
             top: '15%',
-            left: '3%',
-            right: '4%',
+            left: '10%',
+            right: '10%',
             bottom: '3%',
             containLabel: true
         };
