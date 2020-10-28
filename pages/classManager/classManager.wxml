@@ -97,7 +97,7 @@
             <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab2" bindtap="swichNav">各班</text>
         </view>
     </view>
-    <view class="chart" style="height:{{currentTab2 == 2 ? '600rpx': '2000rpx'}}">
+    <view class="chart" style="height:{{currentTab2 == 2 ? '700rpx': '2000rpx'}}">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
 

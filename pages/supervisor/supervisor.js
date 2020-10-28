@@ -81,6 +81,12 @@ Page({
         })
         this.getSupervisorQuestionAnalysis(option);
     },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+        this.fourthComponent = null;
+    },
     //获取页面数据
     getSupervisorQuestionAnalysis(option) {
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";

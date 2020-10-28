@@ -88,6 +88,12 @@ Page({
         // });
         this.getObjectiveQuestionAnalysis(option)
     },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+        this.fourthComponent = null;
+    },
     //获取客观题界面数据
     getObjectiveQuestionAnalysis: function (option) {
         let cmd = "/auth/objectiveQuestionAnalysis/objectiveQuestionAnalysis";

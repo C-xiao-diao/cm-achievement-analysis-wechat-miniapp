@@ -5,7 +5,7 @@ const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
 
 var managerFirstChart = null , managerSecondChart = null, managerThirdChart = null, managerFourthChart = null, managerFifthChart = null;
-var intervalValue = 50;//分数段
+var intervalValue = 20;//分数段
 var excellentLine = 85;//优秀线
 var classType =  2; //总分：2； 各科：3；各班：1
 var curSubject = 0;//当前科目
@@ -72,7 +72,7 @@ Page({
         fifthDataSeries: [],
         fifthDataYAxis: [],
         excellentLine: 85,
-        intervalValue: 50
+        intervalValue: 20
     },
     onLoad: function(){
         //获取缓存内的数据，初始化数据
@@ -86,6 +86,13 @@ Page({
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysisData(curSubject,excellentLine);
         this.getScoreStatistics(curSubject,intervalValue,classType);
+    },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+        this.fourthComponent = null;
+        this.fifthComponent = null;
     },
     pickSubject: function(e) {
         curSubject = e.detail.value;
@@ -218,6 +225,7 @@ Page({
         }
         this.setData({fourthDataSeries,fourthDataAxis,fourthDataLegend,currentTab3:rateType});
         this.initFourthChart();
+        wx.hideLoading();
     },
     //分数段统计
     getScoreStatistics:function(subject, value, type){
@@ -230,6 +238,7 @@ Page({
             data,
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
+                    wx.hideLoading()
                     //type: 1,各班，2全年级，3各科
                     if(type == 1){//各班
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
@@ -418,7 +427,15 @@ Page({
         seriesData = secondDataSeries;
         tooltipSetting = {
             trigger: 'axis',
-            position: ['15%', '0']
+            position: ['15%', '0'],
+            formatter: function(params){
+                params = _.sortBy(params, function(o) { return o.value });
+                let str = '';
+                for(var i = 0; i < params.length; i++){
+                    str += params[i].seriesName + '：' + params[i].value + '\n';
+                }
+                return str;
+            }
         }
 
         return chart.lineChartOption({gridSetting,xData,legendData,yAxisInverse,seriesData,tooltipSetting});   
@@ -511,7 +528,7 @@ Page({
                 type: 'bar',
                 data: fifthDataSeries
             }];
-            gridSetting = {left: "20%",right:'15%',top: "0",bottom: "10%",}
+            gridSetting = {left: "20%",right:'15%',top: "10%",bottom: "10%",}
         }
 
         return chart.barChartOption({colorData,legendData,xData,yData,gridSetting,seriesData,tooltipSetting});

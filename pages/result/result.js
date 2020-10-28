@@ -89,6 +89,13 @@ Page({
     })
     this.initPage(option,excellentLine);
   },
+  onUnload: function(){
+    this.topComponent = null;
+    this.topChartComponent = null;
+    this.secondComponent = null;
+    this.bottomComponent = null;
+    this.trendComponent = null;
+  },
   //页面初始
   initPage(option,excellentLine) {
     if (option.subject) {

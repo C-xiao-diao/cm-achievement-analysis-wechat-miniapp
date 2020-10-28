@@ -40,6 +40,11 @@ Page({
         this.getGradeAnalysis();
         this.getStudentGrade();
     },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+    },
     //选择科目
     pickSubject: function(e) {
         this.setData({ 
