@@ -50,7 +50,8 @@ Page({
         studentScoreList1: [],
         //第四张图
         ecFourthChart: {
-            lazyLoad: true
+            lazyLoad: true,
+            // disableTouch: true
         },
         fourthDataAxis: [],
         fourthDataLegend: [],
