@@ -518,6 +518,9 @@ Page({
     },
     //切换
     swichNav(e) {
+        wx.showLoading({
+          title: '请稍候',
+        })
         var tab = e.currentTarget.dataset.name;
         if (this.data[tab] === e.target.dataset.current) {
             return false;
