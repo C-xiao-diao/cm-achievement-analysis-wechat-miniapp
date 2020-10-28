@@ -225,7 +225,6 @@ Page({
         }
         this.setData({fourthDataSeries,fourthDataAxis,fourthDataLegend,currentTab3:rateType});
         this.initFourthChart();
-        wx.hideLoading();
     },
     //分数段统计
     getScoreStatistics:function(subject, value, type){
@@ -539,10 +538,10 @@ Page({
         if (this.data[tab] === e.target.dataset.current) {
             return false;
         } else {
-            wx.showLoading({
-                title: '请稍候',
-            })
             if(tab == 'currentTab2'){
+                wx.showLoading({
+                    title: '请稍候',
+                })
                 classType = _.get(e, 'target.dataset.current');
                 this.getScoreStatistics(curSubject,intervalValue,classType);
             }else if(tab == 'currentTab3'){

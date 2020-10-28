@@ -684,12 +684,12 @@ Page({
   },
   //切换：10分段/20分段/50分段
   swichNav2: function (e) {
-    let currentTab1 = this.data["currentTab1"];
-    if (currentTab1 === e.target.dataset.current) {
+    let current = e.currentTarget.dataset.current;
+    if (this.data.tegmentedTab === current) {
       return false;
     }
+    let currentTab1 = this.data.currentTab1;
     wx.showLoading({ title: '请稍等...',});
-    let current = e.currentTarget.dataset.current;
     this.getSingleScoreSegmentStatistics(current, currentTab1);
   },
   //导航至统计分析
