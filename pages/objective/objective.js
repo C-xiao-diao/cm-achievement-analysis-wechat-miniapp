@@ -474,6 +474,7 @@ Page({
         })
         chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
         chart.initChart(this, 'fourthComponent', '#objectiveFourthChart', objectiveFourthChart);
-        this.initFourthChart();
+        // wx.hideLoading()
+        // this.initFourthChart();
     }
 })
