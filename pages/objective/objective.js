@@ -410,12 +410,12 @@ Page({
 
     // 切换tab页试题
     swichNav: function (e) {
-        // wx.showLoading({ title: '请稍等...',});
         let oldActiveTabIndex = this.data.activeTabIndex; 
         let { listTotalTopic, listClassTopic } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
         if(oldActiveTabIndex !== activeTabIndex){ //防止重复点击某个tab
+            wx.showLoading({ title: '请稍等...',});
             this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTopic);
         }    
     },
@@ -475,7 +475,7 @@ Page({
         })
         chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
         chart.initChart(this, 'fourthComponent', '#objectiveFourthChart', objectiveFourthChart);
-        // wx.hideLoading({})
-        // this.initFourthChart();
+        wx.hideLoading()
+        this.initFourthChart();
     }
 })

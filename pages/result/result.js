@@ -314,7 +314,7 @@ Page({
             } else {
               chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
             }
-
+            wx.hideLoading();
           });
         }
       }
@@ -685,6 +685,10 @@ Page({
   //切换：10分段/20分段/50分段
   swichNav2: function (e) {
     let currentTab1 = this.data["currentTab1"];
+    if (currentTab1 === e.target.dataset.current) {
+      return false;
+    }
+    wx.showLoading({ title: '请稍等...',});
     let current = e.currentTarget.dataset.current;
     this.getSingleScoreSegmentStatistics(current, currentTab1);
   },

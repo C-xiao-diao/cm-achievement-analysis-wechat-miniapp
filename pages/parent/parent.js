@@ -132,10 +132,16 @@ Page({
 
         if(activeTabType == 'objective'){//客观题选项
             let activeTabIndex1 = _.get(e, "currentTarget.dataset.current");
+            if (this.data.activeTabIndex1 === e.target.dataset.current) {
+                return false;
+            }
             let objectiveAnswer = listResultObjectiveQuestion[activeTabIndex1];
             this.setData({activeTabIndex1, objectiveAnswer})
         }else {//主观题选项
             let activeTabIndex2 = _.get(e, "currentTarget.dataset.current");
+            if (this.data.activeTabIndex2 === e.target.dataset.current) {
+                return false;
+            }
             let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
             this.setData({activeTabIndex2, supervisorAnswer})
             this.initSecondChart();
