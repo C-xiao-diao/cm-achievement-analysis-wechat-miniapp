@@ -215,7 +215,7 @@ Page({
         if (resData.code == 200 || resData.code == 103) {
           if(role == 1){//to教师
             wx.navigateTo({
-              url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&role=' + role + '&schoolId=' + that.data.schoolId
+              url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
               + '&subjectId=' + that.data.subjectId
             });
           }else if(role == 2){//to家长

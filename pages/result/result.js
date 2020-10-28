@@ -89,9 +89,6 @@ Page({
     })
     this.initPage(option,excellentLine);
   },
-  onReady() {
-    // this.initAllCharts();
-  },
   //页面初始
   initPage(option,excellentLine) {
     if (option.subject) {
@@ -233,7 +230,7 @@ Page({
     //获取单科页面全年级分析及各班的优秀率
     this.getAllClassesAnalysisScore();
     //获取单科分段人数统计
-    this.getSingleScoreSegmentStatistics("10", 0);
+    this.getSingleScoreSegmentStatistics(0, 0);
   },
   //获取单科页面全年级分析及各班的优秀率
   getAllClassesAnalysisScore: function () {
@@ -265,11 +262,15 @@ Page({
       }
     })
   },
-
   //获取单科分数段得统计
-  getSingleScoreSegmentStatistics: function (intervalValue, currentTab1) {
-    if (!intervalValue) {
-      intervalValue = "10";
+  getSingleScoreSegmentStatistics: function (current, currentTab1) {
+    let intervalValue = '';
+    if(current == 0){
+      intervalValue = '10'
+    }else if (current == 1){
+      intervalValue = '20'
+    }else {
+      intervalValue = '50'
     }
     let Url2 = app.globalData.domain + '/auth/monthlyExamResults/scoreSegmentStatistics';
     wx.request({
@@ -290,7 +291,13 @@ Page({
             secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
             secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
           }
-          this.setData({ secondPieDataSeries, secondBarYAxis, secondBarDataSeries, studentScoreList1 }, () => {
+          this.setData({ 
+            secondPieDataSeries, 
+            secondBarYAxis, 
+            secondBarDataSeries, 
+            studentScoreList1,
+            tegmentedTab: current
+           }, () => {
             // this.initSecondChart();
             if (!this.secondComponent) {
               this.secondComponent = this.selectComponent('#secondChart');
@@ -339,7 +346,6 @@ Page({
   //获取学生成绩排名趋势图数据
   getTrendData(Name) {
     var str = '', that = this;
-    this.setData({ 'studentName': Name })
     var params = {
       'studentName': Name,
       'schoolId': this.data.schoolId,
@@ -366,7 +372,7 @@ Page({
             rankData.push(list[i].ranking);
             monthData.push(list[i].month)
           }
-          that.setData({ showTrendChart: true });
+          that.setData({ showTrendChart: true, studentName: Name });
           that.initTrendChart();//打开趋势图
         }
       }
@@ -376,25 +382,7 @@ Page({
   closePopup() {
     this.setData({ showTrendChart: false })
     this.trendComponent = null;
-    // this.this.trendComponent = this.selectComponent('#trendChart');
-    // this.initChart('trendComponent', '#trendChart', trendChart); 
   },
-  /**
-   * 初始化所有需要初始化得图表
-   */
-  initAllCharts: function () {
-    //初始化顶部柱图（各班对比）
-    this.initTopChart()
-    //初始化第二项分数段统计（柱图/饼图 切换）
-    this.initSecondChart();
-    //初始化底部柱状图
-    if (this.data.subject == '语文') {
-      this.initBottomChart();
-    }
-    //初始化趋势图
-    this.initTrendChart();
-  },
-
   //初始化顶部柱图（各班对比-优秀率和及格率）
   initTopChart: function () {
     this.topComponent = this.selectComponent('#topChart');
@@ -640,7 +628,6 @@ Page({
       position: ['15%', '0'],
       textStyle: { 'width': '80%' },
       formatter: function (params) {
-        console.log(params, 11111111111111111, studentScoreList1,222222222222222,studentScoreList2)
         var data;
         postion === 0 ? data = studentScoreList1 : data = studentScoreList2;
         var res = chart.getFormatter(params, 'pie', data);
@@ -692,14 +679,7 @@ Page({
   swichNav2: function (e) {
     let currentTab1 = this.data["currentTab1"];
     let current = e.currentTarget.dataset.current;
-    this.setData({ tegmentedTab: current });
-    if (current == 0) {
-      this.getSingleScoreSegmentStatistics("10", currentTab1);
-    } else if (current == 1) {
-      this.getSingleScoreSegmentStatistics("20", currentTab1);
-    } else {
-      this.getSingleScoreSegmentStatistics("50", currentTab1);
-    }
+    this.getSingleScoreSegmentStatistics(current, currentTab1);
   },
   //导航至统计分析
   navAnalysis: function (e) {
