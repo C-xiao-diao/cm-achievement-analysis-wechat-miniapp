@@ -93,9 +93,7 @@ Page({
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let responseData = _.get(res, 'data.data');
-                    console.log(responseData, ',,,,,,,,,,,,,,,,,,,,,,,,,,');
                     let objectiveQuestion = responseData.objectiveQuestion;
-                    // let subjectiveQuestion = responseData.subjectiveQuestion;
                     let subjectiveQuestion = [];
                     let listResultObjectiveQuestion = responseData.listResultObjectiveQuestion;
                     for(let i = 0; i < listResultObjectiveQuestion.length; i++){
@@ -106,16 +104,18 @@ Page({
                         subjectiveQuestion.push(listResultSubjectiveQuestion[i].topic);
                         listResultSubjectiveQuestion[i].gradeScoreRate = util.returnFloat(listResultSubjectiveQuestion[i].gradeScoreRate*100);
                     }
-
+                    let objectiveAnswer = listResultObjectiveQuestion[activeTabIndex1];
+                    let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
                     this.setData({
                         objectiveQuestion,
                         subjectiveQuestion,
                         listResultObjectiveQuestion,
-                        listResultSubjectiveQuestion
+                        listResultSubjectiveQuestion,
+                        objectiveAnswer,
+                        supervisorAnswer
                     })
-                    this.getObjectiveAnswer(listResultObjectiveQuestion,activeTabIndex1);
-                    this.getSupervisoreAnswer(listResultSubjectiveQuestion, activeTabIndex2);
-                    console.log(listResultSubjectiveQuestion, activeTabIndex2,'hhhhhhhhh',subjectiveQuestion)
+                    this.initSecondChart();
+                    this.initThirdChart();
                 }
             }
         })
@@ -127,27 +127,17 @@ Page({
 
         if(activeTabType == 'objective'){//客观题选项
             let activeTabIndex1 = _.get(e, "currentTarget.dataset.current");
-            this.getObjectiveAnswer(listResultObjectiveQuestion, activeTabIndex1);
-            this.setData({activeTabIndex1})
+            let objectiveAnswer = listResultObjectiveQuestion[activeTabIndex1];
+            this.setData({activeTabIndex1, objectiveAnswer})
         }else {//主观题选项
             let activeTabIndex2 = _.get(e, "currentTarget.dataset.current");
-            this.getSupervisoreAnswer(listResultSubjectiveQuestion, activeTabIndex2);
-            this.setData({activeTabIndex2})
+            let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
+            this.setData({activeTabIndex2, supervisorAnswer})
+            this.initSecondChart();
+            this.initThirdChart();
         }
     },
-    //获取该同学客观题答案
-    getObjectiveAnswer: function(arr, index){
-        let objectiveAnswer = arr[index];
-        this.setData({objectiveAnswer});
-    },
-    //获取该同学主观题答案
-    getSupervisoreAnswer: function(arr, index){
-        let supervisorAnswer = arr[index];
-        this.setData({supervisorAnswer});
-        this.initSecondChart();
-        this.initThirdChart();
-    },
-     //初始化 历史年级排名走势 图表
+    //初始化 历史年级排名走势 图表
     initFirstChart: function () {
         this.firstComponent = this.selectComponent('#parentTopChart');
         chart.initChart(this, 'parentTopChart', '#parentTopChart', parentTopChart);
