@@ -196,7 +196,8 @@ Page({
     //获取 主观题得分率分布 option
     getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
-        let scoreList = supervisorAnswer.listScoreCount;
+        let scoreList = supervisorAnswer.list;
+        console.log(supervisorAnswer,111111111111)
         let title ={
             text: '年级得分率分布图',
             left: 'center',
@@ -223,14 +224,14 @@ Page({
               return params.value + "%";
             }
         }
-        let seriesData = scoreList.map(item=>{ return item.scoreCount });
+        let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
 
         return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData,seriesLabel, subTitle })
     },
     //获取 主观题得分分布 option
     getStudentScoreData(){
         const { supervisorAnswer } = this.data;
-        let scoreList = supervisorAnswer.list;
+        let scoreList = supervisorAnswer.listScoreCount;
         let title ={
             text: '平均得分分布图',
             left: 'center',
@@ -257,7 +258,7 @@ Page({
               return params.value;
             }
         }
-        let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
+        let seriesData = scoreList.map(item=>{ return item.scoreCount });
 
         return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, seriesLabel, subTitle })
     
