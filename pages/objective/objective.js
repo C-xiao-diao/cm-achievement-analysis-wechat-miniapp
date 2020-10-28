@@ -50,7 +50,8 @@ Page({
         studentScoreList1: [],
         //第四张图
         ecFourthChart: {
-            lazyLoad: true
+            lazyLoad: true,
+            // disableTouch: true
         },
         fourthDataAxis: [],
         fourthDataLegend: [],
@@ -380,8 +381,8 @@ Page({
         let legendData = fourthDataLegend;
         let gridSetting = {
             top: '15%',
-            left: '3%',
-            right: '4%',
+            left: '10%',
+            right: '10%',
             bottom: '3%',
             containLabel: true
         };
