@@ -14,6 +14,7 @@ var sortType = 0;//0: passingRate; 1: excellentRate;
 
 Page({
     data: {
+        grade: '',
         yearMonth: '',
         subjectArray: [{name:'总分', id:0},{name:'语文', id:1},{name:'数学', id:2},{name:'英语', id:3},{name:'生物', id:4},{name:'物理', id:5},{name:'地理', id:6},{name:'政治', id:7},{name:'历史', id:8},{name:'化学', id:10},{name:'体育', id:11}],
         subArray: ['总分','语文','数学','英语','生物','物理','地理','政治','历史','化学','体育'],
@@ -74,7 +75,10 @@ Page({
         excellentLine: 85,
         intervalValue: 20
     },
-    onLoad: function(){
+    onLoad: function(option){
+        if(option.grade){
+            this.setData({grade: option.grade})
+        }
         //获取缓存内的数据，初始化数据
         let exLine = null;
         let value = null;
@@ -87,8 +91,8 @@ Page({
         excellentLine =  exLine || 85;
         intervalValue = value || 20;
         wx.showLoading({title: '加载中...'})
-        this.getGradeAnalysisData(curSubject,excellentLine);
-        this.getScoreStatistics(curSubject,intervalValue,classType);
+        this.getGradeAnalysisData(curSubject,excellentLine,option.grade);
+        this.getScoreStatistics(curSubject,intervalValue,classType,option.grade);
     },
     onUnload: function(){
         this.firstComponent = null;
@@ -98,14 +102,15 @@ Page({
         this.fifthComponent = null;
     },
     pickSubject: function(e) {
+        const { grade } = this.data;
         curSubject = e.detail.value;
-        this.getGradeAnalysisData(curSubject,excellentLine);
-        this.getScoreStatistics(curSubject,intervalValue,classType);
+        this.getGradeAnalysisData(curSubject,excellentLine,grade);
+        this.getScoreStatistics(curSubject,intervalValue,classType, grade);
     },
     //获取年级成绩分析数据
-    getGradeAnalysisData: function(subject,exLine){
+    getGradeAnalysisData: function(subject,exLine,grade){
         let cmd = '/auth/gradeDirector/list';
-        let data = { weChatUserId: app.globalData.userId, subject, excellentRate: exLine };
+        let data = { weChatUserId: app.globalData.userId, subject, excellentRate: exLine,grade };
         http.get({
             cmd,
             data,
@@ -230,12 +235,11 @@ Page({
         this.initFourthChart();
     },
     //分数段统计
-    getScoreStatistics:function(subject, value, type){
-        console.log(subject, value, type,11111111111)
+    getScoreStatistics:function(subject, value, type, grade){
         let fifthDataAxis = [], fifthDataSeries = [], fifthDataYAxis = [];
         let intervalValue = value;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = { weChatUserId: app.globalData.userId, subject, intervalValue, type};
+        let data = { weChatUserId: app.globalData.userId, subject, intervalValue, type, grade};
         http.get({
             cmd,
             data,
@@ -319,6 +323,7 @@ Page({
     },
     //获取用户输入的分数段数值
     getScoreInterval: function(e){
+        const { grade } = this.data;
         var reg = /(^[1-9]\d*$)/;
         var oldVal = wx.getStorageSync('intervalValue');
         
@@ -343,10 +348,11 @@ Page({
         }
         //end
         
-        this.getScoreStatistics(curSubject, intervalValue, classType);
+        this.getScoreStatistics(curSubject, intervalValue, classType, grade);
     },
     //获取优秀线
     getExcellentRate: function(e){
+        const { grade } = this.data;
         var regInterger = /(^[1-9]\d*$)/;
         let value = e.detail.value;
         if(!regInterger.test(value)){
@@ -365,7 +371,7 @@ Page({
         }
         //end
         excellentLine = value;
-        this.getGradeAnalysisData(curSubject, excellentLine);
+        this.getGradeAnalysisData(curSubject, excellentLine,grade);
     },
     //初始化 平均分对比 图表
     initFirstChart: function () {
@@ -596,6 +602,7 @@ Page({
     },
     //切换
     swichNav(e) {
+        const { grade } = this.data;
         var tab = e.currentTarget.dataset.name;
         if (this.data[tab] === e.target.dataset.current) {
             return false;
@@ -605,7 +612,7 @@ Page({
                     title: '请稍候',
                 })
                 classType = _.get(e, 'target.dataset.current');
-                this.getScoreStatistics(curSubject,intervalValue,classType);
+                this.getScoreStatistics(curSubject,intervalValue,classType, grade);
             }else if(tab == 'currentTab3'){
                 let rateType = _.get(e, 'target.dataset.current');
                 const {listAvg,listExcellentPass,classSet} = this.data;

@@ -111,6 +111,7 @@ Page({
   },
   //获取用户输入的优秀线
   getExcellentRate(e){
+    const { subject } = this.data;
     var regInterger = /(^[1-9]\d*$)/;
     let value = e.detail.value;
     if(!regInterger.test(value)){
