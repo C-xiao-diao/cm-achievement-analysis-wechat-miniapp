@@ -49,6 +49,8 @@ Page({
     //角色
     role: 1,            // 1老师   2家长   3年级主任
     ticketNumber: "",
+    //提交按钮
+    isSubmitLoading: false,
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
@@ -164,6 +166,7 @@ Page({
     });
   },
   analyzeInfo() {//月考分析提交
+    this.setData({isSubmitLoading: true})
     var Grade = '';
     const { role, ticketNumber, currentGrade } = this.data;
     if (role === 1) {//老师
@@ -228,6 +231,9 @@ Page({
             title: resData.msg || '准考证号不存在',
           })
         }
+      },
+      complete: res =>{
+        this.setData({ isSubmitLoading: false })
       }
     })
   },
