@@ -111,7 +111,7 @@ Page({
   },
   //获取用户输入的优秀线
   getExcellentRate(e){
-    const { subject } = this.data;
+    const { subject, subjectId, schoolId, excellentLine } = this.data;
     var regInterger = /(^[1-9]\d*$)/;
     let value = e.detail.value;
     if(!regInterger.test(value)){
@@ -128,8 +128,13 @@ Page({
     } catch (e) {
 
     }
+    let option = {};
+    option.subject = subject;
+    option.subjectId = subjectId;
+    option.schoolId = schoolId;
+    option.excellentLine = excellentLine;
     //end
-    this.getSubjectData(value);
+    this.getSubjectData(value, option);
   },
   //获取成绩分析页面数据
   getSubjectData(exLine,option) {
@@ -138,7 +143,7 @@ Page({
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: option.subject},
+      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: _.get(option, 'subject')},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -246,7 +251,7 @@ Page({
     wx.request({
       url: url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, subject: option.subject },
+      data: { 'weChatUserId': app.globalData.userId, subject: _.get(option, 'subject') },
       success: res => {
         if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
           let responseData = _.get(res, 'data.data');
@@ -284,7 +289,7 @@ Page({
     wx.request({
       url: Url2,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, intervalValue, subject: option.subject },
+      data: { 'weChatUserId': app.globalData.userId, intervalValue, subject: _.get(option, 'subject') },
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -683,7 +688,12 @@ Page({
     }
     let currentTab1 = this.data.currentTab1;
     wx.showLoading({ title: '请稍等...',});
-    this.getSingleScoreSegmentStatistics(current, currentTab1);
+    let option = {};
+    option.subject = this.data.subject;
+    option.subjectId = this.data.subjectId;
+    option.schoolId = this.data.schoolId;
+    option.excellentLine = this.data.excellentLine;
+    this.getSingleScoreSegmentStatistics(current, currentTab1, option);
   },
   //导航至统计分析
   navAnalysis: function (e) {
