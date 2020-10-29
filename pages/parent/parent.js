@@ -214,7 +214,12 @@ Page({
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
             },
-            position: ['15%', '0%']
+            position: ['5%', '0%'],
+            formatter: (params) => {
+                const {subArray, subjectIndex} = this.data;
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)全年级得分率为' + params[0].value+'%';
+                return str;
+            }
         };
         let seriesLabel = {
             show: true,
@@ -251,7 +256,12 @@ Page({
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
             },
-            position: ['15%', '0%']
+            position: ['5%', '0%'],
+            formatter: (params) => {
+                const {subArray, subjectIndex} = this.data;
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '的有' +params[0].value + '人';
+                return str;
+            }
         };
         let seriesLabel = {
             show: true,
