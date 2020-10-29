@@ -1,5 +1,10 @@
 /**result.wxss**/
 
+
+.gray-txt {
+  margin-bottom: 30rpx;
+}
+
 /* 优秀线样式 */
 .excellent {
   width: 100%;

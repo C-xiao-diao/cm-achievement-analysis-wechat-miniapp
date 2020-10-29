@@ -562,15 +562,7 @@ Page({
       gridSetting = {}, seriesData = [], tooltipSetting = [];
     const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries,
       studentScoreList1, studentScoreList2 } = this.data;
-    let title ={
-      text: "（点击柱状查看学生名字及分数）",
-      textStyle:{
-        color: 'gray',
-        fontSize: 14,
-        fontWeight: 400,
-
-      }
-    };  
+    let title ={};  
     yData = [
       {
         name: '分数区间段',
