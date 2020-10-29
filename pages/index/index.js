@@ -1,6 +1,6 @@
 
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 
 const app = getApp()
 

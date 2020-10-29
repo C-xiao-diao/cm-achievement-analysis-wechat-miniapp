@@ -2,7 +2,7 @@ const app = getApp();
 const util = require('../../utils/util.js')
 import { chart } from "./../../utils/util";
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 
 var trendChart = null, topChartByScore = null, topChart = null, secondChart = null, bottomChart = null;
 var rankData = [], monthData = [];

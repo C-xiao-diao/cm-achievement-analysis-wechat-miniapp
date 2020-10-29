@@ -1,5 +1,5 @@
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
 
