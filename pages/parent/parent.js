@@ -259,7 +259,7 @@ Page({
             position: ['5%', '0%'],
             formatter: (params) => {
                 const {subArray, subjectIndex} = this.data;
-                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '的有' +params[0].value + '人';
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
                 return str;
             }
         };

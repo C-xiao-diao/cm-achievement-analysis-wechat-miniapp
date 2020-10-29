@@ -74,6 +74,20 @@
     border-radius: 10rpx;
 }
 
+.score-input text text {
+    font-size: 20rpx;
+    color: red;
+}
+
+.subDes {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #666;
+    font-size: 28rpx;
+    margin: -30rpx 0 30rpx;
+}
+
 
 /* 优秀线样式 */
 .excellent {

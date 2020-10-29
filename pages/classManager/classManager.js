@@ -79,6 +79,7 @@ Page({
         let exLine = null;
         try {
             exLine = wx.getStorageSync('excellentLine');
+            intervalValue = wx.getStorageSync('intervalValue');
         } catch (e) {
 
         }
@@ -316,11 +317,27 @@ Page({
     //获取用户输入的分数段数值
     getScoreInterval: function(e){
         var reg = /(^[1-9]\d*$)/;
+        var oldVal = wx.getStorageSync('intervalValue');
+        
         intervalValue = e.detail.value;
+        if(oldVal == intervalValue){
+            return;
+        }
         if(!reg.test(intervalValue)){
             wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
             return;
         }
+        if(intervalValue < 20){
+            wx.showToast({title: '不能小于20',icon: 'none',duration: 1500});
+            return;
+        }
+        //存入本地缓存
+        try {
+            wx.setStorageSync('intervalValue', intervalValue)
+        } catch (e) {
+
+        }
+        //end
         this.getScoreStatistics(curSubject, intervalValue, classType);
     },
     //获取优秀线
