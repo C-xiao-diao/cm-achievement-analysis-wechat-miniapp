@@ -238,7 +238,7 @@ Page({
             success: res =>{
                 if(_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))){
                     wx.hideLoading()
-                    //type: 1,各班，2全年级，3各科
+                    //type: 1,各班，2总分，3各科
                     if(type == 1){//各班
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
                         fifthDataSeries = this.setGradeSectionData(listScore, 'class_');
@@ -246,7 +246,7 @@ Page({
                         for(let i=0;i<listScore.length;i++){
                             fifthDataAxis.push(listScore[i].score);
                         }
-                    }else if(type == 2) {//全年级
+                    }else if(type == 2) {//总分
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
                         for(let i=0;i<listScore.length;i++){
                             fifthDataAxis.push(listScore[i].score);
@@ -494,12 +494,13 @@ Page({
         tooltipSetting = {
             trigger: 'axis',
             position: ['15%', '0'],
-            formatter: (params) => {
-                var arr = '';
+            formatter: function(params){
+                params = _.orderBy(params, [function(o) { return Number(o.value) }], ['desc']);
+                let str = '';
                 for(var i = 0; i < params.length; i++){
-                    arr += params[i].seriesName +'：'+params[i].value+'%' + '\n';
+                    str += params[i].seriesName + '：' + params[i].value +'%' + '\n';
                 }
-              return arr;
+                return str;
             }
         }
 
@@ -515,18 +516,57 @@ Page({
         yData = {data: fifthDataAxis};
         
         xData = [{type: 'value',name:'人数'}];
-        tooltipSetting = {trigger: 'axis',axisPointer: {type: 'shadow'}};
-        //全年级：2； 各科：3；各班：1；
+        //总分：2； 各科：3；各班：1；
         if(currentTab2 == 1 || currentTab2 == 3){//各班
             legendData = fifthDataYAxis;
             seriesData = fifthDataSeries;
             gridSetting = {left: "20%",right:'15%',top: "10%",bottom: "10%",}
-        }else if(currentTab2 == 2){//全年级
+            tooltipSetting = {
+                trigger: 'axis',
+                axisPointer: {type: 'shadow'},
+                position: function (pos, params, dom, rect, size) {
+                    // 鼠标在左侧时 tooltip 显示到右侧，鼠标在右侧时 tooltip 显示到左侧。
+                    var topPos = pos[1] > 600 ? 588 : pos[1];
+                    var obj = {top: topPos};
+                    obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
+                    return obj;
+                },
+                formatter: (params) => {
+                    if(currentTab2 == 1){
+                        params = _.orderBy(params, [function(o) { return Number(o.value) }], ['desc']);
+                    }
+                    let str = '';
+                    for(var i = 0; i < params.length; i++){
+                        str += params[i].seriesName + ' 考' + params[i].axisValue + '分 共有' + params[i].value + '人' + '\n';
+                    }
+                    return str;
+                }
+            };
+        }else if(currentTab2 == 2){//总分
             legendData = [];
-            seriesData = [{
+            seriesData = {
                 type: 'bar',
-                data: fifthDataSeries
-            }];
+                data: fifthDataSeries,
+                label : {
+                    show: true,
+                    position: 'right',
+                    formatter: (params) => {
+                        if(params.value == 0){
+                            return ""
+                        }
+                        return params.value;
+                    }
+                }
+            };
+            tooltipSetting = {
+                trigger: 'axis',
+                axisPointer: {type: 'shadow'},
+                position: ['35%','0'],
+                formatter: (params) => {
+                    let str = params[0].name + '分数段' + '共有' + params[0].value + '人';
+                    return str;
+                }
+            };
             gridSetting = {left: "20%",right:'15%',top: "10%",bottom: "10%",}
         }
 
