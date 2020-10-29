@@ -633,7 +633,7 @@ Page({
     tooltipSetting = {
       trigger: 'item',
       position: ['15%', '0'],
-      textStyle: { 'width': '80%' },
+      // textStyle: { 'width': '80%' },
       formatter: function (params) {
         var data;
         postion === 0 ? data = studentScoreList1 : data = studentScoreList2;

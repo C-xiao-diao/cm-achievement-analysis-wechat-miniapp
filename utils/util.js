@@ -199,7 +199,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function ({ title, xData = [],colorData, pieData, tooltipSetting }) {
+  pieChartOption: function ({ title, colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'
