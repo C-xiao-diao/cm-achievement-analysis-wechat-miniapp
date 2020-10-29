@@ -81,19 +81,25 @@ const returnFloat = value => {
 
 const chart = {
   //图表初始化
-  initChart: function (obj, chartComponent, dom, whichChart) {
+  initChart: function (obj, chartComponent, dom, whichChart,isNewChart) {
     if (!obj[chartComponent]) {
       obj[chartComponent] = obj.selectComponent(dom);
     }
-    obj[chartComponent].init((canvas, width, height) => {
-      whichChart = echarts.init(canvas, null, {
-        width: width,
-        height: height,
-        devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
+    if (!obj[chartComponent].chart || isNewChart) {
+      obj[chartComponent].init((canvas, width, height) => {
+        whichChart = echarts.init(canvas, null, {
+          width: width,
+          height: height,
+          devicePixelRatio: wx.getSystemInfoSync().pixelRatio || app.globalData.pixelRatio  // 像素
+        });
+        this.setOption(obj, whichChart, dom);
+        return whichChart;
       });
+    } else {
+      whichChart = obj[chartComponent].chart;
       this.setOption(obj, whichChart, dom);
       return whichChart;
-    });
+    }
   },
   //设置图表option
   setOption: function (obj, whichChart, dom) {
@@ -161,7 +167,7 @@ const chart = {
         break;
       case '#parentTopChart':
         option = obj.getStudentGradeTrendData();
-          break;
+        break;
       case '#parentSecondChart':
         option = obj.getStudentScoreRateData();
         break;
@@ -174,7 +180,7 @@ const chart = {
     return whichChart;
   },
   //横向柱状图option
-  barChartOption: function ({ title,colorData, legendData, legendAttributes,xData, yData, gridSetting, seriesData, tooltipSetting }) {
+  barChartOption: function ({ title, colorData, legendData, legendAttributes, xData, yData, gridSetting, seriesData, tooltipSetting }) {
     var option = {
       title: title,
       color: colorData, //颜色数组
@@ -193,7 +199,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function ({ title,colorData, pieData, tooltipSetting }) {
+  pieChartOption: function ({ title, xData = [],colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'
@@ -218,14 +224,14 @@ const chart = {
       ]
     };
     // TODO 暂时改不了，只能额外添加
-    if(title){
+    if (title) {
       option.title = title;
     }
     //end
     return option;
   },
   //折线图option
-  lineChartOption: function ({ gridSetting, legendData, xData, yAxisInverse, seriesData,tooltipSetting }) {
+  lineChartOption: function ({ gridSetting, legendData, xData, yAxisInverse, seriesData, tooltipSetting }) {
     var option = {
       grid: gridSetting,
       tooltip: tooltipSetting,
@@ -250,7 +256,7 @@ const chart = {
     return option;
   },
   //垂直柱状图option
-  verticalBarChartOption: function ({ title, colorData, xData, gridSetting, tooltipSetting,seriesLabel, seriesData, subTitle }) {
+  verticalBarChartOption: function ({ title, colorData, xData, gridSetting, tooltipSetting, seriesLabel, seriesData, subTitle }) {
     var option = {
       title: title,
       tooltip: tooltipSetting,

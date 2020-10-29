@@ -46,7 +46,6 @@ Page({
         thirdDataAxis: [],
         thirdDataSeries: [],
         studentScoreList1: [],
-        studentScoreList1: [],
         //第四张图
         ecFourthChart: {
             lazyLoad: true
@@ -72,18 +71,24 @@ Page({
         // this.initFourthChart();
     },
     onLoad: function (option) {
-        this.setData({
-            'subject': option.subject,
-            'class': option.class,
-            'yearMonth': option.yearMonth
-        });
+        // this.setData({
+        //     'subject': option.subject,
+        //     'class': option.class,
+        //     'yearMonth': option.yearMonth
+        // });
         wx.showLoading({
             title: '加载中...',
         })
-        this.getSupervisorQuestionAnalysis();
+        this.getSupervisorQuestionAnalysis(option);
+    },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+        this.fourthComponent = null;
     },
     //获取页面数据
-    getSupervisorQuestionAnalysis() {
+    getSupervisorQuestionAnalysis(option) {
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
         http.get({
@@ -137,6 +142,9 @@ Page({
                     let secondDescriptionDifficulty = _.toNumber(difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(difficultyFactor) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
                     //----------------  end  ------------------
                     this.setData({
+                        subject: option.subject,
+                        class: option.class,
+                        yearMonth: option.yearMonth,
                         subjectiveFullMarks,
                         classStatistics,
                         firstDescriptionSqrt,
@@ -355,7 +363,7 @@ Page({
         let legendData = fourthDataLegend;
         let gridSetting = {
             top: '15%',
-            left: '5%',
+            left: '10%',
             right: '15%',
             bottom: '3%',
             containLabel: true
@@ -377,10 +385,14 @@ Page({
     },
     // 切换tab页试题
     swichNav: function (e) {
+        // wx.showLoading({ title: '请稍候',});
+        let oldActiveTabIndex = this.data.activeTabIndex; 
         let { listTotalTopic, listClassTotalScore } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
-        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore);
+        if(oldActiveTabIndex !== activeTabIndex){ //防止重复点击某个tab
+            this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore);
+        }
     },
     // 试题分析
     setTopicData: function (activeTabIndex, activeTabName, listTotalTopic, listClassTotalScore) {
@@ -437,6 +449,8 @@ Page({
             fourthDataAxis, fourthDataLegend,  fourthDataSeries,
          })
         chart.initChart(this, 'thirdComponent', '#supervisorThirdChart', supervisorThirdChart);
-        this.initFourthChart();
+        chart.initChart(this, 'fourthComponent', '#supervisorFourthChart', supervisorFourthChart);
+        // this.initFourthChart();
+        // wx.hideLoading()
     }
 })

@@ -2,8 +2,8 @@
   "pages":[
     "pages/index/index",
     "pages/objective/objective",
-    "pages/supervisor/supervisor",
     "pages/result/result",
+    "pages/supervisor/supervisor",
     "pages/classManager/classManager",
     "pages/parent/parent",
     "pages/logs/logs"

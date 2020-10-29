@@ -50,7 +50,8 @@ Page({
         studentScoreList1: [],
         //第四张图
         ecFourthChart: {
-            lazyLoad: true
+            lazyLoad: true,
+            // disableTouch: true
         },
         fourthDataAxis: [],
         fourthDataLegend: [],
@@ -80,15 +81,21 @@ Page({
     },
     onLoad: function (option) {
         wx.showLoading({ title: '加载中...' })
-        this.setData({
-            'subject': option.subject,
-            'class': option.class,
-            'yearMonth': option.yearMonth
-        });
-        this.getObjectiveQuestionAnalysis()
+        // this.setData({
+        //     'subject': option.subject,
+        //     'class': option.class,
+        //     'yearMonth': option.yearMonth
+        // });
+        this.getObjectiveQuestionAnalysis(option)
+    },
+    onUnload: function(){
+        this.firstComponent = null;
+        this.secondComponent = null;
+        this.thirdComponent = null;
+        this.fourthComponent = null;
     },
     //获取客观题界面数据
-    getObjectiveQuestionAnalysis: function () {
+    getObjectiveQuestionAnalysis: function (option) {
         let cmd = "/auth/objectiveQuestionAnalysis/objectiveQuestionAnalysis";
         let data = { weChatUserId: app.globalData.userId };
         http.get({
@@ -147,6 +154,9 @@ Page({
                     }
                     //----------------  end  ------------------
                     this.setData({
+                        subject: option.subject,
+                        class: option.class,
+                        yearMonth: option.yearMonth,
                         objectiveFullMarks,
                         classStatistics,
                         firstDescriptionSqrt,
@@ -288,12 +298,10 @@ Page({
     */
     getVerticalOption() {
         let _this = this;
-        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [], subTitle = '', tooltipSetting = {};
+        var Title = '', colorData = [], xData = [], gridSetting = {}, seriesData = [],  tooltipSetting = {};
         let { thirdDataAxis, thirdDataSeries, correctAnswer, activeTabName, studentScoreList1 } = this.data;
         let answer = _.pick(correctAnswer, [activeTabName]);
         let answerName = _.values(answer)[0];
-
-        // Title = '选项答题分布';
         let title = {
             text: "正确答案 ： " + answerName,
             left: 'center',
@@ -311,7 +319,6 @@ Page({
         xData = thirdDataAxis;
         gridSetting = { left: "20%", top: "20%", bottom: "10%" }
         seriesData = thirdDataSeries;
-        // subTitle = "正确答案 ： " + answerName;
         tooltipSetting = {
             trigger: 'axis',
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -321,11 +328,6 @@ Page({
             position: ['15%', '0%'],
             extraCssText: 'width: 60%;height:100%;',
             formatter: function (params) {
-                var data;
-                console.log(params[0].axisValue, 999999)
-                //   postion === 0 ? data = studentScoreList1 : data = studentScoreList2
-                //   var res = chart.getFormatter(params, 'bar', data);
-                //   return res;
                 return _this.getFormatter(studentScoreList1, params[0].axisValue);
             }
         }
@@ -385,8 +387,8 @@ Page({
         let legendData = fourthDataLegend;
         let gridSetting = {
             top: '15%',
-            left: '3%',
-            right: '4%',
+            left: '10%',
+            right: '10%',
             bottom: '3%',
             containLabel: true
         };
@@ -408,10 +410,13 @@ Page({
 
     // 切换tab页试题
     swichNav: function (e) {
+        let oldActiveTabIndex = this.data.activeTabIndex; 
         let { listTotalTopic, listClassTopic } = this.data;
         let activeTabIndex = _.get(e, "currentTarget.dataset.current");
         let activeTabName = _.get(e, "currentTarget.dataset.name");
-        this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTopic);
+        if(oldActiveTabIndex !== activeTabIndex){ //防止重复点击某个tab
+            this.setTopicData(activeTabIndex, activeTabName, listTotalTopic, listClassTopic);
+        }    
     },
 
     // 试题分析
@@ -468,7 +473,8 @@ Page({
             fourthDataAxis, fourthDataLegend, fourthDataSeries
         })
         chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
-        // chart.initChart(this, 'thirdComponent', '#objectiveThirdChart', objectiveThirdChart);
-        this.initFourthChart();
+        chart.initChart(this, 'fourthComponent', '#objectiveFourthChart', objectiveFourthChart);
+        // wx.hideLoading()
+        // this.initFourthChart();
     }
 })
