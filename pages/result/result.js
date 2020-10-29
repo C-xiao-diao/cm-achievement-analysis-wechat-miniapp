@@ -106,8 +106,8 @@ Page({
         excellentLine: excellentLine || 85
       });
     }
-    this.getSubjectData(this.data.excellentLine);
-    this.getDifficulty();
+    this.getSubjectData(this.data.excellentLine, option);
+    this.getDifficulty(option);
   },
   //获取用户输入的优秀线
   getExcellentRate(e){
@@ -131,13 +131,13 @@ Page({
     this.getSubjectData(value);
   },
   //获取成绩分析页面数据
-  getSubjectData(exLine) {
+  getSubjectData(exLine,option) {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine},
+      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: option.subject},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -235,17 +235,17 @@ Page({
       }
     })
     //获取单科页面全年级分析及各班的优秀率
-    this.getAllClassesAnalysisScore();
+    this.getAllClassesAnalysisScore(option);
     //获取单科分段人数统计
-    this.getSingleScoreSegmentStatistics(0, 0);
+    this.getSingleScoreSegmentStatistics(0, 0,option);
   },
   //获取单科页面全年级分析及各班的优秀率
-  getAllClassesAnalysisScore: function () {
+  getAllClassesAnalysisScore: function (option) {
     let url = app.globalData.domain + '/auth/allClassesAnalysis/allClassesAnalysisScore';
     wx.request({
       url: url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, subject: option.subject },
       success: res => {
         if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
           let responseData = _.get(res, 'data.data');
@@ -270,7 +270,7 @@ Page({
     })
   },
   //获取单科分数段得统计
-  getSingleScoreSegmentStatistics: function (current, currentTab1) {
+  getSingleScoreSegmentStatistics: function (current, currentTab1, option) {
     let intervalValue = '';
     if(current == 0){
       intervalValue = '10'
@@ -283,7 +283,7 @@ Page({
     wx.request({
       url: Url2,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, intervalValue },
+      data: { 'weChatUserId': app.globalData.userId, intervalValue, subject: option.subject },
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -321,13 +321,13 @@ Page({
     })
   },
   //获取试卷难度分析
-  getDifficulty() {
+  getDifficulty(option) {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/difficultyAnalysisOfTestPaper';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, subject: option.subject },
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
