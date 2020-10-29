@@ -77,13 +77,15 @@ Page({
     onLoad: function(){
         //获取缓存内的数据，初始化数据
         let exLine = null;
+        let value = null;
         try {
             exLine = wx.getStorageSync('excellentLine');
-            intervalValue = wx.getStorageSync('intervalValue');
+            value = wx.getStorageSync('intervalValue');
         } catch (e) {
 
         }
         excellentLine =  exLine || 85;
+        intervalValue = value || 20;
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysisData(curSubject,excellentLine);
         this.getScoreStatistics(curSubject,intervalValue,classType);
@@ -229,6 +231,7 @@ Page({
     },
     //分数段统计
     getScoreStatistics:function(subject, value, type){
+        console.log(subject, value, type,11111111111)
         let fifthDataAxis = [], fifthDataSeries = [], fifthDataYAxis = [];
         let intervalValue = value;
         let cmd = '/auth/gradeDirector/scoreStatistics';
@@ -323,6 +326,7 @@ Page({
         if(oldVal == intervalValue){
             return;
         }
+        console.log(oldVal, intervalValue)
         if(!reg.test(intervalValue)){
             wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
             return;
@@ -338,6 +342,7 @@ Page({
 
         }
         //end
+        
         this.getScoreStatistics(curSubject, intervalValue, classType);
     },
     //获取优秀线
