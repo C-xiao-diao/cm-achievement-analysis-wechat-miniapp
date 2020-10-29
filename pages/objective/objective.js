@@ -97,7 +97,7 @@ Page({
     //获取客观题界面数据
     getObjectiveQuestionAnalysis: function (option) {
         let cmd = "/auth/objectiveQuestionAnalysis/objectiveQuestionAnalysis";
-        let data = { weChatUserId: app.globalData.userId };
+        let data = { weChatUserId: app.globalData.userId, subject: option.subject };
         http.get({
             cmd,
             data,

@@ -35,10 +35,10 @@ Page({
             lazyLoad: true
         }
     },
-    onLoad:function(){
+    onLoad:function(option){
         wx.showLoading({title: '加载中...'})
-        this.getGradeAnalysis();
-        this.getStudentGrade();
+        this.getGradeAnalysis("",option);
+        this.getStudentGrade(option);
     },
     onUnload: function(){
         this.firstComponent = null;
@@ -52,12 +52,12 @@ Page({
             activeTabIndex1: 0,
             activeTabIndex2: 0
         })
-        this.getGradeAnalysis((Number(e.detail.value)+1))
+        this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
     //获取学生成绩表数据
-    getStudentGrade: function(){
+    getStudentGrade: function(option){
         let cmd = "/auth/parentStatisticalAnalysis/list";
-        let data = { weChatUserId: app.globalData.userId };
+        let data = { weChatUserId: app.globalData.userId,ticketNumber: option.ticketNumber };
         http.get({
             cmd,
             data,
@@ -88,10 +88,10 @@ Page({
         })
     },
     //获取主客观题成绩分析数据
-    getGradeAnalysis: function(subject){
+    getGradeAnalysis: function(subject, option){
         const {subjectIndex,activeTabIndex1,activeTabIndex2} = this.data;
         let cmd = "/auth/parentStatisticalAnalysis/analysisOfEachQuestion";
-        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1) };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1),ticketNumber: option.ticketNumber };
         http.get({
             cmd,
             data,

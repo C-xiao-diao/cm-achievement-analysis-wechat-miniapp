@@ -222,7 +222,7 @@ Page({
               + '&subjectId=' + that.data.subjectId
             });
           }else if(role == 2){//to家长
-            wx.navigateTo({url: '/pages/parent/parent'});
+            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber});
           }else if(role == 3) {//年级主任
             wx.navigateTo({url: '/pages/classManager/classManager'});
           }
