@@ -197,7 +197,6 @@ Page({
     getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
-        console.log(supervisorAnswer,111111111111)
         let title ={
             text: '年级得分率分布图',
             left: 'center',
@@ -221,7 +220,10 @@ Page({
             show: true,
             position: 'top',
             formatter: (params) => {
-              return params.value + "%";
+                if(params.value == 0){
+                    return ""
+                }
+                return params.value + "%";
             }
         }
         let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
@@ -255,7 +257,10 @@ Page({
             show: true,
             position: 'top',
             formatter: (params) => {
-              return params.value;
+                if(params.value == 0){
+                    return ""
+                }
+                return params.value;
             }
         }
         let seriesData = scoreList.map(item=>{ return item.scoreCount });
