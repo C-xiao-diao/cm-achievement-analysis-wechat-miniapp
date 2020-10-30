@@ -1,0 +1,7 @@
+<view class="container">
+  <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
+  <text class="h2">（{{className}}）</text>
+
+  <!--总体情况 -->
+  <text class="title">— 总体情况 —</text>
+</view>

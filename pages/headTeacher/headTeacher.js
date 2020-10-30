@@ -6,12 +6,13 @@ import _ from "./../../utils/lodash";
 
 Page({
     data: {
-
+        yearMonth: '',
+        className: ''
     },
     onLoad(){
 
     },
     onUnload(){
-        
+
     }
 })

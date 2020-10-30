@@ -120,7 +120,7 @@ Page({
                         supervisorAnswer
                     })
                     this.initSecondChart();
-                    this.initThirdChart();
+                    // this.initThirdChart();
                 }
             }
         })
@@ -145,7 +145,7 @@ Page({
             let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
             this.setData({activeTabIndex2, supervisorAnswer})
             this.initSecondChart();
-            this.initThirdChart();
+            // this.initThirdChart();
         }
     },
     //初始化 历史年级排名走势 图表
@@ -193,12 +193,12 @@ Page({
 
         return chart.lineChartOption({ gridSetting, legendData, xData, yAxisInverse, seriesData,tooltipSetting });
     },
-    //获取 主观题得分率分布 option
+    //获取 年级平均得分分布图 option
     getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
         let title ={
-            text: '年级得分率分布图',
+            text: '年级平均得分分布图',
             left: 'center',
             textStyle:{
                fontWeight: 'normal',
