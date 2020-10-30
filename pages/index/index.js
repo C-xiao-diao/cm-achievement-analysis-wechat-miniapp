@@ -217,9 +217,9 @@ Page({
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
           if(role == 1){//to教师
-            if(subject=='全科'){//班主任
+            if(that.data.subjectId==9){//班主任
               wx.navigateTo({
-                url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
+                url: '/pages/headTeacher/headTeacher?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
                 + '&subjectId=' + that.data.subjectId
               });
             }else {//单科老师
