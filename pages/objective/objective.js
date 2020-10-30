@@ -9,8 +9,9 @@ const app = getApp();
 
 Page({
     data: {
-        class: '',//班级
+        class_: '',//班级
         subject: '',//科目
+        subjects: ['','语文', '数学', '英语', '生物', '物理', '地理', '政治','历史', '全科','化学','体育'],
         yearMonth: '',
         //客观题班级统计数据
         classStatistics: {},
@@ -97,7 +98,7 @@ Page({
     //获取客观题界面数据
     getObjectiveQuestionAnalysis: function (option) {
         let cmd = "/auth/objectiveQuestionAnalysis/objectiveQuestionAnalysis";
-        let data = { weChatUserId: app.globalData.userId, subject: option.subject };
+        let data = _.assign(option, { weChatUserId: app.globalData.userId,subject: option.subjectId });
         http.get({
             cmd,
             data,
@@ -155,7 +156,7 @@ Page({
                     //----------------  end  ------------------
                     this.setData({
                         subject: option.subject,
-                        class: option.class,
+                        class_: option.class_,
                         yearMonth: option.yearMonth,
                         objectiveFullMarks,
                         classStatistics,
@@ -276,7 +277,7 @@ Page({
             data: firstDataAxis, inverse: true,
             axisLabel: {
                 formatter: function (value) {
-                    if (value === _this.data.class) {
+                    if (value === _this.data.class_) {
                         return '{' + value + '| }{value|' + value + '}';
                     } else {
                         return value;
