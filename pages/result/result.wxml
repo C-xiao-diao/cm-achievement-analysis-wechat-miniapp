@@ -104,7 +104,7 @@
   <text class="title">— 成绩排名 —</text>
   <view class="gray-txt">（点击名字查看学生走势图弹窗）</view>
   <!-- 单科老师 -->
-  <view class="table mb60" wx:if="{{subject != '全科'}}">
+  <view class="table mb60">
     <view class="tr">
       <view class="th">姓名</view>
       <view class="th w40" style="width:{{subject == '语文' ? '80%':'40%'}}">

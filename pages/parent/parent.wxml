@@ -8,10 +8,10 @@
         <view class="tr">
             <view class="th">科目</view>
             <view class="th">得分</view>
-            <view class="th width10">班级排名</view>
-            <view class="th width10">学校排名</view>
-            <view class="th">班级<br />平均分</view>
-            <view class="th">年级<br />最高分</view>
+            <view class="th width10">班级<text class="br"></text>排名</view>
+            <view class="th width10">学校<text class="br"></text>排名</view>
+            <view class="th">班级<text class="br"></text>平均分</view>
+            <view class="th">年级<text class="br"></text>最高分</view>
         </view>
         <view class="tr" wx:for="{{transcriptList}}" wx:key="id">
             <view class="td">{{item.subject}}</view>

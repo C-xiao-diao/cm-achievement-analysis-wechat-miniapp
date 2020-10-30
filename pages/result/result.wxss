@@ -157,10 +157,6 @@
   vertical-align: middle;
 }
 
-.br {
-  display: block;
-}
-
 .td image.up {
   transform: rotate(180deg);
 }
