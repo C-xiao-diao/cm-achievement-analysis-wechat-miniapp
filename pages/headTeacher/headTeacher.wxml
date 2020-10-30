@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" id="container">
     <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
     <text class="h2">（{{className}}）</text>
 
@@ -59,10 +59,10 @@
     </view>
     <view class="student-result" wx:if="{{hasChosen}}">
         <text class="active">{{studentName}}</text>
-        <text class="change-another">换一个人</text>
+        <text class="change-another" bindtap="changeAnother">换一个人</text>
         <view class="tab">
-            <text class="active">班级</text>
-            <text>全年级</text>
+            <text class="swiper-tab-list {{currentTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab" bindtap="swichNav">班级</text>
+            <text class="swiper-tab-list {{currentTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab" bindtap="swichNav">全年级</text>
         </view>
     </view>
     <text class="gray-txt" wx:if="{{hasChosen}}">（点击图标可选中或取消对比项）</text>

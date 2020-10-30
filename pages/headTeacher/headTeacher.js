@@ -14,7 +14,21 @@ Page({
         gradeIndex: 0,
         studentList: [{id: 0, name:'周靓',check: false},{id: 1, name:'张淼如',check: false},{id: 2, name:'马上',check: false}],
         hasChosen: false,
-        studentName: ''
+        studentName: '',
+        currentTab: 0,
+        ecFirst: {
+            lazyLoad: true
+        },
+        firstDataSeriesByMax: [],
+        firstDataSeriesByMin: [],
+        firstDataSeriesByAvg: [],
+        firstDataAxis: [],
+        ecSecond: {
+            lazyLoad: true
+        },
+        secondDataSeries: [],
+        secondDataLegend: [],
+        secondDataAxis: []
     },
     onLoad:function(){
 
@@ -24,7 +38,8 @@ Page({
     },
     //选择科目
     pickSubject:function(e){
-
+        let curSubject = e.detail.value;
+        this.setData({subjectIndex: curSubject})
     },
     //选择学生
     chooseStudent: function(e){
@@ -32,5 +47,104 @@ Page({
         let studentId = e.currentTarget.dataset.item.id;
         let studentName = e.currentTarget.dataset.item.name;
         this.setData({studentList,studentName,hasChosen:true})
+        this.pageScrollToBottom();
+    },
+    //换一个人
+    changeAnother: function(){
+        this.setData({hasChosen:false})
+    },
+    //切换 班级/全年级
+    swichNav: function(e){
+        let tab = e.currentTarget.dataset.name;
+        if (this.data[tab] === e.target.dataset.current) {
+            return false;
+        } else {
+            this.setData({[tab] : e.target.dataset.current})
+        }
+    },
+    //自动滑到底部
+    pageScrollToBottom: function() {
+        wx.createSelectorQuery().select('#container').boundingClientRect(function(rect){
+            wx.pageScrollTo({ scrollTop: rect.bottom })
+        }).exec()
+    },
+    //初始化 各科各班 最高分/最低分/平均分 对比 图表
+    initFirstChart: function () {
+        this.firstComponent = this.selectComponent('#HTeacherFirstChart');
+        chart.initChart(this, 'firstComponent', '#HTeacherFirstChart', HTeacherFirstChart);
+    },
+    //初始化 学生单科排名走势 班级/全年级 图表
+    initSecondChart: function () {
+        this.secondComponent = this.selectComponent('#HTeacherSecondChart');
+        chart.initChart(this, 'secondComponent', '#HTeacherSecondChart', HTeacherSecondChart);
+    },
+    //获取 各科各班 最高分/最低分/平均分 对比图表数据
+    getHTeacherFirstData: function(){
+        const { firstDataSeriesByMax, firstDataSeriesByMin, firstDataSeriesByAvg, firstDataAxis } = this.data;
+        var colorData = [], legendData = [], xData = [], yData = [],
+            gridSetting = {}, seriesData = [], tooltipSetting = {};
+        colorData = ['#99b7df', '#fad680', '#e4b2d8'];
+        legendData = ['最高分', '最低分', '平均分'];
+        yData = [{
+            data: firstDataAxis
+        }];
+        gridSetting = { left: "20%", top: "10%", bottom: "10%", }
+        xData = [{ type: 'value' }];
+        tooltipSetting = { trigger: 'axis', axisPointer: { type: 'shadow' } };
+        seriesData = [
+            {
+                name: '最高分',
+                type: 'bar',
+                label: {
+                    show: true
+                },
+                barGap: "0",
+                data: firstDataSeriesByMax,
+            },
+            {
+                name: '最低分',
+                type: 'bar',
+                label: {
+                    show: true
+                },
+                barGap: "0",
+                data: firstDataSeriesByMin,
+            },
+            {
+                name: '平均分',
+                type: 'bar',
+                label: {
+                    show: true
+                },
+                barGap: "0",
+                data: firstDataSeriesByAvg,
+            }
+        ]
+
+        return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting })
+    },
+    //学生单科排名走势 班级/全年级 图表数据
+    getHTeacherSecondData: function(){
+        const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
+        var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = true, seriesData = [], tooltipSetting = {};
+
+        legendData = { data: secondDataLegend };
+        gridSetting = { left: "15%", right: "5%", top: "28%", bottom: "18%", }
+        xData = secondDataAxis;
+        seriesData = secondDataSeries;
+        tooltipSetting = {
+            trigger: 'axis',
+            position: ['15%', '0'],
+            formatter: function (params) {
+                params = _.sortBy(params, function (o) { return o.value });
+                let str = '';
+                for (var i = 0; i < params.length; i++) {
+                    str += params[i].seriesName + '：' + params[i].value + '\n';
+                }
+                return str;
+            }
+        }
+
+        return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData, tooltipSetting });
     }
 })

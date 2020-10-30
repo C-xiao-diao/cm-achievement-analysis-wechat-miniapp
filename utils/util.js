@@ -172,6 +172,12 @@ const chart = {
       case '#parentThirdChart':
         option = obj.getStudentScoreData();
         break;
+      case '#HTeacherFirstChart':
+        option = obj.getHTeacherFirstData();
+        break;
+      case '#HTeacherSecondChart':
+        option = obj.getHTeacherSecondData();
+        break;
     }
 
     whichChart.setOption(option);
