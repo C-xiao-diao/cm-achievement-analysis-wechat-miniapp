@@ -346,7 +346,6 @@ Page({
         if (oldVal == intervalValue) {
             return;
         }
-        console.log(oldVal, intervalValue)
         if (!reg.test(intervalValue)) {
             wx.showToast({ title: '请输入正整数', icon: 'none', duration: 1500 });
             return;

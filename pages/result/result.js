@@ -78,7 +78,6 @@ Page({
     studentScoreList2: []
   },
   onLoad(option) {
-    console.log(option, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
     //获取缓存内的数据，初始化数据
     let excellentLine = null;
     try {
