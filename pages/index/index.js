@@ -217,21 +217,23 @@ Page({
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
           if(role == 1){//to教师
-            if(that.data.subjectId==9){//班主任
+            if(that.data.subjectId==9){///班主任
               wx.navigateTo({
                 url: '/pages/headTeacher/headTeacher?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
                 + '&subjectId=' + that.data.subjectId
+                + '&class_=' + that.data.class
               });
             }else {//单科老师
               wx.navigateTo({
                 url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
                 + '&subjectId=' + that.data.subjectId
+                + '&class_=' + that.data.class
               });
             }
           }else if(role == 2){//to家长
-            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber});
+            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber + '&schoolId=' + that.  data.schoolId});
           }else if(role == 3) {//年级主任
-            wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade});
+            wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade + '&schoolId=' + that.data.schoolId});
           }
         } else if (resData.code === 106) {
           wx.showToast({
