@@ -1,5 +1,5 @@
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 import { http, chart } from "./../../utils/util";
 const util = require('../../utils/util.js')
 
@@ -90,7 +90,7 @@ Page({
     //获取页面数据
     getSupervisorQuestionAnalysis(option) {
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
-        let data = { weChatUserId: app.globalData.userId };
+        let data = { weChatUserId: app.globalData.userId, subject: option.subject };
         http.get({
             cmd,
             data,

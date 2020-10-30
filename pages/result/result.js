@@ -2,7 +2,7 @@ const app = getApp();
 const util = require('../../utils/util.js')
 import { chart } from "./../../utils/util";
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 
 var trendChart = null, topChartByScore = null, topChart = null, secondChart = null, bottomChart = null;
 var rankData = [], monthData = [];
@@ -106,11 +106,12 @@ Page({
         excellentLine: excellentLine || 85
       });
     }
-    this.getSubjectData(this.data.excellentLine);
-    this.getDifficulty();
+    this.getSubjectData(this.data.excellentLine, option);
+    this.getDifficulty(option);
   },
   //获取用户输入的优秀线
   getExcellentRate(e){
+    const { subject, subjectId, schoolId, excellentLine } = this.data;
     var regInterger = /(^[1-9]\d*$)/;
     let value = e.detail.value;
     if(!regInterger.test(value)){
@@ -127,17 +128,22 @@ Page({
     } catch (e) {
 
     }
+    let option = {};
+    option.subject = subject;
+    option.subjectId = subjectId;
+    option.schoolId = schoolId;
+    option.excellentLine = excellentLine;
     //end
-    this.getSubjectData(value);
+    this.getSubjectData(value, option);
   },
   //获取成绩分析页面数据
-  getSubjectData(exLine) {
+  getSubjectData(exLine,option) {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine},
+      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: _.get(option, 'subject')},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -235,17 +241,17 @@ Page({
       }
     })
     //获取单科页面全年级分析及各班的优秀率
-    this.getAllClassesAnalysisScore();
+    this.getAllClassesAnalysisScore(option);
     //获取单科分段人数统计
-    this.getSingleScoreSegmentStatistics(0, 0);
+    this.getSingleScoreSegmentStatistics(0, 0,option);
   },
   //获取单科页面全年级分析及各班的优秀率
-  getAllClassesAnalysisScore: function () {
+  getAllClassesAnalysisScore: function (option) {
     let url = app.globalData.domain + '/auth/allClassesAnalysis/allClassesAnalysisScore';
     wx.request({
       url: url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, subject: _.get(option, 'subject') },
       success: res => {
         if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
           let responseData = _.get(res, 'data.data');
@@ -270,7 +276,7 @@ Page({
     })
   },
   //获取单科分数段得统计
-  getSingleScoreSegmentStatistics: function (current, currentTab1) {
+  getSingleScoreSegmentStatistics: function (current, currentTab1, option) {
     let intervalValue = '';
     if(current == 0){
       intervalValue = '10'
@@ -283,7 +289,7 @@ Page({
     wx.request({
       url: Url2,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, intervalValue },
+      data: { 'weChatUserId': app.globalData.userId, intervalValue, subject: _.get(option, 'subject') },
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -321,13 +327,13 @@ Page({
     })
   },
   //获取试卷难度分析
-  getDifficulty() {
+  getDifficulty(option) {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/difficultyAnalysisOfTestPaper';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId },
+      data: { 'weChatUserId': app.globalData.userId, subject: option.subject },
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -562,15 +568,7 @@ Page({
       gridSetting = {}, seriesData = [], tooltipSetting = [];
     const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries,
       studentScoreList1, studentScoreList2 } = this.data;
-    let title ={
-      text: "（点击柱状查看学生名字及分数）",
-      textStyle:{
-        color: 'gray',
-        fontSize: 14,
-        fontWeight: 400,
-
-      }
-    };  
+    let title ={};  
     yData = [
       {
         name: '分数区间段',
@@ -633,7 +631,7 @@ Page({
     tooltipSetting = {
       trigger: 'item',
       position: ['15%', '0'],
-      textStyle: { 'width': '80%' },
+      // textStyle: { 'width': '80%' },
       formatter: function (params) {
         var data;
         postion === 0 ? data = studentScoreList1 : data = studentScoreList2;
@@ -690,7 +688,12 @@ Page({
     }
     let currentTab1 = this.data.currentTab1;
     wx.showLoading({ title: '请稍等...',});
-    this.getSingleScoreSegmentStatistics(current, currentTab1);
+    let option = {};
+    option.subject = this.data.subject;
+    option.subjectId = this.data.subjectId;
+    option.schoolId = this.data.schoolId;
+    option.excellentLine = this.data.excellentLine;
+    this.getSingleScoreSegmentStatistics(current, currentTab1, option);
   },
   //导航至统计分析
   navAnalysis: function (e) {

@@ -1,6 +1,6 @@
 const app = getApp();
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
 
@@ -35,10 +35,10 @@ Page({
             lazyLoad: true
         }
     },
-    onLoad:function(){
+    onLoad:function(option){
         wx.showLoading({title: '加载中...'})
-        this.getGradeAnalysis();
-        this.getStudentGrade();
+        this.getGradeAnalysis("",option);
+        this.getStudentGrade(option);
     },
     onUnload: function(){
         this.firstComponent = null;
@@ -52,12 +52,12 @@ Page({
             activeTabIndex1: 0,
             activeTabIndex2: 0
         })
-        this.getGradeAnalysis((Number(e.detail.value)+1))
+        this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
     //获取学生成绩表数据
-    getStudentGrade: function(){
+    getStudentGrade: function(option){
         let cmd = "/auth/parentStatisticalAnalysis/list";
-        let data = { weChatUserId: app.globalData.userId };
+        let data = { weChatUserId: app.globalData.userId,ticketNumber: option.ticketNumber };
         http.get({
             cmd,
             data,
@@ -88,10 +88,10 @@ Page({
         })
     },
     //获取主客观题成绩分析数据
-    getGradeAnalysis: function(subject){
+    getGradeAnalysis: function(subject, option){
         const {subjectIndex,activeTabIndex1,activeTabIndex2} = this.data;
         let cmd = "/auth/parentStatisticalAnalysis/analysisOfEachQuestion";
-        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1) };
+        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1),ticketNumber: option.ticketNumber };
         http.get({
             cmd,
             data,
@@ -197,7 +197,6 @@ Page({
     getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
-        console.log(supervisorAnswer,111111111111)
         let title ={
             text: '年级得分率分布图',
             left: 'center',
@@ -215,13 +214,21 @@ Page({
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
             },
-            position: ['15%', '0%']
+            position: ['5%', '0%'],
+            formatter: (params) => {
+                const {subArray, subjectIndex} = this.data;
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)全年级得分率为' + params[0].value+'%';
+                return str;
+            }
         };
         let seriesLabel = {
             show: true,
             position: 'top',
             formatter: (params) => {
-              return params.value + "%";
+                if(params.value == 0){
+                    return ""
+                }
+                return params.value + "%";
             }
         }
         let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
@@ -249,13 +256,21 @@ Page({
             axisPointer: {            // 坐标轴指示器，坐标轴触发有效
                 type: 'shadow'       // 默认为直线，可选为：'line' | 'shadow'
             },
-            position: ['15%', '0%']
+            position: ['5%', '0%'],
+            formatter: (params) => {
+                const {subArray, subjectIndex} = this.data;
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
+                return str;
+            }
         };
         let seriesLabel = {
             show: true,
             position: 'top',
             formatter: (params) => {
-              return params.value;
+                if(params.value == 0){
+                    return ""
+                }
+                return params.value;
             }
         }
         let seriesData = scoreList.map(item=>{ return item.scoreCount });

@@ -85,6 +85,7 @@
 
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
+    <text class="subDes">（大于等于20）</text>
     <view class="tabWrap" hover-class="none" hover-stop-propagation="false">
         <view class="score-input">
             <input class="weui-input" bind:input="getScoreInterval" value="{{intervalValue}}" />

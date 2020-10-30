@@ -1,5 +1,5 @@
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
 
@@ -97,7 +97,7 @@ Page({
     //获取客观题界面数据
     getObjectiveQuestionAnalysis: function (option) {
         let cmd = "/auth/objectiveQuestionAnalysis/objectiveQuestionAnalysis";
-        let data = { weChatUserId: app.globalData.userId };
+        let data = { weChatUserId: app.globalData.userId, subject: option.subject };
         http.get({
             cmd,
             data,

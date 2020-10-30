@@ -211,11 +211,6 @@ Component({
     },
 
     touchMove(e) {
-      // wx.showModal({
-      //   title: '提示',
-      //   content: JSON.stringify(e.touches),
-      // })
-      console.log(e.touches,'bbbbbbbbb',this.chart)
       if (this.chart && e.touches.length > 0) {
         var touch = e.touches[0];
         var handler = this.chart.getZr().handler;

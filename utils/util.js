@@ -33,7 +33,7 @@ const http = {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
       if (app.globalData.userId) {
-        wx.request({ url, method: "GET", header, data, success, fail, complete });
+        wx.request({ url, method: "GET", header, data, success, fail, complete, });
       } else {
         wx.request({ url, method: "GET", data, success, fail, complete });
       }
@@ -199,7 +199,7 @@ const chart = {
     return option;
   },
   //饼状图option
-  pieChartOption: function ({ title, xData = [],colorData, pieData, tooltipSetting }) {
+  pieChartOption: function ({ title, colorData, pieData, tooltipSetting }) {
     var option = {
       title: {
         left: 'center'

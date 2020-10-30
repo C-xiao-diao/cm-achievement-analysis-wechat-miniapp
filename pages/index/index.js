@@ -1,6 +1,6 @@
 
 import "./../../utils/fix";
-import _ from "lodash";
+import _ from "./../../utils/lodash";
 
 const app = getApp()
 
@@ -49,6 +49,8 @@ Page({
     //角色
     role: 1,            // 1老师   2家长   3年级主任
     ticketNumber: "",
+    //提交按钮
+    isSubmitLoading: false,
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
@@ -164,6 +166,7 @@ Page({
     });
   },
   analyzeInfo() {//月考分析提交
+    this.setData({isSubmitLoading: true})
     var Grade = '';
     const { role, ticketNumber, currentGrade } = this.data;
     if (role === 1) {//老师
@@ -219,15 +222,18 @@ Page({
               + '&subjectId=' + that.data.subjectId
             });
           }else if(role == 2){//to家长
-            wx.navigateTo({url: '/pages/parent/parent'});
+            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber});
           }else if(role == 3) {//年级主任
-            wx.navigateTo({url: '/pages/classManager/classManager'});
+            wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade});
           }
         } else if (resData.code === 106) {
           wx.showToast({
             title: resData.msg || '准考证号不存在',
           })
         }
+      },
+      complete: res =>{
+        this.setData({ isSubmitLoading: false })
       }
     })
   },
