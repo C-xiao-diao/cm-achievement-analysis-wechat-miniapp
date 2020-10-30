@@ -222,6 +222,7 @@ Page({
                 url: '/pages/headTeacher/headTeacher?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
                 + '&subjectId=' + that.data.subjectId
                 + '&class_=' + that.data.class
+                + '&userType=' + role
               });
             }else {//单科老师
               wx.navigateTo({

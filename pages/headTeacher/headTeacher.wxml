@@ -11,11 +11,11 @@
             <view class="th">最高分<text class="br"></text>（班级/全年级）</view>
             <view class="th">最低分<text class="br"></text>（班级/全年级）</view>
         </view>
-        <view class="tr">
-            <view class="td w40">语文</view>
-            <view class="td"><text class="red">90.03</text>/60.34</view>
-            <view class="td"><text class="red">94</text>/100</view>
-            <view class="td"><text class="red">90</text>/100</view>
+        <view class="tr" wx:for="{{overallSituation}}" wx:key="id">
+            <view class="td w40">{{item.subject}}</view>
+            <view class="td"><text class="red">{{item.avgClass}}</text>/{{item.avgGrade}}</view>
+            <view class="td"><text class="red">{{item.maxClass}}</text>/{{item.maxGrade}}</view>
+            <view class="td"><text class="red">{{item.minClass}}</text>/{{item.minGrade}}</view>
         </view>
     </view>
 
@@ -39,16 +39,20 @@
     <text class="title">— 总分排名 —</text>
     <view class="table mb60">
         <view class="tr">
-            <view class="th w40">姓名</view>
+            <view class="th">姓名</view>
             <view class="th">总分</view>
             <view class="th">班级排名</view>
             <view class="th">年级排名</view>
         </view>
-        <view class="tr">
-            <view class="td w40">周靓</view>
-            <view class="td">720</view>
-            <view class="td">13(<image class="up" src="/imgs/arrow_up.svg"></image>14)</view>
-            <view class="td">87(<image class="down" src="/imgs/arrow_down.svg"></image>49)</view>
+        <view class="tr" wx:for="{{allStudentGrade}}" wx:key="id">
+            <view class="td">{{item.student_name}}</view>
+            <view class="td">{{item.total_score}}</view>
+            <view class="td" wx:if="{{item.floatclassranking == 0}}">{{item.class_ranking}}(--)</view>
+            <view class="td" wx:if="{{item.floatclassranking > 0}}">{{item.class_ranking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatclassranking}})</view>
+            <view class="td" wx:if="{{item.floatclassranking < 0}}">{{item.class_ranking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatclassranking}})</view>
+            <view class="td" wx:if="{{item.floatschoolranking == 0}}">{{item.school_ranking}}(--)</view>
+            <view class="td" wx:if="{{item.floatschoolranking > 0}}">{{item.school_ranking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatschoolranking}})</view>
+            <view class="td" wx:if="{{item.floatschoolranking < 0}}">{{item.school_ranking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatschoolranking}})</view>
         </view>
     </view>
 

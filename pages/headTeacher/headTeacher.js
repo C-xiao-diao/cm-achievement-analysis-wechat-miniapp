@@ -1,6 +1,6 @@
 const app = getApp();
 const util = require('../../utils/util.js')
-import { chart } from "./../../utils/util";
+import { chart, http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 
@@ -8,6 +8,8 @@ Page({
     data: {
         yearMonth: '',
         className: '',
+        overallSituation: [],
+        allStudentGrade: [],
         subjectArray: [{ name: '总分', id: 0 }, { name: '语文', id: 1 }, { name: '数学', id: 2 }, { name: '英语', id: 3 }, { name: '生物', id: 4 }, { name: '物理', id: 5 }, { name: '地理', id: 6 }, { name: '政治', id: 7 }, { name: '历史', id: 8 }, { name: '化学', id: 10 }, { name: '体育', id: 11 }],
         subArray: ['总分', '语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史', '化学', '体育'],
         subjectIndex: 0,
@@ -30,8 +32,9 @@ Page({
         secondDataLegend: [],
         secondDataAxis: []
     },
-    onLoad:function(){
-
+    onLoad:function(option){
+        console.log(option, 999999999)
+        this.getGredeAnalysisData(option);
     },
     onUnload:function(){
 
@@ -67,6 +70,41 @@ Page({
         wx.createSelectorQuery().select('#container').boundingClientRect(function(rect){
             wx.pageScrollTo({ scrollTop: rect.bottom })
         }).exec()
+    },
+    //获取成绩分析数据
+    getGredeAnalysisData: function(option){
+        let cmd = "/auth/monthlyExamResults/list";
+        let data = _.assign({ 
+            weChatUserId: app.globalData.userId,
+            schoolId: option.schoolId,
+            class_: option.class_,
+            userType: option.userType,
+            subject: option.subjectId
+        });
+        http.get({
+            cmd,
+            data,
+            success: res => {
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+                    let resData = _.get(res, 'data.data');
+                    console.log(resData,999999)
+                    let className = resData.class_
+                    let yearMonth = resData.yearMonth.substr(0, 4) + '-' + resData.yearMonth.substr(4, 5);
+                    let overallSituation = resData.overallSituation;
+                    let allStudentGrade = resData.list;
+                    for(let i = 0; i < overallSituation.length; i++){
+                        overallSituation[i].avgClass = util.returnFloat(overallSituation[i].avgClass);
+                        overallSituation[i].avgGrade = util.returnFloat(overallSituation[i].avgGrade);
+                    }
+                    this.setData({
+                        className,
+                        yearMonth,
+                        overallSituation,
+                        allStudentGrade
+                    })
+                }
+            }
+        })
     },
     //初始化 各科各班 最高分/最低分/平均分 对比 图表
     initFirstChart: function () {
