@@ -59,11 +59,18 @@
 
 .tabWrap{
     display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .score-input {
     display: flex;
     width: 55%;
+}
+
+.tab{
+    /* 此处是改掉 app.wxss的 .tab样式，保证垂直居中 */
+    margin: 0;   
 }
 
 .score-input input{
