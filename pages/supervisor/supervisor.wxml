@@ -1,7 +1,7 @@
 <!--supervisor.wxml-->
 <view class="container">
     <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
-    <text class="h2">（{{class}} - {{subject}}）</text>
+    <text class="h2">（{{class_}} - {{subjects[subject]}}）</text>
     <!-- 总分 -->
     <text class="title">总分 <text class="score">{{subjectiveFullMarks}}</text></text>
 

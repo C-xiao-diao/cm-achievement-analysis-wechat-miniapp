@@ -11,6 +11,7 @@ Page({
     data: {
         class_: '',//班级
         subject: '',//科目
+        subjects: ['','语文', '数学', '英语', '生物', '物理', '地理', '政治','历史', '全科','化学','体育'],
         yearMonth: '',
         //客观题班级统计数据
         classStatistics: {},
