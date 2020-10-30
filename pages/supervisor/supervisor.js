@@ -9,7 +9,7 @@ const app = getApp();
 
 Page({
     data: {
-        class: '',//班级
+        class_: '',//班级
         subject: '',//科目
         yearMonth: '',
         //客观题班级统计数据
@@ -90,7 +90,7 @@ Page({
     //获取页面数据
     getSupervisorQuestionAnalysis(option) {
         let cmd = "/auth/subjectiveQuestionAnalysis/subjectiveQuestionAnalysis";
-        let data = { weChatUserId: app.globalData.userId, subject: option.subject };
+        let data = _.assign(option,{ weChatUserId: app.globalData.userId, subject: option.subjectId });
         http.get({
             cmd,
             data,
@@ -143,7 +143,7 @@ Page({
                     //----------------  end  ------------------
                     this.setData({
                         subject: option.subject,
-                        class: option.class,
+                        class_: option.class_,
                         yearMonth: option.yearMonth,
                         subjectiveFullMarks,
                         classStatistics,
@@ -261,7 +261,7 @@ Page({
             data: firstDataAxis, inverse: true,
             axisLabel: {
                 formatter: function (value) {
-                    if (value === _this.data.class) {
+                    if (value === _this.data.class_) {
                         return '{' + value + '| }{value|' + value + '}';
                     } else {
                         return value;

@@ -709,8 +709,14 @@ Page({
   },
   //导航至统计分析
   navAnalysis: function (e) {
+    // const { subject, subjectId, schoolId, class_,userType,} = this.data;
     let type = e.target.dataset.type;
-    let str = '?class=' + this.data.class + '&subject=' + this.data.subject + '&yearMonth=' + this.data.yearMonth;
+    let str = '?class_=' + this.data.class 
+      + '&subject=' + this.data.subject 
+      + '&subjectId=' + this.data.subjectId 
+      + '&yearMonth=' + this.data.yearMonth
+      + '&schoolId=' + this.data.schoolId
+      + '&userType=' + this.data.userType;
     if (type === 0) {
       wx.navigateTo({
         url: '/pages/objective/objective' + str
