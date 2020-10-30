@@ -77,7 +77,6 @@ Page({
         intervalValue: 20
     },
     onLoad: function (option) {
-        console.log(option, 'optionoptionoptionoptionoptionoption');
         if (!_.isEmpty(option)) {
             this.setData({ grade: option.grade,schoolId: option.schoolId })
         }

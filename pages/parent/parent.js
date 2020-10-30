@@ -8,6 +8,8 @@ var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
 Page({
     data: {
+        ticketNumber: '',
+        schoolId: '',
         class_: '',
         studentName: '',
         yearMonth: '',
@@ -36,6 +38,9 @@ Page({
         }
     },
     onLoad:function(option){
+        if(!_.isEmpty(option)){
+            this.setData({ticketNumber: option.ticketNumber, schoolId: option.schoolId})
+        }
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysis("",option);
         this.getStudentGrade(option);
@@ -52,12 +57,16 @@ Page({
             activeTabIndex1: 0,
             activeTabIndex2: 0
         })
+        let option = {
+            ticketNumber: this.data.ticketNumber,
+            schoolId: this.data.schoolId,
+        }
         this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
     //获取学生成绩表数据
     getStudentGrade: function(option){
         let cmd = "/auth/parentStatisticalAnalysis/list";
-        let data = { weChatUserId: app.globalData.userId,ticketNumber: option.ticketNumber };
+        let data = _.assign({ weChatUserId: app.globalData.userId }, option);
         http.get({
             cmd,
             data,
@@ -91,7 +100,8 @@ Page({
     getGradeAnalysis: function(subject, option){
         const {subjectIndex,activeTabIndex1,activeTabIndex2} = this.data;
         let cmd = "/auth/parentStatisticalAnalysis/analysisOfEachQuestion";
-        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1),ticketNumber: option.ticketNumber };
+        let data = _.assign({ 
+            weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1)},option);
         http.get({
             cmd,
             data,
