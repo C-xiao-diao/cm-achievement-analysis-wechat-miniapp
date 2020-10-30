@@ -22,10 +22,10 @@ Page({
     schoolId: '',
     classArray: [],
     class: '',
-    subject: ['语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史','化学','体育','全科'],
+    subject: ['全科','语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史','化学','体育'],
     subjectIndex: 0,
-    subjectId: 1,
-    subjectArray: [{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }, { id: 9, name: '全科' }],
+    subjectId: 9,
+    subjectArray: [{ id: 9, name: '全科' },{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }],
     gradeIndex: 0,
     grade: ['初中2018级','初中2019级','初中2020级'],
     gradeArray: [
@@ -217,10 +217,17 @@ Page({
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
           if(role == 1){//to教师
-            wx.navigateTo({
-              url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
-              + '&subjectId=' + that.data.subjectId
-            });
+            if(subject=='全科'){//班主任
+              wx.navigateTo({
+                url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
+                + '&subjectId=' + that.data.subjectId
+              });
+            }else {//单科老师
+              wx.navigateTo({
+                url: '/pages/result/result?subject=' + this.data.subject[this.data.subjectIndex] + '&schoolId=' + that.data.schoolId
+                + '&subjectId=' + that.data.subjectId
+              });
+            }
           }else if(role == 2){//to家长
             wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber});
           }else if(role == 3) {//年级主任

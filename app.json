@@ -6,6 +6,7 @@
     "pages/supervisor/supervisor",
     "pages/classManager/classManager",
     "pages/parent/parent",
+    "pages/headTeacher/headTeacher",
     "pages/logs/logs"
   ],
   "window":{
