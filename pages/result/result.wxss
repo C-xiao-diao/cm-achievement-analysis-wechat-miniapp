@@ -242,7 +242,7 @@
 /* 主观题客观题分析导航按钮 */
 .navAnalysisButtonGroup{
   margin: 0 10% 60rpx;
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
