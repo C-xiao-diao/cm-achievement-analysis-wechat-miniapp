@@ -68,7 +68,7 @@
     width: 55%;
 }
 
-.tab{
+.tab-score{
     /* 此处是改掉 app.wxss的 .tab样式，保证垂直居中 */
     margin: 0;   
 }
