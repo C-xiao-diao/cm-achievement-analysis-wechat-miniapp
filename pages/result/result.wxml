@@ -141,7 +141,7 @@
 
   <!-- 作文分数段统计 -->
   <text class="title" wx:if="{{subject=='语文'}}">— 作文分数段统计 —</text>
-  <view class="gray-txt">（点击柱状查看学生名字及分数）</view>
+  <view class="gray-txt" wx:if="{{subject=='语文'}}">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap" style="display:{{subject=='语文'? 'block': 'none'}}">
     <view class="tab">
       <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>

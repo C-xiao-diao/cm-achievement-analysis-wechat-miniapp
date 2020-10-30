@@ -33,13 +33,12 @@ const http = {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
       if (app.globalData.userId) {
-        wx.request({ url, method: "GET", header, data, success, fail, complete, });
+        wx.request({ url, method, header, data, success, fail, complete, });
       } else {
-        wx.request({ url, method: "GET", data, success, fail, complete });
+        wx.request({ url, method, data, success, fail, complete });
       }
     } catch (e) {
       wx.showToast({ title: '操作失败', icon: 'none', duration: 2000 })
-      console.log(e, '-----------------------');
     }
   },
   post: function (options, cb) {
@@ -53,12 +52,11 @@ const http = {
         url = webConfig.protocol + "://" + webConfig.host + `${cmd}`;
       }
       if (app.globalData.userId) {
-        wx.request({ url, method: "POST", header, data, success, fail, complete });
+        wx.request({ url, method, header, data, success, fail, complete });
       } else {
-        wx.request({ url, method: "POST", data, success, fail, complete });
+        wx.request({ url, method, data, success, fail, complete });
       }
     } catch (e) {
-      console.log(e, 'eeeeeeeeeeeeeeeeeeeeeeee')
       wx.showToast({ title: '操作失败', icon: 'none', duration: 2000 })
     }
   },
