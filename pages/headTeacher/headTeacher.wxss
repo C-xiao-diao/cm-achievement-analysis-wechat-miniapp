@@ -123,5 +123,20 @@
     width: 96%;
     height: 800rpx;
     margin: 30rpx 0;
-    background: #eee;
+    position: relative;
+}
+
+.close {
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    background: red;
+    display: block;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    font-size: 30rpx;
+    position: absolute;
+    top: -100rpx;
+    right: 20rpx;
 }

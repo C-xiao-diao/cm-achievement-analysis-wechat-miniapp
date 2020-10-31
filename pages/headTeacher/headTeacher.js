@@ -4,17 +4,21 @@ import { chart, http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 
+var HTeacherFirstChart = null, HTeacherSecondChart = null;
+
 Page({
     data: {
         yearMonth: '',
-        className: '',
+        class_: '',
+        schoolId: 0, 
         overallSituation: [],
         allStudentGrade: [],
-        subjectArray: [{ name: '总分', id: 0 }, { name: '语文', id: 1 }, { name: '数学', id: 2 }, { name: '英语', id: 3 }, { name: '生物', id: 4 }, { name: '物理', id: 5 }, { name: '地理', id: 6 }, { name: '政治', id: 7 }, { name: '历史', id: 8 }, { name: '化学', id: 10 }, { name: '体育', id: 11 }],
+        subjectArray: [{ name: '总分', id: 9 }, { name: '语文', id: 1 }, { name: '数学', id: 2 }, { name: '英语', id: 3 }, { name: '生物', id: 4 }, { name: '物理', id: 5 }, { name: '地理', id: 6 }, { name: '政治', id: 7 }, { name: '历史', id: 8 }, { name: '化学', id: 10 }, { name: '体育', id: 11 }],
         subArray: ['总分', '语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史', '化学', '体育'],
         subjectIndex: 0,
-        gradeIndex: 0,
-        studentList: [{id: 0, name:'周靓',check: false},{id: 1, name:'张淼如',check: false},{id: 2, name:'马上',check: false}],
+        subjectId: 9,
+        listStudentName: [],
+        listStudentSubject: [],
         hasChosen: false,
         studentName: '',
         currentTab: 0,
@@ -33,24 +37,30 @@ Page({
         secondDataAxis: []
     },
     onLoad:function(option){
-        console.log(option, 999999999)
+        wx.showLoading({ title: '加载中...' })
         this.getGredeAnalysisData(option);
+        this.getClassCompareData(option);
+        this.getStudentList(option)
     },
     onUnload:function(){
-
+        this.firstComponent = null;
+        this.secondComponent = null;
     },
     //选择科目
     pickSubject:function(e){
         let curSubject = e.detail.value;
-        this.setData({subjectIndex: curSubject})
+        let option = {
+            schoolId: this.data.schoolId,
+            class_: this.data.class_,
+            subjectId: curSubject
+        }
+        this.getClassCompareData(option)
     },
     //选择学生
     chooseStudent: function(e){
-        const { studentList } = this.data;
-        let studentId = e.currentTarget.dataset.item.id;
-        let studentName = e.currentTarget.dataset.item.name;
-        this.setData({studentList,studentName,hasChosen:true})
-        this.pageScrollToBottom();
+        const { currentTab } = this.data;
+        let name = e.currentTarget.dataset.item.studentName;
+        this.getStudentRankData(name, currentTab)
     },
     //换一个人
     changeAnother: function(){
@@ -62,14 +72,9 @@ Page({
         if (this.data[tab] === e.target.dataset.current) {
             return false;
         } else {
-            this.setData({[tab] : e.target.dataset.current})
+            let type = e.target.dataset.current;
+            this.getStudentRankData(this.data.studentName,type)
         }
-    },
-    //自动滑到底部
-    pageScrollToBottom: function() {
-        wx.createSelectorQuery().select('#container').boundingClientRect(function(rect){
-            wx.pageScrollTo({ scrollTop: rect.bottom })
-        }).exec()
     },
     //获取成绩分析数据
     getGredeAnalysisData: function(option){
@@ -87,7 +92,6 @@ Page({
             success: res => {
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let resData = _.get(res, 'data.data');
-                    console.log(resData,999999)
                     let className = resData.class_
                     let yearMonth = resData.yearMonth.substr(0, 4) + '-' + resData.yearMonth.substr(4, 5);
                     let overallSituation = resData.overallSituation;
@@ -105,6 +109,115 @@ Page({
                 }
             }
         })
+    },
+    //获取各班对比数据
+    getClassCompareData: function(option){
+        let cmd = "/auth/monthlyExamResults/classTeacherClassCompared";
+        let data = _.assign({ 
+            schoolId: option.schoolId,
+            class_: option.class_,
+            subject: option.subjectId
+        });
+        http.get({
+            cmd,
+            data,
+            success: res => {
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+                    let resData = _.get(res, 'data.data');
+                    let listAvg = resData.listAvg;
+                    let firstDataSeriesByMax = [], firstDataSeriesByMin = [], firstDataSeriesByAvg = [], firstDataAxis = [];
+                    for(let i = 0; i < listAvg.length; i++){
+                        firstDataSeriesByMax.push(listAvg[i].maxScore)
+                        firstDataSeriesByMin.push(listAvg[i].minScore)
+                        firstDataSeriesByAvg.push(util.returnFloat(listAvg[i].avgScore))
+                        firstDataAxis.push(listAvg[i].class_)
+                    }
+                    const { subjectArray } = this.data;
+                    let subjectIndex = 0;
+                    subjectArray.map((item,i)=>{
+                        if(item.id == option.subjectId){
+                            subjectIndex = i;
+                        }
+                    })
+                    this.setData({
+                        firstDataSeriesByMax,
+                        firstDataSeriesByMin,
+                        firstDataSeriesByAvg,
+                        firstDataAxis,
+                        schoolId: option.schoolId,
+                        class_: option.class_,
+                        subjectIndex
+                    })
+                    this.initFirstChart();
+                }
+            }
+        })
+    },
+    //获取学生名单数据
+    getStudentList: function(option){
+        let cmd = "/auth/monthlyExamResults/studenSubjectRangking";
+        let data = _.assign({ 
+            schoolId: option.schoolId,
+            class_: option.class_,
+            subject: option.subjectId
+        });
+        http.get({
+            cmd,
+            data,
+            success: res => {
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+                    let resData = _.get(res, 'data.data');
+                    let listStudentName = resData.listStudentName;
+                    for(let i = 0; i < listStudentName.length; i++){
+                        listStudentName[i].check = false;
+                    }
+                    let listStudentSubject = resData.listStudentSubject;
+                    this.setData({
+                        listStudentName,
+                        listStudentSubject
+                    })
+                }
+            }
+        })
+    },
+    //获取某一学生各科排名成绩
+    getStudentRankData: function(name,type){
+        let typeTxt = '';
+        type === 0 ? typeTxt = 'class' : typeTxt = 'school';
+        const { listStudentSubject } = this.data;
+        let gradeList = [], secondDataSeries = [], secondDataLegend = [], secondDataAxis = [];
+        listStudentSubject.map(item=>{
+            if(item.studentName == name){
+                gradeList = item.list;
+            }
+        })
+        secondDataLegend = gradeList.map(item=>{ return item.subject });
+        secondDataAxis = gradeList[0].list.map(item=>{ return item.yearMonth });
+        for (let i = 0; i < gradeList.length; i++) {
+            let obj = {};
+            obj.data = [];
+            obj.type = "line";
+            obj.name = gradeList[i].subject;
+            let list = _.get(gradeList, `${i}.list`, []);
+            for (let j = 0; j < list.length; j++) {
+                if(typeTxt == 'class'){
+                    obj.data[j] = list[j].classRanking;
+                }else{
+                    obj.data[j] = list[j].schoolRanking;
+                }
+                
+            }
+            secondDataSeries.push(obj);
+        }
+        this.setData({
+            studentName:name,
+            hasChosen:true,
+            secondDataLegend,
+            secondDataAxis,
+            secondDataSeries,
+            currentTab: type
+        })
+        this.initSecondChart();
     },
     //初始化 各科各班 最高分/最低分/平均分 对比 图表
     initFirstChart: function () {
@@ -182,7 +295,7 @@ Page({
                 return str;
             }
         }
-
+        // this.pageScrollToBottom();
         return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData, tooltipSetting });
     }
 })
