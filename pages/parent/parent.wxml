@@ -74,7 +74,7 @@
     <!-- 班级平均得分分布图 -->
     <view class="show-result">
         <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
-        <text>年级平均得分<text class="red">{{supervisorAnswer.classAvgScore}}</text></text>
+        <text>班级平均得分<text class="red">{{supervisorAnswer.classAvgScore}}</text></text>
     </view>
     <view class="chart mb60">
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
