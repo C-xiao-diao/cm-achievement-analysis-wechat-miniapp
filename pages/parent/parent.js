@@ -39,7 +39,11 @@ Page({
     },
     onLoad:function(option){
         if(!_.isEmpty(option)){
-            this.setData({ticketNumber: option.ticketNumber, schoolId: option.schoolId})
+            this.setData({
+                ticketNumber: option.ticketNumber, 
+                schoolId: option.schoolId,
+                class_: option.class_
+            })
         }
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysis("",option);
@@ -60,6 +64,7 @@ Page({
         let option = {
             ticketNumber: this.data.ticketNumber,
             schoolId: this.data.schoolId,
+            class_: this.data.class_
         }
         this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
