@@ -121,6 +121,8 @@ Page({
                     }
                     let objectiveAnswer = listResultObjectiveQuestion[activeTabIndex1];
                     let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
+                    supervisorAnswer.gradeAvgScore = _.round(supervisorAnswer.gradeAvgScore, 2);
+                    supervisorAnswer.classAvgScore = _.round(supervisorAnswer.classAvgScore, 2);
                     this.setData({
                         objectiveQuestion,
                         subjectiveQuestion,
@@ -130,7 +132,7 @@ Page({
                         supervisorAnswer
                     })
                     this.initSecondChart();
-                    // this.initThirdChart();
+                    this.initThirdChart();
                 }
             }
         })
@@ -153,9 +155,11 @@ Page({
                 return false;
             }
             let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
+            supervisorAnswer.gradeAvgScore = _.round(supervisorAnswer.gradeAvgScore, 2);
+            supervisorAnswer.classAvgScore = _.round(supervisorAnswer.classAvgScore, 2);
             this.setData({activeTabIndex2, supervisorAnswer})
             this.initSecondChart();
-            // this.initThirdChart();
+            this.initThirdChart();
         }
     },
     //初始化 历史年级排名走势 图表
@@ -250,7 +254,7 @@ Page({
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.listScoreCount;
         let title ={
-            text: '平均得分分布图',
+            text: '班级平均得分分布图',
             left: 'center',
             textStyle:{
                fontWeight: 'normal',
@@ -269,7 +273,7 @@ Page({
             position: ['5%', '0%'],
             formatter: (params) => {
                 const {subArray, subjectIndex} = this.data;
-                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全班得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
                 return str;
             }
         };

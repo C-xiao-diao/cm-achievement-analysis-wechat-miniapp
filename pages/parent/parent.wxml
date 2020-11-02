@@ -64,15 +64,19 @@
     <text class="exam-number">{{supervisorAnswer.topic}}</text>
     <view class="show-result">
         <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
-        <text>年级平均得分<text class="red">{{supervisorAnswer.gradeScoreRate}}%</text></text>
+        <text>年级平均得分<text class="red">{{supervisorAnswer.gradeAvgScore}}</text></text>
     </view>
-    <!-- 主观题年级得分率分布图 -->
+    <!-- 年级平均得分分布图 -->
     <view class="chart mb60">
         <ec-canvas id="parentSecondChart" canvas-id="parentSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
     
-    <!-- 平均得分分布图 -->
-    <!-- <view class="chart mb60">
+    <!-- 班级平均得分分布图 -->
+    <view class="show-result">
+        <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
+        <text>年级平均得分<text class="red">{{supervisorAnswer.classAvgScore}}</text></text>
+    </view>
+    <view class="chart mb60">
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
-    </view> -->
+    </view>
 </view>
