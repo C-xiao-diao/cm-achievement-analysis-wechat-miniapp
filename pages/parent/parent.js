@@ -39,7 +39,11 @@ Page({
     },
     onLoad:function(option){
         if(!_.isEmpty(option)){
-            this.setData({ticketNumber: option.ticketNumber, schoolId: option.schoolId})
+            this.setData({
+                ticketNumber: option.ticketNumber, 
+                schoolId: option.schoolId,
+                class_: option.class_
+            })
         }
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysis("",option);
@@ -60,6 +64,7 @@ Page({
         let option = {
             ticketNumber: this.data.ticketNumber,
             schoolId: this.data.schoolId,
+            class_: this.data.class_
         }
         this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
@@ -252,7 +257,8 @@ Page({
     //获取 主观题得分分布 option
     getStudentScoreData(){
         const { supervisorAnswer } = this.data;
-        let scoreList = supervisorAnswer.listScoreCount;
+        // let scoreList = supervisorAnswer.listScoreCount;
+        let scoreList = supervisorAnswer.classScoreRateList;
         let title ={
             text: '班级平均得分分布图',
             left: 'center',
@@ -284,10 +290,11 @@ Page({
                 if(params.value == 0){
                     return ""
                 }
-                return params.value;
+                return params.value + "%";
             }
         }
-        let seriesData = scoreList.map(item=>{ return item.scoreCount });
+        // let seriesData = scoreList.map(item=>{ return item.scoreCount });
+        let seriesData = scoreList.map(item=>{ return _.round(item.rate*100) });
 
         return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, seriesLabel, subTitle })
     

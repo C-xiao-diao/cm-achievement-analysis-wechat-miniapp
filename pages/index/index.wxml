@@ -47,7 +47,7 @@
       <text>班级</text>
       <input class="weui-input" bind:input="getClassArray" value="{{class}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{classArray.length!=0}}">
-        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" catch:tap="getCurClass">{{item}}</text>
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="teacher" catch:tap="getCurClass">{{item}}</text>
       </view>
     </view>
 
@@ -69,6 +69,15 @@
           {{subject[subjectIndex]}}
         </view>
       </picker>
+    </view>
+
+    <!-- 家长 -->
+    <view wx:if="{{role === 2}}">
+      <text>班级</text>
+      <input class="weui-input" bind:input="getClassArray" value="{{class1}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <view class="ul" wx:if="{{classArray.length!=0}}">
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="parent" catch:tap="getCurClass">{{item}}</text>
+      </view>
     </view>
 
     <!-- 家长 -->

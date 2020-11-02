@@ -21,7 +21,8 @@ Page({
     school: '',
     schoolId: '',
     classArray: [],
-    class: '',
+    class: '',//教师端
+    class1: '',//家长端
     subject: ['全科','语文', '数学', '英语', '生物', '物理', '地理', '政治', '历史','化学','体育'],
     subjectIndex: 0,
     subjectId: 9,
@@ -60,6 +61,7 @@ Page({
       if (info) {
         this.setData({
           class: infoObj.class_,
+          class1: infoObj.class1,
           schoolId: infoObj.schoolId,
           school: infoObj.school,
           subjectId: infoObj.subjectId,
@@ -143,7 +145,6 @@ Page({
     });
   },
   getClassArray(e) {//获取班级列表
-    this.setData({class: e.detail.value});
     let Url = app.globalData.domain + '/auth/school/queryClass';
     var that = this;
     wx.request({
@@ -154,14 +155,17 @@ Page({
         var resData = res.data;
         if (resData.code == 200) {
           var list = resData.data.list;
-          that.setData({'classArray': list})
+          that.setData({classArray: list, class: e.detail.value})
         }
       }
     })
   },
   getCurClass(e) {  //获取当前选择得班级
+    let role = e.currentTarget.dataset.role;
+    let className = '';
+    role == 'teacher' ? className = 'class' : className = 'class1';
     this.setData({
-      class: e.currentTarget.dataset.name,
+      [className]: e.currentTarget.dataset.name,
       classArray: []
     });
   },
@@ -175,7 +179,7 @@ Page({
         return;
       }
     } else if(role == 2) {//家长
-      if (!ticketNumber) {
+      if (!ticketNumber || !this.data.class1 ) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         return;
       }
@@ -188,7 +192,7 @@ Page({
     }
     //将选择存入本地缓存
     let dataSource = {
-      schoolId: this.data.schoolId, class_: this.data.class,school: this.data.school,
+      schoolId: this.data.schoolId, class1: this.data.class1, class_: this.data.class,school: this.data.school,
       subjectId: this.data.subjectId,subjectIndex: this.data.subjectIndex, ticketNumber: ticketNumber,
       currentGrade: this.data.currentGrade
     }
@@ -200,19 +204,24 @@ Page({
     //end
     let Url = app.globalData.domain + '/auth/userRole/addUserRole';
     var that = this;
+    var params = {
+      weChatUserId: app.globalData.userId,
+      userType: role,
+      schoolId: that.data.schoolId,
+      subject: that.data.subjectId,
+      ticketNumber: ticketNumber,
+      grade: Grade
+    }
+    if(role===2){
+      params.class_ = this.data.class1
+    }else {
+      params.class_ = this.data.class
+    }
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
       method: "POST",
-      data: {
-        weChatUserId: app.globalData.userId,
-        userType: role,
-        schoolId: that.data.schoolId,
-        class_: that.data.class,
-        subject: that.data.subjectId,
-        ticketNumber: ticketNumber,
-        grade: Grade
-      },
+      data: params,
       success: res => {
         var resData = res.data;
         if (resData.code == 200 || resData.code == 103) {
@@ -234,7 +243,10 @@ Page({
               });
             }
           }else if(role == 2){//to家长
-            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber + '&schoolId=' + that.  data.schoolId});
+            wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber 
+            + '&schoolId=' + that.  data.schoolId
+            + '&class_=' + that.data.class1
+          });
           }else if(role == 3) {//年级主任
             wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade + '&schoolId=' + that.data.schoolId});
           }
