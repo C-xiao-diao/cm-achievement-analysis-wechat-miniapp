@@ -176,17 +176,20 @@ Page({
     if (role === 1) {//老师
       if (!this.data.school || !this.data.class) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     } else if(role == 2) {//家长
       if (!ticketNumber || !this.data.class1 ) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     }else if(role == 3 ) {//年级主任
       Grade = this.data.currentGrade;
       if (!currentGrade) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     }
