@@ -1,0 +1,142 @@
+
+/* 表格样式 */
+.table {
+    border:1px solid #dadada;
+    border-right: 0;
+    border-bottom: 0;
+    width: 90%;
+    font-size: 26rpx;
+}
+  
+.tr{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+  
+.th,.td {
+    padding: 6px 0;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    text-align: center;
+    width:100%
+}
+  
+.th {
+    display: inline-block;
+    font-weight: 400;
+    background-color: #dadada;
+    vertical-align: middle;
+}
+
+.td {
+    letter-spacing: 2rpx;
+}
+
+.tr .td {
+    color: #666;
+}
+
+.w40 {
+    width:40%;
+}
+  
+.red {
+    color: red;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.td image {
+    width: 35rpx;
+    height: 35rpx;
+    vertical-align: middle;
+}
+  
+.td image.up {
+    transform: rotate(180deg);
+}
+/* 表格样式end */
+
+/* 选择科目 */
+.choose {
+    display: flex;
+    flex-direction: row;
+    margin: 30rpx 0;
+}
+
+.section__title ,.choose picker {
+    padding: 10rpx 30rpx;
+}
+
+.choose picker {
+    border: 2rpx solid #eee;
+}
+/* 选择科目end */
+
+/* 学生列表 */
+.student-list, .student-result {
+    width: 95%;
+    margin: 0 auto 60rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start; 
+}
+
+.student-list > text, .student-result > text.active {
+    display: block;
+    width: 21%;
+    height: 65rpx;
+    line-height: 65rpx;
+    margin: 10rpx 2%;
+    font-size: 28rpx;
+    box-sizing: border-box;
+    border: 2rpx solid #566b8e;
+    color: #566b8e;
+    border-radius: 5rpx;
+    text-align: center;
+}
+
+.student-list > text.active, .student-result > text.active {
+    background-color: #566b8e;
+    color: #fff;
+}
+
+.student-list > text.vanish{
+    display: none;
+}
+
+.change-another {
+    color: #000;
+    text-decoration: underline;
+    font-size: 32rpx;
+    line-height: 85rpx;
+}
+
+.tab {
+    margin: 10rpx 0 0 140rpx;
+}
+/* 学生列表end */
+
+.chart {
+    width: 96%;
+    height: 800rpx;
+    margin: 30rpx 0;
+    position: relative;
+}
+
+.close {
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    background: red;
+    display: block;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    font-size: 30rpx;
+    position: absolute;
+    top: -100rpx;
+    right: 20rpx;
+}

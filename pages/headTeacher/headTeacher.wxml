@@ -1,0 +1,77 @@
+<view class="container" id="container">
+    <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
+    <text class="h2">（{{class_}}）</text>
+
+    <!--总体情况 -->
+    <text class="title">— 总体情况 —</text>
+    <view class="table mb60">
+        <view class="tr">
+            <view class="th w40">科目</view>
+            <view class="th">平均分<text class="br"></text>（班级/全年级）</view>
+            <view class="th">最高分<text class="br"></text>（班级/全年级）</view>
+            <view class="th">最低分<text class="br"></text>（班级/全年级）</view>
+        </view>
+        <view class="tr" wx:for="{{overallSituation}}" wx:key="id">
+            <view class="td w40">{{item.subject}}</view>
+            <view class="td"><text class="red">{{item.avgClass}}</text>/{{item.avgGrade}}</view>
+            <view class="td"><text class="red">{{item.maxClass}}</text>/{{item.maxGrade}}</view>
+            <view class="td"><text class="red">{{item.minClass}}</text>/{{item.minGrade}}</view>
+        </view>
+    </view>
+
+    <!--各班对比 -->
+    <text class="title">— 各班对比 —</text>
+    <view class="choose">
+        <view class="section__title">选择科目</view>
+        <picker bindchange="pickSubject" value="{{gradeIndex}}" range="{{subArray}}">
+            <view class="picker">
+            {{subArray[subjectIndex]}}
+            </view>
+        </picker>
+    </view>
+
+    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+    <view class="chart mb60">
+        <ec-canvas id="HTeacherFirstChart" canvas-id="HTeacherFirstChart" ec="{{ ecFirst }}"></ec-canvas>
+    </view>
+
+    <!--总分排名 -->
+    <text class="title">— 总分排名 —</text>
+    <view class="table mb60">
+        <view class="tr">
+            <view class="th">姓名</view>
+            <view class="th">总分</view>
+            <view class="th">班级排名</view>
+            <view class="th">年级排名</view>
+        </view>
+        <view class="tr" wx:for="{{allStudentGrade}}" wx:key="id">
+            <view class="td">{{item.student_name}}</view>
+            <view class="td">{{item.total_score}}</view>
+            <view class="td" wx:if="{{item.floatclassranking == 0}}">{{item.class_ranking}}(--)</view>
+            <view class="td" wx:if="{{item.floatclassranking > 0}}">{{item.class_ranking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatclassranking}})</view>
+            <view class="td" wx:if="{{item.floatclassranking < 0}}">{{item.class_ranking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatclassranking}})</view>
+            <view class="td" wx:if="{{item.floatschoolranking == 0}}">{{item.school_ranking}}(--)</view>
+            <view class="td" wx:if="{{item.floatschoolranking > 0}}">{{item.school_ranking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatschoolranking}})</view>
+            <view class="td" wx:if="{{item.floatschoolranking < 0}}">{{item.school_ranking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatschoolranking}})</view>
+        </view>
+    </view>
+
+    <!--学生单科排名走势 -->
+    <text class="title">— 学生单科排名走势 —</text>
+    <view class="student-list" wx:if="{{!hasChosen}}">
+        <text class="{{item.check? 'active': ''}}" wx:for="{{listStudentName}}" bindtap="chooseStudent" data-item="{{item}}" wx:key="index">{{item.studentName}}</text>
+    </view>
+    <view class="student-result" wx:if="{{hasChosen}}">
+        <text class="active" bindtap="changeAnother">{{studentName}}</text>
+        <text class="change-another" bindtap="changeAnother">换一个人</text>
+        <view class="tab">
+            <text class="swiper-tab-list {{currentTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab" bindtap="swichNav">班级</text>
+            <text class="swiper-tab-list {{currentTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab" bindtap="swichNav">全年级</text>
+        </view>
+    </view>
+    <text class="gray-txt" wx:if="{{hasChosen}}">（点击图标可选中或取消对比项）</text>
+    <view class="chart mb60"  wx:if="{{hasChosen}}">
+        <text class="close" bindtap="changeAnother">×</text>
+        <ec-canvas id="HTeacherSecondChart" canvas-id="HTeacherSecondChart" ec="{{ ecSecond }}"></ec-canvas>
+    </view>
+</view>

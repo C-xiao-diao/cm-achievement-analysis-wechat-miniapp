@@ -11,6 +11,8 @@ Page({
   data: {
     userId: '',
     subject: '',
+    userType: 1,
+    class_: '',
     yearMonth: '',
     studentName: '',
     ticketNumber: '',
@@ -98,11 +100,14 @@ Page({
   },
   //页面初始
   initPage(option,excellentLine) {
+    console.log(option, '1111111111111111111111111111111');
     if (option.subject) {
       this.setData({
-        'subject': option.subject,
-        'subjectId': option.subjectId,
-        'schoolId': option.schoolId,
+        subject: option.subject,
+        subjectId: option.subjectId,
+        schoolId: option.schoolId,
+        class_: option.class_,
+        userType: option.userType,
         excellentLine: excellentLine || 85
       });
     }
@@ -111,7 +116,7 @@ Page({
   },
   //获取用户输入的优秀线
   getExcellentRate(e){
-    const { subject, subjectId, schoolId, excellentLine } = this.data;
+    const { subject, subjectId, schoolId, excellentLine, class_,userType } = this.data;
     var regInterger = /(^[1-9]\d*$)/;
     let value = e.detail.value;
     if(!regInterger.test(value)){
@@ -132,7 +137,9 @@ Page({
     option.subject = subject;
     option.subjectId = subjectId;
     option.schoolId = schoolId;
-    option.excellentLine = excellentLine;
+    option.excellentRate = value || excellentLine;
+    option.class_ = class_;
+    option.userType  = userType;
     //end
     this.getSubjectData(value, option);
   },
@@ -140,10 +147,13 @@ Page({
   getSubjectData(exLine,option) {
     let Url = app.globalData.domain + '/auth/monthlyExamResults/list';
     var that = this;
+    let data = { 'weChatUserId': app.globalData.userId, excellentRate: exLine };
+    data = _.assign(data, option, {subject: _.get(option, 'subjectId')});
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: _.get(option, 'subject')},
+      // data: { 'weChatUserId': app.globalData.userId, excellentRate: exLine, subject: _.get(option, 'subject')},
+      data: data,
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -251,7 +261,7 @@ Page({
     wx.request({
       url: url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, subject: _.get(option, 'subject') },
+      data: _.assign({ 'weChatUserId': app.globalData.userId, },option, {subject: _.get(option, 'subjectId')}),
       success: res => {
         if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
           let responseData = _.get(res, 'data.data');
@@ -289,7 +299,7 @@ Page({
     wx.request({
       url: Url2,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, intervalValue, subject: _.get(option, 'subject') },
+      data: _.assign({ 'weChatUserId': app.globalData.userId, intervalValue},option, {subject: _.get(option, 'subjectId')}),
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -333,7 +343,7 @@ Page({
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: { 'weChatUserId': app.globalData.userId, subject: option.subject },
+      data: _.assign({ 'weChatUserId': app.globalData.userId}, option, {subject: _.get(option, "subjectId")}),
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
@@ -692,13 +702,21 @@ Page({
     option.subject = this.data.subject;
     option.subjectId = this.data.subjectId;
     option.schoolId = this.data.schoolId;
-    option.excellentLine = this.data.excellentLine;
+    option.class_ = this.data.class_;
+    option.excellentRate = this.data.excellentLine;
+    option.userType = this.data.userType;
     this.getSingleScoreSegmentStatistics(current, currentTab1, option);
   },
   //导航至统计分析
   navAnalysis: function (e) {
+    // const { subject, subjectId, schoolId, class_,userType,} = this.data;
     let type = e.target.dataset.type;
-    let str = '?class=' + this.data.class + '&subject=' + this.data.subject + '&yearMonth=' + this.data.yearMonth;
+    let str = '?class_=' + this.data.class 
+      + '&subject=' + this.data.subject 
+      + '&subjectId=' + this.data.subjectId 
+      + '&yearMonth=' + this.data.yearMonth
+      + '&schoolId=' + this.data.schoolId
+      + '&userType=' + this.data.userType;
     if (type === 0) {
       wx.navigateTo({
         url: '/pages/objective/objective' + str

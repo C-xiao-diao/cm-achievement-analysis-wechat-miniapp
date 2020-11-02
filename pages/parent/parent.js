@@ -8,6 +8,8 @@ var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
 Page({
     data: {
+        ticketNumber: '',
+        schoolId: '',
         class_: '',
         studentName: '',
         yearMonth: '',
@@ -36,6 +38,9 @@ Page({
         }
     },
     onLoad:function(option){
+        if(!_.isEmpty(option)){
+            this.setData({ticketNumber: option.ticketNumber, schoolId: option.schoolId})
+        }
         wx.showLoading({title: '加载中...'})
         this.getGradeAnalysis("",option);
         this.getStudentGrade(option);
@@ -52,12 +57,16 @@ Page({
             activeTabIndex1: 0,
             activeTabIndex2: 0
         })
+        let option = {
+            ticketNumber: this.data.ticketNumber,
+            schoolId: this.data.schoolId,
+        }
         this.getGradeAnalysis((Number(e.detail.value)+1), option)
     },
     //获取学生成绩表数据
     getStudentGrade: function(option){
         let cmd = "/auth/parentStatisticalAnalysis/list";
-        let data = { weChatUserId: app.globalData.userId,ticketNumber: option.ticketNumber };
+        let data = _.assign({ weChatUserId: app.globalData.userId }, option);
         http.get({
             cmd,
             data,
@@ -91,7 +100,8 @@ Page({
     getGradeAnalysis: function(subject, option){
         const {subjectIndex,activeTabIndex1,activeTabIndex2} = this.data;
         let cmd = "/auth/parentStatisticalAnalysis/analysisOfEachQuestion";
-        let data = { weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1),ticketNumber: option.ticketNumber };
+        let data = _.assign({ 
+            weChatUserId: app.globalData.userId, subject: subject || (subjectIndex+1)},option);
         http.get({
             cmd,
             data,
@@ -111,6 +121,8 @@ Page({
                     }
                     let objectiveAnswer = listResultObjectiveQuestion[activeTabIndex1];
                     let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
+                    supervisorAnswer.gradeAvgScore = _.round(supervisorAnswer.gradeAvgScore, 2);
+                    supervisorAnswer.classAvgScore = _.round(supervisorAnswer.classAvgScore, 2);
                     this.setData({
                         objectiveQuestion,
                         subjectiveQuestion,
@@ -143,6 +155,8 @@ Page({
                 return false;
             }
             let supervisorAnswer = listResultSubjectiveQuestion[activeTabIndex2];
+            supervisorAnswer.gradeAvgScore = _.round(supervisorAnswer.gradeAvgScore, 2);
+            supervisorAnswer.classAvgScore = _.round(supervisorAnswer.classAvgScore, 2);
             this.setData({activeTabIndex2, supervisorAnswer})
             this.initSecondChart();
             this.initThirdChart();
@@ -193,12 +207,12 @@ Page({
 
         return chart.lineChartOption({ gridSetting, legendData, xData, yAxisInverse, seriesData,tooltipSetting });
     },
-    //获取 主观题得分率分布 option
+    //获取 年级平均得分分布图 option
     getStudentScoreRateData(){
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.list;
         let title ={
-            text: '年级得分率分布图',
+            text: '年级平均得分分布图',
             left: 'center',
             textStyle:{
                fontWeight: 'normal',
@@ -240,7 +254,7 @@ Page({
         const { supervisorAnswer } = this.data;
         let scoreList = supervisorAnswer.listScoreCount;
         let title ={
-            text: '平均得分分布图',
+            text: '班级平均得分分布图',
             left: 'center',
             textStyle:{
                fontWeight: 'normal',
@@ -259,7 +273,7 @@ Page({
             position: ['5%', '0%'],
             formatter: (params) => {
                 const {subArray, subjectIndex} = this.data;
-                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全年级得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
+                let str = subArray[subjectIndex] + supervisorAnswer.topic + '(主观题)\n全班得分为' + params[0].axisValue + '分的有' +params[0].value + '人';
                 return str;
             }
         };

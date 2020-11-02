@@ -8,10 +8,10 @@
         <view class="tr">
             <view class="th">科目</view>
             <view class="th">得分</view>
-            <view class="th width10">班级排名</view>
-            <view class="th width10">学校排名</view>
-            <view class="th">班级<br />平均分</view>
-            <view class="th">年级<br />最高分</view>
+            <view class="th width10">班级<text class="br"></text>排名</view>
+            <view class="th width10">学校<text class="br"></text>排名</view>
+            <view class="th">班级<text class="br"></text>平均分</view>
+            <view class="th">年级<text class="br"></text>最高分</view>
         </view>
         <view class="tr" wx:for="{{transcriptList}}" wx:key="id">
             <view class="td">{{item.subject}}</view>
@@ -64,14 +64,18 @@
     <text class="exam-number">{{supervisorAnswer.topic}}</text>
     <view class="show-result">
         <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
-        <text>年级得分率<text class="red">{{supervisorAnswer.gradeScoreRate}}%</text></text>
+        <text>年级平均得分<text class="red">{{supervisorAnswer.gradeAvgScore}}</text></text>
     </view>
-    <!-- 主观题年级得分率分布图 -->
+    <!-- 年级平均得分分布图 -->
     <view class="chart mb60">
         <ec-canvas id="parentSecondChart" canvas-id="parentSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
     
-    <!-- 平均得分分布图 -->
+    <!-- 班级平均得分分布图 -->
+    <view class="show-result">
+        <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
+        <text>班级平均得分<text class="red">{{supervisorAnswer.classAvgScore}}</text></text>
+    </view>
     <view class="chart mb60">
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>

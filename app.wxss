@@ -8,6 +8,10 @@
   box-sizing: border-box;
 } 
 
+.br {
+  display: block;
+}
+
 /* 页面标题样式 */
 .h1 .bold {
   font-size: 60rpx;

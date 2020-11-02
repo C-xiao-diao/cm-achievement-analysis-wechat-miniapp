@@ -91,7 +91,7 @@
             <input class="weui-input" bind:input="getScoreInterval" value="{{intervalValue}}" />
             <text>分段</text>
         </view>
-        <view class="tab">
+        <view class="tab tab-score">
         <!-- 总分：2； 各科：3；各班：1； -->
             <text class="swiper-tab-list {{currentTab2==2 ? 'active' : ''}}" data-current="{{2}}" data-name="currentTab2" bindtap="swichNav">总分</text>
             <text class="swiper-tab-list {{currentTab2==3 ? 'active' : ''}}" data-current="{{3}}" data-name="currentTab2" bindtap="swichNav">各科</text>
