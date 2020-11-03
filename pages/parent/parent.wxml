@@ -89,7 +89,7 @@
     </view>
 
     <!-- 好的卷子，分越做越高 -->
-    <view class="notifications-nopay">
+    <view class="notifications-nopay" bindtap="navToPayment">
         <text class="notifications-nopay-title">
             好的卷子，分越做越高
         </text>

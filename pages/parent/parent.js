@@ -311,5 +311,11 @@ Page({
 
         return chart.verticalBarChartOption({ title, colorData, xData, gridSetting, tooltipSetting, seriesData, seriesLabel, subTitle })
 
+    },
+    //前往支付界面
+    navToPayment:function(){
+        wx.navigateTo({
+          url: '/pages/payfor/payfor',
+        })
     }
 })
