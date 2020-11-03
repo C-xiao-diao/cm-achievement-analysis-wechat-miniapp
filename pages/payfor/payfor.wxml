@@ -1,0 +1,78 @@
+<!--payfor.wxml-->
+<view class="container">
+    <!-- 文案 -->
+    <view class="big-title">
+        <image src="/imgs/title_bg.png"></image>
+        <view><text>青云卷</text></view>
+    </view>
+    <view class="sub-title">
+        <text>每次月考后，本校老师根据错题知识点</text>
+        <text>打造只属于你的全科目专属错题集</text>
+    </view>
+    <view class="feature">
+        <view class="left">
+            <view>
+                <text class="span">疲</text><text class="detail">题海战术，耗时耗力，累觉不爱</text>
+            </view>
+            <view>
+                <text class="span">忘</text><text class="detail">模板题型，一做就错，错完就忘</text>
+            </view>
+            <view>
+                <text class="span">亏</text><text class="detail">忽视地区差异，一遇高考吃大亏</text>
+            </view>
+        </view>
+        <view class="right">
+            <view>
+                <text class="span">精</text><text class="detail">建立错题库，高效查漏补缺</text>
+            </view>
+            <view>
+                <text class="span">准</text><text class="detail">人工出错题，训练快准狠</text>
+            </view>
+            <view>
+                <text class="span">专</text><text class="detail">本校名师一对一定制，紧扣考纲，针对练习</text>
+            </view>
+        </view>
+    </view>
+    <!-- 文案end -->
+    <!-- 支付方案 -->
+    <view class="pay-option">
+        <view class="option active">
+            <text class="tag">仅限一次</text>
+            <text class="option-type">首月</text>
+            <text class="cost">￥<text class="num">20元</text></text>
+            <text class="original-cost">原价：50元</text>
+        </view>
+        <view class="option">
+            <text class="tag">7.6折</text>
+            <text class="option-type">包学期</text>
+            <text class="cost">￥<text class="num">380元</text></text>
+            <text class="original-cost">原价：500元</text>
+        </view>
+        <view class="option">
+            <text class="tag">6.8折</text>
+            <text class="option-type">包年</text>
+            <text class="cost">￥<text class="num">680元</text></text>
+            <text class="original-cost">原价：1000元</text>
+        </view>
+    </view>
+    <!-- 支付方案end -->
+
+    <!-- 配送地址 -->
+    <view class="address">
+        <view class="add-tab">
+            <text class="active">自助提货</text>
+            <text>快递配送</text>
+        </view>
+        <view class="tab-container">
+            <view class="auto-pickup">
+                <text>湖南地质中学正门88米，鸿源印刷</text>
+            </view>
+            <view class="devivery">
+                
+            </view>
+        </view>
+    </view>
+    <!-- 配送地址end -->
+
+    <button>专属错题集 <text>点击订购</text></button>
+</view>

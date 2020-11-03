@@ -1,0 +1,209 @@
+/* payfor.wxss */
+/* 文案样式 */
+.big-title {
+    width: 100%; 
+    text-align: center;
+    height: 120rpx;
+    position: relative;
+}
+
+.big-title view {
+    width: 100%;
+    height: 120rpx;
+    position: absolute;
+    top: 30rpx;
+    left: 0;
+}
+
+.big-title view text {
+    text-align: center;
+    line-height: 50rpx;
+    font-size: 40rpx;
+    color: #fff;
+}
+
+.big-title image {
+    width: 100%;
+    height: 120rpx;
+}
+
+.sub-title {
+    width: 100%;
+    padding: 20rpx 0;
+}
+
+.sub-title text {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 5rpx 0;
+    font-size: 32rpx;
+}
+
+.feature {
+    width: 95%;
+    display: flex;
+    margin-top: 30rpx;
+}
+
+.left , .right {
+    flex: 1;
+    padding: 20rpx 0;
+}
+
+.left {
+    background: #f3f3f3;
+}
+
+.right {
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+}
+
+.left > view , .right > view {
+    display: flex;
+    padding: 10rpx 0;
+} 
+
+.left .span , .right .span {
+    display: block;
+    width: 60rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-radius: 50%;
+    border: 2rpx solid #dcdcdc;
+    text-align: center;
+    margin-left: 10rpx;
+}
+
+.left .span {
+    background: #fff;
+}
+
+.right .span {
+    background: #f3f3f3;
+}
+
+.detail {
+    flex: 1;
+    font-size: 24rpx;
+    padding: 0 20rpx;
+}
+/* 文案样式end */
+
+
+/* 支付方案样式 */
+.pay-option {
+    margin: 90rpx 0 30rpx;
+    display: flex;
+    width: 95%;
+}
+
+.pay-option .option {
+    flex: 1;
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+    position: relative;
+    padding: 30rpx 10rpx;
+    border-radius: 15rpx;
+}
+
+.pay-option .active {
+    border: 2rpx solid #3592e2;
+}
+
+.pay-option .option:nth-child(1), .pay-option .option:nth-child(2){
+    margin-right: 30rpx;
+}
+
+.option .tag {
+    width: 120rpx;
+    padding: 5rpx 0;
+    text-align: center;
+    position: absolute;
+    top: -20rpx;
+    left: 0;
+    background: #3592e0;
+    border-radius: 20rpx 0;
+    color: #fff;
+    font-size: 24rpx;
+}
+
+.option-type , .cost , .original-cost {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 30rpx;
+    padding-bottom: 10rpx;
+}
+
+.option-type {
+    font-size: 32rpx;
+}
+
+.original-cost {
+    text-decoration: line-through;
+    color: #6a6a6a;
+    font-size: 26rpx;
+}
+
+.num {
+    font-size: 40rpx;
+}
+
+/* 支付方案样式end */
+
+/* 配送地址 */
+.address {
+    width: 95%;
+    box-sizing: border-box;
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+    border-radius: 20rpx;
+    padding: 20rpx 30rpx;
+    margin: 60rpx 0;
+}
+
+.add-tab {
+    width: 100%;
+}
+
+.add-tab text {
+    float: left;
+    display: block;
+    width: 150rpx;
+    border: 2rpx solid #333;
+    font-size: 32rpx;
+    text-align: center;
+    padding: 10rpx;
+    border-radius: 10rpx;
+    margin-right: 20rpx;
+    margin-bottom: 20rpx;
+}
+
+.add-tab text.active {
+    background: #3592e2;
+    color: #fff;
+    border: 2rpx solid #3592e2;
+}
+
+.tab-container {
+    clear: both;
+    height: 300rpx;
+}
+
+.auto-pickup {
+    margin-top: 100rpx;
+}
+
+.auto-pickup text {
+    font-size: 34rpx;
+}
+
+
+/* 配送地址end */
+
+button {
+    width: 80%!important;
+    background: #3592e2;
+    border-radius: 25rpx;
+    color: #fff;
+    margin-bottom: 60rpx;
+}
