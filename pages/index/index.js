@@ -145,6 +145,7 @@ Page({
     });
   },
   getClassArray(e) {//获取班级列表
+    let role = e.currentTarget.dataset.role;
     let Url = app.globalData.domain + '/auth/school/queryClass';
     var that = this;
     wx.request({
@@ -155,7 +156,9 @@ Page({
         var resData = res.data;
         if (resData.code == 200) {
           var list = resData.data.list;
-          that.setData({classArray: list, class: e.detail.value})
+          var classNama = '';
+          role === 'teacher' ? classNama = 'class' : classNama = 'class1'
+          that.setData({classArray: list, [classNama]: e.detail.value})
         }
       }
     })

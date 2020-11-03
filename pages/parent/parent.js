@@ -97,6 +97,19 @@ Page({
                         historicalGradeRanking
                     })
                     this.initFirstChart();
+                }else if(_.get(res, 'data.code') === 107 || _.isEmpty(_.get(res, 'data.data'))){
+                    let resData = _.get(res, 'data.data');
+                    wx.showModal({
+                        title: '提示',
+                        content: resData.msg || '暂无数据',
+                        success(res) {
+                          if (res.confirm) {
+                            wx.navigateBack({ delta: 0, })
+                          } else if (res.cancel) {
+                            wx.navigateBack({ delta: 0, })
+                          }
+                        }
+                    })
                 }
             }
         })
