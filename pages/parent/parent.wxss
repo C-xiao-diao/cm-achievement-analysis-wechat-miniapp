@@ -137,10 +137,9 @@
 }
 
 .notifications-buttons {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-content: center;
-  width: 668rpx;
   box-shadow: 0 0 50rpx rgba(0, 0, 0, 0.2);
   margin-top: 50rpx;
 }
