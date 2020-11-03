@@ -60,19 +60,32 @@
     <!-- 配送地址 -->
     <view class="address">
         <view class="add-tab">
-            <text class="active">自助提货</text>
-            <text>快递配送</text>
+            <text>自助提货</text>
+            <text class="active">快递配送</text>
         </view>
         <view class="tab-container">
             <view class="auto-pickup">
                 <text>湖南地质中学正门88米，鸿源印刷</text>
             </view>
             <view class="devivery">
-                
+                <view>
+                    <text>联系人：</text>
+                    <input type="text" />
+                </view>
+                <view>
+                    <text>电话：</text>
+                    <input type="text" />
+                </view>
+                <view>
+                    <text>地址：</text>
+                    <input type="text" />
+                    <text class="note">顺丰不包邮，费用根据地点调整</text>
+                </view>
             </view>
         </view>
     </view>
     <!-- 配送地址end -->
 
     <button>专属错题集 <text>点击订购</text></button>
+
 </view>
