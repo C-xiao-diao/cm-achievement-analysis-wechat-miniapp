@@ -1,6 +1,6 @@
 const app = getApp();
 const util = require('../../utils/util.js')
-import { chart } from "./../../utils/util";
+import { http, chart } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 
@@ -182,17 +182,8 @@ Page({
               topDataAxis1.unshift(d.listClassResult[i].class_);
             }
             //作文分数段统计
-            let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
             if (this.data.subject && this.data.subject === "语文") {
-              for (var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++) {
-                let obj = {};
-                obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
-                obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
-                bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
-                bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
-                studentScoreList2.push(_.get(d, `scoreSegmentStatisticsEssay.${i}`));
-                bottomPieDataSeries.push(obj)
-              }
+              this.getEssayAnalysis(option);
             }
             //总体情况 数据修改
             d.avgScore = util.returnFloat(d.avgScore);
@@ -202,13 +193,9 @@ Page({
             // --------------  end  ---------------
             that.setData({
               excellentLine: exLine,
-              studentScoreList2,
               topDataAxis1,
               topDataSeriesByExcellent,
               topDataSeriesByPassing,
-              bottomPieDataSeries,
-              bottomBarYAxis,
-              bottomBarDataSeries,
               maxScore: d.maxScore,//最高分
               minScore: d.minScore,//最低分
               avgScore: d.avgScore,//平均分
@@ -233,7 +220,7 @@ Page({
           //初始化图表
           this.initTopChart();
           this.initSecondChart();
-          this.initBottomChart();
+          
           // ------- end --------
         } else if (resData.code == 107) {
           wx.showModal({
@@ -287,6 +274,58 @@ Page({
         }
       }
     })
+  },
+  //获取用户输入的分数段
+  getScoreInterval:function(e){
+    var reg = /(^[1-9]\d*$)/;
+    let name = e.currentTarget.dataset.name;
+    let value = e.detail.value;
+    if(!reg.test(value)){
+      wx.showToast({ title: '请输入正整数', icon: 'none', duration: 1500 });
+      return;
+    }
+    const { subjectId, schoolId, class_, userType } = this.data;
+    this.setData({ [name]: value });
+    let option = {
+      subjectId: subjectId,
+      schoolId: schoolId,
+      class_: class_,
+      userType: userType
+    }
+    this.getEssayAnalysis(option);
+  },
+  //获取作文分数段统计
+  getEssayAnalysis:function(option){
+    let cmd = "/auth/monthlyExamResults/essayAnalysis";
+    let data = { 
+      schoolId: option.schoolId,
+      class_: option.class_,
+      userType: option.userType,
+      subject: option.subjectId,
+      intervalValue: this.data.articleIntervalValue
+     };
+    http.get({
+        cmd,
+        data,
+        success: res=>{
+            if(_.get(res,'data.code')===200){
+              let d = _.get(res,'data.data');
+              let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
+              for (var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++) {
+                let obj = {};
+                obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
+                obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
+                bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
+                bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
+                studentScoreList2.push(_.get(d, `scoreSegmentStatisticsEssay.${i}`));
+                bottomPieDataSeries.push(obj)
+              }
+              this.setData({bottomBarYAxis,bottomBarDataSeries,studentScoreList2,bottomPieDataSeries});
+              this.initBottomChart();
+            }
+        }
+    })
+    
   },
   //获取单科分数段得统计
   getSingleScoreSegmentStatistics: function (current, currentTab1, option) {

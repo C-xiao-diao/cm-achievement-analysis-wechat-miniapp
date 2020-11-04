@@ -144,7 +144,7 @@
   <view class="gray-txt" wx:if="{{subject=='语文'}}">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap" style="display:{{subject=='语文'? 'block': 'none'}}">
     <view class="score-input">
-      <input class="weui-input" bind:input="getScoreInterval" value="{{articleIntervalValue}}" />
+      <input class="weui-input" bind:input="getScoreInterval" data-name="articleIntervalValue" value="{{articleIntervalValue}}" />
       <text>分段</text>
     </view>
     <view class="tab">
