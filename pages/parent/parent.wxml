@@ -110,7 +110,7 @@
             </text>
             <view class="notifications-pay-person">
                 <text class="notifications-pay-text">
-                    张秒如 |  
+                    {{studentName}} |  
                 </text>
                 <text class="notifications-pay-text">
                     {{"  "}}已开通
