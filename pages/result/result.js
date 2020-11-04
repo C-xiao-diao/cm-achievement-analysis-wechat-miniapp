@@ -18,6 +18,7 @@ Page({
     ticketNumber: '',
     scoreArray: [],
     showTrendChart: false,
+    articleIntervalValue: 10,
     allRight: [],
     wrongQuestions: [],
     listResult: [],
@@ -103,7 +104,6 @@ Page({
   },
   //页面初始
   initPage(option,excellentLine) {
-    console.log(option, '1111111111111111111111111111111');
     if (option.subject) {
       this.setData({
         subject: option.subject,
