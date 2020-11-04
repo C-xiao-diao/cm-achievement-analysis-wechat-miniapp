@@ -35,7 +35,9 @@ Page({
         },
         ecThirdChart: {
             lazyLoad: true
-        }
+        },
+        //是否购买了套餐
+        whetherToBuy: false,
     },
     onLoad: function (option) {
         if (!_.isEmpty(option)) {
@@ -48,6 +50,10 @@ Page({
         wx.showLoading({ title: '加载中...' })
         this.getGradeAnalysis("", option);
         this.getStudentGrade(option);
+        // this.checkWhetherToBuy();
+    },
+    onShow: function(){
+        this.checkWhetherToBuy();
     },
     onShareAppMessage: function (e) {
         console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
@@ -154,6 +160,20 @@ Page({
                     })
                     this.initSecondChart();
                     this.initThirdChart();
+                }
+            }
+        })
+    },
+    checkWhetherToBuy: function(){
+        let cmd = "/auth/pay/whetherToBuy";
+        let data = { userId: app.globalData.userId };
+        http.get({
+            cmd,
+            data,
+            success: res=>{
+                if(_.get(res,'data.code')===200){
+                    let whetherToBuy = _.get(res,'data.data.whetherToBuy', false);
+                    this.setData({ whetherToBuy });
                 }
             }
         })
