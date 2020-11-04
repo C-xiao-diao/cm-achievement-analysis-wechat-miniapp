@@ -294,15 +294,15 @@ Page({
         isShowUserInfoBtn: false
       })
       if(app.globalData.userId){
-        this.updateUserInfoTosServer(e.detail.userInfo)
+        this.updateUserInfoTosServer(e.detail.userInfo, e.detail.iv, e.detail.encryptedData)
       } else {
-        this._login(e.detail.userInfo);
+        this._login(e.detail.userInfo, e.detail.iv, e.detail.encryptedData);
       }
     } else {
       
     }
   },
-  _login:function(userInfo){
+  _login:function(userInfo, iv, encryptedData){
     var Url = app.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
     wx.login({
       success (res) {
@@ -316,7 +316,7 @@ Page({
                 app.globalData.userId = resData.data.id;
                 app.globalData.openId = resData.data.openid;
                 app.globalData.unionid = resData.data.unionid;
-                that.updateUserInfoTosServer(userInfo)
+                that.updateUserInfoTosServer(userInfo, iv, encryptedData)
               }
             }
           })
@@ -327,7 +327,7 @@ Page({
       }
     })
   },
-  updateUserInfoTosServer: function (userInfo) {
+  updateUserInfoTosServer: function (userInfo, iv, encryptedData) {
     let Url = app.globalData.domain + '/auth/wechat/editUser';
     var that = this;
     wx.request({
@@ -343,7 +343,9 @@ Page({
         city: userInfo.city,
         country: userInfo.country,
         headimgurl: userInfo.avatarUrl,
-        userId: app.globalData.userId
+        userId: app.globalData.userId,
+        iv,
+        encryptedData
       },
       success: res => {
         var resData = res.data;
