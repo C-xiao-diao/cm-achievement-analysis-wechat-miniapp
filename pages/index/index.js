@@ -85,6 +85,9 @@ Page({
       }
     })
   },
+  onShareAppMessage:function(e){
+    console.log(e,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+  },
   closeUl() {
     this.setData({
       'schoolArray': [],

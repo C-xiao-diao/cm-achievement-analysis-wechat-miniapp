@@ -49,6 +49,9 @@ Page({
         this.getGradeAnalysis("", option);
         this.getStudentGrade(option);
     },
+    onShareAppMessage: function (e) {
+        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    },
     onUnload: function () {
         this.firstComponent = null;
         this.secondComponent = null;
@@ -313,9 +316,9 @@ Page({
 
     },
     //前往支付界面
-    navToPayment:function(){
+    navToPayment: function () {
         wx.navigateTo({
-          url: '/pages/payfor/payfor',
+            url: '/pages/payfor/payfor',
         })
     }
 })

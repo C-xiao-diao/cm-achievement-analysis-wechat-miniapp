@@ -89,6 +89,9 @@ Page({
         // });
         this.getObjectiveQuestionAnalysis(option)
     },
+    onShareAppMessage: function (e) {
+        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    },
     onUnload: function(){
         this.firstComponent = null;
         this.secondComponent = null;

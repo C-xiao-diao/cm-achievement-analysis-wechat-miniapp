@@ -91,6 +91,9 @@ Page({
     })
     this.initPage(option,excellentLine);
   },
+  onShareAppMessage:function(e){
+    console.log(e,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+  },
   onUnload: function(){
     this.topComponent = null;
     this.topChartComponent = null;
