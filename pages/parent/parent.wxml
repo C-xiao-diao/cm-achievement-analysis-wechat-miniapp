@@ -89,7 +89,7 @@
     </view>
 
     <!-- 好的卷子，分越做越高 -->
-    <view class="notifications-nopay" bindtap="navToPayment">
+    <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
         <text class="notifications-nopay-title">
             好的卷子，分越做越高
         </text>
@@ -103,7 +103,7 @@
         </view>
     </view>
     <!-- 已开通 -->
-    <view class="notifications-pay">
+    <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
         <view class="notifications-pay-left">
             <text class="notifications-pay-title">
                 青云卷
