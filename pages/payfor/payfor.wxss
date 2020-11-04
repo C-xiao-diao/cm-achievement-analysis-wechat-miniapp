@@ -190,12 +190,16 @@
 }
 
 .auto-pickup {
-    display: none;
+    height: 300rpx;
     margin-top: 100rpx;
 }
 
 .auto-pickup text {
     font-size: 34rpx;
+}
+
+.devivery {
+    height: 300rpx;
 }
 
 .devivery view {
