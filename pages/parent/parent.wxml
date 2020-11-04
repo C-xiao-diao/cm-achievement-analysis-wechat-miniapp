@@ -117,8 +117,11 @@
                 </text>
             </view>
             <view>
-                <text class="notifications-pay-text">
+                <!-- <text class="notifications-pay-text">
                     2020年10月 - 2021年6月
+                </text> -->
+                <text class="notifications-pay-text">
+                    到期时间： {{vipExpireTime}}
                 </text>
             </view>
         </view>

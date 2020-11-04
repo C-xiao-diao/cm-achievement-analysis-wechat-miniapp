@@ -108,6 +108,12 @@ Page({
                             wx.showToast({ title: '支付失败', icon: 'fail', duration: 2000 });
                         }
                       })
+                } else if(_.get(res,'data.code')===103){
+                    wx.showModal({
+                        title: '提示',
+                        content: _.get(res, 'data.msg') || '购买异常，请联系官方',
+                        success(res) {}
+                    })
                 }
             }
         })

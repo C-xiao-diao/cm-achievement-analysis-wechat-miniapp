@@ -8,6 +8,7 @@ var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
 Page({
     data: {
+        vipExpireTime: "",
         ticketNumber: '',
         schoolId: '',
         class_: '',
@@ -53,6 +54,7 @@ Page({
         // this.checkWhetherToBuy();
     },
     onShow: function(){
+        console.log(Date.parse(new Date()),'时间长')
         this.checkWhetherToBuy();
     },
     onShareAppMessage: function (e) {
@@ -166,14 +168,17 @@ Page({
     },
     checkWhetherToBuy: function(){
         let cmd = "/auth/pay/whetherToBuy";
-        let data = { userId: app.globalData.userId };
+        let timestamp  = Date.parse(new Date());
+        let data = { userId: app.globalData.userId, timestamp };
         http.get({
             cmd,
             data,
             success: res=>{
+                console.log(res,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
                 if(_.get(res,'data.code')===200){
                     let whetherToBuy = _.get(res,'data.data.whetherToBuy', false);
-                    this.setData({ whetherToBuy });
+                    let vipExpireTime = _.get(res,'data.data.vipExpireTime', "");
+                    this.setData({ whetherToBuy,vipExpireTime });
                 }
             }
         })
