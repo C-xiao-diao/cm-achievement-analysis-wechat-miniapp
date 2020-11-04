@@ -36,19 +36,19 @@
     <!-- 文案end -->
     <!-- 支付方案 -->
     <view class="pay-option">
-        <view class="option active">
+        <view class="option {{optionTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="optionTab" bindtap="swichNav">
             <text class="tag">仅限一次</text>
             <text class="option-type">首月</text>
             <text class="cost">￥<text class="num">20元</text></text>
             <text class="original-cost">原价：50元</text>
         </view>
-        <view class="option">
+        <view class="option {{optionTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="optionTab" bindtap="swichNav">
             <text class="tag">7.6折</text>
             <text class="option-type">包学期</text>
             <text class="cost">￥<text class="num">380元</text></text>
             <text class="original-cost">原价：500元</text>
         </view>
-        <view class="option">
+        <view class="option {{optionTab==2 ? 'active' : ''}}" data-current="{{2}}" data-name="optionTab" bindtap="swichNav">
             <text class="tag">6.8折</text>
             <text class="option-type">包年</text>
             <text class="cost">￥<text class="num">680元</text></text>
@@ -60,14 +60,14 @@
     <!-- 配送地址 -->
     <view class="address">
         <view class="add-tab">
-            <text>自助提货</text>
-            <text class="active">快递配送</text>
+            <text class="{{currentTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab" bindtap="swichNav">自助提货</text>
+            <text class="{{currentTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab" bindtap="swichNav">快递配送</text>
         </view>
         <view class="tab-container">
-            <view class="auto-pickup">
+            <view class="auto-pickup" wx:if="{{currentTab===0}}">
                 <text>湖南地质中学正门88米，鸿源印刷</text>
             </view>
-            <view class="devivery">
+            <view class="devivery"  wx:if="{{currentTab===1}}">
                 <view>
                     <text>联系人：</text>
                     <input type="text" />
