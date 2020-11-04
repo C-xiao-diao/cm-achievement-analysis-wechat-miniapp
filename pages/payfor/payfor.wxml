@@ -36,19 +36,19 @@
     <!-- 文案end -->
     <!-- 支付方案 -->
     <view class="pay-option">
-        <view class="option {{optionTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="optionTab" bindtap="swichNav">
+        <view class="option {{productType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="productType" bindtap="swichNav">
             <text class="tag">仅限一次</text>
             <text class="option-type">首月</text>
             <text class="cost">￥<text class="num">20元</text></text>
             <text class="original-cost">原价：50元</text>
         </view>
-        <view class="option {{optionTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="optionTab" bindtap="swichNav">
+        <view class="option {{productType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="productType" bindtap="swichNav">
             <text class="tag">7.6折</text>
             <text class="option-type">包学期</text>
             <text class="cost">￥<text class="num">380元</text></text>
             <text class="original-cost">原价：500元</text>
         </view>
-        <view class="option {{optionTab==2 ? 'active' : ''}}" data-current="{{2}}" data-name="optionTab" bindtap="swichNav">
+        <view class="option {{productType==3 ? 'active' : ''}}" data-current="{{3}}" data-name="productType" bindtap="swichNav">
             <text class="tag">6.8折</text>
             <text class="option-type">包年</text>
             <text class="cost">￥<text class="num">680元</text></text>
@@ -60,25 +60,25 @@
     <!-- 配送地址 -->
     <view class="address">
         <view class="add-tab">
-            <text class="{{currentTab==0 ? 'active' : ''}}" data-current="{{0}}" data-name="currentTab" bindtap="swichNav">自助提货</text>
-            <text class="{{currentTab==1 ? 'active' : ''}}" data-current="{{1}}" data-name="currentTab" bindtap="swichNav">快递配送</text>
+            <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType" bindtap="swichNav">自助提货</text>
+            <text class="{{pickupType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="pickupType" bindtap="swichNav">快递配送</text>
         </view>
         <view class="tab-container">
-            <view class="auto-pickup" wx:if="{{currentTab===0}}">
-                <text>湖南地质中学正门88米，鸿源印刷</text>
+            <view class="auto-pickup" wx:if="{{pickupType===1}}">
+                <text>{{autoPickUpAddress}}</text>
             </view>
-            <view class="devivery"  wx:if="{{currentTab===1}}">
+            <view class="devivery"  wx:if="{{pickupType===2}}">
                 <view>
                     <text>联系人：</text>
-                    <input type="text" />
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="contactPerson" value="{{contactPerson}}" />
                 </view>
                 <view>
                     <text>电话：</text>
-                    <input type="text" />
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
                 </view>
                 <view>
                     <text>地址：</text>
-                    <input type="text" />
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="address" value="{{address}}" />
                     <text class="note">顺丰不包邮，费用根据地点调整</text>
                 </view>
             </view>
@@ -86,6 +86,6 @@
     </view>
     <!-- 配送地址end -->
 
-    <button>专属错题集 <text>点击订购</text></button>
+    <button bindtap="goToPay">专属错题集 <text>点击订购</text></button>
 
 </view>

@@ -338,7 +338,7 @@ Page({
     //前往支付界面
     navToPayment: function () {
         wx.navigateTo({
-            url: '/pages/payfor/payfor',
+            url: '/pages/payfor/payfor?schoolId='+this.data.schoolId,
         })
     }
 })
