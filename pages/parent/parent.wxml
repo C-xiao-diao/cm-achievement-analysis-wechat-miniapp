@@ -91,7 +91,7 @@
     <!-- 好的卷子，分越做越高 -->
     <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
         <text class="notifications-nopay-title">
-            好的卷子，分越做越高
+            月考过后，错题该如何处理？
         </text>
         <text class="notifications-content">
             抓错题 针对性训练 事半功倍
