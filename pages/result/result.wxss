@@ -258,3 +258,26 @@
   box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
 }
 /* 主观题客观题分析导航按钮end */
+
+/* 自定义分数段样式 */
+.score-input {
+  float: left;
+  display: flex;
+  width: 55%;
+  border-radius: 10rpx;
+  margin-top: 10rpx;
+}
+
+.score-input input {
+  width: 15%;
+  padding: 0 20rpx;
+  margin: 0 10rpx 0 10%;
+  border: 2rpx solid #eee;
+  border-radius: 10rpx;
+}
+
+.score-input text {
+  flex: 1
+}
+
+/* 自定义分数段样式END */

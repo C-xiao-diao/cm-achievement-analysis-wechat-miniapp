@@ -1,0 +1,91 @@
+<!--payfor.wxml-->
+<view class="container">
+    <!-- 文案 -->
+    <view class="big-title">
+        <image src="/imgs/title_bg.png"></image>
+        <view><text>青云卷</text></view>
+    </view>
+    <view class="sub-title">
+        <text>每次月考后，老师一对一根据错题知识点</text>
+        <text>打造只属于你的全科目专属错题集</text>
+    </view>
+    <view class="feature">
+        <view class="left">
+            <view>
+                <text class="span">疲</text><text class="detail">题海战术，耗时耗力，累觉不爱</text>
+            </view>
+            <view>
+                <text class="span">忘</text><text class="detail">模板题型，一做就错，错完就忘</text>
+            </view>
+            <view>
+                <text class="span">亏</text><text class="detail">忽视地区差异，一遇高考吃大亏</text>
+            </view>
+        </view>
+        <view class="right">
+            <view>
+                <text class="span">精</text><text class="detail">建立错题库，高效查漏补缺</text>
+            </view>
+            <view>
+                <text class="span">准</text><text class="detail">人工出错题，训练快准狠</text>
+            </view>
+            <view>
+                <text class="span">专</text><text class="detail">本校名师一对一定制，紧扣考纲，针对练习</text>
+            </view>
+        </view>
+    </view>
+    <!-- 文案end -->
+    <!-- 支付方案 -->
+    <view class="pay-option">
+        <view class="option {{productType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="productType" bindtap="swichNav">
+            <text class="tag">仅限一次</text>
+            <text class="option-type">首月</text>
+            <text class="cost">￥<text class="num">20元</text></text>
+            <text class="original-cost">原价：50元</text>
+        </view>
+        <view class="option {{productType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="productType" bindtap="swichNav">
+            <text class="tag">7.6折</text>
+            <text class="option-type">包学期</text>
+            <text class="cost">￥<text class="num">380元</text></text>
+            <text class="original-cost">原价：500元</text>
+        </view>
+        <view class="option {{productType==3 ? 'active' : ''}}" data-current="{{3}}" data-name="productType" bindtap="swichNav">
+            <text class="tag">6.8折</text>
+            <text class="option-type">包年</text>
+            <text class="cost">￥<text class="num">680元</text></text>
+            <text class="original-cost">原价：1000元</text>
+        </view>
+    </view>
+    <!-- 支付方案end -->
+
+    <!-- 配送地址 -->
+    <view class="address">
+        <view class="add-tab">
+            <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType" bindtap="swichNav">自助提货</text>
+            <text class="{{pickupType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="pickupType" bindtap="swichNav">快递配送</text>
+        </view>
+        <view class="tab-container">
+            <view class="auto-pickup" wx:if="{{pickupType===1}}">
+                <text>{{autoPickUpAddress}}</text>
+            </view>
+            <view class="devivery"  wx:if="{{pickupType===2}}">
+                <view>
+                    <text>联系人：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="contactPerson" value="{{contactPerson}}" />
+                </view>
+                <view>
+                    <text>电话：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
+                </view>
+                <view>
+                    <text>地址：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="address" value="{{address}}" />
+                    <text class="note">顺丰不包邮，费用根据地点调整</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 配送地址end -->
+
+    <button bindtap="goToPay">专属错题集 <text>点击订购</text></button>
+
+</view>

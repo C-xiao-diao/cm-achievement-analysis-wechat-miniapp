@@ -85,6 +85,9 @@ Page({
       }
     })
   },
+  onShareAppMessage:function(e){
+    console.log(e,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+  },
   closeUl() {
     this.setData({
       'schoolArray': [],
@@ -145,6 +148,7 @@ Page({
     });
   },
   getClassArray(e) {//获取班级列表
+    let role = e.currentTarget.dataset.role;
     let Url = app.globalData.domain + '/auth/school/queryClass';
     var that = this;
     wx.request({
@@ -155,7 +159,9 @@ Page({
         var resData = res.data;
         if (resData.code == 200) {
           var list = resData.data.list;
-          that.setData({classArray: list, class: e.detail.value})
+          var classNama = '';
+          role === 'teacher' ? classNama = 'class' : classNama = 'class1'
+          that.setData({classArray: list, [classNama]: e.detail.value})
         }
       }
     })
@@ -176,17 +182,20 @@ Page({
     if (role === 1) {//老师
       if (!this.data.school || !this.data.class) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     } else if(role == 2) {//家长
       if (!ticketNumber || !this.data.class1 ) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     }else if(role == 3 ) {//年级主任
       Grade = this.data.currentGrade;
       if (!currentGrade) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
         return;
       }
     }
@@ -285,15 +294,15 @@ Page({
         isShowUserInfoBtn: false
       })
       if(app.globalData.userId){
-        this.updateUserInfoTosServer(e.detail.userInfo)
+        this.updateUserInfoTosServer(e.detail.userInfo, e.detail.iv, e.detail.encryptedData)
       } else {
-        this._login(e.detail.userInfo);
+        this._login(e.detail.userInfo, e.detail.iv, e.detail.encryptedData);
       }
     } else {
       
     }
   },
-  _login:function(userInfo){
+  _login:function(userInfo, iv, encryptedData){
     var Url = app.globalData.domain + '/api/weChat/appletsGetOpenid',that = this;
     wx.login({
       success (res) {
@@ -307,7 +316,7 @@ Page({
                 app.globalData.userId = resData.data.id;
                 app.globalData.openId = resData.data.openid;
                 app.globalData.unionid = resData.data.unionid;
-                that.updateUserInfoTosServer(userInfo)
+                that.updateUserInfoTosServer(userInfo, iv, encryptedData)
               }
             }
           })
@@ -318,7 +327,7 @@ Page({
       }
     })
   },
-  updateUserInfoTosServer: function (userInfo) {
+  updateUserInfoTosServer: function (userInfo, iv, encryptedData) {
     let Url = app.globalData.domain + '/auth/wechat/editUser';
     var that = this;
     wx.request({
@@ -334,7 +343,9 @@ Page({
         city: userInfo.city,
         country: userInfo.country,
         headimgurl: userInfo.avatarUrl,
-        userId: app.globalData.userId
+        userId: app.globalData.userId,
+        iv,
+        encryptedData
       },
       success: res => {
         var resData = res.data;

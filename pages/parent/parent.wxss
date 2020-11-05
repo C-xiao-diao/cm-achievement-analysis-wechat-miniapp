@@ -1,117 +1,200 @@
-
-
 /* 表格样式 */
 .table {
-    border:1px solid #dadada;
-    border-right: 0;
-    border-bottom: 0;
-    width: 90%;
-    font-size: 26rpx;
-  }
-  
-  .tr{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .th,.td {
-    padding: 6px 0;
-    border-bottom: 1px solid #dadada;
-    border-right: 1px solid #dadada;
-    text-align: center;
-    width:100%
-  }
-  
-  .th {
-    display: inline-block;
-    font-weight: 400;
-    background-color: #dadada;
-    vertical-align: middle;
-  }
-  .tr .td {
-    color: #666;
-  }
-  
-  .w64 {
-    width: 64%;
-  }
-  
-  .w40 {
-    width:40%;
-  }
-  
-  .single .td:first-child {
-    color: blue;
-  }
-  
-  .parantsTable .tr:last-child .td {
-    background-color: #dadada;
-  }
-  
-  .td image {
-    width: 35rpx;
-    height: 35rpx;
-    vertical-align: middle;
-  }
-  
-  .br {
-    display: block;
-  }
-  
-  .td image.up {
-    transform: rotate(180deg);
-  }
-  
-  /* 表格样式end */
+  border: 1px solid #dadada;
+  border-right: 0;
+  border-bottom: 0;
+  width: 90%;
+  font-size: 26rpx;
+}
 
-  .chart{
-      width: 90%;
-      height: 700rpx;
-      margin-top: 30rpx;
-  }
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 
-  .subtitle {
-      font-size: 28rpx;
-      color: #666;
-  }
+.th,
+.td {
+  padding: 6px 0;
+  border-bottom: 1px solid #dadada;
+  border-right: 1px solid #dadada;
+  text-align: center;
+  width: 100%
+}
 
-  .exam-number {
-      font-size: 34rpx;
-      margin: 20rpx 0;
-  }
+.th {
+  display: inline-block;
+  font-weight: 400;
+  background-color: #dadada;
+  vertical-align: middle;
+}
 
-  .show-result > text {
-      font-size: 32rpx;
-      margin-right: 30rpx;
-  }
+.tr .td {
+  color: #666;
+}
 
-  .show-result .red {
-      color: red;
-      padding-left: 10rpx;
-  }
+.w64 {
+  width: 64%;
+}
 
-  .show-result {
-      margin-bottom: 30rpx;
-  }
+.w40 {
+  width: 40%;
+}
+
+.single .td:first-child {
+  color: blue;
+}
+
+.parantsTable .tr:last-child .td {
+  background-color: #dadada;
+}
+
+.td image {
+  width: 35rpx;
+  height: 35rpx;
+  vertical-align: middle;
+}
+
+.br {
+  display: block;
+}
+
+.td image.up {
+  transform: rotate(180deg);
+}
+
+/* 表格样式end */
+
+.chart {
+  width: 90%;
+  height: 700rpx;
+  margin-top: 30rpx;
+}
+
+.subtitle {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.exam-number {
+  font-size: 34rpx;
+  margin: 20rpx 0;
+}
+
+.show-result>text {
+  font-size: 32rpx;
+  margin-right: 30rpx;
+}
+
+.show-result .red {
+  color: red;
+  padding-left: 10rpx;
+}
+
+.show-result {
+  margin-bottom: 30rpx;
+}
 
 /* 选择科目 */
 .choose {
-    display: flex;
-    flex-direction: row;
-    margin: 30rpx 0;
+  display: flex;
+  flex-direction: row;
+  margin: 30rpx 0;
 }
 
-.section__title ,.choose picker {
-    padding: 10rpx 30rpx;
+.section__title,
+.choose picker {
+  padding: 10rpx 30rpx;
 }
 
 .choose picker {
-    border: 2rpx solid #eee;
+  border: 2rpx solid #eee;
 }
 
 /* 选择科目end */
 
 .width10 {
   width: 150%;
+}
+
+/* 好的卷子，分越做越高  */
+.notifications-nopay {
+  width: 100%;
+  padding-left: 100rpx;
+  padding-bottom: 100rpx;
+  border-top: 4rpx solid #dcdcdc;
+  box-sizing: content-box;
+}
+
+.notifications-nopay-title {
+  font-size: 42rpx;
+  font-weight: bold;
+}
+
+.notifications-content {
+  font-size: 30rpx;
+  color: #666;
+}
+
+.notifications-buttons {
+  display: inline-flex;
+  flex-direction: row;
+  align-content: center;
+  box-shadow: 0 0 50rpx rgba(0, 0, 0, 0.2);
+  margin-top: 50rpx;
+}
+
+.notifications-button-left {
+  background-color: #fff;
+  color: #333;
+  align-items: center;
+  display: flex;
+  padding: 10rpx 50rpx;
+  box-sizing: content-box;
+}
+
+.notifications-button-right {
+  background-color: #ccc;
+  color: #333;
+  align-items: center;
+  display: flex;
+  padding: 30rpx 50rpx;
+  box-sizing: content-box;
+}
+/* 已开通 */
+.notifications-pay{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  border-top: 4rpx solid #dcdcdc;
+  width: 100%;
+  padding: 50rpx 0rpx;
+}
+.notifications-pay-left{
+  width: 50%;
+  border-right: 1rpx solid #333;
+}
+.notifications-pay-person{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.notifications-pay-title{
+  font-size: 38rpx;
+  font-weight: 600;
+}
+.notifications-pay-text{
+  font-size: 26rpx;
+}
+.notifications-pay-right{
+  width: 50%;
+  height: 300rpx;
+}
+.qrcode{
+  width: 200rpx;
+  height: 200rpx;
+}
+.scan-title{
+  margin-top: 50rpx;
 }

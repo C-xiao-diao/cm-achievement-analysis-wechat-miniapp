@@ -95,6 +95,9 @@ Page({
         this.getGradeAnalysisData(curSubject, excellentLine, option);
         this.getScoreStatistics(curSubject, intervalValue, classType, option);
     },
+    onShareAppMessage: function (e) {
+        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    },
     onUnload: function () {
         this.firstComponent = null;
         this.secondComponent = null;

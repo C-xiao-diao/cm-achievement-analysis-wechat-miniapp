@@ -42,6 +42,9 @@ Page({
         this.getClassCompareData(option);
         this.getStudentList(option)
     },
+    onShareAppMessage: function (e) {
+        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+    },
     onUnload:function(){
         this.firstComponent = null;
         this.secondComponent = null;

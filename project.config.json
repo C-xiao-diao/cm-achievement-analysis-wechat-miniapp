@@ -73,9 +73,9 @@
           "scene": null
         },
         {
-          "id": -1,
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
+          "id": 1,
+          "name": "pages/payfor/payfor",
+          "pathName": "pages/payfor/payfor",
           "query": "subject=\"全科\"&class=\"C1801\"",
           "scene": null
         },

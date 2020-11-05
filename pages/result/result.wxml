@@ -143,6 +143,10 @@
   <text class="title" wx:if="{{subject=='语文'}}">— 作文分数段统计 —</text>
   <view class="gray-txt" wx:if="{{subject=='语文'}}">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap" style="display:{{subject=='语文'? 'block': 'none'}}">
+    <view class="score-input">
+      <input class="weui-input" bind:input="getScoreInterval" data-name="articleIntervalValue" value="{{articleIntervalValue}}" />
+      <text>分段</text>
+    </view>
     <view class="tab">
       <text class="swiper-tab-list {{currentTab2==0 ? 'active' : ''}}" data-current="0" data-name="currentTab2" bindtap="swichNav">柱状图</text>
       <text class="swiper-tab-list {{currentTab2==1 ? 'active' : ''}}" data-current="1" data-name="currentTab2" bindtap="swichNav">饼状图</text>

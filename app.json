@@ -1,12 +1,13 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/parent/parent",
     "pages/objective/objective",
     "pages/result/result",
     "pages/supervisor/supervisor",
     "pages/classManager/classManager",
-    "pages/parent/parent",
     "pages/headTeacher/headTeacher",
+    "pages/payfor/payfor",
     "pages/logs/logs"
   ],
   "window":{

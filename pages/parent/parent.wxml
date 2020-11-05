@@ -17,11 +17,15 @@
             <view class="td">{{item.subject}}</view>
             <view class="td">{{item.socre}}</view>
             <view class="td width10" wx:if="{{item.floatClassRanking == 0}}">{{item.classRanking}}(--)</view>
-            <view class="td width10" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
-            <view class="td width10" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up"
+                    src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down"
+                    src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
             <view class="td width10" wx:if="{{item.floatSchoolRanking == 0}}">{{item.schoolRanking}}(--)</view>
-            <view class="td width10" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up" src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
-            <view class="td width10" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up"
+                    src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down"
+                    src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
             <view class="td">{{item.classAvgScore}}</view>
             <view class="td">{{item.gradeMaxScore}}</view>
         </view>
@@ -39,7 +43,7 @@
         <view class="section__title">选择科目</view>
         <picker bindchange="pickSubject" value="{{gradeIndex}}" range="{{subArray}}">
             <view class="picker">
-            {{subArray[subjectIndex]}}
+                {{subArray[subjectIndex]}}
             </view>
         </picker>
     </view>
@@ -47,7 +51,9 @@
     <!-- 各题得分（客观题） -->
     <text class="title">— 各题得分（客观题） —</text>
     <view class="tab-questions test-questions">
-      <text wx:for="{{objectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex1==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item.topic}}" data-type="objective" bindtap="swichNav">{{item.topic}}</text>
+        <text wx:for="{{objectiveQuestion}}" wx:key="index"
+            class="swiper-tab-list {{activeTabIndex1==index ? 'active' : ''}}" data-current="{{index}}"
+            data-name="{{item.topic}}" data-type="objective" bindtap="swichNav">{{item.topic}}</text>
     </view>
     <text class="exam-number">{{objectiveAnswer.topic}}</text>
     <view class="show-result mb60">
@@ -59,7 +65,9 @@
     <!-- 各题得分（主观题） -->
     <text class="title">— 各题得分（主观题） —</text>
     <view class="tab-questions test-questions">
-        <text wx:for="{{subjectiveQuestion}}" wx:key="index" class="swiper-tab-list {{activeTabIndex2==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" data-type="supervisor" bindtap="swichNav">{{item}}</text>
+        <text wx:for="{{subjectiveQuestion}}" wx:key="index"
+            class="swiper-tab-list {{activeTabIndex2==index ? 'active' : ''}}" data-current="{{index}}"
+            data-name="{{item}}" data-type="supervisor" bindtap="swichNav">{{item}}</text>
     </view>
     <text class="exam-number">{{supervisorAnswer.topic}}</text>
     <view class="show-result">
@@ -70,7 +78,7 @@
     <view class="chart mb60">
         <ec-canvas id="parentSecondChart" canvas-id="parentSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
-    
+
     <!-- 班级平均得分分布图 -->
     <view class="show-result">
         <text>得分<text class="red">{{supervisorAnswer.score}}</text></text>
@@ -78,5 +86,50 @@
     </view>
     <view class="chart mb60">
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
+    </view>
+
+    <!-- 好的卷子，分越做越高 -->
+    <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
+        <text class="notifications-nopay-title">
+            好的卷子，分越做越高
+        </text>
+        <text class="notifications-content">
+            抓错题，针对性训练才能考高分
+            老师一对一，打造只属于你的错题集
+        </text>
+        <view class="notifications-buttons">
+            <text class="notifications-button-left">高分训练营</text>
+            <text class="notifications-button-right">思维蜕变才能拿高分</text>
+        </view>
+    </view>
+    <!-- 已开通 -->
+    <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
+        <view class="notifications-pay-left">
+            <text class="notifications-pay-title">
+                青云卷
+            </text>
+            <view class="notifications-pay-person">
+                <text class="notifications-pay-text">
+                    {{studentName}} |  
+                </text>
+                <text class="notifications-pay-text">
+                    {{"  "}}已开通
+                </text>
+            </view>
+            <view>
+                <!-- <text class="notifications-pay-text">
+                    2020年10月 - 2021年6月
+                </text> -->
+                <text class="notifications-pay-text">
+                    到期时间： {{vipExpireTime}}
+                </text>
+            </view>
+        </view>
+        <view class="notifications-pay-right">
+            <image class="qrcode" src="/imgs/qrcode.jpg"></image>
+            <text class="scan-title">
+                官方客服，扫码咨询
+            </text>
+        </view>
     </view>
 </view>
