@@ -140,13 +140,14 @@
   display: inline-flex;
   flex-direction: row;
   align-content: center;
-  box-shadow: 0 0 50rpx rgba(0, 0, 0, 0.2);
+  font-size: 32rpx;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.2);
   margin-top: 50rpx;
 }
 
 .notifications-button-left {
   background-color: #fff;
-  color: #333;
+  color: #0078ff;
   align-items: center;
   display: flex;
   padding: 10rpx 50rpx;

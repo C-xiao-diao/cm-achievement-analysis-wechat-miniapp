@@ -28,7 +28,7 @@ Page({
     subjectId: 9,
     subjectArray: [{ id: 9, name: '全科' },{ id: 1, name: '语文' }, { id: 2, name: '数学' }, { id: 3, name: '英语' }, { id: 4, name: '生物' }, { id: 5, name: '物理' }, { id: 6, name: '地理' }, { id: 7, name: '政治' }, { id: 8, name: '历史' }, { id: 10, name: '化学' }, { id: 11, name: '体育' }],
     gradeIndex: 0,
-    grade: ['初中2018级','初中2019级','初中2020级'],
+    grade: ['初中2018级','初中2019级','初中2020级','高中2018级','高中2019级','高中2020级'],
     gradeArray: [
       {
         id: 0,
@@ -44,6 +44,21 @@ Page({
         id: 2,
         name: '初中2020级',
         class: 'C20'
+      },
+      {
+        id: 3,
+        name: '高中2018级',
+        class: 'G18'
+      },
+      {
+        id: 4,
+        name: '高中2019级',
+        class: 'G19'
+      },
+      {
+        id: 5,
+        name: '高中2020级',
+        class: 'G20'
       }
     ],
     currentGrade: 'C18',
@@ -149,19 +164,20 @@ Page({
   },
   getClassArray(e) {//获取班级列表
     let role = e.currentTarget.dataset.role;
+    let timestamp  = Date.parse(new Date());
     let Url = app.globalData.domain + '/auth/school/queryClass';
     var that = this;
     wx.request({
       url: Url,
       header: { 'uid': app.globalData.userId },
-      data: {'schoolId': that.data.schoolId},
+      data: {'schoolId': that.data.schoolId, timestamp, classLike:e.detail.value},
       success: res => {
         var resData = res.data;
         if (resData.code == 200) {
           var list = resData.data.list;
-          var classNama = '';
-          role === 'teacher' ? classNama = 'class' : classNama = 'class1'
-          that.setData({classArray: list, [classNama]: e.detail.value})
+          let className = '';
+          role === 'teacher' ? className = 'class' : className = 'class1'
+          that.setData({classArray: list, [className]: e.detail.value})
         }
       }
     })

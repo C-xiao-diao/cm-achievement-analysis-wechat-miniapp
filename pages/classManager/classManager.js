@@ -122,6 +122,7 @@ Page({
             cmd,
             data,
             success: res => {
+                wx.hideLoading();
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let resData = _.get(res, 'data.data');
                     let firstDataSeriesByMax = [], firstDataSeriesByMin = [], firstDataSeriesByAvg = [],
@@ -199,8 +200,6 @@ Page({
                     })
                     this.initFirstChart();
                     this.initSecondChart();
-
-
                 }
             }
         })
@@ -251,8 +250,7 @@ Page({
             cmd,
             data,
             success: res => {
-                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-                    wx.hideLoading()
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {                  
                     //type: 1,各班，2总分，3各科
                     if (type == 1) {//各班
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
@@ -298,7 +296,8 @@ Page({
                         }
                     })
                 }
-            }
+            },
+            complete: res2 =>{}
         })
     },
     //组装分数段统计数据
@@ -471,7 +470,7 @@ Page({
         var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = true, seriesData = [], tooltipSetting = {};
 
         legendData = { data: secondDataLegend };
-        gridSetting = { left: "15%", right: "5%", top: "28%", bottom: "18%", }
+        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "18%", }
         xData = secondDataAxis;
         seriesData = secondDataSeries;
         tooltipSetting = {
@@ -538,7 +537,7 @@ Page({
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = false, seriesData = [], tooltipSetting = {};
         legendData = { data: fourthDataLegend }
-        gridSetting = { left: "15%", right: "5%", top: "28%", bottom: "18%", }
+        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "18%", }
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
         tooltipSetting = {
@@ -570,7 +569,7 @@ Page({
         if (currentTab2 == 1 || currentTab2 == 3) {//各班
             legendData = fifthDataYAxis;
             seriesData = fifthDataSeries;
-            gridSetting = { left: "20%", right: '15%', top: "10%", bottom: "10%", }
+            gridSetting = { left: "20%", right: '15%', top: "15%", bottom: "10%", }
             tooltipSetting = {
                 trigger: 'axis',
                 axisPointer: { type: 'shadow' },
