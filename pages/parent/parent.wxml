@@ -94,12 +94,12 @@
             好的卷子，分越做越高
         </text>
         <text class="notifications-content">
-            抓错题，针对性训练才能考高分
-            老师一对一，打造只属于你的错题集
+            抓错题 针对性训练 事半功倍
+            一对一 错题知识点 量身定制
         </text>
         <view class="notifications-buttons">
-            <text class="notifications-button-left">高分训练营</text>
-            <text class="notifications-button-right">思维蜕变才能拿高分</text>
+            <text class="notifications-button-left">请查收您的专属错题卷</text>
+            <!-- <text class="notifications-button-right">思维蜕变才能拿高分</text> -->
         </view>
     </view>
     <!-- 已开通 -->
