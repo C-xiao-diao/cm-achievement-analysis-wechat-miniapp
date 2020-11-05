@@ -122,6 +122,7 @@ Page({
             cmd,
             data,
             success: res => {
+                wx.hideLoading();
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let resData = _.get(res, 'data.data');
                     let firstDataSeriesByMax = [], firstDataSeriesByMin = [], firstDataSeriesByAvg = [],
@@ -199,8 +200,6 @@ Page({
                     })
                     this.initFirstChart();
                     this.initSecondChart();
-
-
                 }
             }
         })
@@ -251,8 +250,7 @@ Page({
             cmd,
             data,
             success: res => {
-                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-                    wx.hideLoading()
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {                  
                     //type: 1,各班，2总分，3各科
                     if (type == 1) {//各班
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
@@ -298,7 +296,8 @@ Page({
                         }
                     })
                 }
-            }
+            },
+            complete: res2 =>{}
         })
     },
     //组装分数段统计数据
