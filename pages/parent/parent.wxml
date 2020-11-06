@@ -105,7 +105,7 @@
     <!-- 已开通 -->
     <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
         <view class="notifications-pay-left">
-            <text class="notifications-pay-title">
+            <!-- <text class="notifications-pay-title">
                 青云卷
             </text>
             <view class="notifications-pay-person">
@@ -117,19 +117,25 @@
                 </text>
             </view>
             <view>
-                <!-- <text class="notifications-pay-text">
+                <text class="notifications-pay-text">
                     2020年10月 - 2021年6月
-                </text> -->
+                </text>
                 <text class="notifications-pay-text">
                     到期时间： {{vipExpireTime}}
                 </text>
-            </view>
-        </view>
-        <view class="notifications-pay-right">
+            </view> -->
             <image class="qrcode" src="/imgs/qrcode.jpg"></image>
             <text class="scan-title">
                 官方客服，扫码咨询
             </text>
+        </view>
+        <view class="notifications-pay-right">
+            <view class="notifications-pay-text">青云卷<text>|</text>已开通</view>
+            <view class="notifications-pay-text">{{vipExpireTime}}到期</view>
+            <view class="delivery-info">
+                <text class="delivery-type">快递配送</text>
+                <text class="delivery-address">地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦</text>
+            </view>
         </view>
     </view>
 </view>
