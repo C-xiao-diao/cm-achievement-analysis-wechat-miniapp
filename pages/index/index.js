@@ -372,5 +372,9 @@ Page({
         }
       }
     })
-  }
+  },
+  //点击联系客服
+  connectCustomerService: function(e){
+    console.log(e,11111111111111111111111111111111)
+  },
 })
