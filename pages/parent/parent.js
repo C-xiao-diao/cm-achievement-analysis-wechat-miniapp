@@ -39,6 +39,8 @@ Page({
         },
         //是否购买了套餐
         whetherToBuy: false,
+        pickupType: 1,//取件类型
+        address: ''//取件地址
     },
     onLoad: function (option) {
         if (!_.isEmpty(option)) {
@@ -178,7 +180,9 @@ Page({
                 if(_.get(res,'data.code')===200){
                     let whetherToBuy = _.get(res,'data.data.whetherToBuy', false);
                     let vipExpireTime = _.get(res,'data.data.vipExpireTime', "");
-                    this.setData({ whetherToBuy,vipExpireTime });
+                    let pickupType = _.get(res,'data.data.pickupType') == 1 ? '自助提货':'快递配送';
+                    let address = _.get(res,'data.data.address');
+                    this.setData({ whetherToBuy,vipExpireTime,pickupType,address });
                 }
             }
         })

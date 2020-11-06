@@ -133,8 +133,8 @@
             <view class="notifications-pay-text">青云卷<text>|</text>已开通</view>
             <view class="notifications-pay-text">{{vipExpireTime}}到期</view>
             <view class="delivery-info">
-                <text class="delivery-type">快递配送</text>
-                <text class="delivery-address">地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦地址哦</text>
+                <text class="delivery-type">{{pickupType}}</text>
+                <text class="delivery-address">{{address}}</text>
             </view>
         </view>
     </view>
