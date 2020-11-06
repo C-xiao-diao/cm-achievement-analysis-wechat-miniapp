@@ -189,7 +189,15 @@
 .gray-txt {
   display: block;
   width: 100%;
-  font-size: 36rpx;
+  font-size: 34rpx;
+  text-align: center;
+  color: gray;
+}
+
+.little-gray-txt {
+  display: block;
+  width: 100%;
+  font-size: 30rpx;
   text-align: center;
   color: gray;
 }

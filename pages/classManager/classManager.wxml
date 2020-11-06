@@ -21,8 +21,8 @@
 
     <!--平均分对比 -->
     <text class="title">— 平均分对比 —</text>
-    <text class="subtitle">（按平均分从高至低排序）</text>
-    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+    <text class="gray-txt">点击图标可选中或取消对比项</text>
+    <text class="little-gray-txt">（按平均分从高至低排序  缺考人员不计入内）</text>
     <view class="chart mb60">
         <ec-canvas id="managerFirstChart" canvas-id="managerFirstChart" ec="{{ ecFirst }}"></ec-canvas>
     </view>
@@ -30,7 +30,8 @@
     <!--历史走势图（平均分） -->
     <!-- <text class="title">— 历史走势图（平均分） —</text> -->
     <text class="title">— 平均分排名走势 —</text>
-    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+    <text class="gray-txt">点击图标可选中或取消对比项</text>
+    <text class="little-gray-txt">（缺考人员不计入内）</text>
     <view class="chart mb60">
         <ec-canvas id="managerSecondChart" canvas-id="managerSecondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>

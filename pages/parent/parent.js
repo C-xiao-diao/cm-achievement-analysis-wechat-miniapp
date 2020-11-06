@@ -56,7 +56,6 @@ Page({
         // this.checkWhetherToBuy();
     },
     onShow: function(){
-        console.log(Date.parse(new Date()),'时间长')
         this.checkWhetherToBuy();
     },
     onShareAppMessage: function (e) {

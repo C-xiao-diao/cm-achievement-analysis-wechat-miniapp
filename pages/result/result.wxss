@@ -1,7 +1,7 @@
 /**result.wxss**/
 
 
-.gray-txt {
+.little-gray-txt {
   margin-bottom: 30rpx;
 }
 
