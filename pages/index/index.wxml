@@ -90,7 +90,7 @@
 
   <view class="btn">
     <button form-type="submit" bind:tap="analyzeInfo" loading="{{isSubmitLoading}}">月考成绩分析</button>
-    <button open-type="contact" bindcontact="connectCustomerService" style="margin-top:2px">联系客服</button>
+    <!-- <button open-type="contact" bindcontact="connectCustomerService" style="margin-top:2px">联系客服</button> -->
   </view>
 </view>
 

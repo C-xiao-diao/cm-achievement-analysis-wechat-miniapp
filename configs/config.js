@@ -4,15 +4,15 @@ const Applets = {
   prod: "prod",
 };
 
-const env = "prod";
+const env = "dev";
 
 const config = {
   version: "1.0.0",
   [Applets.dev]: {
     protocol: "http" || "ws",
     hostProduction: "xxxx",
-    host: "192.168.1.5",
-    port: 3000,
+    host: "cminor.dookbook.info",
+    port: 55555,
     qiniuDomain : "qg2vjw9lg.hn-bkt.clouddn.com"
   },
   [Applets.prod]: {

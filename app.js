@@ -1,8 +1,9 @@
 //app.js
+import { http } from "utils/util";
+
 App({
   globalData: {
     userInfo: null,
-    domain: 'https://cminor.dookbook.info',
     // userId: 'b9354f02763144dc9a1003627881f7c5',      //TODO 方便开发，先写死
     userId: "",
     openId: '',
@@ -61,20 +62,20 @@ App({
     })
   },
   Login: function () {// 登录
-    var Url = this.globalData.domain + '/api/weChat/appletsGetOpenid', that = this;
+    var that = this;
     wx.login({
       success(res) {
         if (res.code) {
-          wx.request({
-            url: Url,
-            data: { code: res.code },
+          let cmd = "/api/weChat/appletsGetOpenid";
+          http.get({
+            cmd,
+            data:{ code: res.code },
             success: res => {
-              var resData = res.data;
-              if (resData.code == 200) {
+              if (res.data.code == 200) {
+                var resData = res.data;
                 that.globalData.userId = resData.data.id;
                 that.globalData.openId = resData.data.openid;
                 that.globalData.unionid = resData.data.unionid;
-                // that.getUserInfo();
               }
             }
           })
