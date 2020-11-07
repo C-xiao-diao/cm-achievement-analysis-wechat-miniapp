@@ -53,9 +53,10 @@
 
 /* 支付方案样式 */
 .pay-option {
-    margin: 90rpx 0 30rpx;
+    margin: 70rpx 0 30rpx;
     display: flex;
     width: 95%;
+    align-items: flex-end;
 }
 
 .pay-option .option {
@@ -64,6 +65,7 @@
     position: relative;
     padding: 30rpx 10rpx;
     border-radius: 15rpx;
+    border: 2rpx solid #fff;
 }
 
 .pay-option .active {
@@ -85,6 +87,12 @@
     border-radius: 20rpx 0;
     color: #fff;
     font-size: 24rpx;
+}
+
+.first-month{
+    width: 100rpx;
+    flex: 0.8 !important;
+    height: 100%;
 }
 
 .option-type , .cost , .original-cost {

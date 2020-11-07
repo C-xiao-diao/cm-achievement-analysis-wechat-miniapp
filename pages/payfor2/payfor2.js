@@ -73,10 +73,20 @@ Page({
             this.setData({ [name]: tab })
         }
     },
+    //切换
+    swichNav2: function(e){
+        let name = e.currentTarget.dataset.name;
+        let tab = e.currentTarget.dataset.current;
+        if(tab == 1){
+            this.setData({ pickupType: tab })
+        } else {
+            this.setData({ pickupType: tab, isShowAddrModal: true })
+        }
+    },
     //取消弹框
     cancelModal: function () {
         this.setData({
-            ['pickupType']: 1
+            isShowAddrModal: false
         })
     },
     //是否支付过
@@ -126,7 +136,19 @@ Page({
     },
     // 提交地址
     addAddress: function () {
-
+        const {  contactPerson, phone, address } = this.data;
+        if (contactPerson == '' || phone == '' || address == '') {
+            wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+            return;
+        }
+        if (phone.length != 11) {
+            wx.showToast({ title: '请输入有效的电话号码', icon: 'none', duration: 2000 });
+            return;
+        }
+        this.setData({
+            isShowAddrModal: false,
+            ['autoPickUpAddress']: this.data.address
+        })
     },
     //支付
     goToPay: function () {

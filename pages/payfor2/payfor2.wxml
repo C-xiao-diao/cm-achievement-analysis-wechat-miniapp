@@ -83,7 +83,7 @@
             </swiper> -->
 
             <swiper autoplay="{{true}}" interval="{{5000}}" duration="{{5000}}" circular="{{true}}" bindanimationfinish="bindanimationfinish">
-                <block wx:for="{{featureContent}}" wx:key="{{index}}">
+                <block wx:for="{{featureContent}}" wx:key="index">
                     <swiper-item>
                         <text>
                             {{item}}
@@ -118,12 +118,12 @@
             <text class="original-cost">原价：1000元</text>
         </view>
 
-        <view class="option {{productType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="productType"
+        <view class="option {{productType==1 ? 'active' : ''}} first-month" data-current="{{1}}" data-name="productType"
             bindtap="swichNav">
             <text class="tag">仅限一次</text>
             <text class="option-type">首月试用</text>
             <text class="cost">￥<text class="num">20元</text></text>
-            <text class="original-cost">原价：50元</text>
+            <!-- <text class="original-cost">原价：50元</text> -->
         </view>
     </view>
     <!-- 支付方案end -->
@@ -134,7 +134,7 @@
             <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType"
                 bindtap="swichNav">自助提货</text>
             <text class="{{pickupType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="pickupType"
-                bindtap="swichNav">快递配送</text>
+                bindtap="swichNav2">快递配送</text>
         </view>
         <view class="tab-container">
             <view class="auto-pickup" wx:if="{{pickupType===1}}">
@@ -165,7 +165,7 @@
     <button class="goToPay" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
 
     <!-- 地址弹框 -->
-    <view wx:if="{{pickupType===2}}" class="mask">
+    <view wx:if="{{isShowAddrModal}}" class="mask">
         <view class="devivery">
             <!-- <view class="cancelModal" bindtap="cancelModal">
                 <text> 关闭 </text>
