@@ -169,14 +169,21 @@
 .btn {
   width: 100%;
   position: absolute;
-  bottom: 80rpx;
+  bottom: 40rpx;
   left: 0;
 }
 
-.btn button {
+.btn .analyzeInfo {
   margin: 0 auto;
-  background: #333;
+  background: #3592e2;
   color: #fff;
+}
+
+.btn .connectCustomerService {
+  color: #3592e2;
+  font-size: 28rpx;
+  background-color: #fff;
+  width: 100%;
 }
 
 .choose-grade picker {

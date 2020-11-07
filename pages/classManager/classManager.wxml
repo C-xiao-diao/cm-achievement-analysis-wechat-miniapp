@@ -102,5 +102,6 @@
     <view class="chart" style="height:{{currentTab2 == 2 ? '800rpx': '2000rpx'}}">
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
-
+    
+    <button class="shareButton" open-type="share">分   享</button>
 </view>

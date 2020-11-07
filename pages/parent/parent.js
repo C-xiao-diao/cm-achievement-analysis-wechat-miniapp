@@ -55,11 +55,15 @@ Page({
         this.getStudentGrade(option);
         // this.checkWhetherToBuy();
     },
-    onShow: function(){
+    onShow: function () {
         this.checkWhetherToBuy();
     },
     onShareAppMessage: function (e) {
-        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+        return {
+            title: '月考分析，全面深入了解孩子学习情况',
+            path: '/pages/index/index?sendUid=' + app.globalData.id,
+            imageUrl: '/imgs/share/share_02.jpg'
+        }
     },
     onUnload: function () {
         this.firstComponent = null;
@@ -167,21 +171,21 @@ Page({
             }
         })
     },
-    checkWhetherToBuy: function(){
+    checkWhetherToBuy: function () {
         let cmd = "/auth/pay/whetherToBuy";
-        let timestamp  = Date.parse(new Date());
+        let timestamp = Date.parse(new Date());
         let data = { userId: app.globalData.userId, timestamp };
         http.get({
             cmd,
             data,
-            success: res=>{
-                console.log(res,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
-                if(_.get(res,'data.code')===200){
-                    let whetherToBuy = _.get(res,'data.data.whetherToBuy', false);
-                    let vipExpireTime = _.get(res,'data.data.vipExpireTime', "");
-                    let pickupType = _.get(res,'data.data.pickupType') == 1 ? '自助提货':'快递配送';
-                    let address = _.get(res,'data.data.address');
-                    this.setData({ whetherToBuy,vipExpireTime,pickupType,address });
+            success: res => {
+                console.log(res, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+                if (_.get(res, 'data.code') === 200) {
+                    let whetherToBuy = _.get(res, 'data.data.whetherToBuy', false);
+                    let vipExpireTime = _.get(res, 'data.data.vipExpireTime', "");
+                    let pickupType = _.get(res, 'data.data.pickupType') == 1 ? '自助提货' : '快递配送';
+                    let address = _.get(res, 'data.data.address');
+                    this.setData({ whetherToBuy, vipExpireTime, pickupType, address });
                 }
             }
         })
@@ -346,7 +350,7 @@ Page({
     //前往支付界面
     navToPayment: function () {
         wx.navigateTo({
-            url: '/pages/payfor/payfor?schoolId='+this.data.schoolId,
+            url: '/pages/payfor/payfor?schoolId=' + this.data.schoolId,
         })
     }
 })

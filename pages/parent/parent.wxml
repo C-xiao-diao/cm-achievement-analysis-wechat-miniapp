@@ -88,6 +88,8 @@
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
 
+    <button class="shareButton" open-type="share">分   享</button>
+
     <!-- 好的卷子，分越做越高 -->
     <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
         <text class="notifications-nopay-title">

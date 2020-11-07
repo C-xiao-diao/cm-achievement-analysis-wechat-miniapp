@@ -90,12 +90,24 @@ Page({
     wx.showLoading({
       title: '加载中...',
     })
-    this.initPage(option,excellentLine);
+    this.initPage(option, excellentLine);
   },
-  onShareAppMessage:function(e){
-    console.log(e,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+  //分享
+  onShareAppMessage: function (e) {
+    let timestamp = Date.parse(new Date());
+    let date = new Date(timestamp);
+    let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    return {
+      title: `${month}月月考成绩已出，这是孩子的数学错误知识点`,
+      path: '/pages/index/index?sendUid=' + app.globalData.id,
+      imageUrl: '/imgs/share/share_04.jpg'
+    }
   },
-  onUnload: function(){
+  //分享操作
+  shareAppCard: function (res) {
+    console.log(res, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+  },
+  onUnload: function () {
     this.topComponent = null;
     this.topChartComponent = null;
     this.secondComponent = null;
@@ -103,7 +115,7 @@ Page({
     this.trendComponent = null;
   },
   //页面初始
-  initPage(option,excellentLine) {
+  initPage(option, excellentLine) {
     if (option.subject) {
       this.setData({
         subject: option.subject,
@@ -118,16 +130,16 @@ Page({
     this.getDifficulty(option);
   },
   //获取用户输入的优秀线
-  getExcellentRate(e){
-    const { subject, subjectId, schoolId, excellentLine, class_,userType } = this.data;
+  getExcellentRate(e) {
+    const { subject, subjectId, schoolId, excellentLine, class_, userType } = this.data;
     var regInterger = /(^[1-9]\d*$)/;
     let value = e.detail.value;
-    if(!regInterger.test(value)){
-      wx.showToast({title: '请输入正整数',icon: 'none',duration: 1500});
+    if (!regInterger.test(value)) {
+      wx.showToast({ title: '请输入正整数', icon: 'none', duration: 1500 });
       return;
     }
-    if(value < 10 || value > 100){
-      wx.showToast({title: '请输入两位数',icon: 'none',duration: 1500});
+    if (value < 10 || value > 100) {
+      wx.showToast({ title: '请输入两位数', icon: 'none', duration: 1500 });
       return;
     }
     //存入本地缓存
@@ -142,22 +154,22 @@ Page({
     option.schoolId = schoolId;
     option.excellentRate = value || excellentLine;
     option.class_ = class_;
-    option.userType  = userType;
+    option.userType = userType;
     //end
     this.getSubjectData(value, option);
   },
   //获取成绩分析页面数据
-  getSubjectData(exLine,option) {
+  getSubjectData(exLine, option) {
     let cmd = "/auth/monthlyExamResults/list";
-    let data = { 
-      'weChatUserId': app.globalData.userId, 
+    let data = {
+      'weChatUserId': app.globalData.userId,
       excellentRate: exLine
     };
-    data = _.assign(data, option, {subject: _.get(option, 'subjectId')});
+    data = _.assign(data, option, { subject: _.get(option, 'subjectId') });
     http.get({
       cmd,
       data,
-      success: res=>{
+      success: res => {
         var resData = res.data;
         if (resData.code == 200) {
           var d = resData.data;
@@ -165,7 +177,7 @@ Page({
           var y = d.yearMonth.substr(0, 4);
           var m = d.yearMonth.substr(4, 5);
 
-          
+
           if (this.data.subject != '全科') {//单科老师页面数据
             //小数点数据*100操作
             for (var i = 0; i < d.list.length; i++) {
@@ -220,7 +232,7 @@ Page({
           //初始化图表
           this.initTopChart();
           this.initSecondChart();
-          
+
           // ------- end --------
         } else if (resData.code == 107) {
           wx.showModal({
@@ -243,12 +255,12 @@ Page({
     //获取单科页面全年级分析及各班的优秀率
     this.getAllClassesAnalysisScore(option);
     //获取单科分段人数统计
-    this.getSingleScoreSegmentStatistics(0, 0,option);
+    this.getSingleScoreSegmentStatistics(0, 0, option);
   },
   //获取单科页面全年级分析及各班的优秀率
   getAllClassesAnalysisScore: function (option) {
     let cmd = "/auth/allClassesAnalysis/allClassesAnalysisScore";
-    let data = _.assign({ 'weChatUserId': app.globalData.userId, },option, {subject: _.get(option, 'subjectId')});
+    let data = _.assign({ 'weChatUserId': app.globalData.userId, }, option, { subject: _.get(option, 'subjectId') });
     http.get({
       cmd,
       data,
@@ -273,14 +285,14 @@ Page({
           this.initTopChartByScore();
         }
       }
-  })
+    })
   },
   //获取用户输入的分数段
-  getScoreInterval:function(e){
+  getScoreInterval: function (e) {
     var reg = /(^[1-9]\d*$)/;
     let name = e.currentTarget.dataset.name;
     let value = e.detail.value;
-    if(!reg.test(value)){
+    if (!reg.test(value)) {
       wx.showToast({ title: '请输入正整数', icon: 'none', duration: 1500 });
       return;
     }
@@ -295,110 +307,110 @@ Page({
     this.getEssayAnalysis(option);
   },
   //获取作文分数段统计
-  getEssayAnalysis:function(option){
+  getEssayAnalysis: function (option) {
     let cmd = "/auth/monthlyExamResults/essayAnalysis";
-    let data = { 
+    let data = {
       schoolId: option.schoolId,
       class_: option.class_,
       userType: option.userType,
       subject: option.subjectId,
       intervalValue: this.data.articleIntervalValue
-     };
-    http.get({
-        cmd,
-        data,
-        success: res=>{
-            if(_.get(res,'data.code')===200){
-              let d = _.get(res,'data.data');
-              let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
-              for (var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++) {
-                let obj = {};
-                obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
-                obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
-                bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
-                bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
-                studentScoreList2.push(_.get(d, `scoreSegmentStatisticsEssay.${i}`));
-                bottomPieDataSeries.push(obj)
-              }
-              this.setData({bottomBarYAxis,bottomBarDataSeries,studentScoreList2,bottomPieDataSeries});
-              this.initBottomChart();
-            }
-        }
-    })
-    
-  },
-  //获取单科分数段得统计
-  getSingleScoreSegmentStatistics: function (current, currentTab1, option) {
-    let intervalValue = '';
-    if(current == 0){
-      intervalValue = '10'
-    }else if (current == 1){
-      intervalValue = '20'
-    }else {
-      intervalValue = '50'
-    }
-
-    let cmd = "/auth/monthlyExamResults/scoreSegmentStatistics";
-    let data = _.assign({ 'weChatUserId': app.globalData.userId, intervalValue},option, {subject: _.get(option, 'subjectId')});
+    };
     http.get({
       cmd,
       data,
       success: res => {
-          if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-            var resData = res.data;
-            let secondPieDataSeries = [], secondBarYAxis = [], secondBarDataSeries = [], studentScoreList1 = [];
-            let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
-            for (var i = 0; i < scoreSegmentStatistics.length; i++) {
-              let obj = {};
-              studentScoreList1.push(scoreSegmentStatistics[i]);
-              obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
-              obj.name = _.get(scoreSegmentStatistics, `${i}.score`);
-              secondPieDataSeries.push(obj);
-              secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
-              secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
-            }
-            this.setData({ 
-              secondPieDataSeries, 
-              secondBarYAxis, 
-              secondBarDataSeries, 
-              studentScoreList1,
-              tegmentedTab: current
-            }, () => {
-              // this.initSecondChart();
-              if (!this.secondComponent) {
-                this.secondComponent = this.selectComponent('#secondChart');
-              }
-              if (currentTab1 == 0) {
-                chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
-              } else {
-                chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
-              }
-              wx.hideLoading();
-            });
+        if (_.get(res, 'data.code') === 200) {
+          let d = _.get(res, 'data.data');
+          let bottomBarDataSeries = [], bottomPieDataSeries = [], bottomBarYAxis = [], studentScoreList2 = [];
+          for (var i = 0; i < d.scoreSegmentStatisticsEssay.length; i++) {
+            let obj = {};
+            obj.value = _.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`);
+            obj.name = _.get(d, `scoreSegmentStatisticsEssay.${i}.score`);
+            bottomBarYAxis.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.score`));
+            bottomBarDataSeries.push(_.get(d, `scoreSegmentStatisticsEssay.${i}.list.amount`))
+            studentScoreList2.push(_.get(d, `scoreSegmentStatisticsEssay.${i}`));
+            bottomPieDataSeries.push(obj)
           }
+          this.setData({ bottomBarYAxis, bottomBarDataSeries, studentScoreList2, bottomPieDataSeries });
+          this.initBottomChart();
+        }
+      }
+    })
+
+  },
+  //获取单科分数段得统计
+  getSingleScoreSegmentStatistics: function (current, currentTab1, option) {
+    let intervalValue = '';
+    if (current == 0) {
+      intervalValue = '10'
+    } else if (current == 1) {
+      intervalValue = '20'
+    } else {
+      intervalValue = '50'
+    }
+
+    let cmd = "/auth/monthlyExamResults/scoreSegmentStatistics";
+    let data = _.assign({ 'weChatUserId': app.globalData.userId, intervalValue }, option, { subject: _.get(option, 'subjectId') });
+    http.get({
+      cmd,
+      data,
+      success: res => {
+        if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+          var resData = res.data;
+          let secondPieDataSeries = [], secondBarYAxis = [], secondBarDataSeries = [], studentScoreList1 = [];
+          let scoreSegmentStatistics = resData.data.scoreSegmentStatistics;
+          for (var i = 0; i < scoreSegmentStatistics.length; i++) {
+            let obj = {};
+            studentScoreList1.push(scoreSegmentStatistics[i]);
+            obj.value = _.get(scoreSegmentStatistics, `${i}.list.amount`);
+            obj.name = _.get(scoreSegmentStatistics, `${i}.score`);
+            secondPieDataSeries.push(obj);
+            secondBarYAxis.push(_.get(scoreSegmentStatistics, `${i}.score`))
+            secondBarDataSeries.push(_.get(scoreSegmentStatistics, `${i}.list.amount`))
+          }
+          this.setData({
+            secondPieDataSeries,
+            secondBarYAxis,
+            secondBarDataSeries,
+            studentScoreList1,
+            tegmentedTab: current
+          }, () => {
+            // this.initSecondChart();
+            if (!this.secondComponent) {
+              this.secondComponent = this.selectComponent('#secondChart');
+            }
+            if (currentTab1 == 0) {
+              chart.initChart(this, 'secondComponent', '#secondBarChart', secondChart);
+            } else {
+              chart.initChart(this, 'secondComponent', '#secondPieChart', secondChart);
+            }
+            wx.hideLoading();
+          });
+        }
       }
     })
   },
   //获取试卷难度分析
   getDifficulty(option) {
     let cmd = "/auth/monthlyExamResults/difficultyAnalysisOfTestPaper";
-    let data = _.assign({ 'weChatUserId': app.globalData.userId}, option, {subject: _.get(option, "subjectId")});
+    let data = _.assign({ 'weChatUserId': app.globalData.userId }, option, { subject: _.get(option, "subjectId") });
     http.get({
       cmd,
       data,
       success: res => {
-          if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-            var d = res.data.data;
-            let description = _.toNumber(d.sqrt) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(d.sqrt) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
-            let description2 = _.toNumber(d.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(d.sqrt) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
-            this.setData({
-              distinction: d.distinction, //区分度
-              sqrt: d.sqrt,//标准差
-              difficultyFactor: d.difficultyFactor,//难度
-              description,
-              description2
-            })
-          }
+        if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+          var d = res.data.data;
+          let description = _.toNumber(d.sqrt) > 10 ? "此次成绩过于离散，成绩差距过大。" : _.toNumber(d.sqrt) > 5 ? "此次成绩为正常水平。" : "此次成绩趋于集中，没有拉开差距。";
+          let description2 = _.toNumber(d.difficultyFactor) >= 0.7 ? " 此次试题容易。" : _.toNumber(d.sqrt) > 0.4 ? "此次试题难度适中。" : "此次试题偏难。";
+          this.setData({
+            distinction: d.distinction, //区分度
+            sqrt: d.sqrt,//标准差
+            difficultyFactor: d.difficultyFactor,//难度
+            description,
+            description2
+          })
+        }
       }
     })
   },
@@ -428,17 +440,17 @@ Page({
       cmd,
       data,
       success: res => {
-          if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
-            var resData = res.data;
-            var list = resData.data.list;
-            rankData = []; monthData = [];
-            for (var i = 0; i < list.length; i++) {
-              rankData.push(list[i].ranking);
-              monthData.push(list[i].month)
-            }
-            this.setData({ showTrendChart: true, studentName: Name });
-            this.initTrendChart();//打开趋势图
+        if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+          var resData = res.data;
+          var list = resData.data.list;
+          rankData = []; monthData = [];
+          for (var i = 0; i < list.length; i++) {
+            rankData.push(list[i].ranking);
+            monthData.push(list[i].month)
           }
+          this.setData({ showTrendChart: true, studentName: Name });
+          this.initTrendChart();//打开趋势图
+        }
       }
     })
   },
@@ -494,11 +506,11 @@ Page({
           inverse: true,
           axisLabel: {
             formatter: function (value) {
-              if(value === _this.data.class){
-                return '{' + value + '| }{value|' + value + '}';   
+              if (value === _this.data.class) {
+                return '{' + value + '| }{value|' + value + '}';
               } else {
                 return value;
-              }           
+              }
             },
             rich: {
               value: {
@@ -543,11 +555,11 @@ Page({
           inverse: true,
           axisLabel: {
             formatter: function (value) {
-              if(value === _this.data.class){
-                return '{' + value + '| }{value|' + value + '}';   
+              if (value === _this.data.class) {
+                return '{' + value + '| }{value|' + value + '}';
               } else {
                 return value;
-              }           
+              }
             },
             rich: {
               value: {
@@ -619,7 +631,7 @@ Page({
       gridSetting = {}, seriesData = [], tooltipSetting = [];
     const { bottomBarYAxis, bottomBarDataSeries, secondBarYAxis, secondBarDataSeries,
       studentScoreList1, studentScoreList2 } = this.data;
-    let title ={};  
+    let title = {};
     yData = [
       {
         name: '分数区间段',
@@ -658,7 +670,7 @@ Page({
       }
     }
 
-    return chart.barChartOption({ title,colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
+    return chart.barChartOption({ title, colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting });
   },
   /*分数段饼状图：
     postion==0：班级分数段统计数据
@@ -668,15 +680,15 @@ Page({
     var colorData = [], pieData = [], tooltipSetting = {};
     const { secondPieDataSeries, bottomPieDataSeries, studentScoreList1, studentScoreList2 } = this.data;
 
-    let title ={
+    let title = {
       text: "（点击饼状查看学生名字及分数）",
-      textStyle:{
+      textStyle: {
         color: 'gray',
         fontSize: 14,
         fontWeight: 400,
 
       }
-    }; 
+    };
     colorData = ['#516b91', '#59c4e6', '#edafda', '#93b7e3', '#a5e7f0', '#cbb0e3', '#fad680', '#9ee6b7', '#37a2da', '#ff9f7f', '#67e0e3', '#9ee6b7', '#a092f1', '#c1232b', '#27727b']
     postion === 0 ? pieData = secondPieDataSeries : pieData = bottomPieDataSeries;
     tooltipSetting = {
@@ -691,13 +703,13 @@ Page({
       }
     }
 
-    return chart.pieChartOption({ title,colorData, pieData, tooltipSetting });
+    return chart.pieChartOption({ title, colorData, pieData, tooltipSetting });
   },
   /*
     获取学生成绩排名数据
   */
   getGradeTrendData() {
-    var gridSetting = {}, xData = [], legendData = [], yAxisInverse = true, seriesData = [],tooltipSetting={};
+    var gridSetting = {}, xData = [], legendData = [], yAxisInverse = true, seriesData = [], tooltipSetting = {};
 
     gridSetting = { left: "15%", right: "5%", top: "5%", bottom: "18%", }
     xData = monthData;
@@ -705,9 +717,9 @@ Page({
     tooltipSetting = {
       trigger: 'axis',
       position: ['15%', '0']
-  }
+    }
 
-    return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData,tooltipSetting });
+    return chart.lineChartOption({ gridSetting, xData, legendData, yAxisInverse, seriesData, tooltipSetting });
   },
   //切换 柱状图/饼状图
   swichNav: function (e) {
@@ -738,7 +750,7 @@ Page({
       return false;
     }
     let currentTab1 = this.data.currentTab1;
-    wx.showLoading({ title: '请稍等...',});
+    wx.showLoading({ title: '请稍等...', });
     let option = {};
     option.subject = this.data.subject;
     option.subjectId = this.data.subjectId;
@@ -752,9 +764,9 @@ Page({
   navAnalysis: function (e) {
     // const { subject, subjectId, schoolId, class_,userType,} = this.data;
     let type = e.target.dataset.type;
-    let str = '?class_=' + this.data.class 
-      + '&subject=' + this.data.subject 
-      + '&subjectId=' + this.data.subjectId 
+    let str = '?class_=' + this.data.class
+      + '&subject=' + this.data.subject
+      + '&subjectId=' + this.data.subjectId
       + '&yearMonth=' + this.data.yearMonth
       + '&schoolId=' + this.data.schoolId
       + '&userType=' + this.data.userType;

@@ -1,5 +1,5 @@
 const app = getApp();
-import { isArguments } from "lodash";
+// import { isArguments } from "lodash";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import { http } from "./../../utils/util";

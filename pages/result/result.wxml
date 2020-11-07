@@ -156,5 +156,5 @@
       <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
     </view>
   </view>
-  
+  <button class="shareButton" open-type="share">分   享</button>
 </view>
