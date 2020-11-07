@@ -175,12 +175,12 @@
 
 .btn .analyzeInfo {
   margin: 0 auto;
-  background: #3592e2;
+  background: #4c769a;
   color: #fff;
 }
 
 .btn .connectCustomerService {
-  color: #3592e2;
+  color: #4c769a;
   font-size: 28rpx;
   background-color: #fff;
   width: 100%;

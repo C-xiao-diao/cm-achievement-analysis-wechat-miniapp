@@ -9,7 +9,7 @@ const env = "dev";
 const config = {
   version: "1.0.0",
   [Applets.dev]: {
-    protocol: "https" || "wss",
+    protocol: "http" || "ws",
     host: "cminor.dookbook.info",
     port: 55555,
     qiniuDomain : "qg2vjw9lg.hn-bkt.clouddn.com"

@@ -205,8 +205,7 @@
 /* 底部分享按钮 */
 .shareButton{
   margin: 0 auto;
-  background: #3592e2;
+  background: #4c769a;
   color: #fff;
-  background-color: #3592e2;
   margin-bottom: 50rpx;
 }

@@ -141,17 +141,21 @@
   flex-direction: row;
   align-content: center;
   font-size: 32rpx;
-  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12rpx rgba(0, 0, 0, 0.3);
+  border-radius: 20rpx;
   margin-top: 50rpx;
 }
 
 .notifications-button-left {
-  background-color: #fff;
-  color: #0078ff;
+  color: #4c769a;
   align-items: center;
   display: flex;
-  padding: 10rpx 50rpx;
+  padding: 30rpx 30rpx;
   box-sizing: content-box;
+  border: 5rpx solid #4c769a;
+  border-radius: 20rpx;
+  box-shadow: 0 0 10rpx rbga(0,0,0,0.2);
+  font-weight: 700;
 }
 
 .notifications-button-right {

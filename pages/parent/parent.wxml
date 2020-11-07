@@ -95,12 +95,12 @@
         <text class="notifications-nopay-title">
             月考过后，错题该如何处理？
         </text>
-        <text class="notifications-content">
+        <!-- <text class="notifications-content">
             抓错题 针对性训练 事半功倍
             一对一 错题知识点 量身定制
-        </text>
+        </text> -->
         <view class="notifications-buttons">
-            <text class="notifications-button-left">请查收您的专属错题卷</text>
+            <text class="notifications-button-left">点击获取您的专属错题卷</text>
             <!-- <text class="notifications-button-right">思维蜕变才能拿高分</text> -->
         </view>
     </view>

@@ -7,7 +7,7 @@
     <view class="feature">
         <image class="feature-bg" src="/imgs/parfor/payfor_second.jpg"></image>
         <view class="feature-content">
-            <swiper autoplay="{{true}}" interval="{{2000}}" duration="{{1000}}" circular="{{true}}">
+            <!-- <swiper autoplay="{{true}}" interval="{{5000}}" duration="{{5000}}" circular="{{true}}" bindanimationfinish="bindanimationfinish">
                 <block>
                     <swiper-item>
                         <text>
@@ -80,6 +80,16 @@
                         </text>
                     </swiper-item>
                 </block>
+            </swiper> -->
+
+            <swiper autoplay="{{true}}" interval="{{5000}}" duration="{{5000}}" circular="{{true}}" bindanimationfinish="bindanimationfinish">
+                <block wx:for="{{featureContent}}" wx:key="{{index}}">
+                    <swiper-item>
+                        <text>
+                            {{item}}
+                        </text>
+                    </swiper-item>
+                </block>
             </swiper>
         </view>
     </view>
@@ -111,7 +121,7 @@
         <view class="option {{productType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="productType"
             bindtap="swichNav">
             <text class="tag">仅限一次</text>
-            <text class="option-type">首月</text>
+            <text class="option-type">首月试用</text>
             <text class="cost">￥<text class="num">20元</text></text>
             <text class="original-cost">原价：50元</text>
         </view>
