@@ -1,7 +1,7 @@
 {
   "pages":[
-    "pages/payfor2/payfor2",
     "pages/index/index",
+    "pages/payfor2/payfor2",
     "pages/payfor/payfor",
     "pages/parent/parent",
     "pages/objective/objective",

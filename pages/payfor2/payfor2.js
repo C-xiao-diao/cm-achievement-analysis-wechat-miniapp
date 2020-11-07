@@ -137,7 +137,8 @@ Page({
     // 提交地址
     addAddress: function () {
         const {  contactPerson, phone, address } = this.data;
-        if (contactPerson == '' || phone == '' || address == '') {
+        console.log(contactPerson, phone, address, '[[[[[[[[[')
+        if (_.isEmpty(contactPerson) || _.isEmpty(phone)|| _.isEmpty(address)) {
             wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
             return;
         }
@@ -156,9 +157,10 @@ Page({
         const { productType, pickupType, contactPerson, phone, address, autoPickUpAddress } = this.data;
 
         let data = { userId: app.globalData.userId, productType, pickupType, address: autoPickUpAddress };
+        console.log(pickupType, 'pickupTypepickupTypepickupTypepickupType',contactPerson,phone,address);
 
         if (pickupType === 2) {//快递配送
-            if (contactPerson == '' || phone == '' || address == '') {
+            if (_.isEmpty(contactPerson) || _.isEmpty(phone)|| _.isEmpty(address)) {
                 wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
                 return;
             }

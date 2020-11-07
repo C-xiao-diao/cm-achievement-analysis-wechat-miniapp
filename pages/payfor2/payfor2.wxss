@@ -119,18 +119,24 @@
 
 /* 支付方案样式end */
 
+/* 配送方式 */
+.delivery-way{
+    font-weight: 600;
+    font-size: 34rpx;
+}
 /* 配送地址 */
 .address {
     width: 95%;
     box-sizing: border-box;
     /* box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
     border-radius: 20rpx; */
-    padding: 20rpx 30rpx;
+    padding: 0rpx 30rpx;
     margin: 60rpx 0;
 }
 
 .add-tab {
     width: 100%;
+    margin-top: 20rpx;
 }
 
 .add-tab text {

@@ -130,6 +130,7 @@
 
     <!-- 配送地址 -->
     <view class="address">
+        <text class="delivery-way">配送方式</text>
         <view class="add-tab">
             <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType"
                 bindtap="swichNav">自助提货</text>
