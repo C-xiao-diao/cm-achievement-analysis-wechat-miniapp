@@ -350,7 +350,7 @@ Page({
     //前往支付界面
     navToPayment: function () {
         wx.navigateTo({
-            url: '/pages/payfor/payfor?schoolId=' + this.data.schoolId,
+            url: '/pages/payfor2/payfor2?schoolId=' + this.data.schoolId,
         })
     }
 })

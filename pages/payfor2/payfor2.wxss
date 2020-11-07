@@ -1,0 +1,217 @@
+/* payfor.wxss */
+/* 文案样式 */
+.big-title {
+    width: 100%; 
+    text-align: center;
+    height: 120rpx;
+    position: relative;
+}
+.big-title image {
+    width: 100%;
+    height: 120rpx;
+}
+.feature {
+    width: 100%;
+    display: flex;
+    margin-top: 30rpx;
+    position: relative;
+}
+.feature image {
+    width: 100%;
+}
+.feature-content{
+    width:100%;
+    position: absolute;
+    top: 150rpx;
+    left:12%;
+}
+.feature-content text{
+    line-height:50rpx;
+}
+
+/* 地址弹框 */
+.mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:  rgba(0,0,0,0.5);
+}
+.cancelModal{
+    width: 80rpx;
+    height: 80rpx;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: -40rpx;
+    margin-top: -40rpx;
+}
+
+/* 文案样式end */
+
+
+/* 支付方案样式 */
+.pay-option {
+    margin: 90rpx 0 30rpx;
+    display: flex;
+    width: 95%;
+}
+
+.pay-option .option {
+    flex: 1;
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+    position: relative;
+    padding: 30rpx 10rpx;
+    border-radius: 15rpx;
+}
+
+.pay-option .active {
+    border: 2rpx solid #4c769a;
+}
+
+.pay-option .option:nth-child(1), .pay-option .option:nth-child(2){
+    margin-right: 30rpx;
+}
+
+.option .tag {
+    width: 120rpx;
+    padding: 5rpx 0;
+    text-align: center;
+    position: absolute;
+    top: -20rpx;
+    left: -2rpx;
+    background: #4c769a;
+    border-radius: 20rpx 0;
+    color: #fff;
+    font-size: 24rpx;
+}
+
+.option-type , .cost , .original-cost {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 30rpx;
+    padding-bottom: 10rpx;
+}
+
+.option-type {
+    font-size: 32rpx;
+}
+
+.original-cost {
+    text-decoration: line-through;
+    color: #6a6a6a;
+    font-size: 26rpx;
+}
+
+.num {
+    font-size: 40rpx;
+}
+
+/* 支付方案样式end */
+
+/* 配送地址 */
+.address {
+    width: 95%;
+    box-sizing: border-box;
+    /* box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+    border-radius: 20rpx; */
+    padding: 20rpx 30rpx;
+    margin: 60rpx 0;
+}
+
+.add-tab {
+    width: 100%;
+}
+
+.add-tab text {
+    float: left;
+    display: block;
+    width: 150rpx;
+    border: 2rpx solid #333;
+    font-size: 30rpx;
+    text-align: center;
+    padding: 5rpx 10rpx;
+    border-radius: 10rpx;
+    margin-right: 20rpx;
+    margin-bottom: 20rpx;
+}
+
+.add-tab text.active {
+    background: #4c769a;
+    color: #fff;
+    border: 2rpx solid #4c769a;
+}
+
+.tab-container {
+    clear: both;
+    /* height: 300rpx; */
+}
+
+.auto-pickup {
+    /* height: 300rpx; */
+    margin-top: 100rpx;
+}
+
+.auto-pickup text {
+    font-size: 34rpx;
+}
+
+.devivery {
+    width: 86%;
+    /* height: 300rpx; */
+    position: absolute;
+    left: 7%;
+    top: 30%;
+    z-index: 999999;
+    background-color: #fff;
+    border-radius: 20rpx;
+    padding-top: 50rpx;
+    box-sizing: content-box;
+}
+
+.devivery view {
+    display: flex;
+    height: 65rpx;
+    z-index: 9999;
+}
+
+
+.devivery view text:first-child {
+    width: 150rpx;
+    font-size: 30rpx;
+    line-height: 65rpx;
+    text-align: right;
+}
+
+.devivery input {
+    /* flex: 1; */
+    height: 45rpx;
+    line-height: 45rpx;
+    border-bottom: 2rpx solid #ccc;
+    margin-top: 10rpx;
+}
+
+.devivery .note {
+    display: block;
+    width: 100%;
+    color: #333;
+    margin-left: 150rpx;
+}
+
+.addAddress{
+    margin-top: 50rpx;
+}
+
+/* 配送地址end */
+
+button {
+    width: 80%!important;
+    height: 120rpx!important;
+    line-height: 90rpx!important;
+    background: #4c769a;
+    border-radius: 25rpx;
+    color: #fff;
+    margin-bottom: 60rpx;
+}
