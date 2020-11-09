@@ -125,8 +125,14 @@ Page({
                 data,
                 success: res => {
                     if (_.get(res, 'data.code') === 200) {
+                        var deliveryPhone = '';
+                        if(_.get(res, 'data.data.payPhone') && !_.isEmpty(_.get(res, 'data.data.payPhone'))){
+                            deliveryPhone = _.get(res, 'data.data.payPhone')
+                        }else {
+                            deliveryPhone = _.get(res, 'data.data.userPhone')
+                        }
                         this.setData({
-                            phone: _.get(res, 'data.data.payPhone'),
+                            phone: deliveryPhone,
                             authorizePhone: _.get(res, 'data.data.userPhone')
                         })
                     }else{

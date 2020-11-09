@@ -180,7 +180,8 @@
             </view>
             <view>
                 <text>电话：</text>
-                <button class="get-phone" wx:if="{{authorizePhone==''}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
+                <!-- wx:if="{{authorizePhone==''}}"  -->
+                <button class="get-phone" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
                 <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
             </view>
             <view>

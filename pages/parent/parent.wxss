@@ -238,5 +238,5 @@
 
 .shareButton {
   font-size: 28rpx;
-  width: 400rpx!important;
+  width: 420rpx!important;
 }
