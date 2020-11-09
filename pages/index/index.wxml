@@ -101,7 +101,7 @@
   </view>
 
   <view class="btn">
-    <button class="analyzeInfo" form-type="submit" bind:tap="analyzeInfo" loading="{{isSubmitLoading}}">月考成绩分析</button>
+    <button class="analyzeInfo" form-type="submit" bind:tap="getSubscriptionPermisssion" loading="{{isSubmitLoading}}">月考成绩分析</button>
     <button class="connectCustomerService" open-type="contact" bindcontact="connectCustomerService"
       style="margin-top:2px">找不到你的学校 ？请点击这里哦 ~</button>
   </view>
