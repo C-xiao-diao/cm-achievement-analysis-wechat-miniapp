@@ -35,35 +35,6 @@ App({
         _this.globalData.nonetwork = false;
       }
     })
-    //订阅消息
-    // wx.showModal({
-    //   title: '温馨提示',
-    //   content: '为更好的促进您与买家的交流，服务号需要在向您发送每次考试成绩消息',
-    //   confirmText: "同意",
-    //   cancelText: "拒绝",
-    //   success: function (res) {
-    //     if (res.confirm) {
-    //       //调用订阅消息
-    //       console.log('用户点击确定');
-    //       //调用订阅
-    //       _this.requestSubscribe();
-    //     } else if (res.cancel) {
-    //       console.log('用户点击取消');
-    //       ///显示第二个弹说明一下
-    //       wx.showModal({
-    //         title: '温馨提示',
-    //         content: '拒绝后您将无法获取实时的与卖家（买家）的交易消息',
-    //         confirmText: "知道了",
-    //         showCancel: false,
-    //         success: function (res) {
-    //           ///点击知道了的后续操作 
-    //           ///如跳转首页面 
-    //         }
-    //       });
-    //     }
-    //   }
-    // });
-    //end
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.pixelRatio = res.pixelRatio;
@@ -90,28 +61,6 @@ App({
       },
     })
   },
-
-  //
-  requestSubscribe: function () {
-    wx.requestSubscribeMessage({
-      tmplIds: config.tmplIds,
-      success: res => {
-        wx.showToast({
-          title: '订阅消息成功',
-        })
-      },
-      fail: res => {
-        console.log(res, 'ggggggggggggggggggggggggggggggg')
-        wx.showToast({
-          title: '订阅消息失败',
-        })
-      },
-      complete: res => {
-
-      }
-    });
-  },
-  //end
   Login: function () {// 登录
     var that = this;
     wx.login({
