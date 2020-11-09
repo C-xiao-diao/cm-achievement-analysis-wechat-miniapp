@@ -196,3 +196,34 @@
   border-radius: 10rpx;
   font-size: 32rpx;
 }
+
+/* 收藏 */
+.favorites{
+  position: absolute;
+  right: 30rpx;
+  bottom: 200rpx;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1rpx solid #4c769a;
+  border-radius: 50rpx;
+  padding: 5rpx 20rpx;
+}
+
+.favorites .icon{
+  width: 40rpx;
+  height: 40rpx;
+}
+.favorites text{
+  color: #4c769a;
+  vertical-align: middle;
+  margin-left: 10rpx;
+  font-size: 28rpx;
+}
+.favorites-png{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}

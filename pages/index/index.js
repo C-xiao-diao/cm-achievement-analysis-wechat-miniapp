@@ -67,6 +67,8 @@ Page({
     ticketNumber: "",
     //提交按钮
     isSubmitLoading: false,
+    //收藏引导图
+    isShowFavoritesBg: false,
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
@@ -94,6 +96,7 @@ Page({
     let _this = this;
     wx.getSetting({
       success: function (res) {
+        console.log(res,'lllllllllllllllllllllllllllllllll')
         if (res.authSetting['scope.userInfo']) {
           _this.setData({ isShowUserInfoBtn: false });
         }
@@ -372,4 +375,12 @@ Page({
   connectCustomerService: function(e){
     console.log(e,11111111111111111111111111111111)
   },
+  //点击收藏
+  showFavorites: function(){
+    this.setData({ isShowFavoritesBg: true });
+  },
+  //点击隐藏收藏引导图
+  cancelFavorites: function(){
+    this.setData({ isShowFavoritesBg: false });
+  }
 })
