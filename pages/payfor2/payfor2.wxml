@@ -126,6 +126,7 @@
             <!-- <text class="original-cost">原价：50元</text> -->
         </view>
     </view>
+    <text class="little-gray-txt mb60">（每次月考后专属错题卷，包含全部学科，每个科目三套错题。）</text>    
     <!-- 支付方案end -->
 
     <!-- 配送地址 -->

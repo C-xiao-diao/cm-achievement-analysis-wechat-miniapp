@@ -235,3 +235,7 @@
   color: #333;
   text-align: left;
 }
+
+.shareButton {
+  font-size: 30rpx;
+}

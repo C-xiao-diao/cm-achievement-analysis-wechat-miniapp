@@ -281,3 +281,8 @@
 }
 
 /* 自定义分数段样式END */
+
+.shareButton {
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}

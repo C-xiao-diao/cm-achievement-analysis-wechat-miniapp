@@ -22,11 +22,13 @@
 .feature-content{
     width:100%;
     position: absolute;
-    top: 150rpx;
+    top: 15%;
     left:12%;
 }
-.feature-content text{
-    line-height:50rpx;
+
+.feature-content swiper-item text {
+    line-height: 65rpx;
+    font-size: 38rpx;
 }
 
 /* 地址弹框 */
@@ -171,6 +173,8 @@
 .auto-pickup text {
     font-size: 34rpx;
 }
+
+
 
 .devivery {
     width: 86%;

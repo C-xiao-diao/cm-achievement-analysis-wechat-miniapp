@@ -140,3 +140,8 @@
     top: -100rpx;
     right: 20rpx;
 }
+
+.shareButton {
+    font-size: 32rpx;
+    margin-bottom: 20rpx;
+}

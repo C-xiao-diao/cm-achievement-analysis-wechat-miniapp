@@ -88,7 +88,7 @@
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
 
-    <button class="shareButton" open-type="share">分   享</button>
+    <button class="shareButton" open-type="share">天下父母心，金榜入青云 \n 分享并帮助更多的家长</button>
 
     <!-- 好的卷子，分越做越高 -->
     <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
