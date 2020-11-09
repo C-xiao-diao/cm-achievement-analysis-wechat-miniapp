@@ -162,7 +162,7 @@
         </view>
     </view>
     <!-- 配送地址end -->
-
+    <button open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber">专属错题集 <text>点击订购</text></button>
     <button class="goToPay" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
 
     <!-- 地址弹框 -->
@@ -179,6 +179,7 @@
             </view>
             <view>
                 <text>电话：</text>
+                <button class="get-phone" wx:if="{{authorizePhone==''}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"></button>
                 <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
             </view>
             <view>
