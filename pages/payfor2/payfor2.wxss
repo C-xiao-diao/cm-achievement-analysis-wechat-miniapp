@@ -248,3 +248,7 @@ button {
     width: 65%!important;
     z-index: 1000;
 }
+
+.little-gray-txt {
+    font-size: 26rpx;
+}

@@ -199,9 +199,9 @@
 
 /* 收藏 */
 .favorites{
-  position: absolute;
-  right: 30rpx;
-  bottom: 200rpx;
+  position: fixed;
+  left: 30rpx;
+  top: 20rpx;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -220,10 +220,18 @@
   margin-left: 10rpx;
   font-size: 28rpx;
 }
-.favorites-png{
-  position: absolute;
+
+.favorites-mask {
+  position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+}
+
+.favorites-png{
+  width: 100%;
+  height: 80%;
 }

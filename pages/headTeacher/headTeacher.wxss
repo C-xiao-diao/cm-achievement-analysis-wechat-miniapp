@@ -142,6 +142,6 @@
 }
 
 .shareButton {
-    font-size: 32rpx;
+    font-size: 28rpx;
     margin-bottom: 20rpx;
 }
