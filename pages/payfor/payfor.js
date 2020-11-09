@@ -1,4 +1,5 @@
 const app = getApp();
+// import { isArguments } from "lodash";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import { http } from "./../../utils/util";
@@ -36,8 +37,18 @@ Page({
             data,
             success: res=>{
                 if(_.get(res,'data.code')===200){
-                    let whetherToBuy = _.get(res,'data.data');
-                    this.setData({whetherToBuy});
+                    let whetherToBuy = _.get(res,'data.data.whetherToBuy');
+                    if(_.get(res,'data.data.address')){
+                        var address = _.get(res,'data.data.address');
+                    }
+                    if(_.get(res,'data.data.contactPerson')){
+                        var contactPerson = _.get(res,'data.data.contactPerson');
+                    }
+                    if(_.get(res,'data.data.phone')){
+                        var phone = _.get(res,'data.data.phone');
+                    }
+                    
+                    this.setData({whetherToBuy, contactPerson, address, phone});
                 }
             }
         })

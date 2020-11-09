@@ -69,7 +69,8 @@
     <view class="firstChart">
       <ec-canvas id="objectiveFirstChart" canvas-id="objectiveFirstChart" ec="{{ ecFirstChart }}"></ec-canvas>
     </view>
-    <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+    <text class="gray-txt">点击图标可选中或取消对比项</text>
+    <text class="little-gray-txt">（平均分缺考人员不计入内）</text>
     <view class="secondChart mb60">
       <ec-canvas id="objectiveSecondChart" canvas-id="objectiveSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>

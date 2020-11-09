@@ -1,0 +1,193 @@
+<!--payfor.wxml-->
+<view class="container">
+    <!-- 文案 -->
+    <view class="big-title">
+        <image src="/imgs/parfor/payfor_top.jpg"></image>
+    </view>
+    <view class="feature">
+        <image class="feature-bg" src="/imgs/parfor/payfor_second.jpg"></image>
+        <view class="feature-content">
+            <!-- <swiper autoplay="{{true}}" interval="{{5000}}" duration="{{5000}}" circular="{{true}}" bindanimationfinish="bindanimationfinish">
+                <block>
+                    <swiper-item>
+                        <text>
+                            根据所考试卷量身定制错题卷
+                            专属错题训练完美掌握知识点
+                            青云卷 ----- 错过的分不再丢~
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            没有人会在同一个地方摔倒两次
+
+                            青云卷也不会让你在同一个知识点错两次
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            巧用青云卷 查漏补缺学习更高效
+
+                            精准攻克难点 举一反三轻松拿高分
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            考试反复出错 ，感叹题海无边？
+
+                            专属错题训练 ，助你得分上岸~
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            错题丢分不可怕
+
+                            可怕的是你已经把丢分形成了习惯
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            错题不会只错一次，但考试还有下一次
+
+                            定制你的专属试卷，轻松GET高分段
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            有时候你以为你放弃的是一道错题
+                            不曾想永不及格的分数是无数错题组成的
+                            为什么不点击付款，让青云卷助你对一次？
+                        </text>
+                    </swiper-item>
+                </block>
+                <block>
+                    <swiper-item>
+                        <text>
+                            定制专属错题卷，涨分不止一点点
+
+                            做对你的错题卷，得分可以很容易
+                        </text>
+                    </swiper-item>
+                </block>
+            </swiper> -->
+
+            <swiper autoplay="{{true}}" interval="{{5000}}" duration="{{5000}}" circular="{{true}}" bindanimationfinish="bindanimationfinish">
+                <block wx:for="{{featureContent}}" wx:key="index">
+                    <swiper-item>
+                        <text>
+                            {{item}}
+                        </text>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </view>
+    <!-- 文案end -->
+    <!-- 支付方案 -->
+    <view class="pay-option">
+        <!-- <view class="option {{productType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="productType"
+            bindtap="swichNav">
+            <text class="tag">仅限一次</text>
+            <text class="option-type">首月</text>
+            <text class="cost">￥<text class="num">20元</text></text>
+            <text class="original-cost">原价：50元</text>
+        </view> -->
+        <view class="option {{productType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="productType"
+            bindtap="swichNav">
+            <text class="tag">7.6折</text>
+            <text class="option-type">包学期</text>
+            <text class="cost">￥<text class="num">380元</text></text>
+            <text class="original-cost">原价：500元</text>
+        </view>
+        <view class="option {{productType==3 ? 'active' : ''}}" data-current="{{3}}" data-name="productType"
+            bindtap="swichNav">
+            <text class="tag">6.8折</text>
+            <text class="option-type">包年</text>
+            <text class="cost">￥<text class="num">680元</text></text>
+            <text class="original-cost">原价：1000元</text>
+        </view>
+
+        <view class="option {{productType==1 ? 'active' : ''}} first-month" data-current="{{1}}" data-name="productType"
+            bindtap="swichNav">
+            <text class="tag">仅限一次</text>
+            <text class="option-type">首月试用</text>
+            <text class="cost">￥<text class="num">20元</text></text>
+            <!-- <text class="original-cost">原价：50元</text> -->
+        </view>
+    </view>
+    <!-- 支付方案end -->
+
+    <!-- 配送地址 -->
+    <view class="address">
+        <text class="delivery-way">配送方式</text>
+        <view class="add-tab">
+            <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType"
+                bindtap="swichNav">自助提货</text>
+            <text class="{{pickupType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="pickupType"
+                bindtap="swichNav2">快递配送</text>
+        </view>
+        <view class="tab-container">
+            <view class="auto-pickup" wx:if="{{pickupType===1}}">
+                <text>{{autoPickUpAddress}}</text>
+            </view>
+            <!-- <view class="devivery" wx:if="{{pickupType===2}}">
+                <view>
+                    <text>联系人：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="contactPerson"
+                        value="{{contactPerson}}" />
+                </view>
+                <view>
+                    <text>电话：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone"
+                        value="{{phone}}" />
+                </view>
+                <view>
+                    <text>地址：</text>
+                    <input type="text" class="weui-input" bind:input="getInputValue" data-name="address"
+                        value="{{address}}" />
+                    <text class="note">顺丰不包邮，费用根据地点调整</text>
+                </view>
+            </view> -->
+        </view>
+    </view>
+    <!-- 配送地址end -->
+
+    <button class="goToPay" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
+
+    <!-- 地址弹框 -->
+    <view wx:if="{{isShowAddrModal}}" class="mask">
+        <view class="devivery">
+            <!-- <view class="cancelModal" bindtap="cancelModal">
+                <text> 关闭 </text>
+            </view> -->
+            <image class="cancelModal" bindtap="cancelModal" src="/imgs/close.png"></image>
+            <view>
+                <text>联系人：</text>
+                <input type="text" class="weui-input" bind:input="getInputValue" data-name="contactPerson"
+                    value="{{contactPerson}}" />
+            </view>
+            <view>
+                <text>电话：</text>
+                <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
+            </view>
+            <view>
+                <text>地址：</text>
+                <input type="text" class="weui-input" bind:input="getInputValue" data-name="address"
+                    value="{{address}}" />
+            </view>
+            <text class="note">顺丰不包邮，费用根据地点调整</text>
+            <button bindtap="addAddress" class="addAddress">提交</button>
+        </view>
+    </view>
+</view>

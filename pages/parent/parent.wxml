@@ -88,24 +88,26 @@
         <ec-canvas id="parentThirdChart" canvas-id="parentThirdChart" ec="{{ ecThirdChart }}"></ec-canvas>
     </view>
 
+    <button class="shareButton" open-type="share">分   享</button>
+
     <!-- 好的卷子，分越做越高 -->
     <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
         <text class="notifications-nopay-title">
             月考过后，错题该如何处理？
         </text>
-        <text class="notifications-content">
+        <!-- <text class="notifications-content">
             抓错题 针对性训练 事半功倍
             一对一 错题知识点 量身定制
-        </text>
+        </text> -->
         <view class="notifications-buttons">
-            <text class="notifications-button-left">请查收您的专属错题卷</text>
+            <text class="notifications-button-left">点击获取您的专属错题卷</text>
             <!-- <text class="notifications-button-right">思维蜕变才能拿高分</text> -->
         </view>
     </view>
     <!-- 已开通 -->
     <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
         <view class="notifications-pay-left">
-            <text class="notifications-pay-title">
+            <!-- <text class="notifications-pay-title">
                 青云卷
             </text>
             <view class="notifications-pay-person">
@@ -117,19 +119,25 @@
                 </text>
             </view>
             <view>
-                <!-- <text class="notifications-pay-text">
+                <text class="notifications-pay-text">
                     2020年10月 - 2021年6月
-                </text> -->
+                </text>
                 <text class="notifications-pay-text">
                     到期时间： {{vipExpireTime}}
                 </text>
-            </view>
-        </view>
-        <view class="notifications-pay-right">
+            </view> -->
             <image class="qrcode" src="/imgs/qrcode.jpg"></image>
             <text class="scan-title">
                 官方客服，扫码咨询
             </text>
+        </view>
+        <view class="notifications-pay-right">
+            <view class="notifications-pay-text">青云卷<text>|</text>已开通</view>
+            <view class="notifications-pay-text">{{vipExpireTime}}到期</view>
+            <view class="delivery-info">
+                <text class="delivery-type">{{pickupType}}</text>
+                <text class="delivery-address">{{address}}</text>
+            </view>
         </view>
     </view>
 </view>

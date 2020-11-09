@@ -10,7 +10,7 @@ Page({
     data: {
         yearMonth: '',
         class_: '',
-        schoolId: 0, 
+        schoolId: 0,
         overallSituation: [],
         allStudentGrade: [],
         subjectArray: [{ name: '总分', id: 9 }, { name: '语文', id: 1 }, { name: '数学', id: 2 }, { name: '英语', id: 3 }, { name: '生物', id: 4 }, { name: '物理', id: 5 }, { name: '地理', id: 6 }, { name: '政治', id: 7 }, { name: '历史', id: 8 }, { name: '化学', id: 10 }, { name: '体育', id: 11 }],
@@ -36,21 +36,28 @@ Page({
         secondDataLegend: [],
         secondDataAxis: []
     },
-    onLoad:function(option){
+    onLoad: function (option) {
         wx.showLoading({ title: '加载中...' })
         this.getGredeAnalysisData(option);
         this.getClassCompareData(option);
         this.getStudentList(option)
     },
     onShareAppMessage: function (e) {
-        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+        let timestamp = Date.parse(new Date());
+        let date = new Date(timestamp);
+        let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        return {
+            title: `${month}月月考成绩已出，请仔细查看`,
+            path: '/pages/index/index?sendUid=' + app.globalData.id,
+            imageUrl: '/imgs/share/share_01.jpg'
+        }
     },
-    onUnload:function(){
+    onUnload: function () {
         this.firstComponent = null;
         this.secondComponent = null;
     },
     //选择科目
-    pickSubject:function(e){
+    pickSubject: function (e) {
         let curSubject = e.detail.value;
         let option = {
             schoolId: this.data.schoolId,
@@ -60,29 +67,29 @@ Page({
         this.getClassCompareData(option)
     },
     //选择学生
-    chooseStudent: function(e){
+    chooseStudent: function (e) {
         const { currentTab } = this.data;
         let name = e.currentTarget.dataset.item.studentName;
         this.getStudentRankData(name, currentTab)
     },
     //换一个人
-    changeAnother: function(){
-        this.setData({hasChosen:false})
+    changeAnother: function () {
+        this.setData({ hasChosen: false })
     },
     //切换 班级/全年级
-    swichNav: function(e){
+    swichNav: function (e) {
         let tab = e.currentTarget.dataset.name;
         if (this.data[tab] === e.target.dataset.current) {
             return false;
         } else {
             let type = e.target.dataset.current;
-            this.getStudentRankData(this.data.studentName,type)
+            this.getStudentRankData(this.data.studentName, type)
         }
     },
     //获取成绩分析数据
-    getGredeAnalysisData: function(option){
+    getGredeAnalysisData: function (option) {
         let cmd = "/auth/monthlyExamResults/list";
-        let data = _.assign({ 
+        let data = _.assign({
             weChatUserId: app.globalData.userId,
             schoolId: option.schoolId,
             class_: option.class_,
@@ -99,7 +106,7 @@ Page({
                     let yearMonth = resData.yearMonth.substr(0, 4) + '-' + resData.yearMonth.substr(4, 5);
                     let overallSituation = resData.overallSituation;
                     let allStudentGrade = resData.list;
-                    for(let i = 0; i < overallSituation.length; i++){
+                    for (let i = 0; i < overallSituation.length; i++) {
                         overallSituation[i].avgClass = util.returnFloat(overallSituation[i].avgClass);
                         overallSituation[i].avgGrade = util.returnFloat(overallSituation[i].avgGrade);
                     }
@@ -114,9 +121,9 @@ Page({
         })
     },
     //获取各班对比数据
-    getClassCompareData: function(option){
+    getClassCompareData: function (option) {
         let cmd = "/auth/monthlyExamResults/classTeacherClassCompared";
-        let data = _.assign({ 
+        let data = _.assign({
             schoolId: option.schoolId,
             class_: option.class_,
             subject: option.subjectId
@@ -129,7 +136,7 @@ Page({
                     let resData = _.get(res, 'data.data');
                     let listAvg = resData.listAvg;
                     let firstDataSeriesByMax = [], firstDataSeriesByMin = [], firstDataSeriesByAvg = [], firstDataAxis = [];
-                    for(let i = 0; i < listAvg.length; i++){
+                    for (let i = 0; i < listAvg.length; i++) {
                         firstDataSeriesByMax.push(listAvg[i].maxScore)
                         firstDataSeriesByMin.push(listAvg[i].minScore)
                         firstDataSeriesByAvg.push(util.returnFloat(listAvg[i].avgScore))
@@ -137,8 +144,8 @@ Page({
                     }
                     const { subjectArray } = this.data;
                     let subjectIndex = 0;
-                    subjectArray.map((item,i)=>{
-                        if(item.id == option.subjectId){
+                    subjectArray.map((item, i) => {
+                        if (item.id == option.subjectId) {
                             subjectIndex = i;
                         }
                     })
@@ -157,9 +164,9 @@ Page({
         })
     },
     //获取学生名单数据
-    getStudentList: function(option){
+    getStudentList: function (option) {
         let cmd = "/auth/monthlyExamResults/studenSubjectRangking";
-        let data = _.assign({ 
+        let data = _.assign({
             schoolId: option.schoolId,
             class_: option.class_,
             subject: option.subjectId
@@ -171,7 +178,7 @@ Page({
                 if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     let resData = _.get(res, 'data.data');
                     let listStudentName = resData.listStudentName;
-                    for(let i = 0; i < listStudentName.length; i++){
+                    for (let i = 0; i < listStudentName.length; i++) {
                         listStudentName[i].check = false;
                     }
                     let listStudentSubject = resData.listStudentSubject;
@@ -184,18 +191,18 @@ Page({
         })
     },
     //获取某一学生各科排名成绩
-    getStudentRankData: function(name,type){
+    getStudentRankData: function (name, type) {
         let typeTxt = '';
         type === 0 ? typeTxt = 'class' : typeTxt = 'school';
         const { listStudentSubject } = this.data;
         let gradeList = [], secondDataSeries = [], secondDataLegend = [], secondDataAxis = [];
-        listStudentSubject.map(item=>{
-            if(item.studentName == name){
+        listStudentSubject.map(item => {
+            if (item.studentName == name) {
                 gradeList = item.list;
             }
         })
-        secondDataLegend = gradeList.map(item=>{ return item.subject });
-        secondDataAxis = gradeList[0].list.map(item=>{ return item.yearMonth });
+        secondDataLegend = gradeList.map(item => { return item.subject });
+        secondDataAxis = gradeList[0].list.map(item => { return item.yearMonth });
         for (let i = 0; i < gradeList.length; i++) {
             let obj = {};
             obj.data = [];
@@ -203,18 +210,18 @@ Page({
             obj.name = gradeList[i].subject;
             let list = _.get(gradeList, `${i}.list`, []);
             for (let j = 0; j < list.length; j++) {
-                if(typeTxt == 'class'){
+                if (typeTxt == 'class') {
                     obj.data[j] = list[j].classRanking;
-                }else{
+                } else {
                     obj.data[j] = list[j].schoolRanking;
                 }
-                
+
             }
             secondDataSeries.push(obj);
         }
         this.setData({
-            studentName:name,
-            hasChosen:true,
+            studentName: name,
+            hasChosen: true,
             secondDataLegend,
             secondDataAxis,
             secondDataSeries,
@@ -233,7 +240,7 @@ Page({
         chart.initChart(this, 'secondComponent', '#HTeacherSecondChart', HTeacherSecondChart);
     },
     //获取 各科各班 最高分/最低分/平均分 对比图表数据
-    getHTeacherFirstData: function(){
+    getHTeacherFirstData: function () {
         const { firstDataSeriesByMax, firstDataSeriesByMin, firstDataSeriesByAvg, firstDataAxis } = this.data;
         var colorData = [], legendData = [], xData = [], yData = [],
             gridSetting = {}, seriesData = [], tooltipSetting = {};
@@ -278,7 +285,7 @@ Page({
         return chart.barChartOption({ colorData, legendData, xData, yData, gridSetting, seriesData, tooltipSetting })
     },
     //学生单科排名走势 班级/全年级 图表数据
-    getHTeacherSecondData: function(){
+    getHTeacherSecondData: function () {
         const { secondDataSeries, secondDataLegend, secondDataAxis } = this.data;
         var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = true, seriesData = [], tooltipSetting = {};
 

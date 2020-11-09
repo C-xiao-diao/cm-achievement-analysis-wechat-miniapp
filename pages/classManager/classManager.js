@@ -78,7 +78,7 @@ Page({
     },
     onLoad: function (option) {
         if (!_.isEmpty(option)) {
-            this.setData({ grade: option.grade,schoolId: option.schoolId })
+            this.setData({ grade: option.grade, schoolId: option.schoolId })
         }
         //获取缓存内的数据，初始化数据
         let exLine = null;
@@ -96,7 +96,11 @@ Page({
         this.getScoreStatistics(curSubject, intervalValue, classType, option);
     },
     onShareAppMessage: function (e) {
-        console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
+        return {
+            title: '看月考数据分析，读懂学生，精准教学',
+            path: '/pages/index/index?sendUid=' + app.globalData.id,
+            imageUrl: '/imgs/share/share_03.jpg'
+        }
     },
     onUnload: function () {
         this.firstComponent = null;
@@ -117,7 +121,7 @@ Page({
     //获取年级成绩分析数据
     getGradeAnalysisData: function (subject, exLine, option) {
         let cmd = '/auth/gradeDirector/list';
-        let data = _.assign({ weChatUserId: app.globalData.userId, subject, excellentRate: exLine },option);
+        let data = _.assign({ weChatUserId: app.globalData.userId, subject, excellentRate: exLine }, option);
         http.get({
             cmd,
             data,
@@ -245,12 +249,12 @@ Page({
         let fifthDataAxis = [], fifthDataSeries = [], fifthDataYAxis = [];
         let intervalValue = value;
         let cmd = '/auth/gradeDirector/scoreStatistics';
-        let data = _.assign({ weChatUserId: app.globalData.userId, subject, intervalValue, type}, option);
+        let data = _.assign({ weChatUserId: app.globalData.userId, subject, intervalValue, type }, option);
         http.get({
             cmd,
             data,
             success: res => {
-                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {                  
+                if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
                     //type: 1,各班，2总分，3各科
                     if (type == 1) {//各班
                         let listScore = _.get(res, 'data.data.scoreSegmentStatistics');
@@ -297,7 +301,7 @@ Page({
                     })
                 }
             },
-            complete: res2 =>{}
+            complete: res2 => { }
         })
     },
     //组装分数段统计数据
@@ -623,8 +627,8 @@ Page({
     },
     //切换
     swichNav(e) {
-        const { grade,schoolId } = this.data;
-        let option = { grade,schoolId }
+        const { grade, schoolId } = this.data;
+        let option = { grade, schoolId }
         var tab = e.currentTarget.dataset.name;
         if (this.data[tab] === e.target.dataset.current) {
             return false;

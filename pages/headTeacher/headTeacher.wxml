@@ -74,4 +74,7 @@
         <text class="close" bindtap="changeAnother">×</text>
         <ec-canvas id="HTeacherSecondChart" canvas-id="HTeacherSecondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>
+
+    <button class="shareButton" open-type="share">分   享</button>
+
 </view>

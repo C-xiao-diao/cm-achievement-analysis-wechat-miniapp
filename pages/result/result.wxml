@@ -35,7 +35,8 @@
   <view class="topChart mb60">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
-  <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+  <text class="gray-txt">点击图标可选中或取消对比项</text>
+  <text class="little-gray-txt">（平均分缺考人员不计入内）</text>
   <view class="topChartByScore mb60">
     <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
@@ -155,5 +156,5 @@
       <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
     </view>
   </view>
-  
+  <button class="shareButton" open-type="share">分   享</button>
 </view>
