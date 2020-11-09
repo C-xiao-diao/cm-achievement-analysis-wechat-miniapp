@@ -163,7 +163,7 @@
     </view>
     <!-- 配送地址end -->
     <button open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber">专属错题集 <text>点击订购</text></button>
-    <button class="goToPay" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
+    <button class="goToPay" wx:if="{{authorizePhone!=''}}" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
 
     <!-- 地址弹框 -->
     <view wx:if="{{isShowAddrModal}}" class="mask">

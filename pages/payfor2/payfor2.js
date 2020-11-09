@@ -237,7 +237,7 @@ Page({
     //支付
     goToPay: function () {
         let cmd = "/auth/pay/initPay";
-        const { productType, pickupType, contactPerson, phone, address, autoPickUpAddress } = this.data;
+        const { productType, pickupType, contactPerson, phone, authorizePhone, address, autoPickUpAddress } = this.data;
 
         let data = { userId: app.globalData.userId, productType, pickupType, address: autoPickUpAddress };
         // console.log(pickupType, 'pickupTypepickupTypepickupTypepickupType',contactPerson,phone,address);
@@ -254,6 +254,12 @@ Page({
             data.contactPerson = contactPerson;
             data.phone = phone;
             data.address = address;
+        }else {//自助提货
+            if(authorizePhone){
+                data.phone = authorizePhone;
+            }else if(phone){
+                data.phone = phone;
+            }
         }
         http.post({
             cmd,
