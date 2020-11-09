@@ -1,5 +1,6 @@
 //app.js
 import { http } from "utils/util";
+import config from "./configs/config"
 
 App({
   globalData: {
@@ -34,7 +35,6 @@ App({
         _this.globalData.nonetwork = false;
       }
     })
-
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.pixelRatio = res.pixelRatio;
@@ -69,7 +69,7 @@ App({
           let cmd = "/api/weChat/appletsGetOpenid";
           http.get({
             cmd,
-            data:{ code: res.code },
+            data: { code: res.code },
             success: res => {
               if (res.data.code == 200) {
                 var resData = res.data;

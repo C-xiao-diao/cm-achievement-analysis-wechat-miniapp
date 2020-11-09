@@ -1,6 +1,7 @@
 import { http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
+import config from "./../../configs/config"
 
 const app = getApp()
 
@@ -67,6 +68,8 @@ Page({
     ticketNumber: "",
     //提交按钮
     isSubmitLoading: false,
+    //收藏引导图
+    isShowFavoritesBg: false,
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
@@ -94,6 +97,7 @@ Page({
     let _this = this;
     wx.getSetting({
       success: function (res) {
+        console.log(res,'lllllllllllllllllllllllllllllllll')
         if (res.authSetting['scope.userInfo']) {
           _this.setData({ isShowUserInfoBtn: false });
         }
@@ -372,4 +376,37 @@ Page({
   connectCustomerService: function(e){
     console.log(e,11111111111111111111111111111111)
   },
+  //点击弹出授权订阅消息弹框
+  getSubscriptionPermisssion:function(){
+    wx.requestSubscribeMessage({
+      tmplIds: config.tmplIds,
+      success: res => {
+        console.log(res, '===================================')
+        if(res[config.tmplIds[0]] == 'accept'){
+          wx.showToast({  title: '订阅消息成功',})
+        } else if(res[config.tmplIds[0]] == 'reject'){
+          wx.showToast({  title: '已拒绝订阅消息',})
+        } else {
+          wx.showToast({  title: '订阅异常，请联系客服',})
+        }
+      },
+      fail: res => {
+        console.log(res, 'ggggggggggggggggggggggggggggggg')
+        wx.showToast({
+          title: '订阅消息失败',
+        })
+      },
+      complete: res => {
+
+      }
+    });
+  },
+  //点击收藏
+  showFavorites: function(){
+    this.setData({ isShowFavoritesBg: true });
+  },
+  //点击隐藏收藏引导图
+  cancelFavorites: function(){
+    this.setData({ isShowFavoritesBg: false });
+  }
 })
