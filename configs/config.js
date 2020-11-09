@@ -4,7 +4,7 @@ const Applets = {
   prod: "prod",
 };
 
-const env = "prod";
+const env = "dev";
 
 const config = {
   version: "1.0.0",

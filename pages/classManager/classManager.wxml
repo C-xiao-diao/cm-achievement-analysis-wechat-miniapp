@@ -103,5 +103,5 @@
         <ec-canvas id="managerFifthChart" canvas-id="managerFifthChart" ec="{{ ecFifth }}"></ec-canvas>
     </view>
     
-    <button class="shareButton" open-type="share">分   享</button>
+    <button class="shareButton" open-type="share">分享给老师，提升教学质量</button>
 </view>

@@ -75,6 +75,6 @@
         <ec-canvas id="HTeacherSecondChart" canvas-id="HTeacherSecondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>
 
-    <button class="shareButton" open-type="share">分   享</button>
+    <button class="shareButton" open-type="share">发送学生成绩给家长</button>
 
 </view>
