@@ -109,8 +109,14 @@
 
 <button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo"
   style="width:100% !important;height:100%;z-index: 100" bindgetuserinfo="userInfoHandler"> Click me </button>
-
-  <view class="favorites-mask" wx:if="{{isShowFavoritesBg}}">
+<!--  -->
+  <view class="favorites-mask" wx:if="{{isShowFavoritesBg}}" bindtap="cancelFavorites" >
     <image  bindtap="cancelFavorites" class="favorites-png" src="/imgs/favorites/favorites.png" alt=""></image>
+      <!-- <image class="favorites-point" src="/imgs/favorites/hand.svg" ></image>
+      <text class="favorite-txt mt120">1、点击右上角，在弹层中选择<text>“添加到我的小程序”</text></text>
+      <image class="favorites-png img1" src="/imgs/favorites/img1.jpg" alt=""></image>
+      <text class="favorite-txt">2、在微信首页下拉就可以找到<text>月考成绩分析</text></text>
+      <image class="favorites-png img2" src="/imgs/favorites/img2.png" alt=""></image>
+      <view class="favorite-btn">我知道了</view> -->
   </view>
   
