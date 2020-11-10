@@ -126,14 +126,18 @@
                     到期时间： {{vipExpireTime}}
                 </text>
             </view> -->
-            <image class="qrcode" src="/imgs/qrcode.jpg"></image>
+            <!-- <image class="qrcode" src="/imgs/qrcode.jpg"></image>
             <text class="scan-title">
                 官方客服，扫码咨询
-            </text>
+            </text> -->
+            <view class="customer-service">
+                <image class="" src="/imgs/customer-service.png"></image>
+                <text>联系客服</text>
+                <button open-type="contact" bindcontact="connectCustomerService"></button>  
+            </view>
         </view>
         <view class="notifications-pay-right">
-            <view class="notifications-pay-text">青云卷<text>|</text>已开通</view>
-            <view class="notifications-pay-text">{{vipExpireTime}}到期</view>
+            <view class="notifications-pay-text">青云卷<text>|</text>{{studentName}} - 已开通   {{vipExpireTime}}到期</view>
             <view class="delivery-info">
                 <text class="delivery-type">{{pickupType}}</text>
                 <text class="delivery-address">{{address}}</text>
