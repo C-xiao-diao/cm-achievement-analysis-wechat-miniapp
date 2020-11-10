@@ -250,11 +250,13 @@
 }
 
 .navAnalysisButton{
+  width: 300rpx;
   background: #566b8e;
   color: #fff;
   border-radius: 10rpx;
-  padding: 20rpx 30rpx;
-  font-size: 32rpx;
+  padding: 15rpx 0;
+  font-size: 30rpx;
+  text-align: center;
   box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
 }
 /* 主观题客观题分析导航按钮end */
