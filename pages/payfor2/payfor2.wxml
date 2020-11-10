@@ -126,6 +126,7 @@
             <!-- <text class="original-cost">原价：50元</text> -->
         </view>
     </view>
+    <text class="little-gray-txt mb60">（每次月考后专属错题卷，包含全部学科，每个科目三套错题。）</text>    
     <!-- 支付方案end -->
 
     <!-- 配送地址 -->
@@ -133,9 +134,9 @@
         <text class="delivery-way">配送方式</text>
         <view class="add-tab">
             <text class="{{pickupType==1 ? 'active' : ''}}" data-current="{{1}}" data-name="pickupType"
-                bindtap="swichNav">自助提货</text>
+                bindtap="swichNav">学校自取</text>
             <text class="{{pickupType==2 ? 'active' : ''}}" data-current="{{2}}" data-name="pickupType"
-                bindtap="swichNav2">快递配送</text>
+                bindtap="swichNav2">配送到家</text>
         </view>
         <view class="tab-container">
             <view class="auto-pickup" wx:if="{{pickupType===1}}">
@@ -162,8 +163,8 @@
         </view>
     </view>
     <!-- 配送地址end -->
-
-    <button class="goToPay" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
+    <button open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber">专属错题集 <text>点击订购</text></button>
+    <button class="goToPay" wx:if="{{authorizePhone!=''}}" bindtap="goToPay">专属错题集 <text>点击订购</text></button>
 
     <!-- 地址弹框 -->
     <view wx:if="{{isShowAddrModal}}" class="mask">
@@ -179,6 +180,7 @@
             </view>
             <view>
                 <text>电话：</text>
+                <button class="get-phone" open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber"></button>
                 <input type="text" class="weui-input" bind:input="getInputValue" data-name="phone" value="{{phone}}" />
             </view>
             <view>

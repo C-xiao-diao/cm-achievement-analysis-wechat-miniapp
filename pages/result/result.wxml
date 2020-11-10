@@ -61,13 +61,13 @@
   </view>
   <!-- 主观题客观题分析导航按钮 -->
   <view class="navAnalysisButtonGroup mb60">
-    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">客观题统计分析</Text>
-    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">主观题统计分析</Text>
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">点击查看<view class="br"></view>客观题统计分析</Text>
+    <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">点击查看<view class="br"></view>主观题统计分析</Text>
   </view>
 
   <!-- 分数段统计 -->
   <text class="title">— 分数段统计 —</text>
-  <view class="gray-txt">（点击柱状查看学生名字及分数）</view>
+  <view class="gray-txt mb60">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap">
     <view class="tab fl-tab">
       <text class="swiper-tab-list {{tegmentedTab==0 ? 'active' : ''}}" data-type="tegmentedTab" data-current="0" data-name="tegmentedTab" bindtap="swichNav2">10分段</text>
@@ -156,5 +156,6 @@
       <ec-canvas id="bottomChart" canvas-id="bottomChart" ec="{{ ecBottom }}"></ec-canvas>
     </view>
   </view>
-  <button class="shareButton" open-type="share">分   享</button>
+  <button class="shareButton" open-type="share">发送学生成绩给家长</button>
+  <text class="little-gray-txt mb60">（家长仅能看到自己小孩的成绩）</text>
 </view>

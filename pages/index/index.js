@@ -1,6 +1,7 @@
 import { http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
+import config from "./../../configs/config"
 
 const app = getApp()
 
@@ -67,6 +68,10 @@ Page({
     ticketNumber: "",
     //提交按钮
     isSubmitLoading: false,
+    //收藏引导图
+    isShowFavoritesBg: false,
+    //是否订阅过一次性服务消息
+    // mainSwitch: false,
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
@@ -93,6 +98,7 @@ Page({
     // 用户id 在onLaunch 的login里获取，所以 首页加载数据，要么 写在 onShow里，要么写在onLoad的 callback回调里
     let _this = this;
     wx.getSetting({
+      withSubscriptions: true,
       success: function (res) {
         if (res.authSetting['scope.userInfo']) {
           _this.setData({ isShowUserInfoBtn: false });
@@ -101,7 +107,6 @@ Page({
     })
   },
   onShareAppMessage:function(e){
-    console.log(e,'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
   },
   closeUl() {
     this.setData({
@@ -190,9 +195,9 @@ Page({
     });
   },
   analyzeInfo() {//月考分析提交
+    const { role, ticketNumber, currentGrade } = this.data;
     this.setData({isSubmitLoading: true})
     var Grade = '';
-    const { role, ticketNumber, currentGrade } = this.data;
     if (role === 1) {//老师
       if (!this.data.school || !this.data.class) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
@@ -370,6 +375,73 @@ Page({
   },
   //点击联系客服
   connectCustomerService: function(e){
-    console.log(e,11111111111111111111111111111111)
   },
+  //点击弹出授权订阅消息弹框
+  getSubscriptionPermisssion:function(){
+    var isAcceptSubscriptionsSetting = wx.getStorageSync('isAcceptSubscriptionsSetting');
+    if(isAcceptSubscriptionsSetting && isAcceptSubscriptionsSetting == 'accept'){
+      this.analyzeInfo();
+      return;
+    }
+
+    //验证输入框，因为 analyzeInfo 方法后移，故在此验证
+    const { role, ticketNumber, currentGrade } = this.data;
+    this.setData({isSubmitLoading: true})
+    var Grade = '';
+    if (role === 1) {//老师
+      if (!this.data.school || !this.data.class) {
+        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
+        return;
+      }
+    } else if(role == 2) {//家长
+      if (!ticketNumber || !this.data.class1 ) {
+        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
+        return;
+      }
+    }else if(role == 3 ) {//年级主任
+      Grade = this.data.currentGrade;
+      if (!currentGrade) {
+        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
+        this.setData({isSubmitLoading: false});
+        return;
+      }
+    }
+    // ------------ end --------------
+
+    wx.requestSubscribeMessage({
+      tmplIds: config.tmplIds,
+      success: res => {
+        if(res[config.tmplIds[0]] == 'accept'){
+          wx.showToast({  title: '订阅消息成功',})
+          try {
+            wx.setStorageSync('isAcceptSubscriptionsSetting', "accept");
+          } catch (e) {
+      
+          }
+        } else if(res[config.tmplIds[0]] == 'reject'){
+          wx.showToast({  title: '已拒绝订阅消息',})
+        } else {
+          wx.showToast({  title: '订阅异常，请联系客服',})
+        }
+      },
+      fail: res => {
+        wx.showToast({
+          title: '订阅消息失败',
+        })
+      },
+      complete: res => {
+        this.analyzeInfo();
+      }
+    });
+  },
+  //点击收藏
+  showFavorites: function(){
+    this.setData({ isShowFavoritesBg: true });
+  },
+  //点击隐藏收藏引导图
+  cancelFavorites: function(){
+    this.setData({ isShowFavoritesBg: false });
+  }
 })

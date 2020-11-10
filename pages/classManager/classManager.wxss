@@ -126,3 +126,8 @@
     color: #666;
     font-size: 28rpx;
   }
+
+  .shareButton {
+    width: 500rpx!important;
+    font-size: 30rpx;
+  }

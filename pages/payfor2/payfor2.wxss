@@ -22,11 +22,13 @@
 .feature-content{
     width:100%;
     position: absolute;
-    top: 150rpx;
+    top: 15%;
     left:12%;
 }
-.feature-content text{
-    line-height:50rpx;
+
+.feature-content swiper-item text {
+    line-height: 65rpx;
+    font-size: 38rpx;
 }
 
 /* 地址弹框 */
@@ -172,6 +174,8 @@
     font-size: 34rpx;
 }
 
+
+
 .devivery {
     width: 86%;
     /* height: 300rpx; */
@@ -186,21 +190,24 @@
 }
 
 .devivery view {
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     height: 65rpx;
     z-index: 9999;
+    position: relative;
 }
 
 
 .devivery view text:first-child {
-    width: 150rpx;
+    width: 120rpx;
     font-size: 30rpx;
     line-height: 65rpx;
     text-align: right;
 }
 
 .devivery input {
-    /* flex: 1; */
+    flex: 1;
     height: 45rpx;
     line-height: 45rpx;
     border-bottom: 2rpx solid #ccc;
@@ -216,6 +223,8 @@
 
 .addAddress{
     margin-top: 50rpx;
+    padding: 0;
+    height: 90rpx!important;
 }
 
 /* 配送地址end */
@@ -228,4 +237,18 @@ button {
     border-radius: 25rpx;
     color: #fff;
     margin-bottom: 60rpx;
+}
+
+.get-phone {
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 22%;
+    height: 60rpx!important;
+    width: 65%!important;
+    z-index: 1000;
+}
+
+.little-gray-txt {
+    font-size: 24rpx;
 }

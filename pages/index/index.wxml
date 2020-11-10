@@ -36,18 +36,22 @@
   <view class="fillIn">
     <view class="school">
       <text>学校</text>
-      <input class="weui-input" bind:input="getSchoolArray" value="{{school}}" placeholder="请填写学校" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <input class="weui-input" bind:input="getSchoolArray" value="{{school}}" placeholder="请填写学校"
+        placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{schoolArray.length!=0}}">
-        <text wx:for="{{schoolArray}}" wx:key="id" data-name="{{item.schoolName}}" data-id="{{item.id}}" catch:tap="getCurSchool">{{item.schoolName}}</text>
+        <text wx:for="{{schoolArray}}" wx:key="id" data-name="{{item.schoolName}}" data-id="{{item.id}}"
+          catch:tap="getCurSchool">{{item.schoolName}}</text>
       </view>
     </view>
 
     <!-- 任课老师 -->
     <view wx:if="{{role === 1}}">
       <text>班级</text>
-      <input class="weui-input" bind:input="getClassArray" data-role="teacher" value="{{class}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <input class="weui-input" bind:input="getClassArray" data-role="teacher" value="{{class}}" placeholder="请填写班级"
+        placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{classArray.length!=0}}">
-        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="teacher" catch:tap="getCurClass">{{item}}</text>
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="teacher"
+          catch:tap="getCurClass">{{item}}</text>
       </view>
     </view>
 
@@ -55,10 +59,10 @@
     <view class="choose-grade" wx:if="{{role === 3}}">
       <text>年级</text>
       <picker bindchange="pickerGrade" value="{{gradeIndex}}" range="{{grade}}">
-      <view class="picker">
-        {{grade[gradeIndex]}}
-      </view>
-    </picker>
+        <view class="picker">
+          {{grade[gradeIndex]}}
+        </view>
+      </picker>
     </view>
 
     <!-- 任课老师 -->
@@ -74,25 +78,45 @@
     <!-- 家长 -->
     <view wx:if="{{role === 2}}">
       <text>班级</text>
-      <input class="weui-input" bind:input="getClassArray" data-role="parent" value="{{class1}}" placeholder="请填写班级" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <input class="weui-input" bind:input="getClassArray" data-role="parent" value="{{class1}}" placeholder="请填写班级"
+        placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{classArray.length!=0}}">
-        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="parent" catch:tap="getCurClass">{{item}}</text>
+        <text wx:for="{{classArray}}" wx:key="id" data-name="{{item}}" data-role="parent"
+          catch:tap="getCurClass">{{item}}</text>
       </view>
     </view>
 
     <!-- 家长 -->
     <view wx:if="{{role === 2}}">
       <text>准考证</text>
-      <input class="weui-input" bind:input="getAdmissionTicket" value="{{ticketNumber}}" placeholder="请填写准考证号" placeholder-style="color:#aaa; font-size:30rpx;" />
+      <input class="weui-input" bind:input="getAdmissionTicket" value="{{ticketNumber}}" placeholder="请填写准考证号"
+        placeholder-style="color:#aaa; font-size:30rpx;" />
     </view>
 
   </view>
 
+  <view class="favorites" bindtap="showFavorites">
+    <image class="icon" src="/imgs/favorites/favorites_icon.png" alt=""></image>
+    <text>收藏</text>
+  </view>
+
   <view class="btn">
-    <button class="analyzeInfo" form-type="submit" bind:tap="analyzeInfo" loading="{{isSubmitLoading}}">月考成绩分析</button>
-    <button class="connectCustomerService" open-type="contact" bindcontact="connectCustomerService" style="margin-top:2px">找不到你的学校 ？请点击这里哦 ~</button>
+    <button class="analyzeInfo" form-type="submit" bind:tap="getSubscriptionPermisssion" loading="{{isSubmitLoading}}">月考成绩分析</button>
+    <button class="connectCustomerService" open-type="contact" bindcontact="connectCustomerService"
+      style="margin-top:2px">找不到你的学校 ？请点击这里哦 ~</button>
   </view>
 </view>
 
-<button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo" style="width:100% !important;height:100%;z-index: 100"
-bindgetuserinfo="userInfoHandler"> Click me </button>
+<button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo"
+  style="width:100% !important;height:100%;z-index: 100" bindgetuserinfo="userInfoHandler"> Click me </button>
+<!--  -->
+  <view class="favorites-mask" wx:if="{{isShowFavoritesBg}}" bindtap="cancelFavorites" >
+    <image  bindtap="cancelFavorites" class="favorites-png" src="/imgs/favorites/favorites.png" alt=""></image>
+      <!-- <image class="favorites-point" src="/imgs/favorites/hand.svg" ></image>
+      <text class="favorite-txt mt120">1、点击右上角，在弹层中选择<text>“添加到我的小程序”</text></text>
+      <image class="favorites-png img1" src="/imgs/favorites/img1.jpg" alt=""></image>
+      <text class="favorite-txt">2、在微信首页下拉就可以找到<text>月考成绩分析</text></text>
+      <image class="favorites-png img2" src="/imgs/favorites/img2.png" alt=""></image>
+      <view class="favorite-btn">我知道了</view> -->
+  </view>
+  

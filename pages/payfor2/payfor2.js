@@ -10,6 +10,7 @@ Page({
         autoPickUpAddress: '',//自提地址
         productType: 2,//产品类型，1包月，2包学期，3包年
         pickupType: 1,//配送类型,1:自助提货，2:快递配送
+        authorizePhone: '',//授权所得手机号
         contactPerson: '',//联系人
         phone: '',//手机号码
         address: '',//地址
@@ -47,6 +48,7 @@ Page({
         this.checkIfPaid();
         this.getAutoPickUpAddress(option);
         this.randomFeatureContent();
+        this.checkHasAuthorizePhone();
     },
 
     randomFeatureContent: function () {
@@ -60,8 +62,95 @@ Page({
             return (0.5 - Math.random());
         });
         this.setData({ featureContent })
-        console.log(featureContent);
-        console.log("动画已执行完毕..................");
+        // console.log(featureContent);
+        // console.log("动画已执行完毕..................");
+    },
+    //是否授权过手机号码
+    checkHasAuthorizePhone: function(){
+        let cmd = "/auth/wechat/getUserPhone";
+        let data = { userId: app.globalData.userId };
+        http.post({
+            cmd,
+            data,
+            success: res => {
+                if (_.get(res, 'data.code') === 200) {
+                    var deliveryPhone = '';
+                    if(_.get(res, 'data.data.payPhone') && !_.isEmpty(_.get(res, 'data.data.payPhone'))){
+                        var phone = _.get(res, 'data.data.payPhone');
+                    }
+                    if(_.get(res, 'data.data.userPhone') && !_.isEmpty(_.get(res, 'data.data.userPhone'))){
+                        var authorizePhone = _.get(res, 'data.data.userPhone');
+                    }
+                    if(phone){
+                        deliveryPhone = phone;
+                    }else{
+                        deliveryPhone = authorizePhone;
+                    }
+                    this.setData({phone:deliveryPhone, authorizePhone});
+                }
+            }
+        })
+    },
+    //获取用户授权的手机号码
+    getPhoneNumber:function(e){
+        var that = this;
+        wx.login({
+            success (res) {
+              if (res.code) {
+                let cmd = "/api/weChat/appletsGetOpenid";
+                http.get({
+                  cmd,
+                  data:{code: res.code},
+                  success: res => {
+                    if (_.get(res, 'data.code') === 200) {
+                        that.getDecodePhone(e.detail.errMsg,e.detail.encryptedData,e.detail.iv)
+                    }
+                  }
+                })
+              }
+            }
+        })
+    },
+    //获取解码后的手机号
+    getDecodePhone:function(errMsg,encryptedData,iv){
+        if (errMsg == "getPhoneNumber:ok") {
+            let cmd = "/auth/wechat/getUserPhone";
+            let data = { 
+                encryptedData: encryptedData,
+                iv: iv,
+                userId: app.globalData.userId 
+            };
+            http.post({
+                cmd,
+                data,
+                success: res => {
+                    if (_.get(res, 'data.code') === 200) {
+                        var deliveryPhone = '';
+                        if(_.get(res, 'data.data.payPhone') && !_.isEmpty(_.get(res, 'data.data.payPhone'))){
+                            deliveryPhone = _.get(res, 'data.data.payPhone')
+                        }else {
+                            deliveryPhone = _.get(res, 'data.data.userPhone')
+                        }
+                        this.setData({
+                            phone: deliveryPhone,
+                            authorizePhone: _.get(res, 'data.data.userPhone')
+                        })
+                    }else{
+                        wx.showModal({
+                            title: '提示',
+                            content: _.get(res, 'data.msg') || '授权失败，请联系管理员',
+                            success(res) {}
+                        })
+                    }
+                }
+            })
+        }else{
+            wx.showModal({
+                title: '提示',
+                content: '您已拒绝授权手机号码',
+                success(res) {}
+            })
+        }
     },
     //切换
     swichNav: function (e) {
@@ -105,11 +194,11 @@ Page({
                     if (_.get(res, 'data.data.contactPerson')) {
                         var contactPerson = _.get(res, 'data.data.contactPerson');
                     }
-                    if (_.get(res, 'data.data.phone')) {
-                        var phone = _.get(res, 'data.data.phone');
-                    }
+                    // if (_.get(res, 'data.data.phone')) {
+                    //     var phone = _.get(res, 'data.data.phone');
+                    // }
 
-                    this.setData({ whetherToBuy, contactPerson, address, phone });
+                    this.setData({ whetherToBuy, contactPerson, address });
                 }
             }
         })
@@ -137,7 +226,7 @@ Page({
     // 提交地址
     addAddress: function () {
         const {  contactPerson, phone, address } = this.data;
-        console.log(contactPerson, phone, address, '[[[[[[[[[')
+        // console.log(contactPerson, phone, address, '[[[[[[[[[')
         if (_.isEmpty(contactPerson) || _.isEmpty(phone)|| _.isEmpty(address)) {
             wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
             return;
@@ -154,10 +243,10 @@ Page({
     //支付
     goToPay: function () {
         let cmd = "/auth/pay/initPay";
-        const { productType, pickupType, contactPerson, phone, address, autoPickUpAddress } = this.data;
+        const { productType, pickupType, contactPerson, phone, authorizePhone, address, autoPickUpAddress } = this.data;
 
         let data = { userId: app.globalData.userId, productType, pickupType, address: autoPickUpAddress };
-        console.log(pickupType, 'pickupTypepickupTypepickupTypepickupType',contactPerson,phone,address);
+        // console.log(pickupType, 'pickupTypepickupTypepickupTypepickupType',contactPerson,phone,address);
 
         if (pickupType === 2) {//快递配送
             if (_.isEmpty(contactPerson) || _.isEmpty(phone)|| _.isEmpty(address)) {
@@ -171,6 +260,12 @@ Page({
             data.contactPerson = contactPerson;
             data.phone = phone;
             data.address = address;
+        }else {//自助提货
+            if(authorizePhone){
+                data.phone = authorizePhone;
+            }else if(phone){
+                data.phone = phone;
+            }
         }
         http.post({
             cmd,
