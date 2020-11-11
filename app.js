@@ -22,6 +22,21 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     this.Login();
+    this.getNetworkType();
+    this.checkNetworkStatusChange();
+    this.getSystemInfo();
+  },
+  getNetworkType: function(){
+    wx.getNetworkType({
+      success (res) {
+        const networkType = res.networkType;
+        if(networkType == 'none'){//无网络
+          
+        }
+      }
+    })
+  },
+  checkNetworkStatusChange: function(){
     wx.onNetworkStatusChange(function (res) {
       if (res.networkType == 'none') {
         wx.showToast({
@@ -35,6 +50,8 @@ App({
         _this.globalData.nonetwork = false;
       }
     })
+  },
+  getSystemInfo: function(){
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.pixelRatio = res.pixelRatio;

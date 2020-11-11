@@ -1,0 +1,13 @@
+<view class="network-status">
+    <view class="network-note">
+        <icon class="icon-box-img" type="warn" size="23"></icon>
+        <text class="network-txt">网络连接出了问题，请检查您的网络连接</text>
+    </view>
+
+    <view class="network-note">
+        <icon class="icon-box-img" type="success" size="23"></icon>
+        <text class="network-txt">网络连接成功</text>
+    </view>
+</view>
+
+

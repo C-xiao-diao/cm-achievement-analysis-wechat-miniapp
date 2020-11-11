@@ -116,6 +116,18 @@ Page({
                         overallSituation,
                         allStudentGrade
                     })
+                } else if (_.get(res, 'data.code') === 107) {
+                    wx.showModal({
+                        title: '提示',
+                        content: resData.msg || '暂无数据',
+                        success(res) {
+                            if (res.confirm) {
+                                wx.navigateBack({ delta: 0, })
+                            } else if (res.cancel) {
+                                wx.navigateBack({ delta: 0, })
+                            }
+                        }
+                    })
                 }
             }
         })
