@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container" bindtap="closeUl">
+  <network-status></network-status>
   <text class="title">— 请选择您的身份 —</text>
   <view class="identity">
     <view data-role="{{1}}" class="{{role === 1 ? 'active' :''}}" bindtap="changeRole">
