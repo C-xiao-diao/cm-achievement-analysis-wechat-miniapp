@@ -177,8 +177,41 @@
   padding: 50rpx 0rpx;
 }
 .notifications-pay-left{
-  width: 50%;
+  width: 25%;
+  padding: 30rpx 3% 0 0;
   border-right: 1rpx solid #dcdcdc;
+}
+
+.customer-service {
+  width: 180rpx;
+  height: 180rpx;
+  position: relative;
+  margin: 20rpx auto 0;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.3);
+}
+
+.customer-service button{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  width: 180rpx!important;
+  height: 180rpx!important;
+}
+
+.customer-service image {
+  margin-top: 10rpx;
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.customer-service text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
 }
 .notifications-pay-person{
   display: flex;
@@ -194,11 +227,10 @@
   margin-bottom: 10rpx;
 }
 .notifications-pay-text text {
-  padding: 0 30rpx;
+  padding: 0 15rpx;
 }
 .notifications-pay-right{
-  width: 50%;
-  height: 300rpx;
+  width: 65%;
 }
 .qrcode{
   width: 200rpx;

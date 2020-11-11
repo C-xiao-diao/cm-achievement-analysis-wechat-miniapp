@@ -70,6 +70,9 @@ Page({
         this.secondComponent = null;
         this.thirdComponent = null;
     },
+    //点击联系客服
+    connectCustomerService: function(e){
+    },
     //选择科目
     pickSubject: function (e) {
         this.setData({
