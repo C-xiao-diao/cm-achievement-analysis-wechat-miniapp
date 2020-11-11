@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "ec-canvas":"./../../components/ec-canvas/ec-canvas"
+    "ec-canvas":"./../../components/ec-canvas/ec-canvas",
+    "network-status" : "../../components/network-status/network-status"
   }
 }

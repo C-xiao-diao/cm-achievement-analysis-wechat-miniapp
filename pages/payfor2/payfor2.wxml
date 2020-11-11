@@ -1,5 +1,6 @@
 <!--payfor.wxml-->
 <view class="container">
+    <network-status></network-status>
     <!-- 文案 -->
     <view class="big-title">
         <image src="/imgs/parfor/payfor_top.jpg"></image>
