@@ -51,10 +51,13 @@ Page({
                 class_: option.class_
             })
         }
-        wx.showLoading({ title: '加载中...' })
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getGradeAnalysis("", option);
         this.getStudentGrade(option);
         // this.checkWhetherToBuy();
+    },
+    onReady: function(){
+        wx.hideLoading();
     },
     onHide: function(){
         this.printLogs();

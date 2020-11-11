@@ -1,7 +1,7 @@
 /**index.wxss**/
-.container {
+/* .container {
   padding-top: 20rpx;
-}
+} */
 
 #getUserInfoBtn {
   width:100% !important;
@@ -201,7 +201,7 @@
 .favorites{
   position: fixed;
   left: 30rpx;
-  top: 20rpx;
+  top: 30rpx;
   display: inline-flex;
   flex-direction: row;
   align-items: center;

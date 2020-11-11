@@ -38,10 +38,13 @@ Page({
         secondDataAxis: []
     },
     onLoad: function (option) {
-        wx.showLoading({ title: '加载中...' })
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getGredeAnalysisData(option);
         this.getClassCompareData(option);
         this.getStudentList(option)
+    },
+    onReady: function(){
+        wx.hideLoading();
     },
     onHide: function(){
         this.printLogs();
