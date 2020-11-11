@@ -3,6 +3,7 @@ const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
+import log from "./../../utils/log";
 
 var trendChart = null, topChartByScore = null, topChart = null, secondChart = null, bottomChart = null;
 var rankData = [], monthData = [];
@@ -91,6 +92,20 @@ Page({
       title: '加载中...',
     })
     this.initPage(option, excellentLine);
+  },
+  onHide: function(){
+    this.printLogs();
+  },
+  onShow: function(){
+      this.printLogs();
+  },
+  //打印log
+  printLogs: function(){
+      log.info('info') 
+      log.warn('warn')
+      log.error('error')
+      log.setFilterMsg('filterkeyword')
+      log.setFilterMsg('addfilterkeyword')
   },
   //分享
   onShareAppMessage: function (e) {

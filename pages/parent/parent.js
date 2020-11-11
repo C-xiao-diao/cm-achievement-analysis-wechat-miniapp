@@ -3,6 +3,7 @@ import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
+import log from "./../../utils/log";
 
 var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
@@ -55,8 +56,20 @@ Page({
         this.getStudentGrade(option);
         // this.checkWhetherToBuy();
     },
-    onShow: function () {
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
         this.checkWhetherToBuy();
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         return {

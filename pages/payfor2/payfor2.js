@@ -3,6 +3,7 @@ const app = getApp();
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import { http } from "./../../utils/util";
+import log from "./../../utils/log";
 
 Page({
     data: {
@@ -50,7 +51,20 @@ Page({
         this.randomFeatureContent();
         this.checkHasAuthorizePhone();
     },
-
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
+    },
     randomFeatureContent: function () {
         let featureContent = this.data.featureContent;
 

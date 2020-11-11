@@ -2,6 +2,7 @@ import { http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import config from "./../../configs/config"
+import log from "./../../utils/log"
 
 const app = getApp()
 
@@ -74,6 +75,7 @@ Page({
     // mainSwitch: false,
   },
   onLoad() {
+    
     //获取缓存内的数据，初始化数据
     try {
       var info = wx.getStorageSync('lastDataSource');
@@ -93,7 +95,11 @@ Page({
 
     }
   },
+  onHide: function(){
+    this.printLogs();
+  },
   onShow: function () {
+    this.printLogs();
     //注意，主页 onLoad可能提前于 小程序 onLaunch 执行完， 
     // 用户id 在onLaunch 的login里获取，所以 首页加载数据，要么 写在 onShow里，要么写在onLoad的 callback回调里
     let _this = this;
@@ -106,7 +112,16 @@ Page({
       }
     })
   },
+  //客服会话
   onShareAppMessage:function(e){
+  },
+  //打印log
+  printLogs: function(){
+    log.info('info') 
+    log.warn('warn')
+    log.error('error')
+    log.setFilterMsg('filterkeyword')
+    log.setFilterMsg('addfilterkeyword')
   },
   closeUl() {
     this.setData({
