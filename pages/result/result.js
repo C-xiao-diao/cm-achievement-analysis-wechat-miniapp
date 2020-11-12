@@ -113,8 +113,9 @@ Page({
     let timestamp = Date.parse(new Date());
     let date = new Date(timestamp);
     let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    let subject = this.data.subject;
     return {
-      title: `${month}月月考成绩已出，这是孩子的数学错误知识点`,
+      title: `${month}月月考成绩已出，这是孩子的${subject}错误知识点`,
       path: '/pages/index/index?sendUid=' + app.globalData.id,
       imageUrl: '/imgs/share/share_04.jpg'
     }
