@@ -1,7 +1,8 @@
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import { http, chart } from "./../../utils/util";
-const util = require('../../utils/util.js')
+const util = require('../../utils/util.js');
+import log from "./../../utils/log";
 
 var supervisorFirstChart = null, supervisorSecondChart = null, supervisorThirdChart = null, supervisorFourthChart = null;
 
@@ -65,22 +66,26 @@ Page({
         activeTabIndex: 0,
         activeTabName: "第一题",
     },
-    onReady() {
-        // this.initFirstChart();
-        // this.initSecondChart();
-        // this.initThirdChart();
-        // this.initFourthChart();
-    },
     onLoad: function (option) {
-        // this.setData({
-        //     'subject': option.subject,
-        //     'class': option.class,
-        //     'yearMonth': option.yearMonth
-        // });
-        wx.showLoading({
-            title: '加载中...',
-        })
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getSupervisorQuestionAnalysis(option);
+    },
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');

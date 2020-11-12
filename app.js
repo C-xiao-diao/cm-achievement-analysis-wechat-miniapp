@@ -12,8 +12,7 @@ App({
     isIpx: false,   //适配IPhoneX
     statusBarHeight: 20,
     isConnected: true,
-    pixelRatio: 1,
-    nonetwork: false,
+    pixelRatio: 1
   },
   onLaunch: function () {
     let _this = this;
@@ -22,34 +21,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     this.Login();
-    this.getNetworkType();
-    this.checkNetworkStatusChange();
     this.getSystemInfo();
-  },
-  getNetworkType: function(){
-    wx.getNetworkType({
-      success (res) {
-        const networkType = res.networkType;
-        if(networkType == 'none'){//无网络
-          
-        }
-      }
-    })
-  },
-  checkNetworkStatusChange: function(){
-    wx.onNetworkStatusChange(function (res) {
-      if (res.networkType == 'none') {
-        wx.showToast({
-          title: '已断开网络',
-        })
-        _this.globalData.nonetwork = true;
-      } else {
-        wx.showToast({
-          title: '已连上网络',
-        })
-        _this.globalData.nonetwork = false;
-      }
-    })
   },
   getSystemInfo: function(){
     wx.getSystemInfo({
@@ -90,6 +62,7 @@ App({
             success: res => {
               if (res.data.code == 200) {
                 var resData = res.data;
+                wx.setStorageSync('isFirst','yes');
                 that.globalData.userId = resData.data.id;
                 that.globalData.openId = resData.data.openid;
                 that.globalData.unionid = resData.data.unionid;

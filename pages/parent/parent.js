@@ -3,6 +3,7 @@ import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
+import log from "./../../utils/log";
 
 var parentTopChart = null, parentSecondChart = null, parentThirdChart = null;
 
@@ -50,13 +51,28 @@ Page({
                 class_: option.class_
             })
         }
-        wx.showLoading({ title: '加载中...' })
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getGradeAnalysis("", option);
         this.getStudentGrade(option);
         // this.checkWhetherToBuy();
     },
-    onShow: function () {
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
         this.checkWhetherToBuy();
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         return {

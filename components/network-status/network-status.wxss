@@ -1,0 +1,30 @@
+.network-status {
+    position: fixed;
+    top: 30%;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.network-note {
+    width: 400rpx;
+    height: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 30rpx;
+    text-align: center;
+    background: rgba(0,0,0,0.8);
+    border-radius: 10rpx;
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.2);
+}
+
+.icon-box-img {
+    display: block;
+    margin-bottom: 10rpx;
+}
+
+.network-txt {
+    color: #fff;
+    font-size: 32rpx;
+    text-align: center;
+}

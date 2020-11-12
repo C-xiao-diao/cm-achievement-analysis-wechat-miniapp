@@ -3,6 +3,7 @@ const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
+import log from "./../../utils/log";
 
 var trendChart = null, topChartByScore = null, topChart = null, secondChart = null, bottomChart = null;
 var rankData = [], monthData = [];
@@ -87,18 +88,34 @@ Page({
     } catch (e) {
 
     }
-    wx.showLoading({
-      title: '加载中...',
-    })
+    wx.showLoading({ title: '加载中...', mask: true })
     this.initPage(option, excellentLine);
+  },
+  onReady: function(){
+    wx.hideLoading();
+  },
+  onHide: function(){
+    this.printLogs();
+  },
+  onShow: function(){
+      this.printLogs();
+  },
+  //打印log
+  printLogs: function(){
+      log.info('info') 
+      log.warn('warn')
+      log.error('error')
+      log.setFilterMsg('filterkeyword')
+      log.setFilterMsg('addfilterkeyword')
   },
   //分享
   onShareAppMessage: function (e) {
     let timestamp = Date.parse(new Date());
     let date = new Date(timestamp);
     let month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    let subject = this.data.subject;
     return {
-      title: `${month}月月考成绩已出，这是孩子的数学错误知识点`,
+      title: `${month}月月考成绩已出，这是孩子的${subject}错误知识点`,
       path: '/pages/index/index?sendUid=' + app.globalData.id,
       imageUrl: '/imgs/share/share_04.jpg'
     }

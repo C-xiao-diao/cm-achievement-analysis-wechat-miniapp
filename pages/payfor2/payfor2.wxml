@@ -1,5 +1,6 @@
 <!--payfor.wxml-->
 <view class="container">
+    <network-status></network-status>
     <!-- 文案 -->
     <view class="big-title">
         <image src="/imgs/parfor/payfor_top.jpg"></image>
@@ -67,7 +68,7 @@
                         <text>
                             有时候你以为你放弃的是一道错题
                             不曾想永不及格的分数是无数错题组成的
-                            为什么不点击付款，让青云卷助你对一次？
+                            让青云卷助你对一次？
                         </text>
                     </swiper-item>
                 </block>

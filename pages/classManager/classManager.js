@@ -3,6 +3,7 @@ import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js');
 import { http, chart } from "./../../utils/util";
+import log from "./../../utils/log";
 
 var managerFirstChart = null, managerSecondChart = null, managerThirdChart = null, managerFourthChart = null, managerFifthChart = null;
 var intervalValue = 20;//分数段
@@ -91,9 +92,26 @@ Page({
         }
         excellentLine = exLine || 85;
         intervalValue = value || 20;
-        wx.showLoading({ title: '加载中...' })
+        wx.showLoading({ title: '加载中...', mask:true })
         this.getGradeAnalysisData(curSubject, excellentLine, option);
         this.getScoreStatistics(curSubject, intervalValue, classType, option);
+    },
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         return {

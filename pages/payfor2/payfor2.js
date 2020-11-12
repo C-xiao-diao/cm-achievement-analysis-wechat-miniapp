@@ -3,6 +3,7 @@ const app = getApp();
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import { http } from "./../../utils/util";
+import log from "./../../utils/log";
 
 Page({
     data: {
@@ -38,19 +39,36 @@ Page({
 
             '有时候你以为你放弃的是一道错题\n' +
             '不曾想永不及格的分数是无数错题组成的\n' +
-            '为什么不点击付款，让青云卷助你对一次？',
+            '让青云卷助你对一次？',
 
             '定制专属错题卷，涨分不止一点点\n' +
             '做对你的错题卷，得分可以很容易'
         ]
     },
     onLoad: function (option) {
+        wx.showLoading({ title: '加载中...', mask: true })
         this.checkIfPaid();
         this.getAutoPickUpAddress(option);
         this.randomFeatureContent();
         this.checkHasAuthorizePhone();
     },
-
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
+    },
     randomFeatureContent: function () {
         let featureContent = this.data.featureContent;
 

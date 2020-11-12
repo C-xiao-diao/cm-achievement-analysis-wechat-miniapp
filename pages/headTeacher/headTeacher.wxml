@@ -1,4 +1,5 @@
 <view class="container" id="container">
+    <network-status></network-status>
     <text class="h1"><text class="bold">{{yearMonth}}</text>月考成绩</text>
     <text class="h2">（{{class_}}）</text>
 

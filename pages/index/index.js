@@ -2,6 +2,7 @@ import { http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 import config from "./../../configs/config"
+import log from "./../../utils/log"
 
 const app = getApp()
 
@@ -72,10 +73,13 @@ Page({
     isShowFavoritesBg: false,
     //是否订阅过一次性服务消息
     // mainSwitch: false,
+    showGuideStep: false,  //是否显示引导页
+    guideStep: 1
   },
   onLoad() {
     //获取缓存内的数据，初始化数据
     try {
+      this.isFirstComing();
       var info = wx.getStorageSync('lastDataSource');
       let infoObj = JSON.parse(info);
       if (info) {
@@ -93,7 +97,33 @@ Page({
 
     }
   },
+  //是否第一次进来
+  isFirstComing: function(){
+    let isFirst = wx.getStorageSync('isFirst') || '';
+    if(!isFirst){
+      this.openGuide();
+    }
+  },
+  openGuide: function(){
+    this.setData({
+      showGuideStep: true,
+      guideStep: 1
+    })
+  },
+  //引导步骤
+  goToNextStep: function(e){
+    let num = e.currentTarget.dataset.num;
+    if(num < 5) {
+      this.setData({guideStep: (num+1)})
+    }else{
+      this.setData({showGuideStep: false})
+    }
+  },
+  onHide: function(){
+    this.printLogs();
+  },
   onShow: function () {
+    this.printLogs();
     //注意，主页 onLoad可能提前于 小程序 onLaunch 执行完， 
     // 用户id 在onLaunch 的login里获取，所以 首页加载数据，要么 写在 onShow里，要么写在onLoad的 callback回调里
     let _this = this;
@@ -106,7 +136,16 @@ Page({
       }
     })
   },
+  //客服会话
   onShareAppMessage:function(e){
+  },
+  //打印log
+  printLogs: function(){
+    log.info('info') 
+    log.warn('warn')
+    log.error('error')
+    log.setFilterMsg('filterkeyword')
+    log.setFilterMsg('addfilterkeyword')
   },
   closeUl() {
     this.setData({

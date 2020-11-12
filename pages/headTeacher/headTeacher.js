@@ -3,6 +3,7 @@ const util = require('../../utils/util.js')
 import { chart, http } from "./../../utils/util";
 import "./../../utils/fix";
 import _ from "./../../utils/lodash";
+import log from "./../../utils/log";
 
 var HTeacherFirstChart = null, HTeacherSecondChart = null;
 
@@ -37,10 +38,27 @@ Page({
         secondDataAxis: []
     },
     onLoad: function (option) {
-        wx.showLoading({ title: '加载中...' })
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getGredeAnalysisData(option);
         this.getClassCompareData(option);
         this.getStudentList(option)
+    },
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         let timestamp = Date.parse(new Date());

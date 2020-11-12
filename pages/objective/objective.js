@@ -2,6 +2,7 @@ import "./../../utils/fix";
 import _ from "./../../utils/lodash";
 const util = require('../../utils/util.js')
 import { http, chart } from "./../../utils/util";
+import log from "./../../utils/log";
 
 var objectiveFirstChart = null, objectiveSecondChart = null, objectiveThirdChart = null, objectiveFourthChart = null;
 
@@ -73,21 +74,26 @@ Page({
         correctAnswer: [], //正确答案
 
     },
-    onReady() {
-        // this.initFirstChart();
-        // this.initSecondChart();
-        // this.initThirdChart();
-        // this.initFourthChart();
-
-    },
     onLoad: function (option) {
-        wx.showLoading({ title: '加载中...' })
-        // this.setData({
-        //     'subject': option.subject,
-        //     'class': option.class,
-        //     'yearMonth': option.yearMonth
-        // });
+        wx.showLoading({ title: '加载中...', mask: true })
         this.getObjectiveQuestionAnalysis(option)
+    },
+    onReady: function(){
+        wx.hideLoading();
+    },
+    onHide: function(){
+        this.printLogs();
+    },
+    onShow: function(){
+        this.printLogs();
+    },
+    //打印log
+    printLogs: function(){
+        log.info('info') 
+        log.warn('warn')
+        log.error('error')
+        log.setFilterMsg('filterkeyword')
+        log.setFilterMsg('addfilterkeyword')
     },
     onShareAppMessage: function (e) {
         console.log(e, 'vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv');
