@@ -62,6 +62,7 @@ App({
             success: res => {
               if (res.data.code == 200) {
                 var resData = res.data;
+                wx.setStorageSync('isFirst','yes');
                 that.globalData.userId = resData.data.id;
                 that.globalData.openId = resData.data.openid;
                 that.globalData.unionid = resData.data.unionid;

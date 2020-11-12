@@ -73,11 +73,13 @@ Page({
     isShowFavoritesBg: false,
     //是否订阅过一次性服务消息
     // mainSwitch: false,
+    showGuideStep: false,  //是否显示引导页
+    guideStep: 1
   },
   onLoad() {
-    
     //获取缓存内的数据，初始化数据
     try {
+      this.isFirstComing();
       var info = wx.getStorageSync('lastDataSource');
       let infoObj = JSON.parse(info);
       if (info) {
@@ -93,6 +95,25 @@ Page({
       }
     } catch (e) {
 
+    }
+  },
+  //是否第一次进来
+  isFirstComing: function(){
+    let isFirst = wx.getStorageSync('isFirst') || '';
+    if(!isFirst){
+      this.setData({
+        showGuideStep: true,
+        guideStep: 1
+      })
+    }
+  },
+  //引导步骤
+  goToNextStep: function(e){
+    let num = e.currentTarget.dataset.num;
+    if(num < 5) {
+      this.setData({guideStep: (num+1)})
+    }else{
+      this.setData({showGuideStep: false})
     }
   },
   onHide: function(){

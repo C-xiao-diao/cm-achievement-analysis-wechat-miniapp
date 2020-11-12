@@ -110,7 +110,6 @@
 
 <button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo"
   style="width:100% !important;height:100%;z-index: 100" bindgetuserinfo="userInfoHandler"> Click me </button>
-<!--  -->
   <view class="favorites-mask" wx:if="{{isShowFavoritesBg}}" bindtap="cancelFavorites" >
     <image  bindtap="cancelFavorites" class="favorites-png" src="/imgs/favorites/favorites.png" alt=""></image>
       <!-- <image class="favorites-point" src="/imgs/favorites/hand.svg" ></image>
@@ -119,5 +118,13 @@
       <text class="favorite-txt">2、在微信首页下拉就可以找到<text>月考成绩分析</text></text>
       <image class="favorites-png img2" src="/imgs/favorites/img2.png" alt=""></image>
       <view class="favorite-btn">我知道了</view> -->
+  </view>
+
+  <view class="step-mask" wx:if="{{showGuideStep}}">
+    <image class="step1" style="display: {{guideStep==1? 'inline-block':'none'}}" bindtap="goToNextStep" data-num="{{1}}" src="/imgs/guide/step1.jpg"></image>
+    <image class="step2" style="display: {{guideStep==2? 'inline-block':'none'}}" bindtap="goToNextStep" data-num="{{2}}" src="/imgs/guide/step2.png"></image>
+    <image class="step3" style="display: {{guideStep==3? 'inline-block':'none'}}" bindtap="goToNextStep" data-num="{{3}}" src="/imgs/guide/step3.png"></image>
+    <image class="step4" style="display: {{guideStep==4? 'inline-block':'none'}}" bindtap="goToNextStep" data-num="{{4}}" src="/imgs/guide/step4.png"></image>
+    <image class="step5" style="display: {{guideStep==5? 'inline-block':'none'}}" bindtap="goToNextStep" data-num="{{5}}" src="/imgs/guide/step5.png"></image>
   </view>
   
