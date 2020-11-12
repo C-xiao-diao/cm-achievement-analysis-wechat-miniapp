@@ -101,11 +101,14 @@ Page({
   isFirstComing: function(){
     let isFirst = wx.getStorageSync('isFirst') || '';
     if(!isFirst){
-      this.setData({
-        showGuideStep: true,
-        guideStep: 1
-      })
+      this.openGuide();
     }
+  },
+  openGuide: function(){
+    this.setData({
+      showGuideStep: true,
+      guideStep: 1
+    })
   },
   //引导步骤
   goToNextStep: function(e){

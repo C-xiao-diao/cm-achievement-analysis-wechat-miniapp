@@ -100,6 +100,9 @@
     <image class="icon" src="/imgs/favorites/favorites_icon.png" alt=""></image>
     <text>收藏</text>
   </view>
+  <view class="howtouse" bindtap="openGuide">
+    <text>如何使用？</text>
+  </view>
 
   <view class="btn">
     <button class="analyzeInfo" form-type="submit" bind:tap="getSubscriptionPermisssion" loading="{{isSubmitLoading}}">月考成绩分析</button>

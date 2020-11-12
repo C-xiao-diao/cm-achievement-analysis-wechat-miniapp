@@ -198,7 +198,7 @@
 }
 
 /* 收藏 */
-.favorites{
+.favorites {
   position: fixed;
   left: 30rpx;
   top: 30rpx;
@@ -210,11 +210,20 @@
   padding: 5rpx 20rpx;
 }
 
+.howtouse {
+  border: 1rpx solid #4c769a;
+  border-radius: 50rpx;
+  padding: 0 10rpx 5rpx;
+  position: fixed;
+  right: 30rpx;
+  top: 30rpx;
+}
+
 .favorites .icon{
   width: 40rpx;
   height: 40rpx;
 }
-.favorites text{
+.favorites text , .howtouse text {
   color: #4c769a;
   vertical-align: middle;
   margin-left: 10rpx;
