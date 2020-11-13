@@ -65,7 +65,7 @@ Page({
     ],
     currentGrade: 'C18',
     //角色
-    role: 1,            // 1老师   2家长   3年级主任
+    role: 2,            // 1老师   2家长   3年级主任
     ticketNumber: "",
     //提交按钮
     isSubmitLoading: false,

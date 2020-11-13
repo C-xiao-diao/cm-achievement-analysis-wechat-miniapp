@@ -3,6 +3,10 @@
   <network-status></network-status>
   <text class="title">— 请选择您的身份 —</text>
   <view class="identity">
+    <view data-role="{{2}}" class="{{role === 2 ? 'active' :''}}" bindtap="changeRole">
+      <image class="icon" src="/imgs/parents.svg" alt=""></image>
+      <text>家长/学生</text>
+    </view>
     <view data-role="{{1}}" class="{{role === 1 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/teacher.svg" alt=""></image>
       <text>任课老师</text>
@@ -10,10 +14,6 @@
     <view data-role="{{3}}" class="{{role === 3 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/director.svg" alt=""></image>
       <text>年级主任</text>
-    </view>
-    <view data-role="{{2}}" class="{{role === 2 ? 'active' :''}}" bindtap="changeRole">
-      <image class="icon" src="/imgs/parents.svg" alt=""></image>
-      <text>家长</text>
     </view>
   </view>
 

@@ -55,7 +55,7 @@
                 bindtap="swichNav2">配送到家</text>
         </view>
         <view class="tab-container" wx:if="{{pickupType===1}}">
-            <text>{{autoPickUpAddress}}这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方这是放地址的地方</text>
+            <text>{{autoPickUpAddress}}</text>
         </view>
     </view>
     <!-- 配送地址end -->
