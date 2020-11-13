@@ -418,35 +418,14 @@ Page({
   //点击弹出授权订阅消息弹框
   getSubscriptionPermisssion:function(){
     var isAcceptSubscriptionsSetting = wx.getStorageSync('isAcceptSubscriptionsSetting');
-    if(isAcceptSubscriptionsSetting && isAcceptSubscriptionsSetting == 'accept'){
+    let curMonth = new Date().getMonth() + 1;
+    if(isAcceptSubscriptionsSetting && isAcceptSubscriptionsSetting == curMonth){
       this.analyzeInfo();
       return;
     }
 
     //验证输入框，因为 analyzeInfo 方法后移，故在此验证
-    const { role, ticketNumber, currentGrade } = this.data;
-    this.setData({isSubmitLoading: true})
-    var Grade = '';
-    if (role === 1) {//老师
-      if (!this.data.school || !this.data.class) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    } else if(role == 2) {//家长
-      if (!ticketNumber || !this.data.class1 ) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    }else if(role == 3 ) {//年级主任
-      Grade = this.data.currentGrade;
-      if (!currentGrade) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    }
+    
     // ------------ end --------------
 
     wx.requestSubscribeMessage({
@@ -455,7 +434,8 @@ Page({
         if(res[config.tmplIds[0]] == 'accept'){
           wx.showToast({  title: '订阅消息成功',})
           try {
-            wx.setStorageSync('isAcceptSubscriptionsSetting', "accept");
+            let month = (new Date().getMonth()+1);
+            wx.setStorageSync('isAcceptSubscriptionsSetting', month);
           } catch (e) {
       
           }
