@@ -5,6 +5,7 @@
     <text class="h2">（{{class_ + ' - ' + studentName}}）</text>
 
     <!-- 成绩表 -->
+    <text class="title">— 成绩表 —</text>
     <view class="table parantsTable mb60">
         <view class="tr">
             <view class="th">科目</view>
@@ -17,16 +18,16 @@
         <view class="tr" wx:for="{{transcriptList}}" wx:key="id">
             <view class="td">{{item.subject}}</view>
             <view class="td">{{item.socre}}</view>
-            <view class="td width10" wx:if="{{item.floatClassRanking == 0}}">{{item.classRanking}}(--)</view>
-            <view class="td width10" wx:if="{{item.floatClassRanking > 0}}">{{item.classRanking}}(<image class="up"
-                    src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}})</view>
-            <view class="td width10" wx:if="{{item.floatClassRanking < 0}}">{{item.classRanking}}(<image class="down"
-                    src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}})</view>
-            <view class="td width10" wx:if="{{item.floatSchoolRanking == 0}}">{{item.schoolRanking}}(--)</view>
-            <view class="td width10" wx:if="{{item.floatSchoolRanking > 0}}">{{item.schoolRanking}}(<image class="up"
-                    src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}})</view>
-            <view class="td width10" wx:if="{{item.floatSchoolRanking < 0}}">{{item.schoolRanking}}(<image class="down"
-                    src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}})</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking == 0}}"><!-- {{item.classRanking}} -->--</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking > 0}}"><!--{{item.classRanking}} --><image class="up"
+                    src="/imgs/arrow_up.svg"></image>{{item.floatClassRanking}}</view>
+            <view class="td width10" wx:if="{{item.floatClassRanking < 0}}"><!--{{item.classRanking}}( --><image class="down"
+                    src="/imgs/arrow_down.svg"></image>{{-item.floatClassRanking}}</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking == 0}}"><!--{{item.schoolRanking}}( -->--</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking > 0}}"><!--{{item.schoolRanking}}( --><image class="up"
+                    src="/imgs/arrow_up.svg"></image>{{item.floatSchoolRanking}}</view>
+            <view class="td width10" wx:if="{{item.floatSchoolRanking < 0}}"><!--{{item.schoolRanking}}( --><image class="down"
+                    src="/imgs/arrow_down.svg"></image>{{-item.floatSchoolRanking}}</view>
             <view class="td">{{item.classAvgScore}}</view>
             <view class="td">{{item.gradeMaxScore}}</view>
         </view>
@@ -91,46 +92,19 @@
 
     <button class="shareButton" open-type="share">天下父母心，金榜入青云 \n 分享并帮助更多的家长</button>
 
-    <!-- 好的卷子，分越做越高 -->
-    <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
+    <!-- 未开通 -->
+    <!-- <view class="notifications-nopay" bindtap="navToPayment" wx:if="{{!whetherToBuy}}">
+        <image class="notifications-img" src="/imgs/parfor/payfor_box.png"></image>
         <text class="notifications-nopay-title">
             月考过后，错题该如何处理？
         </text>
-        <!-- <text class="notifications-content">
-            抓错题 针对性训练 事半功倍
-            一对一 错题知识点 量身定制
-        </text> -->
         <view class="notifications-buttons">
             <text class="notifications-button-left">点击获取您的专属错题卷</text>
-            <!-- <text class="notifications-button-right">思维蜕变才能拿高分</text> -->
         </view>
-    </view>
+    </view> -->
     <!-- 已开通 -->
-    <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
+    <!-- <view class="notifications-pay"  wx:if="{{whetherToBuy}}">
         <view class="notifications-pay-left">
-            <!-- <text class="notifications-pay-title">
-                青云卷
-            </text>
-            <view class="notifications-pay-person">
-                <text class="notifications-pay-text">
-                    {{studentName}} |  
-                </text>
-                <text class="notifications-pay-text">
-                    {{"  "}}已开通
-                </text>
-            </view>
-            <view>
-                <text class="notifications-pay-text">
-                    2020年10月 - 2021年6月
-                </text>
-                <text class="notifications-pay-text">
-                    到期时间： {{vipExpireTime}}
-                </text>
-            </view> -->
-            <!-- <image class="qrcode" src="/imgs/qrcode.jpg"></image>
-            <text class="scan-title">
-                官方客服，扫码咨询
-            </text> -->
             <view class="customer-service">
                 <image class="" src="/imgs/customer-service.png"></image>
                 <text>联系客服</text>
@@ -144,5 +118,5 @@
                 <text class="delivery-address">{{address}}</text>
             </view>
         </view>
-    </view>
+    </view> -->
 </view>

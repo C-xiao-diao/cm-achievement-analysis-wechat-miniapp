@@ -109,67 +109,7 @@ Page({
             }
         })
     },
-    //获取用户授权的手机号码
-    getPhoneNumber:function(e){
-        var that = this;
-        wx.login({
-            success (res) {
-              if (res.code) {
-                let cmd = "/api/weChat/appletsGetOpenid";
-                http.get({
-                  cmd,
-                  data:{code: res.code},
-                  success: res => {
-                    if (_.get(res, 'data.code') === 200) {
-                        that.getDecodePhone(e.detail.errMsg,e.detail.encryptedData,e.detail.iv)
-                    }
-                  }
-                })
-              }
-            }
-        })
-    },
-    //获取解码后的手机号
-    getDecodePhone:function(errMsg,encryptedData,iv){
-        if (errMsg == "getPhoneNumber:ok") {
-            let cmd = "/auth/wechat/getUserPhone";
-            let data = { 
-                encryptedData: encryptedData,
-                iv: iv,
-                userId: app.globalData.userId 
-            };
-            http.post({
-                cmd,
-                data,
-                success: res => {
-                    if (_.get(res, 'data.code') === 200) {
-                        var deliveryPhone = '';
-                        if(_.get(res, 'data.data.payPhone') && !_.isEmpty(_.get(res, 'data.data.payPhone'))){
-                            deliveryPhone = _.get(res, 'data.data.payPhone')
-                        }else {
-                            deliveryPhone = _.get(res, 'data.data.userPhone')
-                        }
-                        this.setData({
-                            phone: deliveryPhone,
-                            authorizePhone: _.get(res, 'data.data.userPhone')
-                        })
-                    }else{
-                        wx.showModal({
-                            title: '提示',
-                            content: _.get(res, 'data.msg') || '授权失败，请联系管理员',
-                            success(res) {}
-                        })
-                    }
-                }
-            })
-        }else{
-            wx.showModal({
-                title: '提示',
-                content: '您已拒绝授权手机号码',
-                success(res) {}
-            })
-        }
-    },
+    
     //切换
     swichNav: function (e) {
         let name = e.currentTarget.dataset.name;

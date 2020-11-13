@@ -124,7 +124,19 @@
   padding-bottom: 100rpx;
   border-top: 4rpx solid #dcdcdc;
   box-sizing: content-box;
+  position: relative;
+  background: #f9f7ef;
+  color: #0b2d35;
 }
+
+.notifications-img {
+    position: absolute;
+    bottom: 60rpx;
+    left: 0;
+    width: 100%;
+    height: 215rpx;
+    z-index: 1;
+} 
 
 .notifications-nopay-title {
   font-size: 42rpx;
@@ -144,18 +156,19 @@
   box-shadow: 0 0 12rpx rgba(0, 0, 0, 0.3);
   border-radius: 20rpx;
   margin-top: 50rpx;
+  background: #f9f7ef;
 }
 
 .notifications-button-left {
-  color: #4c769a;
+  color: #f9f7ef;
   align-items: center;
   display: flex;
   padding: 30rpx 30rpx;
   box-sizing: content-box;
-  border: 5rpx solid #4c769a;
   border-radius: 20rpx;
   box-shadow: 0 0 10rpx rbga(0,0,0,0.2);
   font-weight: 700;
+  background-image: linear-gradient(to right, #21849f , #9adce0);
 }
 
 .notifications-button-right {
@@ -175,11 +188,12 @@
   border-top: 4rpx solid #dcdcdc;
   width: 100%;
   padding: 50rpx 0rpx;
+  background: #f9f7ef;
 }
 .notifications-pay-left{
   width: 25%;
   padding: 30rpx 3% 0 0;
-  border-right: 1rpx solid #dcdcdc;
+  border-right: 1rpx solid #0b2d35;
 }
 
 .customer-service {
@@ -189,6 +203,7 @@
   margin: 20rpx auto 0;
   border-radius: 10rpx;
   box-sizing: border-box;
+  background: #21849f;
   box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.3);
 }
 
@@ -202,9 +217,10 @@
 }
 
 .customer-service image {
-  margin-top: 10rpx;
+  margin-top: 20rpx;
   width: 100rpx;
-  height: 100rpx;
+  height: 90rpx;
+  z-index: 2;
 }
 
 .customer-service text {
@@ -212,6 +228,7 @@
   width: 100%;
   text-align: center;
   font-size: 32rpx;
+  color: #fff;
 }
 .notifications-pay-person{
   display: flex;
@@ -225,6 +242,7 @@
 .notifications-pay-text{
   font-size: 26rpx;
   margin-bottom: 10rpx;
+  color: #0b2d35;
 }
 .notifications-pay-text text {
   padding: 0 15rpx;
@@ -248,7 +266,8 @@
   margin: 0 auto;
   padding: 20rpx;
   box-sizing: border-box;
-  border: 2rpx solid #dcdcdc;
+  border: 2rpx solid #0b2d35;
+  border-radius: 25rpx;
   overflow: scroll;
 }
 
@@ -258,6 +277,7 @@
   font-size: 34rpx;
   padding-bottom: 10rpx;
   text-align: left;
+  color: #0b2d35;
 }
 
 .delivery-address {
@@ -266,6 +286,7 @@
   font-size: 32rpx;
   color: #333;
   text-align: left;
+  color: #0b2d35;
 }
 
 .shareButton {

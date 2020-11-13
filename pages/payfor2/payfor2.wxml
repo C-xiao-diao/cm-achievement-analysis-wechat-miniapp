@@ -59,7 +59,7 @@
         </view>
     </view>
     <!-- 配送地址end -->
-    <button open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber">专属错题集</button>
+    <!-- <button open-type="getPhoneNumber" wx:if="{{authorizePhone==''}}" bindgetphonenumber="getPhoneNumber">专属错题集</button> -->
     <button class="goToPay" wx:if="{{authorizePhone!=''}}" bindtap="goToPay">专属错题集</button>
 
     <!-- 地址弹框 -->

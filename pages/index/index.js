@@ -10,6 +10,8 @@ Page({
   data: {
     //授权按钮
     isShowUserInfoBtn: true,
+    isShowPhoneBtn: false,
+    isTeacherAccount: false,
     hasUserInfo: false,
     userInfo: {},
     userId: '',
@@ -77,6 +79,19 @@ Page({
     guideStep: 1
   },
   onLoad() {
+    var userId = app.globalData.userId;
+    var timer = null,that = this;
+    if(userId){
+      this.checkHasAuthorizePhone();
+    }else{
+      timer = setInterval(function(){
+        userId = app.globalData.userId;
+        if(userId){
+          that.checkHasAuthorizePhone();
+          clearInterval(timer);
+        }
+      },500)
+    }
     //获取缓存内的数据，初始化数据
     try {
       this.isFirstComing();
@@ -90,9 +105,10 @@ Page({
           school: infoObj.school,
           subjectId: infoObj.subjectId,
           subjectIndex: infoObj.subjectIndex,
-          ticketNumber: infoObj.ticketNumber
+          ticketNumber: infoObj.ticketNumber,
         })
       }
+      
     } catch (e) {
 
     }
@@ -153,6 +169,103 @@ Page({
       'classArray': []
     })
   },
+  //是否授权过手机号码
+  checkHasAuthorizePhone: function(){
+      let cmd = "/auth/wechat/getUserPhone";
+      let data = { userId: app.globalData.userId };
+      console.log(app.globalData.userId,99999999)
+      http.post({
+          cmd,
+          data,
+          success: res => {
+              if (_.get(res, 'data.code') === 200) {
+                  var isShowPhoneBtn;
+                  if(_.get(res, 'data.data.userPhone') && !_.isEmpty(_.get(res, 'data.data.userPhone'))){
+                      //已授权手机
+                      isShowPhoneBtn = false;
+                      this.checkIsTeacher();
+                  }else {
+                      //未授权手机
+                      isShowPhoneBtn = true;
+                  }
+                  this.setData({ isShowPhoneBtn });
+              }
+          }
+      })
+  },
+  //是否老师
+  checkIsTeacher: function(){
+      let cmd = "/auth/wechat/judgeTeacher";
+      let data = { userId: app.globalData.userId };
+      http.post({
+          cmd,
+          data,
+          success: res => {
+              var resData = res.data.code;
+              if (resData === 200) {
+                var isTeacherAccount = res.data.data.isTeacher;
+                let school = _.get(res, 'data.data.schoolName');
+                let schoolId =  _.get(res, 'data.data.schoolId');
+                this.setData({ isTeacherAccount,school,schoolId });
+              }
+          }
+      })
+  },
+  //获取用户授权的手机号码
+  getPhoneNumber:function(e){
+      var that = this;
+      wx.login({
+          success (res) {
+            if (res.code) {
+              let cmd = "/api/weChat/appletsGetOpenid";
+              http.get({
+                cmd,
+                data:{code: res.code},
+                success: res => {
+                  if (_.get(res, 'data.code') === 200) {
+                      that.getDecodePhone(e.detail.errMsg,e.detail.encryptedData,e.detail.iv)
+                  }
+                }
+              })
+            }
+          }
+      })
+  },
+  //获取解码后的手机号
+  getDecodePhone:function(errMsg,encryptedData,iv){
+      if (errMsg == "getPhoneNumber:ok") {
+          let cmd = "/auth/wechat/judgeTeacher";
+          let data = { 
+              encryptedData: encryptedData,
+              iv: iv,
+              userId: app.globalData.userId 
+          };
+          http.post({
+              cmd,
+              data,
+              success: res => {
+                  if (_.get(res, 'data.code') === 200) {
+                      let isTeacherAccount = _.get(res, 'data.data.isTeacher');
+                      let school = _.get(res, 'data.data.schoolName');
+                      let schoolId =  _.get(res, 'data.data.schoolId');
+                      this.setData({isTeacherAccount, school, schoolId});
+                  }else{
+                      wx.showModal({
+                          title: '提示',
+                          content: _.get(res, 'data.msg') || '授权失败，请联系管理员',
+                          success(res) {}
+                      })
+                  }
+              }
+          })
+      }else{
+          wx.showModal({
+              title: '提示',
+              content: '您已拒绝授权手机号码',
+              success(res) {}
+          })
+      }
+  },
   pickerGrade(e){  //选择年级
     var classArr = this.data.gradeArray[e.detail.value].class;
     var str = classArr.toString();
@@ -206,6 +319,7 @@ Page({
   },
   getClassArray(e) {//获取班级列表
     let role = e.currentTarget.dataset.role;
+    console.log(e.detail.value)
     let timestamp  = Date.parse(new Date());
 
     let cmd = "/auth/school/queryClass";
@@ -244,6 +358,7 @@ Page({
         return;
       }
     } else if(role == 2) {//家长
+      console.log(ticketNumber, this.data.class1)
       if (!ticketNumber || !this.data.class1 ) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         this.setData({isSubmitLoading: false});
@@ -328,9 +443,19 @@ Page({
   },
   //切换角色
   changeRole: function (e) {
+    const { isTeacherAccount } = this.data;
     let role = e.currentTarget.dataset.role;
-    if (role !== null && role !== undefined) {
-      this.setData({ role });
+    if(!isTeacherAccount){//非教师
+      if(role == 1 || role == 3){
+        wx.showModal({
+          title: '提示',
+          content: '此账号未注册老师',
+          success(res) {}
+        })
+      }
+      return;
+    }else{//教师
+      this.setData({role});
     }
   },
   //准考证
