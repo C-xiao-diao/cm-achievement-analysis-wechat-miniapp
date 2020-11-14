@@ -431,6 +431,7 @@ Page({
             wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber 
             + '&schoolId=' + this.data.schoolId
             + '&class_=' + this.data.class1
+            + '&isTeacherAccount=' + this.data.isTeacherAccount
           });
           }else if(role == 3) {//年级主任
             wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade + '&schoolId=' + this.data.schoolId});
