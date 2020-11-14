@@ -19,6 +19,7 @@
             <view class="td"><text class="red">{{item.minClass}}</text>/{{item.minGrade}}</view>
         </view>
     </view>
+    <view class="bottom-line"></view> 
 
     <!--各班对比 -->
     <text class="title">— 各班对比 —</text>
@@ -35,6 +36,8 @@
     <view class="chart mb60">
         <ec-canvas id="HTeacherFirstChart" canvas-id="HTeacherFirstChart" ec="{{ ecFirst }}"></ec-canvas>
     </view>
+
+    <view class="bottom-line"></view> 
 
     <!--总分排名 -->
     <text class="title">— 总分排名 —</text>
@@ -56,6 +59,8 @@
             <view class="td" wx:if="{{item.floatschoolranking < 0}}">{{item.school_ranking}}(<image class="down" src="/imgs/arrow_down.svg"></image>{{-item.floatschoolranking}})</view>
         </view>
     </view>
+
+    <view class="bottom-line"></view> 
 
     <!--学生单科排名走势 -->
     <text class="title">— 学生单科排名走势 —</text>

@@ -16,7 +16,10 @@
 .chart {
     width: 96%;
     height: 900rpx;
-    margin: 30rpx 0;
+}
+
+.chart2 {
+    height: 800rpx;
 }
 
 .fl-tab {

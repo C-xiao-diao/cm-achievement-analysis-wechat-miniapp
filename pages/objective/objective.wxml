@@ -24,6 +24,7 @@
         难度，即试卷（题）的难易程度。{{secondDescriptionDifficulty}}
       </text>
     </view>
+    <view class="bottom-line"></view>
 
     <!-- 客观题统计分析 - 班级 -->
     <text class="title">— 客观题统计分析 —</text>
@@ -52,6 +53,7 @@
         难度，即试卷（题）的难易程度。{{firstDescriptionDifficulty}}
       </text>
     </view> -->
+    
 
     <!-- 客观题统计分析 - 全年级 -->
     <text class="title">— 客观题统计分析 —</text>
@@ -64,7 +66,7 @@
     <view class="total w30">
         <view>正确率<text>{{scoringRrate}}%</text></view>
     </view>
-    
+    <view class="bottom-line"></view>
 
     <text class="title">各班对比</text>
     <view class="firstChart">
@@ -75,6 +77,7 @@
     <view class="secondChart mb60">
       <ec-canvas id="objectiveSecondChart" canvas-id="objectiveSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
+    <view class="bottom-line"></view>
 
     <text class="title">— 试题分析统计 —</text>
     <view class="tab-questions test-questions">
