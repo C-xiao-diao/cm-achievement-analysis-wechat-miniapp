@@ -41,14 +41,16 @@ Page({
         //是否购买了套餐
         whetherToBuy: false,
         pickupType: 1,//取件类型
-        address: ''//取件地址
+        address: '',//取件地址
+        isTeacherAccount: false
     },
     onLoad: function (option) {
         if (!_.isEmpty(option)) {
             this.setData({
                 ticketNumber: option.ticketNumber,
                 schoolId: option.schoolId,
-                class_: option.class_
+                class_: option.class_,
+                isTeacherAccount: option.isTeacherAccount
             })
         }
         wx.showLoading({ title: '加载中...', mask: true })
@@ -235,7 +237,7 @@ Page({
         }
     },
     //初始化 历史年级排名走势 图表
-    initFirstChart: function () {
+    initFirstChart: function () { 
         this.firstComponent = this.selectComponent('#parentTopChart');
         chart.initChart(this, 'parentTopChart', '#parentTopChart', parentTopChart);
     },
@@ -251,7 +253,7 @@ Page({
     },
     //获取 历史年级排名走势 option
     getStudentGradeTrendData() {
-        const { listMonth, historicalGradeRanking } = this.data;
+        const { listMonth, historicalGradeRanking, isTeacherAccount } = this.data;
         let gridSetting = {
             top: '30%',
             left: '3%',
@@ -275,8 +277,12 @@ Page({
             })
         }
         let seriesData = seriesArr;
-        let tooltipSetting = { trigger: 'axis', position: ['15%', '0%'] };
-
+        var tooltipSetting = {};
+        if(isTeacherAccount == 'true'){//'老师端'
+            tooltipSetting = {show:true, trigger: 'axis', position: ['15%', '0%'] };
+        }else if(isTeacherAccount == 'false') {
+            tooltipSetting = {show:false, trigger: 'axis', position: ['15%', '0%'] };
+        }
         return chart.lineChartOption({ gridSetting, legendData, xData, yAxisInverse, seriesData, tooltipSetting });
     },
     //获取 年级平均得分分布图 option

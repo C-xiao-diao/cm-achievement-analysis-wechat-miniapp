@@ -10,6 +10,8 @@ Page({
   data: {
     //授权按钮
     isShowUserInfoBtn: true,
+    isShowPhoneBtn: true,
+    isTeacherAccount: false,//默认非老师
     hasUserInfo: false,
     userInfo: {},
     userId: '',
@@ -65,7 +67,7 @@ Page({
     ],
     currentGrade: 'C18',
     //角色
-    role: 1,            // 1老师   2家长   3年级主任
+    role: 2,            // 1老师   2家长   3年级主任
     ticketNumber: "",
     //提交按钮
     isSubmitLoading: false,
@@ -77,6 +79,7 @@ Page({
     guideStep: 1
   },
   onLoad() {
+    
     //获取缓存内的数据，初始化数据
     try {
       this.isFirstComing();
@@ -90,12 +93,16 @@ Page({
           school: infoObj.school,
           subjectId: infoObj.subjectId,
           subjectIndex: infoObj.subjectIndex,
-          ticketNumber: infoObj.ticketNumber
+          ticketNumber: infoObj.ticketNumber,
         })
       }
+      
     } catch (e) {
 
     }
+  },
+  onReady(){
+    this.checkHasAuthorizePhone();
   },
   //是否第一次进来
   isFirstComing: function(){
@@ -153,6 +160,118 @@ Page({
       'classArray': []
     })
   },
+  //是否授权过手机号码
+  checkHasAuthorizePhone: function(){
+      var userPhone = wx.getStorageSync('userPhone');
+      var isShowPhoneBtn;
+      if(userPhone!=''){//已授权手机
+        isShowPhoneBtn = false;
+      }else {//未授权手机
+        isShowPhoneBtn = true;
+      }
+      this.setData({isShowPhoneBtn});
+  },
+  //是否老师
+  checkIsTeacher: function(role){
+      let cmd = "/auth/wechat/judgeTeacher";
+      let data = { userId: app.globalData.userId };
+      http.post({
+          cmd,
+          data,
+          success: res => {
+              var resData = res.data.code;
+              if (resData === 200) {
+                  var school = '', schoolId = '';
+                  let isTeacherAccount = _.get(res, 'data.data.isTeacher');
+                  let phone = _.get(res, 'data.data.phone');
+                  wx.setStorageSync('userPhone', phone);
+                  if(_.get(res, 'data.data.schoolName')){
+                    school = _.get(res, 'data.data.schoolName');
+                  }
+                  if(_.get(res, 'data.data.schoolId')){
+                    schoolId = _.get(res, 'data.data.schoolId');
+                  }
+
+                  if(!isTeacherAccount){//非教师
+                    if(role == 1 || role == 3){
+                      wx.showModal({
+                        title: '提示',
+                        content: '此账号未注册老师',
+                        success(res) {}
+                      })
+                    }
+                    return;
+                  }else{//教师
+                    this.setData({role});
+                  }
+
+                  this.setData({isTeacherAccount, school, schoolId, phone});
+              }
+          }
+      })
+  },
+  //获取用户授权的手机号码
+  getPhoneNumber:function(e){
+      var that = this;
+      wx.login({
+          success (res) {
+            if (res.code) {
+              let cmd = "/api/weChat/appletsGetOpenid";
+              http.get({
+                cmd,
+                data:{code: res.code},
+                success: res => {
+                  if (_.get(res, 'data.code') === 200) {
+                      that.getDecodePhone(e.detail.errMsg,e.detail.encryptedData,e.detail.iv)
+                  }
+                }
+              })
+            }
+          }
+      })
+  },
+  //获取解码后的手机号
+  getDecodePhone:function(errMsg,encryptedData,iv){
+      if (errMsg == "getPhoneNumber:ok") {
+          let cmd = "/auth/wechat/judgeTeacher";
+          let data = { 
+              encryptedData: encryptedData,
+              iv: iv,
+              userId: app.globalData.userId
+          };
+          http.post({
+              cmd,
+              data,
+              success: res => {
+                  if (_.get(res, 'data.code') === 200) {
+                      var school = '', schoolId = '';
+                      let isTeacherAccount = _.get(res, 'data.data.isTeacher');
+                      let phone = _.get(res, 'data.data.phone');
+                      wx.setStorageSync('userPhone', phone);
+                      if(_.get(res, 'data.data.schoolName')){
+                        school = _.get(res, 'data.data.schoolName');
+                      }
+                      if(_.get(res, 'data.data.schoolId')){
+                        schoolId = _.get(res, 'data.data.schoolId');
+                      }
+                      this.setData({isTeacherAccount, school, schoolId, phone, isShowPhoneBtn:false});
+                  }else{
+                      wx.showModal({
+                          title: '提示',
+                          content: _.get(res, 'data.msg') || '授权失败，请联系管理员',
+                          success(res) {}
+                      })
+                  }
+              }
+          })
+      }else{
+          wx.showModal({
+              title: '提示',
+              content: '您已拒绝授权手机号码',
+              success(res) {}
+          })
+      }
+  },
   pickerGrade(e){  //选择年级
     var classArr = this.data.gradeArray[e.detail.value].class;
     var str = classArr.toString();
@@ -206,8 +325,8 @@ Page({
   },
   getClassArray(e) {//获取班级列表
     let role = e.currentTarget.dataset.role;
+    console.log(e.detail.value)
     let timestamp  = Date.parse(new Date());
-
     let cmd = "/auth/school/queryClass";
     let data = {schoolId: this.data.schoolId, timestamp, classLike:e.detail.value};
     http.get({
@@ -244,14 +363,15 @@ Page({
         return;
       }
     } else if(role == 2) {//家长
-      if (!ticketNumber || !this.data.class1 ) {
+      console.log(ticketNumber, this.data.class1)
+      if (!this.data.school || !ticketNumber || !this.data.class1 ) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         this.setData({isSubmitLoading: false});
         return;
       }
     }else if(role == 3 ) {//年级主任
       Grade = this.data.currentGrade;
-      if (!currentGrade) {
+      if (!this.data.school || !currentGrade) {
         wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
         this.setData({isSubmitLoading: false});
         return;
@@ -311,6 +431,7 @@ Page({
             wx.navigateTo({url: '/pages/parent/parent?ticketNumber=' + ticketNumber 
             + '&schoolId=' + this.data.schoolId
             + '&class_=' + this.data.class1
+            + '&isTeacherAccount=' + this.data.isTeacherAccount
           });
           }else if(role == 3) {//年级主任
             wx.navigateTo({url: '/pages/classManager/classManager?grade=' + Grade + '&schoolId=' + this.data.schoolId});
@@ -328,10 +449,10 @@ Page({
   },
   //切换角色
   changeRole: function (e) {
+    const { isTeacherAccount } = this.data;
     let role = e.currentTarget.dataset.role;
-    if (role !== null && role !== undefined) {
-      this.setData({ role });
-    }
+    this.checkIsTeacher(role);
+    
   },
   //准考证
   getAdmissionTicket: function (e) {
@@ -418,35 +539,14 @@ Page({
   //点击弹出授权订阅消息弹框
   getSubscriptionPermisssion:function(){
     var isAcceptSubscriptionsSetting = wx.getStorageSync('isAcceptSubscriptionsSetting');
-    if(isAcceptSubscriptionsSetting && isAcceptSubscriptionsSetting == 'accept'){
+    let curMonth = new Date().getMonth() + 1;
+    if(isAcceptSubscriptionsSetting && isAcceptSubscriptionsSetting == curMonth){
       this.analyzeInfo();
       return;
     }
 
     //验证输入框，因为 analyzeInfo 方法后移，故在此验证
-    const { role, ticketNumber, currentGrade } = this.data;
-    this.setData({isSubmitLoading: true})
-    var Grade = '';
-    if (role === 1) {//老师
-      if (!this.data.school || !this.data.class) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    } else if(role == 2) {//家长
-      if (!ticketNumber || !this.data.class1 ) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    }else if(role == 3 ) {//年级主任
-      Grade = this.data.currentGrade;
-      if (!currentGrade) {
-        wx.showToast({ title: '请填写完整的信息', icon: 'none', duration: 2000 });
-        this.setData({isSubmitLoading: false});
-        return;
-      }
-    }
+    
     // ------------ end --------------
 
     wx.requestSubscribeMessage({
@@ -455,7 +555,8 @@ Page({
         if(res[config.tmplIds[0]] == 'accept'){
           wx.showToast({  title: '订阅消息成功',})
           try {
-            wx.setStorageSync('isAcceptSubscriptionsSetting', "accept");
+            let month = (new Date().getMonth()+1);
+            wx.setStorageSync('isAcceptSubscriptionsSetting', month);
           } catch (e) {
       
           }

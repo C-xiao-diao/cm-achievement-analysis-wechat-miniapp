@@ -3,6 +3,10 @@
   <network-status></network-status>
   <text class="title">— 请选择您的身份 —</text>
   <view class="identity">
+    <view data-role="{{2}}" class="{{role === 2 ? 'active' :''}}" bindtap="changeRole">
+      <image class="icon" src="/imgs/parents.svg" alt=""></image>
+      <text>家长/学生</text>
+    </view>
     <view data-role="{{1}}" class="{{role === 1 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/teacher.svg" alt=""></image>
       <text>任课老师</text>
@@ -10,10 +14,6 @@
     <view data-role="{{3}}" class="{{role === 3 ? 'active' :''}}" bindtap="changeRole">
       <image class="icon" src="/imgs/director.svg" alt=""></image>
       <text>年级主任</text>
-    </view>
-    <view data-role="{{2}}" class="{{role === 2 ? 'active' :''}}" bindtap="changeRole">
-      <image class="icon" src="/imgs/parents.svg" alt=""></image>
-      <text>家长</text>
     </view>
   </view>
 
@@ -37,7 +37,7 @@
   <view class="fillIn">
     <view class="school">
       <text>学校</text>
-      <input class="weui-input" bind:input="getSchoolArray" value="{{school}}" placeholder="请填写学校"
+      <input class="weui-input" bind:input="getSchoolArray" value="{{school}}" disabled="{{isTeacherAccount}}" placeholder="请填写学校"
         placeholder-style="color:#aaa; font-size:30rpx;" />
       <view class="ul" wx:if="{{schoolArray.length!=0}}">
         <text wx:for="{{schoolArray}}" wx:key="id" data-name="{{item.schoolName}}" data-id="{{item.id}}"
@@ -111,8 +111,9 @@
   </view>
 </view>
 
-<button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo"
-  style="width:100% !important;height:100%;z-index: 100" bindgetuserinfo="userInfoHandler"> Click me </button>
+  <button wx:if="{{isShowUserInfoBtn}}" id="getUserInfoBtn" open-type="getUserInfo" bindgetuserinfo="userInfoHandler"> 获取用户信息</button>
+  <button open-type="getPhoneNumber" class="getPhoneBtn" wx:if="{{isShowPhoneBtn}}" bindgetphonenumber="getPhoneNumber">获取手机号</button>
+  
   <view class="favorites-mask" wx:if="{{isShowFavoritesBg}}" bindtap="cancelFavorites" >
     <image  bindtap="cancelFavorites" class="favorites-png" src="/imgs/favorites/favorites.png" alt=""></image>
       <!-- <image class="favorites-point" src="/imgs/favorites/hand.svg" ></image>

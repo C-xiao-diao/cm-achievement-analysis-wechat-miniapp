@@ -3,7 +3,7 @@
   padding-top: 20rpx;
 } */
 
-#getUserInfoBtn {
+#getUserInfoBtn, .getPhoneBtn {
   width:100% !important;
   height:100% !important;
   opacity: 0 !important;
@@ -11,7 +11,14 @@
   position:fixed !important;
   top:0 !important;
   left:0 !important;
-  z-index:1000 !important;
+}
+
+#getUserInfoBtn {
+  z-index: 100;
+}
+
+.getPhoneBtn {
+  z-index: 99;
 }
 
 .title {
@@ -59,7 +66,8 @@
 }
 
 .identity > view.active text {
-  color: red;
+  color: #4c769a;
+  font-weight: bold;
 }
 
 /* .identity > view.active::before {
