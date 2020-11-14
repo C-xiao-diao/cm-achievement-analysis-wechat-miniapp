@@ -492,7 +492,7 @@ Page({
         var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = true, seriesData = [], tooltipSetting = {};
 
         legendData = { data: secondDataLegend };
-        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "18%", }
+        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "10%", }
         xData = secondDataAxis;
         seriesData = secondDataSeries;
         tooltipSetting = {
@@ -559,7 +559,7 @@ Page({
         const { fourthDataSeries, fourthDataAxis, fourthDataLegend } = this.data;
         var gridSetting = {}, xData = [], legendData = {}, yAxisInverse = false, seriesData = [], tooltipSetting = {};
         legendData = { data: fourthDataLegend }
-        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "18%", }
+        gridSetting = { left: "15%", right: "5%", top: "32%", bottom: "10%", }
         xData = fourthDataAxis;
         seriesData = fourthDataSeries;
         tooltipSetting = {

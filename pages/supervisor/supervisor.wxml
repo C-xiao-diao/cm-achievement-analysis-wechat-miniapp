@@ -25,6 +25,8 @@
       </text>
     </view>
 
+    <view class="bottom-line"></view>
+
     <!-- 主观题统计分析 - 班级 -->
     <text class="title">— 主观题统计分析 —</text>
     <text class="sub-title">(班级)</text>
@@ -64,6 +66,7 @@
     <view class="total w30">
         <view>得分率<text>{{scoringRrate}}%</text></view>
     </view>
+    <view class="bottom-line"></view>
     
 
     <text class="title">— 各班对比 —</text>
@@ -75,6 +78,7 @@
     <view class="secondChart mb60">
       <ec-canvas id="supervisorSecondChart" canvas-id="supervisorSecondChart" ec="{{ ecSecondChart }}"></ec-canvas>
     </view>
+    <view class="bottom-line"></view>
     
     <text class="title">— 试题分析统计 —</text>
     <view class="tab-questions test-questions mb60">

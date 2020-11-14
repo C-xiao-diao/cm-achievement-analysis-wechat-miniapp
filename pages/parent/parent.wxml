@@ -32,6 +32,7 @@
             <view class="td">{{item.gradeMaxScore}}</view>
         </view>
     </view>
+    <view class="bottom-line"></view>            
 
     <!-- 历史年级排名走势 -->
     <text class="title">— 历史年级排名走势 —</text>
@@ -39,6 +40,7 @@
     <view class="chart mb60">
         <ec-canvas id="parentTopChart" canvas-id="parentTopChart" ec="{{ ecTopChart }}"></ec-canvas>
     </view>
+    <view class="bottom-line"></view> 
 
     <!-- 选择科目 -->
     <view class="choose">

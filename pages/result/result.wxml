@@ -30,6 +30,8 @@
     <view>平均分<text>{{avgScoreAllClass}}</text></view>
   </view>
 
+  <view class="bottom-line"></view>
+
   <!-- 各班对比 -->
   <text class="title">各班对比</text>
   <text class="gray-txt">（点击图标可选中或取消对比项）</text>
@@ -41,6 +43,8 @@
   <view class="topChartByScore mb60">
     <ec-canvas id="topChartByScore" canvas-id="topChartByScore" ec="{{ ecTopByScore }}"></ec-canvas>
   </view>
+
+  <view class="bottom-line"></view>
 
   <!-- 试卷分析 -->
   <text class="title">— 试卷分析 —</text>
@@ -65,6 +69,7 @@
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{0}}">点击查看<view class="br"></view>客观题统计分析</Text>
     <Text class="navAnalysisButton" bindtap="navAnalysis" data-type="{{1}}">点击查看<view class="br"></view>主观题统计分析</Text>
   </view>
+  <view class="bottom-line"></view>
 
   <!-- 分数段统计 -->
   <text class="title">— 分数段统计 —</text>
@@ -83,6 +88,7 @@
       <ec-canvas id="secondChart" canvas-id="secondChart" ec="{{ ecSecond }}"></ec-canvas>
     </view>
   </view>
+  <view class="bottom-line"></view>
   
   <!-- 错题统计 -->
   <text class="title">— 错题统计 —</text>
@@ -95,6 +101,7 @@
       </view>
     </view>
   </view>
+  <view class="bottom-line"></view>
 
   <!-- 全对题统计 -->
   <text class="title">— 全对题统计 —</text>
@@ -102,6 +109,7 @@
     <text wx:if="{{allRight.length==0}}">无</text>
     <text wx:for="{{allRight}}" wx:key="id">{{item}}</text>
   </view>
+  <view class="bottom-line"></view>
 
   <text class="title">— 成绩排名 —</text>
   <view class="gray-txt">（点击名字查看学生走势图弹窗）</view>
@@ -130,6 +138,8 @@
       <view class="td w64">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
+
+  <view class="bottom-line" wx:if="{{subject=='语文'}}"></view>
 
   <!-- 走势图弹窗 -->
   <view class="popup" wx:if="{{showTrendChart}}">  
