@@ -23,6 +23,11 @@ App({
     this.Login();
     this.getSystemInfo();
   },
+  onShow: function(){
+    wx.onMemoryWarning(function () {
+      console.log('onMemoryWarningReceive')
+    })
+  },
   getSystemInfo: function(){
     wx.getSystemInfo({
       success: (res) => {
