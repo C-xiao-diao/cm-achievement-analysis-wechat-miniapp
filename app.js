@@ -29,28 +29,29 @@ App({
     })
   },
   getSystemInfo: function(){
+    var that = this;
     wx.getSystemInfo({
       success: (res) => {
-        this.globalData.pixelRatio = res.pixelRatio;
+        that.globalData.pixelRatio = res.pixelRatio;
         let modelmes = res.model; //手机品牌
         let statusBarHeight = res.statusBarHeight;//获取状态栏高度
-        this.globalData.statusBarHeight = statusBarHeight;
+        that.globalData.statusBarHeight = statusBarHeight;
         console.log('手机品牌', modelmes)
         //其实后面关于XS、XR、XS MAX的判断都可以去掉,因为他们里面都包含了'iPhone X'这个字符;
         if (modelmes.indexOf('iPhone X') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone XS') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone XR') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone XS Max') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone 11') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone 11 Pro') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         } else if (modelmes.indexOf('iPhone 11 Pro Max') != -1) {
-          this.globalData.isIpx = true
+          that.globalData.isIpx = true
         }
       },
     })

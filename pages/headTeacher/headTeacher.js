@@ -137,7 +137,7 @@ Page({
                 } else if (_.get(res, 'data.code') === 107) {
                     wx.showModal({
                         title: '提示',
-                        content: resData.msg || '暂无数据',
+                        content: _.get(res, 'data.msg') || '暂无数据',
                         success(res) {
                             if (res.confirm) {
                                 wx.navigateBack({ delta: 0, })
