@@ -24,7 +24,8 @@ Page({
         sqrtDouble: 0,
         difficultyFactor: 0,
         distinction: 0,
-
+        avgWrongQuestions: 0,//平均错误率
+        wrongQuestions: [],
         //第一张图
         ecFirstChart: {
             lazyLoad: true
@@ -133,6 +134,10 @@ Page({
                         objectiveFullMarks
                     } = responseData;
                     //数据组装和清洗
+                    for (var i = 0; i < responseData.wrongQuestions.length; i++) {
+                      responseData.wrongQuestions[i].percentage = Math.ceil(responseData.wrongQuestions[i].percentage * 100) + '%';
+                    }
+                    responseData.avgWrongQuestions = Math.ceil(responseData.avgWrongQuestions * 100);
                     for (let key in classStatistics) {
                         if (key === "maxScore" || key === "minScore") {
                             classStatistics[key] = _.round(classStatistics[key]);
@@ -190,7 +195,9 @@ Page({
                         listTotalTopic,
                         listClassTopic,
                         activeTabName: topicSet[0],
-                        correctAnswer
+                        correctAnswer,
+                        wrongQuestions: responseData.wrongQuestions,
+                        avgWrongQuestions: responseData.avgWrongQuestions
                     })
                     //画图
                     this.initFirstChart();

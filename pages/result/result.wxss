@@ -5,6 +5,15 @@
   margin-bottom: 30rpx;
 }
 
+.gray-txt {
+  font-size: 30rpx;
+}
+
+.mb30 {
+  margin-bottom: 40rpx;
+  margin-top: -30rpx;
+}
+
 /* 优秀线样式 */
 .excellent {
   width: 100%;
@@ -37,50 +46,7 @@
 }
 
 
-/* 错题统计样式 */
-.avg-error {
-  width: 100%;
-  text-align: center;
-  font-size: 32rpx;
-  height: 45rpx;
-  line-height: 45rpx;
-  margin-bottom: 30rpx;
-}
 
-.avg-error text {
-  font-size: 42rpx;
-  color: red;
-  padding-left: 10rpx;
-}
-
-.error-scale .section {
-  display: flex;
-  margin-bottom: 30rpx;
-}
-
-.section > text {
-  display: block;
-  width: 180rpx;
-  height: 60rpx;
-  font-size: 32rpx;
-  line-height: 60rpx;
-}
-
-.error-scale .progress-box {
-  width: 480rpx;
-  height: 56rpx;
-  border: 2rpx solid #ccc;
-}
-
-.error-scale .progress-bar {
-  width: 460rpx;
-  height: 56rpx;
-  line-height: 56rpx;
-  background-color: #ccc;
-  text-align: center;
-  font-size: 32rpx;
-}
-/* 错题统计样式end */
 
 /* 全对题统计样式 */
 .all-right {
@@ -103,12 +69,21 @@
 /* 全对题统计样式end */
 
 /* 表格样式 */
+.table-wrap {
+  display: flex;
+  width: 90%;
+}
+
 .table {
   border:1px solid #dadada;
   border-right: 0;
   border-bottom: 0;
   width: 90%;
   font-size: 26rpx;
+}
+
+.w50 {
+  flex: 1;
 }
 
 .tr{

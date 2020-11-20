@@ -79,6 +79,18 @@
     </view>
     <view class="bottom-line"></view>
 
+    <text class="title">— 错题统计 —</text>
+    <view class="avg-error">平均错误率<text>{{avgWrongQuestions}}%</text></view>
+    <view class="error-scale mb60">
+      <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
+        <text>{{item.topic}}</text>
+        <view class="progress-box">
+          <view class="progress-bar" style="width: {{item.percentage}}">{{item.percentage}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="bottom-line"></view>
+
     <text class="title">— 试题分析统计 —</text>
     <view class="tab-questions test-questions">
       <text wx:for="{{tabList}}" wx:key="id" class="swiper-tab-list {{activeTabIndex==index ? 'active' : ''}}" data-current="{{index}}" data-name="{{item}}" bindtap="swichNav">{{item}}</text>
