@@ -1,4 +1,11 @@
 
+.gray-txt {
+    margin-bottom: 30rpx;
+} 
+
+.little-gray-txt{
+    margin-bottom: 30rpx;
+}
 .choose {
     display: flex;
     flex-direction: row;
@@ -134,3 +141,73 @@
     width: 500rpx!important;
     font-size: 30rpx;
   }
+
+  /* 表格样式 */
+.table-wrap {
+    display: flex;
+    width: 90%;
+  }
+  
+  .table {
+    border:1px solid #dadada;
+    border-right: 0;
+    border-bottom: 0;
+    width: 90%;
+    font-size: 26rpx;
+  }
+  
+  .w50 {
+    flex: 1;
+  }
+  
+  .tr{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .th,.td {
+    padding: 6px 0;
+    border-bottom: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    text-align: center;
+    width:100%
+  }
+  
+  .th {
+    display: inline-block;
+    font-weight: 400;
+    background-color: #dadada;
+    vertical-align: middle;
+  }
+  .tr .td {
+    color: #666;
+  }
+  
+  .w64 {
+    width: 64%;
+  }
+  
+  .w40 {
+    width:40%;
+  }
+  
+  .single .td:first-child {
+    color: blue;
+  }
+  
+  .parantsTable .tr:last-child .td {
+    background-color: #dadada;
+  }
+  
+  .td image {
+    width: 35rpx;
+    height: 35rpx;
+    vertical-align: middle;
+  }
+  
+  .td image.up {
+    transform: rotate(180deg);
+  }
+  
+  /* 表格样式end */

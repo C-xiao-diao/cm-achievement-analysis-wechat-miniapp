@@ -34,7 +34,7 @@
 
   <!-- 各班对比 -->
   <text class="title">各班对比</text>
-  <text class="gray-txt">（点击图标可选中或取消对比项）</text>
+  <text class="gray-txt mb30">（点击图标可选中或取消对比项）</text>
   <view class="topChart mb60">
     <ec-canvas id="topChart" canvas-id="topChart" ec="{{ ecTop }}"></ec-canvas>
   </view>
@@ -73,7 +73,7 @@
 
   <!-- 分数段统计 -->
   <text class="title">— 分数段统计 —</text>
-  <view class="gray-txt mb60">（点击柱状查看学生名字及分数）</view>
+  <view class="gray-txt mb30">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap">
     <view class="tab fl-tab">
       <text class="swiper-tab-list {{tegmentedTab==0 ? 'active' : ''}}" data-type="tegmentedTab" data-current="0" data-name="tegmentedTab" bindtap="swichNav2">10分段</text>
@@ -90,19 +90,6 @@
   </view>
   <view class="bottom-line"></view>
   
-  <!-- 错题统计 -->
-  <text class="title">— 错题统计 —</text>
-  <view class="avg-error">平均错误率<text>{{avgWrongQuestions}}%</text></view>
-  <view class="error-scale mb60">
-    <view class="section" wx:for="{{wrongQuestions}}" wx:key="id">
-      <text>{{item.topic}}</text>
-      <view class="progress-box">
-        <view class="progress-bar" style="width: {{item.percentage}}">{{item.percentage}}</view>
-      </view>
-    </view>
-  </view>
-  <view class="bottom-line"></view>
-
   <!-- 全对题统计 -->
   <text class="title">— 全对题统计 —</text>
   <view class="all-right mb60">
@@ -112,8 +99,7 @@
   <view class="bottom-line"></view>
 
   <text class="title">— 成绩排名 —</text>
-  <view class="gray-txt">（点击名字查看学生走势图弹窗）</view>
-  <!-- 单科老师 -->
+  <view class="gray-txt mb30">（点击名字查看学生走势图弹窗）</view>
   <view class="table mb60">
     <view class="tr">
       <view class="th">姓名</view>
@@ -138,8 +124,36 @@
       <view class="td w64">{{item.objectiveQuestionsCorrectRate}}</view>
     </view>
   </view>
+  <view class="bottom-line"></view>
+  
 
+  <text class="title">— 涨幅最大 —</text>
+  <view class="table-wrap mb60">
+    <view class="table w50">
+      <view class="tr">
+        <view class="th">姓名</view>
+        <view class="th">涨幅</view>
+      </view>
+      <view class="tr" wx:for="{{rateOfIncreaseList}}" wx:key="id" wx:for-index="bindex">
+        <view class="td" wx:if="{{bindex<5}}">{{item.studentName}}</view>
+        <view class="td" wx:if="{{bindex<5}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+        <!-- <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}">{{item.studentName}}</view>
+        <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view> -->
+      </view>
+    </view>
+    <view class="table w50">
+      <view class="tr">
+        <view class="th">姓名</view>
+        <view class="th">涨幅</view>
+      </view>
+      <view class="tr" wx:for="{{rateOfIncreaseList}}" wx:key="id" wx:for-index="bindex">
+        <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}">{{item.studentName}}</view>
+        <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+      </view>
+    </view>
+  </view>
   <view class="bottom-line" wx:if="{{subject=='语文'}}"></view>
+  
 
   <!-- 走势图弹窗 -->
   <view class="popup" wx:if="{{showTrendChart}}">  
@@ -153,7 +167,7 @@
 
   <!-- 作文分数段统计 -->
   <text class="title" wx:if="{{subject=='语文'}}">— 作文分数段统计 —</text>
-  <view class="gray-txt" wx:if="{{subject=='语文'}}">（点击柱状查看学生名字及分数）</view>
+  <view class="gray-txt mb30" wx:if="{{subject=='语文'}}">（点击柱状查看学生名字及分数）</view>
   <view class="chartWrap" style="display:{{subject=='语文'? 'block': 'none'}}">
     <view class="score-input">
       <input class="weui-input" bind:input="getScoreInterval" data-name="articleIntervalValue" value="{{articleIntervalValue}}" />

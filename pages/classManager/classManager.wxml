@@ -91,6 +91,32 @@
 
     <view class="bottom-line"></view> 
 
+
+    <text class="title">— 涨幅最大 —</text>
+    <view class="table-wrap">
+        <view class="table w50">
+        <view class="tr">
+            <view class="th">姓名</view>
+            <view class="th">涨幅</view>
+        </view>
+        <view class="tr" wx:for="{{rateOfIncreaseList}}" wx:key="id" wx:for-index="bindex">
+            <view class="td" wx:if="{{bindex<5}}">{{item.studentName}}</view>
+            <view class="td" wx:if="{{bindex<5}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+        </view>
+        </view>
+        <view class="table w50">
+        <view class="tr">
+            <view class="th">姓名</view>
+            <view class="th">涨幅</view>
+        </view>
+        <view class="tr" wx:for="{{rateOfIncreaseList}}" wx:key="id" wx:for-index="bindex">
+            <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}">{{item.studentName}}</view>
+            <view class="td" data-bindex="{{bindex}}" wx:if="{{bindex>=5}}"><image class="up" src="/imgs/arrow_up.svg"></image>{{item.ranking}}</view>
+        </view>
+        </view>
+    </view>
+    <view class="bottom-line"></view>
+
     <!--分数段统计 -->
     <text class="title">— 分数段统计 —</text>
     <text class="subDes">（大于等于20）</text>

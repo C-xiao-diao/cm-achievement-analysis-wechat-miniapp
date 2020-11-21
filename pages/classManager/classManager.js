@@ -34,6 +34,7 @@ Page({
         maxScore: 0,
         minScore: 0,
         avgScore: 0,
+        rateOfIncreaseList: [],
         classSet: [],
         classListExcellentPassRate: [],
         //第一张图表
@@ -80,6 +81,7 @@ Page({
     onLoad: function (option) {
         if (!_.isEmpty(option)) {
             this.setData({ grade: option.grade, schoolId: option.schoolId })
+            this.getRateOfIncrease(curSubject,option.schoolId,option.grade)
         }
         //获取缓存内的数据，初始化数据
         let exLine = null;
@@ -133,8 +135,29 @@ Page({
         let option = {};
         option.grade = grade;
         option.schoolId = schoolId;
+        this.getRateOfIncrease(curSubject,schoolId,grade)
         this.getGradeAnalysisData(curSubject, excellentLine, option);
         this.getScoreStatistics(curSubject, intervalValue, classType, option);
+    },
+    //获取涨幅前十学生名单
+    getRateOfIncrease: function(subjectId,schoolId,grade){
+        let cmd = "/auth/gradeDirector/statisticalIncrease";
+        let data = {
+        subject: subjectId,
+        schoolId: schoolId,
+        grade: grade
+        };
+        http.get({
+        cmd,
+        data,
+        success: res => {
+            if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+            let resData = _.get(res, 'data.data');
+            let rateOfIncreaseList = resData.list;
+            this.setData({rateOfIncreaseList});
+            }
+        }
+        })
     },
     //获取年级成绩分析数据
     getGradeAnalysisData: function (subject, exLine, option) {
@@ -295,7 +318,7 @@ Page({
                             fifthDataAxis.push(listScore[i].score);
                         }
                     }
-
+                    wx.hideLoading();
                     this.setData({
                         intervalValue,
                         subjectIndex: subject,

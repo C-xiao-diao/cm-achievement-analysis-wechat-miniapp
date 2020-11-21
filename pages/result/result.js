@@ -21,10 +21,9 @@ Page({
     showTrendChart: false,
     articleIntervalValue: 10,
     allRight: [],
-    wrongQuestions: [],
     listResult: [],
+    rateOfIncreaseList: [],
     pass: 0,
-    avgWrongQuestions: 0,//平均错误率
     maxScore: 0,//最高分(班级)
     minScore: 0,//最低分(班级)
     avgScore: 0,//平均分(班级)
@@ -145,6 +144,7 @@ Page({
     }
     this.getSubjectData(this.data.excellentLine, option);
     this.getDifficulty(option);
+    this.getRateOfIncrease(option.subjectId, option.schoolId, option.class_)
   },
   //获取用户输入的优秀线
   getExcellentRate(e) {
@@ -175,6 +175,26 @@ Page({
     //end
     this.getSubjectData(value, option);
   },
+  //获取涨幅前十学生名单
+  getRateOfIncrease: function(subjectId,schoolId,class_){
+    let cmd = "/auth/gradeDirector/statisticalIncrease";
+    let data = {
+      subject: subjectId,
+      schoolId: schoolId,
+      class_: class_
+    };
+    http.get({
+      cmd,
+      data,
+      success: res => {
+        if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+          let resData = _.get(res, 'data.data');
+          let rateOfIncreaseList = resData.list;
+          this.setData({rateOfIncreaseList});
+        }
+      }
+    })
+  },
   //获取成绩分析页面数据
   getSubjectData(exLine, option) {
     let cmd = "/auth/monthlyExamResults/list";
@@ -200,9 +220,6 @@ Page({
             for (var i = 0; i < d.list.length; i++) {
               d.list[i].objectiveQuestionsCorrectRate = Math.ceil(d.list[i].objectiveQuestionsCorrectRate * 100) + '%';
             }
-            for (var i = 0; i < d.wrongQuestions.length; i++) {
-              d.wrongQuestions[i].percentage = Math.ceil(d.wrongQuestions[i].percentage * 100) + '%';
-            }
             let topDataSeriesByExcellent = [], topDataSeriesByPassing = [], topDataAxis1 = [];
             //顶部各班对比数据
             for (var i = 0; i < d.listClassResult.length; i++) {
@@ -218,7 +235,7 @@ Page({
             d.avgScore = util.returnFloat(d.avgScore);
             d.excellentRate = util.returnFloat(d.excellentRate * 100);
             d.passingRate = util.returnFloat(d.passingRate * 100);
-            d.avgWrongQuestions = Math.ceil(d.avgWrongQuestions * 100);
+            
             // --------------  end  ---------------
             this.setData({
               excellentLine: exLine,
@@ -233,7 +250,7 @@ Page({
               avgWrongQuestions: d.avgWrongQuestions,//平均错误率
               scoreArray: d.list,
               allRight: d.allRight,
-              wrongQuestions: d.wrongQuestions,
+              
               class: d.class_,
               yearMonth: (y + '-' + m),
               pass: (d.fullMarks * 0.6),
