@@ -35,6 +35,7 @@ Page({
         minScore: 0,
         avgScore: 0,
         rateOfIncreaseList: [],
+        top2ofIncreaseList: [],
         classSet: [],
         classListExcellentPassRate: [],
         //第一张图表
@@ -82,6 +83,7 @@ Page({
         if (!_.isEmpty(option)) {
             this.setData({ grade: option.grade, schoolId: option.schoolId })
             this.getRateOfIncrease(curSubject,option.schoolId,option.grade)
+            this.getTop2ofIncrease(curSubject,option.schoolId,option.grade)
         }
         //获取缓存内的数据，初始化数据
         let exLine = null;
@@ -136,6 +138,7 @@ Page({
         option.grade = grade;
         option.schoolId = schoolId;
         this.getRateOfIncrease(curSubject,schoolId,grade)
+        this.getTop2ofIncrease(curSubject,schoolId,grade)
         this.getGradeAnalysisData(curSubject, excellentLine, option);
         this.getScoreStatistics(curSubject, intervalValue, classType, option);
     },
@@ -155,6 +158,25 @@ Page({
             let resData = _.get(res, 'data.data');
             let rateOfIncreaseList = resData.list;
             this.setData({rateOfIncreaseList});
+            }
+        }
+        })
+    },
+    getTop2ofIncrease: function(subjectId,schoolId,grade){
+        let cmd = "/auth/gradeDirector/eachClass";
+        let data = {
+            subject: subjectId,
+            schoolId: schoolId,
+            grade: grade
+        };
+        http.get({
+        cmd,
+        data,
+        success: res => {
+            if (_.get(res, 'data.code') === 200 && !_.isEmpty(_.get(res, 'data.data'))) {
+                let list = _.get(res, 'data.data.list');
+                let top2ofIncreaseList = list;
+                this.setData({top2ofIncreaseList});
             }
         }
         })
