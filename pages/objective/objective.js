@@ -153,7 +153,7 @@ Page({
                     scoringRrate = util.returnFloat(scoringRrate * 100)
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得正确率
-                        firstDataAxis.unshift(listGroupClassStatistics[i].class_);
+                        firstDataAxis.push(listGroupClassStatistics[i].class_);
                         firstfirstDataSeriesByCorrectRate.push(util.returnFloat(listGroupClassStatistics[i].objectiveQuestionsCorrectRate * 100))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))

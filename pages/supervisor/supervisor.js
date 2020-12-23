@@ -138,7 +138,7 @@ Page({
                     scoringRrate = util.returnFloat(scoringRrate * 100)
                     for (let i = 0; i < listGroupClassStatistics.length; i++) {
                         //班级得游戏率和及格率
-                        firstDataAxis.unshift(listGroupClassStatistics[i].class_);
+                        firstDataAxis.push(listGroupClassStatistics[i].class_);
                         firstfirstDataSeriesByScoringRrate.push(util.returnFloat(listGroupClassStatistics[i].scoringRrate*100))
                         //班级的 最高分，最低分，平均分（班级总数是一样的，可以一个遍历搞定）
                         secondDataSeriesByMax.push(_.round(listGroupClassStatistics[i].maxScore, 1))
